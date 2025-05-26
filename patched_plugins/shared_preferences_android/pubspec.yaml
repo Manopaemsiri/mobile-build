@@ -1,0 +1,17 @@
+name: shared_preferences_android
+description: Android implementation of the shared_preferences plugin
+version: 2.5.2
+publish_to: none
+
+environment:
+  sdk: ^3.6.0
+  flutter: ">=3.27.0"
+
+flutter:
+  plugin:
+    implements: shared_preferences
+    platforms:
+      android:
+        package: io.flutter.plugins.sharedpreferences
+        pluginClass: SharedPreferencesPlugin
+        dartPluginClass: SharedPreferencesAndroid

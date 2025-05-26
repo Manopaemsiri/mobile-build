@@ -1,0 +1,61 @@
+import 'package:coffee2u/apis/api_service.dart';
+import 'package:coffee2u/utils/index.dart';
+import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
+
+import '../../../../models/customer_tier_model.dart';
+import '../../../../models/partner_shipping_coupon.dart';
+
+class MyShippingCouponController extends GetxController {
+  final String _id;
+  MyShippingCouponController(this._id);
+
+  PartnerShippingCouponModel? _data;
+  List<CustomerTierModel> _customerTiers = [];
+  
+  StateStatus _status = StateStatus.Loading;
+  String _errorMsg = "";
+
+  PartnerShippingCouponModel? get data => _data;
+  List<CustomerTierModel> get customerTiers => _customerTiers;
+  StateStatus get status => _status;
+  String get errorMsg => _errorMsg;
+  
+  @override
+  void onInit() {
+    super.onInit();
+    _onInit();
+  }
+
+  Future<void> _onInit() async {
+    _status = StateStatus.Loading;
+    _errorMsg = "";
+
+    try {
+      Map<String, dynamic> input = { "_id": _id };
+      final res = await ApiService.processRead("my-partner-shipping-coupon", input: input );
+      _data = PartnerShippingCouponModel.fromJson(res?["result"]);
+
+      if(_data?.forAllCustomerTiers == 1){
+        var res2 = await ApiService.processList('customer-tiers');
+        if(res2!["result"] != null){
+          List<CustomerTierModel> temp = [];
+          var len = res2['result'].length;
+          for(var i = 0; i < len; i++){
+            CustomerTierModel model = CustomerTierModel.fromJson(res2["result"][i]);
+            temp.add(model);
+          }
+          _customerTiers = temp;
+        }
+      }
+
+      if(_data != null){
+        _status = StateStatus.Success;
+      }
+    } catch (e) {
+      _status = StateStatus.Error;
+      _errorMsg = "Error";
+    }
+    update();
+  }
+}

@@ -1,0 +1,72 @@
+import 'package:coffee2u/apis/api_service.dart';
+import 'package:coffee2u/controller/app_controller.dart';
+import 'package:coffee2u/controller/customer_controller.dart';
+import 'package:coffee2u/controller/language_controller.dart';
+import 'package:coffee2u/models/index.dart';
+import 'package:get/get.dart';
+
+class CmsContentController extends GetxController {
+  CmsContentController(this.url);
+  final String? url;
+
+  // final LanguageController lController = Get.find<LanguageController>();
+  CmsContentModel? _data;
+  List<FileModel> _gallery = [];
+
+
+  bool _isReady = false;
+  bool _trimDigits = true;
+  final AppController _appController = Get.find<AppController>();
+  final CustomerController _customerController = Get.find<CustomerController>();
+  final LanguageController _lController = Get.find<LanguageController>();
+
+  CmsContentModel? get data => _data;
+  List<FileModel>? get gallery => _gallery;
+  bool get isReady => _isReady;
+  bool get trimDigits => _trimDigits;
+  AppController get appController => _appController;
+  CustomerController get customerController => _customerController;
+  LanguageController get lController => _lController;
+
+
+  @override
+  void onInit() {
+    _initState();
+    super.onInit();
+  }
+
+  _initState() async {
+    CmsContentModel? item;
+    if(url?.isNotEmpty == true){
+      final input = { "url": url };
+      if(_customerController.partnerShop != null && _customerController.partnerShop?.type != 9) {
+        if(_customerController.partnerShop?.isValid() == true) input['partnerShopId'] = _customerController.partnerShop!.id!;
+      }else {
+        input['partnerShopCode'] = "CENTER";
+      }
+      Map<String, dynamic>? res1 = await ApiService.processRead(
+        "cms-content",
+        input: input,
+      );
+      if(res1?["result"] != null && res1?["result"]?.isNotEmpty == true){
+        item = CmsContentModel.fromJson(res1!["result"]);
+      }
+    }
+    if(item?.isValid() == true){
+      _data = item;
+
+      if (_data?.image != null && _data?.image!.path != null) {
+        _gallery.add(_data!.image!);
+      }
+      if (_data?.gallery != null) {
+        _data?.gallery?.forEach((d) {
+          if(d.path.isNotEmpty) _gallery.add(d);
+        });
+      }
+    }else {
+      _data = null;
+    }
+    _isReady = true;
+    update();
+  }
+}

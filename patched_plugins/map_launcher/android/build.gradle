@@ -1,0 +1,73 @@
+group 'com.alexmiller.map_launcher'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.5.31'
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.3.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    if (project.android.hasProperty("namespace")) {
+        namespace 'com.alexmiller.map_launcher'
+    }
+
+    compileSdkVersion 33
+
+    def javaVersion = JavaVersion.VERSION_1_8
+
+    compileOptions {
+        sourceCompatibility javaVersion
+        targetCompatibility javaVersion
+    }
+
+    kotlinOptions {
+        jvmTarget = "${javaVersion}"
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+    defaultConfig {
+        minSdkVersion 16
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+
+    packagingOptions {
+        exclude '/META-INF/AL2.0'
+        exclude '/META-INF/LGPL2.1'
+        exclude '/META-INF/DEPENDENCIES'
+        exclude '/META-INF/LICENSE*'
+        exclude '/META-INF/NOTICE*'
+        exclude '/META-INF/*.kotlin_module'
+        exclude '**/kotlin/**'
+        exclude '**/*.version'
+        exclude '**/*.properties'
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/com.android.tools/proguard/coroutines.pro'
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
