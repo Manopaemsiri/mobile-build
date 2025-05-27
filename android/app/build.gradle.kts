@@ -3,8 +3,7 @@ import org.gradle.api.file.DuplicatesStrategy
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    id("org.jetbrains.kotlin.android")
     id("dev.flutter.flutter-gradle-plugin")
 }
 
@@ -17,16 +16,25 @@ fun loadProperties(fileName: String): Properties {
     return props
 }
 
-
 val keystoreProperties = loadProperties("key.properties")
 val localProperties = loadProperties("local.properties")
-val flutterRoot = localProperties.getProperty("flutter.sdk")
 
+val flutterVersionCode = localProperties["flutter.versionCode"]?.toString()?.toInt() ?: 1
+val flutterVersionName = localProperties["flutter.versionName"]?.toString() ?: "1.0.0"
+val ndkVersion = localProperties["ndk.version"]?.toString() ?: "23.1.7779620"
 
 android {
     namespace = "com.coffee2u.coffee2u"
-    compileSdk = 34
-    ndkVersion = flutter.ndkVersion
+    compileSdk = 35
+    this.ndkVersion = ndkVersion
+
+    defaultConfig {
+        applicationId = "com.coffee2u.coffee2u"
+        minSdk = 24
+        targetSdk = 34
+        versionCode = flutterVersionCode
+        versionName = flutterVersionName
+    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -35,57 +43,67 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
+        languageVersion = "2.0"
     }
 
-    defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.coffee2u.coffee2u"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = 24
-        targetSdk = 34
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+    packagingOptions {
+        resources.excludes += setOf(
+            "META-INF/DEPENDENCIES",
+            "META-INF/LICENSE",
+            "META-INF/LICENSE.txt",
+            "META-INF/license.txt",
+            "META-INF/NOTICE",
+            "META-INF/NOTICE.txt",
+            "META-INF/notice.txt",
+            "META-INF/AL2.0",
+            "META-INF/LGPL2.1",
+            "META-INF/*.kotlin_module",
+            "META-INF/versions/9/previous-compilation-data.bin",
+        )
+
+        pickFirsts += listOf("**/*.txt", "**/*.version")
     }
-signingConfigs {
-    create("release") {
-        keyAlias = keystoreProperties["keyAlias"] as String
-        keyPassword = keystoreProperties["keyPassword"] as String
-        storeFile = (keystoreProperties["storeFile"] as? String)?.let { file(it) }
-        storePassword = keystoreProperties["storePassword"] as String
+
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = (keystoreProperties["storeFile"] as? String)?.let { file(it) }
+            storePassword = keystoreProperties["storePassword"] as String
+        }
     }
-}
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now,
-            // so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
             signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = false
+            isShrinkResources = false
+            packaging {
+                resources {
+                    merges += "**/*.properties"
+                    excludes += setOf(
+                        "META-INF/DEPENDENCIES",
+                        "META-INF/LICENSE",
+                        "META-INF/LICENSE.txt",
+                        "META-INF/license.txt",
+                        "META-INF/NOTICE",
+                        "META-INF/NOTICE.txt",
+                        "META-INF/notice.txt",
+                        "META-INF/AL2.0",
+                        "META-INF/LGPL2.1",
+                        "META-INF/*.kotlin_module",
+                        "META-INF/versions/9/previous-compilation-data.bin",
+                    )
+                    pickFirsts += listOf("**/*.txt", "**/*.version")
+                }
+            }
         }
     }
-      packagingOptions {
-        resources.excludes.addAll(
-            listOf(
-                "/META-INF/{AL2.0,LGPL2.1}",
-                "/META-INF/DEPENDENCIES",
-                "/META-INF/LICENSE*",
-                "/META-INF/NOTICE*",
-                "/META-INF/*.kotlin_module",
-                "**/kotlin/**",
-                "**/*.version",
-                "**/*.properties",
-                "META-INF/INDEX.LIST",
-                "META-INF/com.android.tools/proguard/coroutines.pro"
-            )
-        )
-    }
-
-    tasks.withType<Jar>().configureEach {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
+
+tasks.withType<Jar>().configureEach {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 flutter {
