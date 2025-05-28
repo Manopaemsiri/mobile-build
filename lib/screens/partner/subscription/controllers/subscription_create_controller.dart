@@ -37,6 +37,8 @@ class SubscriptionCreateController extends GetxController {
   int _currentPage = 0;
   int get currentPage => _currentPage;
 
+  bool isOneTimeChange = false;
+
   @override
   void onInit() {
     _onInit();
@@ -137,17 +139,23 @@ class SubscriptionCreateController extends GetxController {
         .where((e) => e.quantity > 0)
         .toList();
 
-        ShowDialog.showForceDialog(
-          lController.getLang('Confirm Update'), '',
-          () async {
-            Get.back(); 
-            final result = await submitUpdate(); 
-            if(result == true){
-              Get.back(result: true);
-            }
+        ShowDialog.dialogChoiceButtons(
+          titleText: 'Confirm Update',
+          message: '',
+          confirmText: 'ทุกครั้ง',
+          secondaryText: 'ครั้งเดียว',
+          onConfirm: () async {
+            isOneTimeChange = false;
+            Get.back();
+            final result = await submitUpdate();
+            if (result) Get.back(result: true);
           },
-          cancelText: lController.getLang('Cancel'),
-          onCancel: () => Get.back(),
+          onSecondary: () async {
+            isOneTimeChange = true;
+            Get.back();
+            final result = await submitUpdate();
+            if (result) Get.back(result: true);
+          },
           content: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
             child: Column(
@@ -247,8 +255,6 @@ class SubscriptionCreateController extends GetxController {
 }
  
 
-  
-
   @override
   void onClose() {
     _pageController?.removeListener(() { });
@@ -344,11 +350,13 @@ class SubscriptionCreateController extends GetxController {
 
     final _input = {
       '_id': subscription?.id,
+      'selectType': isOneTimeChange ? 1 : 0,
       'selectionSteps': _selectionSteps,
       if (_relatedProducts.isNotEmpty) 'relatedProducts': _relatedProducts,
       if ((subscription?.relatedCredit ?? 0) > 0)
         'relatedCredit': subscription?.relatedCredit,
     };
+
 
     final res = await ApiService.processUpdate(
       'subscription',
@@ -356,8 +364,13 @@ class SubscriptionCreateController extends GetxController {
       needLoading: true,
     );
 
-    if (res == true) {
-
+    if (res == true) { 
+      print('=================================');
+      print('id: ${subscription?.id}');
+      print('selectType : ${isOneTimeChange ? 1 : 0}');
+      print('total: ${subscription?.total}');
+      print('status: ${subscription?.status}');
+      print('=================================');
       return true;
     } else {
       ShowDialog.showForceDialog(

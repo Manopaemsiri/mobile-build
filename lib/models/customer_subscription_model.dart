@@ -76,6 +76,8 @@ class CustomerSubscriptionModel {
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
+  final int selectType;
+
   CustomerSubscriptionModel({
     this.id,
     this.type = 'C2U',
@@ -102,6 +104,7 @@ class CustomerSubscriptionModel {
     this.selectionSteps = const [],
 
     this.signature = '',
+    this.selectType = 0,
 
     this.shippingAddress,
     this.billingAddress,
@@ -162,6 +165,7 @@ class CustomerSubscriptionModel {
     int? status,
     DateTime? createdAt,
     DateTime? updatedAt,
+    int? selectType,
   }) => CustomerSubscriptionModel(
     id: id ?? this.id,
     type: type ?? this.type,
@@ -180,6 +184,7 @@ class CustomerSubscriptionModel {
     relatedCredit: relatedCredit ?? this.relatedCredit,
     relatedProducts: relatedProducts ?? this.relatedProducts,
     selectionSteps: selectionSteps ?? this.selectionSteps,
+    selectType: selectType ?? this.selectType,
     signature: signature ?? this.signature,
     shippingAddress: shippingAddress ?? this.shippingAddress,
     billingAddress: billingAddress ?? this.billingAddress,
@@ -232,6 +237,8 @@ class CustomerSubscriptionModel {
     
     signature: json['signature'] ?? '',
 
+    selectType: json['selectType'] == null ? 0 : int.parse(json['selectType'].toString()),
+
     shippingAddress: json['shippingAddress'] == null || json['shippingAddress'] is String? null : CustomerShippingAddressModel.fromJson(json['shippingAddress']),
     billingAddress: json['billingAddress'] == null || json['billingAddress'] is String? null : CustomerBillingAddressModel.fromJson(json['billingAddress']),
     
@@ -256,6 +263,7 @@ class CustomerSubscriptionModel {
     packagings: json['packagings'] ?? [],
 
     status: json['status'] ?? 1,
+    
 
     createdAt: json['createdAt'] == null ? null : DateTime.parse(json['createdAt']),
     updatedAt: json['updatedAt'] == null ? null : DateTime.parse(json['updatedAt']),
@@ -281,6 +289,7 @@ class CustomerSubscriptionModel {
       : List<RelatedProduct>.from(relatedProducts.map((x) => x.toJson())),
     'selectionSteps': selectionSteps.isEmpty? [] 
       : List<SelectionSteps>.from(selectionSteps.map((x) => x.toJson())),
+    'selectType': selectType,
     'signature': signature,
     'shippingAddress': shippingAddress?.toJson(),
     'billingAddress': billingAddress?.toJson(),

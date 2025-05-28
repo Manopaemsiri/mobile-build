@@ -123,6 +123,95 @@ class ShowDialog {
     );
   }
 
+
+  static dialogChoiceButtons({
+    required String titleText,
+             String message = '',
+
+    required Function() onConfirm,
+    required Function() onSecondary,
+
+    String? confirmText,
+    String? secondaryText,
+
+    bool translate = true,
+    Widget? content,
+    }) {
+      
+    final LanguageController lController = Get.find<LanguageController>();
+
+    Get.defaultDialog(
+      title: '',
+      radius: kRadius,
+      barrierDismissible: false,
+      titlePadding: EdgeInsets.zero,
+      titleStyle: const TextStyle(fontSize: 0), 
+
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              IconButton(
+                onPressed: () => Get.back(),
+                icon: const Icon(Icons.chevron_left),
+                iconSize: 24,
+                splashRadius: 20,
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
+              ),
+              Expanded(
+                child: Text(
+                  lController.getLang(titleText),
+                  style: title.copyWith(fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+        ),
+
+      
+        content ??
+          Text(
+            translate ? lController.getLang(message) : message,
+            style: subtitle1,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+
+      middleText: '', 
+      
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: ButtonCustom(
+            width: 100,
+            height: kButtonMiniHeight,
+            title: secondaryText ?? lController.getLang("เฉพาะครั้งนี้"),
+            isOutline: true,
+            onPressed: onSecondary,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: ButtonCustom(
+            width: 100,
+            height: kButtonMiniHeight,
+            title: confirmText ?? lController.getLang("ทุกครั้ง"),
+            onPressed: onConfirm,
+          ),
+        ),
+      ],
+    );
+  }
+
+
   static showLoadingDialog() {
     Get.dialog(
       WillPopScope(
