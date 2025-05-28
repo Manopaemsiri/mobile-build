@@ -79,12 +79,8 @@ dependencies:
   # uni_links: ^0.5.1 // TODO
   # location: ^8.0.0 // TODO
   # map_launcher: ^3.5.0 // TODO
-  # flutter_localization: ^0.3.1
   # intl: any
-  
   # image_gallery_saver: ^2.0.3
-  # uni_links5: ^0.5.3
-
 
 dev_dependencies:
   flutter_test:
