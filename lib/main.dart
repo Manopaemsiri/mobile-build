@@ -13,7 +13,7 @@ import 'package:coffee2u/services/notification_service.dart';
 import 'package:coffee2u/utils/index.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-//import 'package:flutter_app_badger/flutter_app_badger.dart';
+import 'package:app_badge_plus/app_badge_plus.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get/get.dart';
@@ -27,10 +27,7 @@ import 'constants/env_init.dart';
 void main() async {
   HttpOverrides.global = MyHttpOverrides();
   await EnvInit.init();
-
-  runApp(Phoenix(
-    child: const MyApp(),
-  ));
+  runApp(Phoenix(child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -84,17 +81,17 @@ class _MyAppState extends State<MyApp> {
     );
 
     // Firebase
-    // NotificationService.init();
-    // FirebaseMessaging.onBackgroundMessage(
-    //   NotificationService.onMessagingBackground,
-    // );
+    NotificationService.init();
+    FirebaseMessaging.onBackgroundMessage(
+      NotificationService.onMessagingBackground,
+    );
 
     // Badge
-    // FlutterAppBadger.removeBadge();
-    // bool _supportAppBadge = await FlutterAppBadger.isAppBadgeSupported();
-    // if (_supportAppBadge) {
-    //   await LocalStorage.clear(prefAlertCount);
-    // }
+    AppBadgePlus.updateBadge(0);
+    bool supportAppBadge = await AppBadgePlus.isSupported();
+    if (supportAppBadge) {
+      await LocalStorage.clear(prefAlertCount);
+    }
   }
 
   @override
