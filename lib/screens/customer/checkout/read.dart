@@ -683,8 +683,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       if(_controller.tier != null){
         double _burnRate = _controller.tier?.pointBurnRate ?? 0;
         if(_burnRate > 0){
-          int _steps = (_points / _controller.tier!.pointBurnStep).floor()+1;
-          for(int i=1; i<_steps; i++){
+          int dataSteps = (_points / _controller.tier!.pointBurnStep).floor()+1;
+          for(int i=1; i<dataSteps; i++){
             double _used = i * _controller.tier!.pointBurnStep;
             if(_used <= _points){
               _choices.add(CustomerPointFrontendModel(
@@ -776,11 +776,11 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                     ),
                                   ),
                                 ),
-                                ..._choices.map((CustomerPointFrontendModel _d) {
+                                ..._choices.map((CustomerPointFrontendModel tempData) {
 
                                   return InkWell(
                                     onTap: (){
-                                      _controller.setDiscountPoint(_d, needUpdate: true);
+                                      _controller.setDiscountPoint(tempData, needUpdate: true);
                                       Get.back();
                                     },
                                     child: Padding(
@@ -790,13 +790,13 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            '${lController.getLang("Use")} ${numberFormat(_d.points, digits: 0)} ${lController.getLang("Point(s)")}',
+                                            '${lController.getLang("Use")} ${numberFormat(tempData.points, digits: 0)} ${lController.getLang("Point(s)")}',
                                             style: subtitle1.copyWith(
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
                                           Text(
-                                            '${lController.getLang("Discount")} ${priceFormat(_d.discount, lController, showSymbol: false)} $symbol',
+                                            '${lController.getLang("Discount")} ${priceFormat(tempData.discount, lController, showSymbol: false)} $symbol',
                                             style: subtitle1.copyWith(
                                               fontWeight: FontWeight.w500,
                                               color: kAppColor,

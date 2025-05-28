@@ -20,10 +20,10 @@ class CustomerGroupAddressScreen extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    double _appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
-    double _width = MediaQuery.of(context).size.width;
-    double _logoWidth = _width / 5.5;
-    double _hRatio = 0.27;
+    double appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
+    double widgetWidth = MediaQuery.of(context).size.width;
+    double widgetLogoWidth = widgetWidth / 5.5;
+    double ratioHeight = 0.27;
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -34,7 +34,7 @@ class CustomerGroupAddressScreen extends StatelessWidget {
             Align(
               alignment: Alignment.topCenter,
               child: Container(
-                height: Get.height * _hRatio,
+                height: Get.height * ratioHeight,
                 width: Get.width,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
@@ -49,8 +49,8 @@ class CustomerGroupAddressScreen extends StatelessWidget {
                         children: [
                           Image.asset(
                             'assets/images/logo-app-white.png',
-                            width: _logoWidth,
-                            height: _logoWidth,
+                            width: widgetLogoWidth,
+                            height: widgetLogoWidth,
                           ),
                         ],
                       )
@@ -64,7 +64,7 @@ class CustomerGroupAddressScreen extends StatelessWidget {
               right: 0,
               top: 0,
               child: SizedBox(
-                height: _appBarHeight,
+                height: appBarHeight,
                 width: double.infinity,
                 child: AppBar(
                   systemOverlayStyle: const SystemUiOverlayStyle(
@@ -80,7 +80,7 @@ class CustomerGroupAddressScreen extends StatelessWidget {
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                height: Get.height * (1.05 - _hRatio),
+                height: Get.height * (1.05 - ratioHeight),
                 width: Get.width,
                 decoration: const BoxDecoration(
                   color: kWhiteColor,
@@ -212,6 +212,7 @@ class CustomerGroupAddressScreen extends StatelessWidget {
                                                 scale: 0.7,
                                                 child: CupertinoSwitch(
                                                   value: item.isSelected == 1,
+                                                  activeTrackColor: kAppColor,
                                                   onChanged: (bool value) async {
                                                     // if(item.id != controller.shippingAddress?.id) {
                                                     //   ShowDialog.showLoadingDialog();
@@ -228,7 +229,6 @@ class CustomerGroupAddressScreen extends StatelessWidget {
                                                     //   Get.back();
                                                     // }
                                                   },
-                                                  activeColor: kAppColor,
                                                 ),
                                               ),
                                             ],
@@ -315,6 +315,7 @@ class CustomerGroupAddressScreen extends StatelessWidget {
                                                 scale: 0.7,
                                                 child: CupertinoSwitch(
                                                   value: item.isSelected == 1,
+                                                  activeTrackColor: kAppColor,
                                                   onChanged: (bool value) async {
                                                     await ApiService.processUpdate(
                                                       "billing-address-set-selected",
@@ -322,7 +323,6 @@ class CustomerGroupAddressScreen extends StatelessWidget {
                                                     );
                                                     // await controller.updateBillingAddress(item);
                                                   },
-                                                  activeColor: kAppColor,
                                                 ),
                                               ),
                                             ],

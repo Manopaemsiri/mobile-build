@@ -236,8 +236,8 @@ class PartnerShippingFrontendModel {
         
         if(minDate.year == maxDate.year){
           if(minDate.month == maxDate.month) {
-            final _date = '${minDate.day} - ${maxDate.day} ${dateFormat(minDate, format: 'MMM y')}';
-            return '${controller.getLang("text_receive_product")} $_date';
+            final dataDate = '${minDate.day} - ${maxDate.day} ${dateFormat(minDate, format: 'MMM y')}';
+            return '${controller.getLang("text_receive_product")} $dataDate';
           }else {
             final __date1 = dateFormat(minDate, format: 'd MMM');
             final __date2 = dateFormat(maxDate, format: 'd MMM');

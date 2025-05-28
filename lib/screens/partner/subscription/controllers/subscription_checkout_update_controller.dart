@@ -18,11 +18,11 @@ class SubscriptionCheckoutUpdateController extends GetxController {
 
   int stateStatus = 0;
 
-  CustomerSubscriptionCartModel? _data;
-  CustomerSubscriptionCartModel? get data => _data;
+  CustomerSubscriptionCartModel? dataModel;
+  CustomerSubscriptionCartModel? get data => dataModel;
 
-  List<PartnerProductModel> _products = [];
-  List<PartnerProductModel> get products => _products;
+  List<PartnerProductModel> dataProducts = [];
+  List<PartnerProductModel> get products => dataProducts;
 
   PartnerShippingFrontendModel? _shippingMethod;
   PartnerShippingFrontendModel? get shippingMethod => _shippingMethod;
@@ -43,16 +43,16 @@ class SubscriptionCheckoutUpdateController extends GetxController {
         'dataFilter': { 'subscriptionId': subscription.id }
       });
       var len = res?['result'].length;
-      CustomerSubscriptionPlanModel _temp 
+      CustomerSubscriptionPlanModel temp 
         = CustomerSubscriptionPlanModel.fromJson(res!['result'][len-1]);
 
-      _data = CustomerSubscriptionCartModel(
+      dataModel = CustomerSubscriptionCartModel(
         subscription: subscription.subscription,
         shippingAddress: subscription.shippingAddress,
         billingAddress: subscription.billingAddress,
         relatedProducts: subscription.relatedProducts,
-        total: _temp.total,
-        grandTotal: _temp.total,
+        total: temp.total,
+        grandTotal: temp.total,
       );
       await _getProducts();
       stateStatus = 1;
@@ -65,13 +65,13 @@ class SubscriptionCheckoutUpdateController extends GetxController {
   }
 
   Future<void> _getProducts() async {
-    List<RelatedProduct> _steps = productStep
+    List<RelatedProduct> dataSteps = productStep
       .map((d) => d.products)
       .expand((d) => d)
       .where((d) => d.quantity > 0)
       .toList();
 
-    _products = _steps.map((d) {
+    dataProducts = dataSteps.map((d) {
       PartnerProductModel k = d.product!;
       k.inCart = d.quantity;
       k.quantity = d.quantity;
@@ -83,15 +83,15 @@ class SubscriptionCheckoutUpdateController extends GetxController {
   updateShippingAddress(CustomerShippingAddressModel? value) async {
     if(value != null){
       final res = await ApiService.processUpdate('subscription-cart', input: { 'type': 2, 'shippingAddressId': value.id });
-      if(res) _data = _data?.copyWith( shippingAddress: value );
-    }else { _data = _data?.copyWith( shippingAddress: value ); }
+      if(res) dataModel = dataModel?.copyWith( shippingAddress: value );
+    }else { dataModel = dataModel?.copyWith( shippingAddress: value ); }
     update();
   }
   updateBillingAddress(CustomerBillingAddressModel? value) async {
     if(value != null){
       final res = await ApiService.processUpdate('subscription-cart', input: { 'type': 3, 'billingAddressId': value.id });
-      if(res) _data = _data?.copyWith( billingAddress: value );
-    }else { _data = _data?.copyWith( billingAddress: value ); }
+      if(res) dataModel = dataModel?.copyWith( billingAddress: value );
+    }else { dataModel = dataModel?.copyWith( billingAddress: value ); }
     update();
   }
   updateShippingMethod(PartnerShippingFrontendModel? value) {
@@ -99,17 +99,17 @@ class SubscriptionCheckoutUpdateController extends GetxController {
     update();
   }
 
-  int countCartProducts() => _products.fold(0, (prev, d) => prev + d.inCart);
-  double checkoutTotal() => _data?.displayGrandTotal(shippingMethod) ?? 0;
+  int countCartProducts() => dataProducts.fold(0, (prev, d) => prev + d.inCart);
+  double checkoutTotal() => dataModel?.displayGrandTotal(shippingMethod) ?? 0;
   void onSubmit() {
-    if(_data == null || _products.isEmpty){
+    if(dataModel == null || dataProducts.isEmpty){
       ShowDialog.showErrorToast(
         title: lController.getLang("Error"),
         desc: lController.getLang("please try again later"), 
       );
       return;
     }
-    if(_data?.shippingAddress == null || _data?.shippingAddress?.isValid() != true){
+    if(dataModel?.shippingAddress == null || dataModel?.shippingAddress?.isValid() != true){
       ShowDialog.showForceDialog(
         lController.getLang("Missing shipping address"),
         lController.getLang("Please choose a shipping address"), 
@@ -131,7 +131,7 @@ class SubscriptionCheckoutUpdateController extends GetxController {
       );
       return;
     }
-    if(_data?.billingAddress == null || _data?.billingAddress?.isValid() != true){
+    if(dataModel?.billingAddress == null || dataModel?.billingAddress?.isValid() != true){
       ShowDialog.showForceDialog(
         lController.getLang("Missing Billing Address"),
         lController.getLang("Continue without billing address"), 

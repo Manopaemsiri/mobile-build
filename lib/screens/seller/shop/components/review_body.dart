@@ -22,7 +22,7 @@ class ReviewBody extends StatefulWidget {
 
 class _ReviewBodyState extends State<ReviewBody> {
   final LanguageController lController = Get.find<LanguageController>();
-  List<SellerShopRatingModel> _data = [];
+  final List<SellerShopRatingModel> dataModel = [];
 
   int page = 0;
   bool isLoading = false;
@@ -51,12 +51,12 @@ class _ReviewBodyState extends State<ReviewBody> {
           var len = value?["result"].length;
           for (var i = 0; i < len; i++) {
             SellerShopRatingModel model = SellerShopRatingModel.fromJson(value!["result"][i]);
-            _data.add(model);
+            dataModel.add(model);
           }
 
           setState(() {
-            _data;
-            if (_data.length >= paginateModel.total!) {
+            dataModel;
+            if (dataModel.length >= paginateModel.total!) {
               isEnded = true;
               isLoading = false;
             } else if (value != null) {
@@ -64,7 +64,7 @@ class _ReviewBodyState extends State<ReviewBody> {
             }
           });
         });
-      } catch (e) {}
+      } catch(_) {}
     }
   }
 
@@ -86,15 +86,15 @@ class _ReviewBodyState extends State<ReviewBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _data.isEmpty
+        dataModel.isEmpty
           ? const SizedBox.shrink()
           : ListView.builder(
             shrinkWrap: true,
-            itemCount: _data.length,
+            itemCount: dataModel.length,
             padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
-              SellerShopRatingModel item = _data[index];
+              SellerShopRatingModel item = dataModel[index];
               return ReviewItem(
                 model: item
               );
@@ -104,7 +104,7 @@ class _ReviewBodyState extends State<ReviewBody> {
           ? Padding(
             padding: const EdgeInsets.only(top: kGap, bottom: kGap),
             child: Text(
-              _data.isEmpty? ''
+              dataModel.isEmpty? ''
                 : lController.getLang("No more data"),
               textAlign: TextAlign.center,
               style: title.copyWith(

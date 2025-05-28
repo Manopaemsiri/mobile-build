@@ -16,8 +16,8 @@ class AppBarSignIn extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    double _width = MediaQuery.of(context).size.width;
-    double _logoWidth = _width / 5.5;
+    double widgetWidth = MediaQuery.of(context).size.width;
+    double widgetLogoWidth = widgetWidth / 5.5;
 
     return AppBar(
       backgroundColor: Colors.transparent,
@@ -45,8 +45,8 @@ class AppBarSignIn extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 Image.asset(
                   'assets/images/logo-app-white.png',
-                  width: _logoWidth,
-                  height: _logoWidth,
+                  width: widgetLogoWidth,
+                  height: widgetLogoWidth,
                 ),
                 const Gap(gap: kHalfGap),
                 Text(

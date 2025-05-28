@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'dart:developer' as customerLog;
+import 'dart:developer' as customer_log;
 
 import 'package:coffee2u/apis/api_service.dart';
 import 'package:coffee2u/controller/language_controller.dart';
@@ -71,8 +71,8 @@ class CustomerController extends GetxController {
   }
   Future<void> updateCustomer(CustomerModel? model, { PartnerShopModel? value }) async {
     if (model != null) {
-      final _m = model;
-      customerModel = _m;
+      final dataModel = model;
+      customerModel = dataModel;
       customerModel?.partnerShop = value;
       partnerShop = value;
       if(partnerShop?.type == 9) {
@@ -169,7 +169,7 @@ class CustomerController extends GetxController {
 
   // START: Cart
   Future<void> updateCart(CustomerCartModel? model) async {
-    customerLog.log("CUSTOMER: Update Cart");
+    customer_log.log("CUSTOMER: Update Cart");
     if (model != null) {
       cart = model;
       await LocalStorage.save(prefCustomerCart, customerCartModelToJson(model));
@@ -319,10 +319,10 @@ class CustomerController extends GetxController {
 
   int countCartProducts() {
     int temp = 0;
-    List<PartnerProductModel> _products = cart.products.where((d) => d.status != -2).toList();
-    var len = _products.length;
+    List<PartnerProductModel> dataProducts = cart.products.where((d) => d.status != -2).toList();
+    var len = dataProducts.length;
     for (var i = 0; i < len; i++) {
-      PartnerProductModel item = _products[i];
+      PartnerProductModel item = dataProducts[i];
       temp += item.inCart;
     }
     return temp;

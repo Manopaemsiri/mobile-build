@@ -30,7 +30,7 @@ class _SearchScreenState extends State<SearchScreen> {
   final LanguageController lController = Get.find<LanguageController>();
   final AppController aController = Get.find<AppController>();
   final CustomerController _customerController = Get.find<CustomerController>();
-  List<PartnerProductModel> _data = [];
+  List<PartnerProductModel> dataModel = [];
 
   FocusNode fSearch = FocusNode();
   final searchCon = TextEditingController();
@@ -77,7 +77,7 @@ class _SearchScreenState extends State<SearchScreen> {
       page = 0;
       isLoading = false;
       isEnded = false;
-      _data = [];
+      dataModel = [];
     });
     loadData();
   }
@@ -138,11 +138,11 @@ class _SearchScreenState extends State<SearchScreen> {
           for (var i = 0; i < len; i++) {
             PartnerProductModel model =
                 PartnerProductModel.fromJson(value!["result"][i]);
-            _data.add(model);
+            dataModel.add(model);
           }
           setState(() {
-            _data;
-            if (_data.length == paginateModel.total) {
+            dataModel;
+            if (dataModel.length == paginateModel.total) {
               isEnded = true;
               isLoading = false;
             } else if (value != null) {
@@ -150,7 +150,7 @@ class _SearchScreenState extends State<SearchScreen> {
             }
           });
         });
-      } catch (e) {}
+      } catch(_) {}
     }
   }
 
@@ -216,7 +216,7 @@ class _SearchScreenState extends State<SearchScreen> {
               autofocus: true,
               controller: searchCon,
               decoration: InputDecoration(
-                hintText: lController.getLang("Search") + '...',
+                hintText: '${lController.getLang("Search")}...',
                 filled: true,
                 fillColor: Colors.white,
                 contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: kGap),
@@ -251,7 +251,7 @@ class _SearchScreenState extends State<SearchScreen> {
               const Gap(gap: kGap),
               Column(
                 children: [
-                  isEnded && _data.isEmpty
+                  isEnded && dataModel.isEmpty
                   ? Padding(
                     padding: const EdgeInsets.only(top: kGap),
                     child: NoDataCoffeeMug(),
@@ -259,7 +259,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   : CardProductGrid(
                     padding: const EdgeInsets.fromLTRB(kGap, 0, kGap, kHalfGap),
                     key: const ValueKey<String>("search-products"),
-                    data: _data,
+                    data: dataModel,
                     customerController: _customerController,
                     lController: lController,
                     aController: aController,
@@ -271,7 +271,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     showStock: _customerController.isShowStock(),
                     trimDigits: trimDigits,
                   ),
-                  if (isEnded && _data.isNotEmpty) ...[
+                  if (isEnded && dataModel.isNotEmpty) ...[
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.only(top: kHalfGap, bottom: kGap),

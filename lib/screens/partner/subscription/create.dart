@@ -153,7 +153,7 @@ class PartnerProductSubscriptionCreateScreen extends StatelessWidget {
                     softWrap: true,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.start,
-                    textScaleFactor: 1,
+                    textScaler: TextScaler.linear(1),
                     text: TextSpan(
                       style: subtitle2.copyWith(
                         fontFamily: 'Kanit',

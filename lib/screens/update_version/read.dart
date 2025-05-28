@@ -77,7 +77,7 @@ class _UpdateVersionScreenState extends State<UpdateVersionScreen> {
   
   @override
   Widget build(BuildContext context) {
-    double _appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
+    double appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
 
     return GetBuilder<LanguageController>(
       builder: (lController) {
@@ -92,7 +92,7 @@ class _UpdateVersionScreenState extends State<UpdateVersionScreen> {
             body: ListView(
               padding: kPadding,
               children: [
-                Gap(gap: _appBarHeight * 1.75),
+                Gap(gap: appBarHeight * 1.75),
                 Column(
                   children: [
                     Image.asset(

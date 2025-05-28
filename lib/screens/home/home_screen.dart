@@ -219,9 +219,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           builder: (buildContext, asyncSnapshot) {
                             if(asyncSnapshot.connectionState == ConnectionState.done) {
                               if(asyncSnapshot.hasData) {
-                                final _subscription = asyncSnapshot.data;
+                                final subscription = asyncSnapshot.data;
                                 CmsContentModel? model;
-                                try { model = CmsContentModel.fromJson(_subscription?["result"]); } catch (_) { }
+                                try { model = CmsContentModel.fromJson(subscription?["result"]); } catch (_) { }
 
                                 return model?.isValid() == true
                                 ? Container(

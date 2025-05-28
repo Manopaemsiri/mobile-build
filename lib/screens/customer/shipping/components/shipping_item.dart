@@ -142,7 +142,7 @@ class ShippingItem extends StatelessWidget {
                                     ),
                                   ],
                                 );
-                              }).toList(),
+                              }),
                             ],
 
                             Row(

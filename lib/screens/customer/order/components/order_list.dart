@@ -26,7 +26,7 @@ class OrderList extends StatefulWidget {
 
 class _OrderListState extends State<OrderList> {
   final LanguageController lController = Get.find<LanguageController>();
-  List<CustomerOrderModel> _data = [];
+  List<CustomerOrderModel> dataModel = [];
 
   late bool trimDigits = widget.trimDigits;
   int page = 0;
@@ -44,7 +44,7 @@ class _OrderListState extends State<OrderList> {
       page = 0;
       isLoading = false;
       isEnded = false;
-      _data = [];
+      dataModel = [];
     });
     loadData();
   }
@@ -68,13 +68,13 @@ class _OrderListState extends State<OrderList> {
           var len = value?["result"].length;
           for (var i = 0; i < len; i++) {
             CustomerOrderModel model = CustomerOrderModel.fromJson(value!["result"][i]);
-            _data.add(model);
+            dataModel.add(model);
           }
 
           if(mounted){
             setState(() {
-              _data;
-              if(_data.length >= paginateModel.total!){
+              dataModel;
+              if(dataModel.length >= paginateModel.total!){
                 isEnded = true;
                 isLoading = false;
               }else if(value != null){
@@ -108,7 +108,7 @@ class _OrderListState extends State<OrderList> {
       onRefresh: onRefresh,
       color: kAppColor,
       child: SingleChildScrollView(
-        child: isEnded && _data.isEmpty
+        child: isEnded && dataModel.isEmpty
           ? SizedBox(
             height: MediaQuery.of(context).size.height * 0.6,
             child:  Center (
@@ -119,11 +119,11 @@ class _OrderListState extends State<OrderList> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _data.isEmpty
+              dataModel.isEmpty
                 ? const SizedBox.shrink()
                 : Column(
-                    children: List.generate(_data.length, (index) {
-                      CustomerOrderModel item = _data[index];
+                    children: List.generate(dataModel.length, (index) {
+                      CustomerOrderModel item = dataModel[index];
                       return OrderItem(
                         model: item,
                         onTap: () => Get.to(() => CustomerOrderScreen(
@@ -134,7 +134,7 @@ class _OrderListState extends State<OrderList> {
                       );
                     }),
                   ),
-              if(isEnded && _data.isNotEmpty) ...[
+              if(isEnded && dataModel.isNotEmpty) ...[
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 1.5*kGap, bottom: kGap),

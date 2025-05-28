@@ -157,10 +157,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         right: 0,
                         child: GestureDetector(
                           onTap: () async {
-                            final _file = await picker.pickImage(source: ImageSource.gallery);
-                            if(_file != null){
+                            final dataFile = await picker.pickImage(source: ImageSource.gallery);
+                            if(dataFile != null){
                               setState((){
-                                imageFile = _file;
+                                imageFile = dataFile;
                                 isPicked = true;
                               });
                             }
@@ -305,26 +305,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void _onSubmit(CustomerController _controller) async {
-    FileModel? _avatar;
+    FileModel? widgetAvatar;
     if(isPicked){
-      FileModel _file = await ApiService.uploadFile(
+      FileModel dataFile = await ApiService.uploadFile(
         imageFile,
         needLoading: true,
         folder: 'avatars',
         resize: 250,
       );
-      if(_file.isValid()) _avatar = _file;
+      if(dataFile.isValid()) widgetAvatar = dataFile;
     }
 
-    Map<String, dynamic> _input = {
+    Map<String, dynamic> dataInput = {
       "firstname": _cFirstname.text,
       "lastname": _cLastname.text,
       "email": _cEmail.text,
     };
-    if(_avatar != null) _input["avatar"] = _avatar;
+    if(widgetAvatar != null) dataInput["avatar"] = widgetAvatar;
     bool res = await ApiService.processUpdate(
       'account',
-      input: _input,
+      input: dataInput,
       needLoading: true,
     );
     if(res){
@@ -332,7 +332,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         firstname: _cFirstname.text,
         lastname: _cLastname.text,
         email: _cEmail.text,
-        avatar: _avatar,
+        avatar: widgetAvatar,
       );
       ShowDialog.showSuccessToast(
         title: lController.getLang("Successed"),

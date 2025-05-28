@@ -30,7 +30,7 @@ class _ClickAndCollectShopsState extends State<ClickAndCollectShops> {
   final LanguageController lController = Get.find<LanguageController>();
   final CustomerController _customerController = Get.find<CustomerController>();
 
-  List<PartnerShippingFrontendModel> _data = [];
+  List<PartnerShippingFrontendModel> dataModel = [];
 
   int page = 0;
   bool isLoading = false;
@@ -50,7 +50,7 @@ class _ClickAndCollectShopsState extends State<ClickAndCollectShops> {
         page = 0;
         isLoading = false;
         isEnded = false;
-        _data = [];
+        dataModel = [];
       });
     }
     loadData();
@@ -61,17 +61,17 @@ class _ClickAndCollectShopsState extends State<ClickAndCollectShops> {
       try {
         page += 1;
         if(mounted) setState(() => isLoading = true);
-        String _endpoint = 'checkout-click-and-collect-shipping-methods';
+        String endpoint = 'checkout-click-and-collect-shipping-methods';
         if(subscription != null){
           if(subscription ==1){
-            _endpoint = 'subscription-click-and-collect-shipping-methods';
+            endpoint = 'subscription-click-and-collect-shipping-methods';
           }else if(subscription == 2){
-            // _endpoint = 'subscription-click-and-collect-shipping-methods';
+            // endpoint = 'subscription-click-and-collect-shipping-methods';
           }
         }
 
         final res = await ApiService.processList(
-          _endpoint, input: {
+          endpoint, input: {
           "paginate": {"page": page, "pp": 10},
         });
         PaginateModel? paginateModel = res?["paginate"] != null? PaginateModel.fromJson(res?["paginate"]): null;
@@ -79,12 +79,12 @@ class _ClickAndCollectShopsState extends State<ClickAndCollectShops> {
         var len = res?["result"].length;
         for (var i = 0; i < len; i++) {
           PartnerShippingFrontendModel model = PartnerShippingFrontendModel.fromJson(res?["result"][i]);
-          _data.add(model);
+          dataModel.add(model);
         }
         if(mounted){
           setState(() {
-            _data;
-            if (_data.length >= (paginateModel?.total ?? 0)) {
+            dataModel;
+            if (dataModel.length >= (paginateModel?.total ?? 0)) {
               isEnded = true;
               isLoading = false;
             } else if (res != null) {
@@ -96,7 +96,7 @@ class _ClickAndCollectShopsState extends State<ClickAndCollectShops> {
         if(kDebugMode) print('$e');
         if(mounted){
           setState(() {
-            _data = [];
+            dataModel = [];
             isEnded = true;
             isLoading = false;
           });
@@ -116,7 +116,7 @@ class _ClickAndCollectShopsState extends State<ClickAndCollectShops> {
         title: Text(lController.getLang("Select Shop")),
         bottom: const AppBarDivider(),
       ),
-      body: isEnded && _data.isEmpty && !isLoading
+      body: isEnded && dataModel.isEmpty && !isLoading
       ? NoDataCoffeeMug()
       : RefreshIndicator(
         onRefresh: onRefresh,
@@ -127,15 +127,15 @@ class _ClickAndCollectShopsState extends State<ClickAndCollectShops> {
           clipBehavior: Clip.none,
           child: Column(
             children: [
-              _data.isEmpty
+              dataModel.isEmpty
               ? const SizedBox.shrink()
               : ListView.builder(
                 shrinkWrap: true,
-                itemCount: _data.length,
+                itemCount: dataModel.length,
                 padding: EdgeInsets.zero,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
-                  PartnerShippingFrontendModel d = _data[index];
+                  PartnerShippingFrontendModel d = dataModel[index];
 
                   return ShippingItem(
                     model: d,
@@ -191,15 +191,15 @@ class _ClickAndCollectShopsState extends State<ClickAndCollectShops> {
     DateTime _today = DateTime(_now.year, _now.month, _now.day);
     List<DateTime> _dates = [];
     for(int i=0; i<31; i++){
-      DateTime _d = DateTime(_now.year, _now.month, _now.day+i);
-      Map<String, int>? _t = _cwhs["${_d.weekday % 7}"];
+      DateTime tempData = DateTime(_now.year, _now.month, _now.day+i);
+      Map<String, int>? _t = _cwhs["${tempData.weekday % 7}"];
       if(_t != null){
         if(i != 0){
-          _dates.add(_d);
+          _dates.add(tempData);
         }else{
           int _nh = _now.hour + 1;
           if(_nh < _t["endH"]! || (_nh == _t["endH"] && _now.minute < _t["endM"]!)){
-            _dates.add(_d);
+            _dates.add(tempData);
           }
         }
       }
@@ -211,8 +211,8 @@ class _ClickAndCollectShopsState extends State<ClickAndCollectShops> {
       firstDate: _dates.first, 
       lastDate: _dates.last,
       initialEntryMode: DatePickerEntryMode.calendarOnly,
-      selectableDayPredicate: (DateTime _d){
-        return _dates.contains(_d);
+      selectableDayPredicate: (DateTime tempData){
+        return _dates.contains(tempData);
       }
     );
     if(_selectedDate != null){
@@ -278,14 +278,14 @@ class _ClickAndCollectShopsState extends State<ClickAndCollectShops> {
       context: context,
       initialTime: TimeOfDay(hour: _initH, minute: _initM),
       // anchorPoint: ,
-      // selectableTimePredicate: (TimeOfDay? _d){
-      //   if(_d == null){
+      // selectableTimePredicate: (TimeOfDay? tempData){
+      //   if(tempData == null){
       //     return false;
       //   }else{
-      //     if(_d.hour < _startH || _d.hour > _endH){
+      //     if(tempData.hour < _startH || tempData.hour > _endH){
       //       return false;
       //     }else{
-      //       return _d.minute % 5 == 0;
+      //       return tempData.minute % 5 == 0;
       //     }
       //   }
       // },

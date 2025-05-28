@@ -64,15 +64,15 @@ class MyProductCouponScreen extends StatelessWidget {
     final PartnerProductCouponModel data = controller.data!;
     final List<CustomerTierModel> customerTiers = controller.customerTiers;
 
-    String _date = lController.getLang("text_valid_until").replaceFirst("_VALUE_", dateFormat(data.endAt ?? DateTime.now()));
-    String _content = data.description == ''
+    String dataDate = lController.getLang("text_valid_until").replaceFirst("_VALUE_", dateFormat(data.endAt ?? DateTime.now()));
+    String widgetContent = data.description == ''
       ? data.shortDescription: data.description;
 
-    List<CustomerTierModel> _forCustomerTiers = data.forCustomerTiers;
+    List<CustomerTierModel> forCustomerTiers = data.forCustomerTiers;
 
-    const double _flex = 2.5;
-    final double _screenwidth = DeviceUtils.getDeviceWidth();
-    final double _cardWidth = _screenwidth / _flex;
+    const double widgetFlex = 2.5;
+    final double screenwidth = DeviceUtils.getDeviceWidth();
+    final double cardWidth = screenwidth / widgetFlex;
 
     return SingleChildScrollView(
       child: Column(
@@ -106,7 +106,7 @@ class MyProductCouponScreen extends StatelessWidget {
                 const Gap(gap: kOtGap),
                 if(data.isPersonal == 1 && data.status == 1)...[
                   Text(
-                    _date,
+                    dataDate,
                     style: subtitle1.copyWith(
                       color: kDarkColor,
                       fontWeight: FontWeight.w500
@@ -123,10 +123,10 @@ class MyProductCouponScreen extends StatelessWidget {
                   ),
                 ),
                 
-                if(_content != '') ...[
+                if(widgetContent != '') ...[
                   const Gap(gap: kOtGap),
                   Text(
-                    _content,
+                    widgetContent,
                     style: subtitle1.copyWith(
                       color: kDarkColor
                     ),
@@ -138,7 +138,7 @@ class MyProductCouponScreen extends StatelessWidget {
             )
           ),
 
-          if(data.forAllCustomerTiers == 0 && _forCustomerTiers.isNotEmpty) ...[
+          if(data.forAllCustomerTiers == 0 && forCustomerTiers.isNotEmpty) ...[
             const Gap(gap: kHalfGap),
             SectionTitle(
               titleText: lController.getLang("Promotional Customer Tiers"),
@@ -152,13 +152,13 @@ class MyProductCouponScreen extends StatelessWidget {
                 spacing: 0,
                 alignment: WrapAlignment.start,
                 runAlignment: WrapAlignment.start,
-                children: _forCustomerTiers.map((d) {
+                children: forCustomerTiers.map((d) {
 
                   if (d.status == 0) {
                     return const SizedBox.shrink();
                   } else {
                     return CardGeneral(
-                      width: _cardWidth,
+                      width: cardWidth,
                       titleText: d.name,
                       image: d.icon?.path ?? "",
                     );
@@ -188,7 +188,7 @@ class MyProductCouponScreen extends StatelessWidget {
                     return const SizedBox.shrink();
                   } else {
                     return CardGeneral(
-                      width: _cardWidth,
+                      width: cardWidth,
                       titleText: d.name,
                       image: d.icon?.path ?? "",
                     );

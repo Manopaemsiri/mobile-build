@@ -126,9 +126,9 @@ mixin DeepLinkService {
 
           case 'app/partner/product':
           // [ url, shopCode ]
-            String _url = params['url'] ?? '';
-            if(_url.isNotEmpty){
-              var res = await ApiService.processRead('partner-product', input: { 'url': _url });
+            String thisUrl = params['url'] ?? '';
+            if(thisUrl.isNotEmpty){
+              var res = await ApiService.processRead('partner-product', input: { 'url': thisUrl });
               if(res != null && res['result'] != null){
                 PartnerProductModel _product = PartnerProductModel.fromJson(res['result']);
                 Get.to(() => ProductScreen(productId: _product.id));
@@ -137,10 +137,10 @@ mixin DeepLinkService {
             break;
           case 'app/partner/product-category':
           // [ url]
-            String _url = params['url'] ?? '';
-            if(_url.isNotEmpty){
+            String thisUrl = params['url'] ?? '';
+            if(thisUrl.isNotEmpty){
               try {
-                var res = await ApiService.processRead('partner-product-category', input: { 'url': _url });
+                var res = await ApiService.processRead('partner-product-category', input: { 'url': thisUrl });
                 if(res != null && res['result'] != null){
                   PartnerProductCategoryModel _cate = PartnerProductCategoryModel.fromJson(res['result']);
                   Get.to(() => PartnerProductsScreen(appTitle: _cate.name, dataFilter: { "categoryId": _cate.id } ));
@@ -179,10 +179,10 @@ mixin DeepLinkService {
 
           case 'app/cms/contents':
           // [ categoryUrl ]
-            String _url = params['categoryUrl'] ?? '';
+            String thisUrl = params['categoryUrl'] ?? '';
             CmsCategoryModel? _cate;
-            if(_url.isNotEmpty){
-              var res = await ApiService.processRead('cms-content-category', input: { 'url': _url });
+            if(thisUrl.isNotEmpty){
+              var res = await ApiService.processRead('cms-content-category', input: { 'url': thisUrl });
               if(res != null && res['result'] != null){
                 _cate = CmsCategoryModel.fromJson(res['result']);
               }
@@ -192,12 +192,12 @@ mixin DeepLinkService {
 
           case 'app/cms/content':
           // [ url ]
-            String _url = params['url'] ?? '';
-            if(_url.isNotEmpty){
-              var res = await ApiService.processRead('cms-content', input: { 'url': _url });
+            String thisUrl = params['url'] ?? '';
+            if(thisUrl.isNotEmpty){
+              var res = await ApiService.processRead('cms-content', input: { 'url': thisUrl });
               if(res != null && res['result'] != null){
-                CmsContentModel _content = CmsContentModel.fromJson(res['result']);
-                Get.to(() => CmsContentScreen(url: _content.url));
+                CmsContentModel widgetContent = CmsContentModel.fromJson(res['result']);
+                Get.to(() => CmsContentScreen(url: widgetContent.url));
               }
             }
             break;

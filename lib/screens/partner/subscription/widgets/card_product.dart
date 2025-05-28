@@ -82,11 +82,11 @@ class SubscriptionProduct extends StatelessWidget {
             final imageUrl = product.image?.path ?? '';
             final String name = product.name;
 
-            int _quantity = item.quantity;
-            String _addPriceInVAT = priceFormat(item.addPriceInVAT, lController, trimDigits: trimDigits);
+            int dataQuantity = item.quantity;
+            String dataAddPriceInVAT = priceFormat(item.addPriceInVAT, lController, trimDigits: trimDigits);
 
             double credit = item.credit;
-            String _credit = numberFormat(credit, digits: 0);
+            String dataCredit = numberFormat(credit, digits: 0);
 
             bool canAddItem = sumCredit + credit <= data.credit;
 
@@ -154,7 +154,7 @@ class SubscriptionProduct extends StatelessWidget {
                               softWrap: true,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.start,
-                              textScaleFactor: 1,
+                              textScaler: TextScaler.linear(1),
                               text: TextSpan(
                                 style: title.copyWith(
                                   fontFamily: 'Kanit',
@@ -172,7 +172,7 @@ class SubscriptionProduct extends StatelessWidget {
                                     )
                                   ),
                                   TextSpan(
-                                    text: ' $_credit',
+                                    text: ' $dataCredit',
                                     style: title.copyWith(
                                       fontFamily: 'Kanit',
                                       color: kAppColor,
@@ -211,9 +211,9 @@ class SubscriptionProduct extends StatelessWidget {
                             softWrap: true,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.start,
-                            textScaleFactor: 1,
+                            textScaler: TextScaler.linear(1),
                             text: TextSpan(
-                              text: item.addPriceInVAT > 0? '+ $_addPriceInVAT': '',
+                              text: item.addPriceInVAT > 0? '+ $dataAddPriceInVAT': '',
                               style: bodyText2.copyWith(
                                 fontFamily: 'Kanit',
                                 color: kAppColor,
@@ -240,7 +240,7 @@ class SubscriptionProduct extends StatelessWidget {
                                     width: 24,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(kRadius),
-                                      color: _quantity == 0? kLightColor: kAppColor,
+                                      color: dataQuantity == 0? kLightColor: kAppColor,
                                     ),
                                     child: const Icon(
                                       Icons.remove_rounded,
@@ -249,10 +249,10 @@ class SubscriptionProduct extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  '$_quantity',
+                                  '$dataQuantity',
                                   style: title.copyWith(
                                     fontWeight: FontWeight.w500,
-                                    color: kDarkColor.withValues(alpha: _quantity<=0? 0.4: 1)
+                                    color: kDarkColor.withValues(alpha: dataQuantity<=0? 0.4: 1)
                                   ),
                                 ),
                                 InkWell(

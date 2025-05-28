@@ -276,17 +276,17 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
             future: _future,
             builder: (context, snapshot){
               if(snapshot.hasData){
-                List<PaymentMethodModel> _data = [];
+                List<PaymentMethodModel> dataModel = [];
 
                 if(snapshot.data!['result'] != null){
                   var len = snapshot.data!['result'].length;
                   for(var i=0; i<len; i++){
                     PaymentMethodModel model = PaymentMethodModel.fromJson(snapshot.data!['result'][i]);
-                    _data.add(model);
+                    dataModel.add(model);
                   }
                 }
 
-                if(_data.isEmpty){
+                if(dataModel.isEmpty){
                   return Padding(
                     padding: EdgeInsets.only(top: Get.height*0.22),
                     child: Center(child: NoDataCoffeeMug()),
@@ -295,7 +295,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                   return GetBuilder<CustomerController>(builder: (controller) {
                     return Column(
                       children: [
-                        ..._data.map((PaymentMethodModel d){
+                        ...dataModel.map((PaymentMethodModel d){
                           return Opacity(
                             opacity: controller.paymentMethod == null 
                               || controller.paymentMethod!.id == d.id? 1: 0.5,
@@ -309,7 +309,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                               lController: lController
                             ),
                           );
-                        }).toList(),
+                        }),
                         
                         if(controller.paymentMethod != null 
                         && controller.paymentMethod!.hasDownPayment()) ...[

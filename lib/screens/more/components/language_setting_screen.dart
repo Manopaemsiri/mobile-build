@@ -32,6 +32,7 @@ class _LanguageSettingScreenState extends State<LanguageSettingScreen> {
         ),
         itemBuilder: (context) => [
           PopupMenuItem(
+            value: 0,
             child: Row(
               children: [
                 SvgPicture.asset(
@@ -49,10 +50,10 @@ class _LanguageSettingScreenState extends State<LanguageSettingScreen> {
                 )
               ],
             ),
-            value: 0,
           ),
           const PopupMenuDivider(height: 0),
           PopupMenuItem(
+            value: 1,
             child: Row(
               children: [
                 SvgPicture.asset(
@@ -70,7 +71,6 @@ class _LanguageSettingScreenState extends State<LanguageSettingScreen> {
                 )
               ],
             ),
-            value: 1,
           ),
         ],
         onSelected: (value) async {

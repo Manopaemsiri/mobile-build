@@ -31,13 +31,13 @@ class _PointRewardDetailScreenState extends State<PointRewardDetailScreen> {
         
     var res2 = await ApiService.processList('customer-tiers');
     if(res2!['result'] != null){
-      List<CustomerTierModel> _temp = [];
+      List<CustomerTierModel> temp = [];
       int len = res2['result'].length;
       for(int i=0; i<len; i++){
-        _temp.add(CustomerTierModel.fromJson(res2['result'][i]));
+        temp.add(CustomerTierModel.fromJson(res2['result'][i]));
       }
-      _tiers = _temp;
-      _stepIndex = _temp.indexWhere((d) => d.id == tier.id) + 1;
+      _tiers = temp;
+      _stepIndex = temp.indexWhere((d) => d.id == tier.id) + 1;
     }
     
     if(mounted) setState(() => isLoading = false);
@@ -107,9 +107,9 @@ class _PointRewardDetailScreenState extends State<PointRewardDetailScreen> {
                 Expanded(
                   child: Column(
                     children: [
-                      ..._tiers.map((CustomerTierModel _d){
-                        return _customerTier(_d);
-                      }).toList(),
+                      ..._tiers.map((CustomerTierModel dataModel){
+                        return _customerTier(dataModel);
+                      }),
                     ],
                   ),
                 ),
@@ -130,7 +130,7 @@ class _PointRewardDetailScreenState extends State<PointRewardDetailScreen> {
   }
 
   Widget _customerTier(CustomerTierModel model) {
-    double _boxSize = 100;
+    double boxSize = 100;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -153,7 +153,7 @@ class _PointRewardDetailScreenState extends State<PointRewardDetailScreen> {
                 Row(
                   children: [
                     SizedBox(
-                      width: _boxSize,
+                      width: boxSize,
                       child: AspectRatio(
                         aspectRatio: 16/10,
                         child: ImageUrl(
@@ -168,27 +168,21 @@ class _PointRewardDetailScreenState extends State<PointRewardDetailScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "${lController.getLang("Earn 1 point every")} "
-                              + priceFormat(model.pointEarnRate, lController, digits: 0, trimDigits: true) 
-                              + " ${lController.getLang("spent")}",
+                            '${lController.getLang("Earn 1 point every")} ${priceFormat(model.pointEarnRate, lController, digits: 0, trimDigits: true)} ${lController.getLang("spent")}',
                             style: subtitle2.copyWith(
                               fontWeight: FontWeight.w400,
                               color: kDarkLightColor,
                             ),
                           ),
                           Text(
-                            '${lController.getLang("Minimum Purchase")} '
-                              + priceFormat(model.minOrderMonthly, lController, digits: 0, trimDigits: true)
-                              + ' ${lController.getLang("per month")}',
+                            '${lController.getLang("Minimum Purchase")} ${priceFormat(model.minOrderMonthly, lController, digits: 0, trimDigits: true)} ${lController.getLang("per month")}',
                             style: subtitle2.copyWith(
                               fontWeight: FontWeight.w400,
                               color: kGrayColor,
                             ),
                           ),
                           Text(
-                            '${lController.getLang("or")} '
-                              + priceFormat(model.minOrderMonthly*12, lController, digits: 0, trimDigits: true)
-                              + ' ${lController.getLang("per year")}',
+                            '${lController.getLang("or")} ${priceFormat(model.minOrderMonthly*12, lController, digits: 0, trimDigits: true)} ${lController.getLang("per year")}',
                             style: subtitle2.copyWith(
                               fontWeight: FontWeight.w400,
                               color: kGrayColor,

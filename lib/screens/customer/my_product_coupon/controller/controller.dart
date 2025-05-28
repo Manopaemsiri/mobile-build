@@ -9,13 +9,13 @@ class MyProductCouponController extends GetxController {
   final String _id;
   MyProductCouponController(this._id);
 
-  PartnerProductCouponModel? _data;
+  PartnerProductCouponModel? dataModel;
   List<CustomerTierModel> _customerTiers = [];
   
   StateStatus widgetStatus = StateStatus.Loading;
   String _errorMsg = "";
 
-  PartnerProductCouponModel? get data => _data;
+  PartnerProductCouponModel? get data => dataModel;
   List<CustomerTierModel> get customerTiers => _customerTiers;
   StateStatus get status => widgetStatus;
   String get errorMsg => _errorMsg;
@@ -34,9 +34,9 @@ class MyProductCouponController extends GetxController {
       Map<String, dynamic> input = { "_id": _id };
       final res = await ApiService.processRead("my-partner-product-coupon", input: input );
 
-      _data = PartnerProductCouponModel.fromJson(res?["result"]);
+      dataModel = PartnerProductCouponModel.fromJson(res?["result"]);
 
-      if(_data?.forAllCustomerTiers == 1){
+      if(dataModel?.forAllCustomerTiers == 1){
         var res2 = await ApiService.processList('customer-tiers');
         if(res2!["result"] != null){
           List<CustomerTierModel> temp = [];
@@ -49,7 +49,7 @@ class MyProductCouponController extends GetxController {
         }
       }
 
-      if(_data != null){
+      if(dataModel != null){
         widgetStatus = StateStatus.Success;
       }
     } catch (e) {

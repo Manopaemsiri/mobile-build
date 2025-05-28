@@ -27,7 +27,7 @@ class _CheckoutPartnerProductCouponsScreenState extends State<CheckoutPartnerPro
   final LanguageController lController = Get.find<LanguageController>();
   bool isLoading = true;
   final CustomerController _customerController = Get.find<CustomerController>();
-  List<PartnerProductCouponModel> _data = [];
+  List<PartnerProductCouponModel> dataModel = [];
 
   Map<String, dynamic> _settings = {};
   bool allowCode = false;
@@ -40,32 +40,32 @@ class _CheckoutPartnerProductCouponsScreenState extends State<CheckoutPartnerPro
     _settings = resSettings?['result'];
 
     String prefKey = "${_customerController.customerModel?.id}";
-    var res;
+    dynamic res;
     if(widget.isCashCoupon == 1) {
       prefKey += prefCustomerCashCoupon;
       List<String> couponIds = await AppHelpers.getAllCoupons(prefKey);
-      final Map<String, dynamic> _input = couponIds.isNotEmpty? {'dataFilter': {'localCodeIds': couponIds}}: {};
+      final Map<String, dynamic> dataInput = couponIds.isNotEmpty? {'dataFilter': {'localCodeIds': couponIds}}: {};
 
-      res = await ApiService.processList('checkout-partner-cash-coupons', input: _input);
+      res = await ApiService.processList('checkout-partner-cash-coupons', input: dataInput);
       allowCode = _settings["APP_ENABLE_FEATURE_PARTNER_CASH_COUPON"] == '1' && _settings["APP_ENABLE_FEATURE_PARTNER_CASH_COUPON_CODE"] == '1';
     }else {
       prefKey += prefCustomerDiscountProduct;
       List<String> couponIds = await AppHelpers.getAllCoupons(prefKey);
-      final Map<String, dynamic> _input = couponIds.isNotEmpty? {'dataFilter': {'localCodeIds': couponIds}}: {};
+      final Map<String, dynamic> dataInput = couponIds.isNotEmpty? {'dataFilter': {'localCodeIds': couponIds}}: {};
 
-      res = await ApiService.processList('checkout-partner-product-coupons', input: _input);
+      res = await ApiService.processList('checkout-partner-product-coupons', input: dataInput);
       allowCode = _settings["APP_ENABLE_FEATURE_PARTNER_PRODUCT_COUPON"] == '1' && _settings["APP_ENABLE_FEATURE_PARTNER_PRODUCT_COUPON_CODE"] == '1';
     }
-    List<PartnerProductCouponModel> _temp = [];
+    List<PartnerProductCouponModel> temp = [];
     if(res != null && res["result"] != null){
       int len = res["result"].length;
       for(int i=0; i<len; i++){
-        _temp.add(PartnerProductCouponModel.fromJson(res["result"][i]));
+        temp.add(PartnerProductCouponModel.fromJson(res["result"][i]));
       }
     }
     if(mounted) {
       setState(() {
-        _data = _temp;
+        dataModel = temp;
         _settings = resSettings?['result'] ?? {};
         allowCode;
         isLoading = false;
@@ -201,17 +201,17 @@ class _CheckoutPartnerProductCouponsScreenState extends State<CheckoutPartnerPro
                           padding: EdgeInsets.fromLTRB(kGap, allowCode? 0: kGap, kGap, kGap),
                           child: Column(
                             children: [
-                              _data.isEmpty
+                              dataModel.isEmpty
                               ? Padding(
                                 padding: const EdgeInsets.only(top: 3*kGap),
                                 child: NoDataCoffeeMug(),
                               )
                               : ListView.builder(
                                 shrinkWrap: true,
-                                itemCount: _data.length,
+                                itemCount: dataModel.length,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (BuildContext context, int index) {
-                                  PartnerProductCouponModel item = _data[index];
+                                  PartnerProductCouponModel item = dataModel[index];
                                   return CardProductCoupon3(
                                     model: item,
                                     onPressed: () => _updateCoupon(item),

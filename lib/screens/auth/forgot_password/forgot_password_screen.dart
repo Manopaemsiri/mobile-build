@@ -51,10 +51,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double _appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
-    double _width = MediaQuery.of(context).size.width;
-    double _logoWidth = _width / 5.5;
-    double _hRatio = 0.27;
+    double appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
+    double widgetWidth = MediaQuery.of(context).size.width;
+    double widgetLogoWidth = widgetWidth / 5.5;
+    double ratioHeight = 0.27;
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -65,7 +65,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             Align(
               alignment: Alignment.topCenter,
               child: Container(
-                height: Get.height * _hRatio,
+                height: Get.height * ratioHeight,
                 width: Get.width,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
@@ -80,8 +80,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         children: [
                           Image.asset(
                             'assets/images/logo-app-white.png',
-                            width: _logoWidth,
-                            height: _logoWidth,
+                            width: widgetLogoWidth,
+                            height: widgetLogoWidth,
                           ),
                           // const Gap(gap: kHalfGap),
                           // Text(
@@ -104,7 +104,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               right: 0,
               top: 0,
               child: SizedBox(
-                height: _appBarHeight,
+                height: appBarHeight,
                 width: double.infinity,
                 child: AppBar(
                   systemOverlayStyle: const SystemUiOverlayStyle(
@@ -120,7 +120,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                height: Get.height * (1.05 - _hRatio),
+                height: Get.height * (1.05 - ratioHeight),
                 width: Get.width,
                 decoration: const BoxDecoration(
                   color: kWhiteColor,
@@ -153,8 +153,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             decoration: InputDecoration(
                               counterText: '',
                               border: const OutlineInputBorder(),
-                              labelText: lController.getLang("Telephone Number")
-                                +' *',
+                              labelText: '${lController.getLang("Telephone Number")} *',
                               prefixIcon: const Icon(Icons.phone_rounded),
                             ),
                             keyboardType: TextInputType.phone,
@@ -195,12 +194,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   void _onPressReset() async {
     FocusManager.instance.primaryFocus?.unfocus();
     if(_formKey.currentState!.validate()){
-      String _telephone = _cTelephone.text.replaceFirst(RegExp(r'0'), '+66').trim();
-      _telephone = _telephone.replaceAll('-', '');
-      _telephone = _telephone.replaceAll(' ', '');
+      String widgetTelephone = _cTelephone.text.replaceFirst(RegExp(r'0'), '+66').trim();
+      widgetTelephone = widgetTelephone.replaceAll('-', '');
+      widgetTelephone = widgetTelephone.replaceAll(' ', '');
       
       bool res = await ApiService.customerCheckDuplicate(input: {
-        "telephone": _telephone,
+        "telephone": widgetTelephone,
       });
       if(res == false){
         ShowDialog.showForceDialog(
@@ -213,11 +212,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         if(enabledCustomerSignupOTP == 1){
           ShowDialog.showLoadingDialog();
           try {
-            await ApiService.customerForgetPassword(input: {"telephone": _telephone}).then((value) async {
+            await ApiService.customerForgetPassword(input: {"telephone": widgetTelephone}).then((value) async {
               if(value != null && value["data"]["resetToken"] != null){
                 final resetToken = value["data"]["resetToken"];
                 await FirebaseAuth.instance.verifyPhoneNumber(
-                  phoneNumber: _telephone,
+                  phoneNumber: widgetTelephone,
                   verificationCompleted: (_) {},
                   verificationFailed: (e) {
                     Get.back();
@@ -229,7 +228,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       Get.to(() => OtpPasswordScreen(
                         verificationID: verificationId,
                         resendToken: resendToken,
-                        telephone: _telephone,
+                        telephone: widgetTelephone,
                         resetToken: resetToken ?? '',
                         enabledCustomerSignupOTP: enabledCustomerSignupOTP,
                       ));
@@ -272,18 +271,18 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         }else if(enabledCustomerSignupOTP == 2){
           ShowDialog.showLoadingDialog();
           try {
-            await ApiService.customerForgetPassword(input: {"telephone": _telephone}).then((value) async {
+            await ApiService.customerForgetPassword(input: {"telephone": widgetTelephone}).then((value) async {
               if(value != null && value["data"]["resetToken"] != null){
                 final resetToken = value["data"]["resetToken"];
-                String _telephone = _cTelephone.text.replaceFirst(RegExp(r'0'), '+66').trim();
-                _telephone = _telephone.replaceAll('-', '');
-                _telephone = _telephone.replaceAll(' ', '');
-                Map<String, dynamic>? res1 = await ApiService.sendOTP(telephone: _telephone, telephoneCode: '+66');
+                String widgetTelephone = _cTelephone.text.replaceFirst(RegExp(r'0'), '+66').trim();
+                widgetTelephone = widgetTelephone.replaceAll('-', '');
+                widgetTelephone = widgetTelephone.replaceAll(' ', '');
+                Map<String, dynamic>? res1 = await ApiService.sendOTP(telephone: widgetTelephone, telephoneCode: '+66');
                 Get.back();
                 if(res1 != null){
                   if(res1['requestId']?.isNotEmpty == true && res1['refCode']?.isNotEmpty == true){
                     Get.to(() => OtpPasswordScreen(
-                      telephone: _telephone,
+                      telephone: widgetTelephone,
                       telephoneCode: '+66',
                       response: res1,
                       enabledCustomerSignupOTP: enabledCustomerSignupOTP,

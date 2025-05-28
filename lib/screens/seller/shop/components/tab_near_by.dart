@@ -25,7 +25,7 @@ class TabNearBy extends StatefulWidget {
 
 class _TabNearByState extends State<TabNearBy> {
   final LanguageController lController = Get.find<LanguageController>();
-  List<SellerShopModel> _data = [];
+  List<SellerShopModel> dataModel = [];
 
   int page = 0;
   bool isLoading = false;
@@ -42,7 +42,7 @@ class _TabNearByState extends State<TabNearBy> {
       page = 0;
       isLoading = false;
       isEnded = false;
-      _data = [];
+      dataModel = [];
     });
     loadData();
   }
@@ -67,13 +67,13 @@ class _TabNearByState extends State<TabNearBy> {
           var len = value?["result"].length;
           for (var i = 0; i < len; i++) {
             SellerShopModel model = SellerShopModel.fromJson(value!["result"][i]);
-            _data.add(model);
+            dataModel.add(model);
           }
 
           if(mounted) {
             setState(() {
-              _data;
-              if (_data.length >= paginateModel.total!) {
+              dataModel;
+              if (dataModel.length >= paginateModel.total!) {
                 isEnded = true;
                 isLoading = false;
               } else if (value != null) {
@@ -82,7 +82,7 @@ class _TabNearByState extends State<TabNearBy> {
             });
           }
         });
-      } catch (e) {}
+      } catch (_) {}
     }
   }
 
@@ -140,15 +140,15 @@ class _TabNearByState extends State<TabNearBy> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              _data.isEmpty
+              dataModel.isEmpty
                 ? const SizedBox(height: 0)
                 : ListView.builder(
                   padding: EdgeInsets.zero,
                   shrinkWrap: true,
-                  itemCount: _data.length,
+                  itemCount: dataModel.length,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {
-                    SellerShopModel item = _data[index];
+                    SellerShopModel item = dataModel[index];
                     return SellerShopItem(
                       model: item,
                       onTap: () => Get.to(() => SellerShopScreen(

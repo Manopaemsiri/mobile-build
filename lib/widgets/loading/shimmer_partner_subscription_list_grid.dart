@@ -10,11 +10,11 @@ class ShimmerPartnerSubscriptionGrid extends StatelessWidget {
     super.key,
     this.itemCount = 7,
   });
+  
   final int itemCount;
 
   @override
   Widget build(BuildContext context) {
-
     return LayoutBuilder(
       builder: (_, boxConstraints) {
         final double cardW = min((boxConstraints.maxWidth-(kGap*2)-(kHalfGap*2))/3, 240.0);
@@ -78,54 +78,6 @@ class ShimmerPartnerSubscriptionGrid extends StatelessWidget {
           },
         );
       }
-    );
-
-    return ListView.separated(
-      shrinkWrap: true,
-      itemCount: itemCount,
-      physics: const NeverScrollableScrollPhysics(),
-      separatorBuilder: (context, index) => const Gap(gap: kHalfGap),
-      itemBuilder: (BuildContext context, int index) {
-
-        return Container(
-          margin: const EdgeInsets.only(bottom: kHalfGap),
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            color: kWhiteColor,
-            borderRadius: BorderRadius.circular(kRadius),
-          ),
-          child: SizedBox(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: kOtGap,
-                    horizontal: kGap,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ShimmerWidget(height: title.fontSize!*1.45),
-                      const SizedBox(height: 2),
-                      ShimmerWidget(height: title.fontSize!*1.45),
-                      const SizedBox(height: 2),
-                      ShimmerWidget(height: title.fontSize!*1.45),
-                      const SizedBox(height: 2),
-                      ShimmerWidget(height: title.fontSize!*1.45),
-                    ],
-                  ),
-                ),
-                AspectRatio(
-                  aspectRatio: 16/9,
-                  child: const ShimmerWidget(
-                    borderRadius: BorderRadius.zero
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 }

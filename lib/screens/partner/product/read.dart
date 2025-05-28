@@ -168,13 +168,13 @@ class _ProductScreenState extends State<ProductScreen> {
       input: input,
     );
     if(res1 != null && res1["result"] != null){
-      List<PartnerProductModel> _temp = [];
+      List<PartnerProductModel> temp = [];
       var len = res1['result'].length;
       for (var i = 0; i < len; i++) {
         PartnerProductModel model = PartnerProductModel.fromJson(res1['result'][i]);
-        _temp.add(model);
+        temp.add(model);
       }
-      _relatedProducts = _temp;
+      _relatedProducts = temp;
     }
 
     var res2 = await ApiService.processList(
@@ -188,13 +188,13 @@ class _ProductScreenState extends State<ProductScreen> {
       },
     );
     if(res2 != null && res2["result"] != null){
-      List<PartnerProductModel> _temp = [];
+      List<PartnerProductModel> temp = [];
       var len = res2['result'].length;
       for (var i = 0; i < len; i++) {
         PartnerProductModel model = PartnerProductModel.fromJson(res2['result'][i]);
-        _temp.add(model);
+        temp.add(model);
       }
-      _upSalesProducts = _temp;
+      _upSalesProducts = temp;
     }
     if(mounted) {
       setState(() {
@@ -226,15 +226,15 @@ class _ProductScreenState extends State<ProductScreen> {
     }catch (_){}
   }
 
-  onPressedOrder(PartnerProductModel? _product) async {
-    if (_product != null && _quantity > 0) {
+  onPressedOrder(PartnerProductModel? dataProduct) async {
+    if (dataProduct != null && _quantity > 0) {
       bool isClearance = widgetUnit == null 
-        ? _product.isClearance() 
+        ? dataProduct.isClearance() 
         : widgetUnit!.isClearance();
       // Current product is clearance
       if(isClearance){
         await _customerController.addCart(
-          _product,
+          dataProduct,
           _quantity,
           unit: widgetUnit,
           isClearance: isClearance,
@@ -252,7 +252,7 @@ class _ProductScreenState extends State<ProductScreen> {
         final bool clearance = AppHelpers.checkProductClearance(_customerController.cart);
         // Cart contains clearance product
         await _customerController.addCart(
-          _product,
+          dataProduct,
           _quantity,
           unit: widgetUnit,
           isClearance: clearance,
@@ -267,7 +267,7 @@ class _ProductScreenState extends State<ProductScreen> {
           Get.back();
         }
       }
-    }else if (_product == null) {
+    }else if (dataProduct == null) {
       ShowDialog.showForceDialog(
         lController.getLang("Error"),
         lController.getLang("text_product_error1"),
@@ -294,7 +294,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double _appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
+    double appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
 
     if(!_isReady || data == null){
       return Scaffold(
@@ -312,7 +312,7 @@ class _ProductScreenState extends State<ProductScreen> {
               right: 0,
               top: 0,
               child: SizedBox(
-                height: _appBarHeight,
+                height: appBarHeight,
                 width: double.infinity,
                 child: AppBar(
                   systemOverlayStyle: const SystemUiOverlayStyle(
@@ -811,7 +811,7 @@ class _ProductScreenState extends State<ProductScreen> {
             right: 0,
             top: 0,
             child: SizedBox(
-              height: _appBarHeight,
+              height: appBarHeight,
               width: double.infinity,
               child: AppBar(
                 systemOverlayStyle: const SystemUiOverlayStyle(
@@ -886,7 +886,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
   Future<void> onTapBuyItem() async {
     ShowDialog.showLoadingDialog();
-    List<PartnerProductUnitModel> _units = [];
+    List<PartnerProductUnitModel> dataUnits = [];
     try {
       final res = await ApiService.processList("partner-product-units", input: {
         "dataFilter": {
@@ -896,7 +896,7 @@ class _ProductScreenState extends State<ProductScreen> {
       });
       final len = res?["result"].length;
       for(var i=0; i<len; i++){
-        _units.add(PartnerProductUnitModel.fromJson(res?["result"][i]));
+        dataUnits.add(PartnerProductUnitModel.fromJson(res?["result"][i]));
       }
     } catch (e) {
       if(kDebugMode) printError(info: '$e');
@@ -913,7 +913,7 @@ class _ProductScreenState extends State<ProductScreen> {
         return AddToCartBottomSheet(
           model: data!,
           shopModel: shopModel!,
-          units: _units,
+          units: dataUnits,
           stock: _stock,
           onChangeQuantity: (int value) async {
             if(mounted) setState(() => _quantity = value);

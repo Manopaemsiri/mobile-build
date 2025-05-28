@@ -121,7 +121,7 @@ class _PinOnMapsState extends State<PinOnMaps> {
       _mapMarkers.add(Marker(
         position: latLng,
         markerId: MarkerId(latLng.toString()),
-        icon: BitmapDescriptor.fromBytes(_mapMarkerIcon!),
+        icon: BitmapDescriptor.bytes(_mapMarkerIcon!),
       ));
     });
   }

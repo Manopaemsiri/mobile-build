@@ -26,7 +26,7 @@ class _CheckoutPartnerShippingCouponsScreenState extends State<CheckoutPartnerSh
   final LanguageController lController = Get.find<LanguageController>();
   bool isLoading = true;
   final CustomerController _customerController = Get.find<CustomerController>();
-  List<PartnerShippingCouponModel> _data = [];
+  List<PartnerShippingCouponModel> dataModel = [];
   
   Map<String, dynamic> _settings = {};
   bool allowCode = false;
@@ -53,16 +53,16 @@ class _CheckoutPartnerShippingCouponsScreenState extends State<CheckoutPartnerSh
         "dataFilter": couponIds.isNotEmpty? {'localCodeIds': couponIds}: {}
       },
     );
-    List<PartnerShippingCouponModel> _temp = [];
+    List<PartnerShippingCouponModel> temp = [];
     if(res != null && res["result"] != null){
       int len = res["result"].length;
       for(int i=0; i<len; i++){
-        _temp.add(PartnerShippingCouponModel.fromJson(res["result"][i]));
+        temp.add(PartnerShippingCouponModel.fromJson(res["result"][i]));
       }
     }
     if(mounted){
       setState(() {
-        _data = _temp;
+        dataModel = temp;
         allowCode;
         isLoading = false;
       });
@@ -203,17 +203,17 @@ class _CheckoutPartnerShippingCouponsScreenState extends State<CheckoutPartnerSh
                         padding: EdgeInsets.fromLTRB(kGap, allowCode? 0: kGap, kGap, kGap),
                         child: Column(
                           children: [
-                            _data.isEmpty
+                            dataModel.isEmpty
                             ? Padding(
                               padding: const EdgeInsets.only(top: 3*kGap),
                               child: NoDataCoffeeMug(),
                             )
                             : ListView.builder(
                               shrinkWrap: true,
-                              itemCount: _data.length,
+                              itemCount: dataModel.length,
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (BuildContext context, int index) {
-                                PartnerShippingCouponModel item = _data[index];
+                                PartnerShippingCouponModel item = dataModel[index];
                                 return CardShippingCoupon3(
                                   model: item,
                                   onPressed: () => _updateCoupon(item),

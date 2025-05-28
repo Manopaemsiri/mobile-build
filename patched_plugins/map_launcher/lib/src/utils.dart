@@ -74,8 +74,8 @@ class Utils {
         return 'pedestrian';
       case DirectionsMode.bicycling:
         return 'bicycle';
-      default:
-        return 'vehicle';
+      // default:
+      //   return 'vehicle';
     }
   }
 

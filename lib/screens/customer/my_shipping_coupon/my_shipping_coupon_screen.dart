@@ -62,15 +62,15 @@ class MyShippingCouponScreen extends StatelessWidget {
     final PartnerShippingCouponModel data = controller.data!;
     final List<CustomerTierModel> customerTiers = controller.customerTiers;
 
-    String _date = lController.getLang("text_valid_until").replaceFirst("_VALUE_", dateFormat(data.endAt ?? DateTime.now()));
-    String _content = data.description == ''
+    String dataDate = lController.getLang("text_valid_until").replaceFirst("_VALUE_", dateFormat(data.endAt ?? DateTime.now()));
+    String widgetContent = data.description == ''
       ? data.shortDescription: data.description;
 
     List<CustomerTierModel> _forCustomerTiers = data.forCustomerTiers;
 
-    const double _flex = 2.5;
-    final double _screenwidth = DeviceUtils.getDeviceWidth();
-    final double _cardWidth = _screenwidth / _flex;
+    const double widgetFlex = 2.5;
+    final double screenwidth = DeviceUtils.getDeviceWidth();
+    final double cardWidth = screenwidth / widgetFlex;
 
     return SingleChildScrollView(
       child: Column(
@@ -105,7 +105,7 @@ class MyShippingCouponScreen extends StatelessWidget {
                 
                 const Gap(gap: kOtGap),
                 Text(
-                  _date,
+                  dataDate,
                   style: subtitle1.copyWith(
                     color: kDarkColor,
                     fontWeight: FontWeight.w500
@@ -119,10 +119,10 @@ class MyShippingCouponScreen extends StatelessWidget {
                   ),
                 ),
                 
-                if(_content != '') ...[
+                if(widgetContent != '') ...[
                   const Gap(gap: kOtGap),
                   Text(
-                    _content,
+                    widgetContent,
                     style: subtitle1.copyWith(
                       color: kDarkColor
                     ),
@@ -153,7 +153,7 @@ class MyShippingCouponScreen extends StatelessWidget {
                     return const SizedBox.shrink();
                   } else {
                     return CardGeneral(
-                      width: _cardWidth,
+                      width: cardWidth,
                       titleText: d.displayName,
                       image: d.icon?.path ?? "",
                       boxFit: BoxFit.contain,
@@ -185,7 +185,7 @@ class MyShippingCouponScreen extends StatelessWidget {
                     return const SizedBox.shrink();
                   } else {
                     return CardGeneral(
-                      width: _cardWidth,
+                      width: cardWidth,
                       titleText: d.name,
                       image: d.icon?.path ?? "",
                     );
@@ -215,7 +215,7 @@ class MyShippingCouponScreen extends StatelessWidget {
                     return const SizedBox.shrink();
                   } else {
                     return CardGeneral(
-                      width: _cardWidth,
+                      width: cardWidth,
                       titleText: d.name,
                       image: d.icon?.path ?? "",
                     );

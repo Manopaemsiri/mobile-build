@@ -57,7 +57,7 @@
 //   bool isLoading = false;
 //   bool isEnded = false;
 
-//   List<PartnerProductModel> _data = [];
+//   List<PartnerProductModel> dataModel = [];
 
 //   String filterKeywords = '';
 //   String filterSort = '';
@@ -209,7 +209,7 @@
 //         page = 0;
 //         isLoading = false;
 //         isEnded = false;
-//         _data = [];
+//         dataModel = [];
 //       });
 //       await loadData();
 //     }
@@ -229,7 +229,7 @@
 //         page = 0;
 //         isLoading = false;
 //         isEnded = false;
-//         _data = [];
+//         dataModel = [];
 //       });
 //       await loadData();
 //     }
@@ -249,7 +249,7 @@
 //         page = 0;
 //         isLoading = false;
 //         isEnded = false;
-//         _data = [];
+//         dataModel = [];
 //       });
 //       await loadData();
 //     }
@@ -360,7 +360,7 @@
 //                                     page = 0;
 //                                     isLoading = false;
 //                                     isEnded = false;
-//                                     _data = [];
+//                                     dataModel = [];
 //                                   });
 //                                   await loadData();
 //                                 }
@@ -486,7 +486,7 @@
 //             "pp": 26,
 //           }
 //         }).then((value) async {
-//           List<PartnerProductModel> temp = _data;
+//           List<PartnerProductModel> temp = dataModel;
 //           PaginateModel? paginateModel = value?["paginate"] is Map<String, dynamic>? PaginateModel.fromJson(value!["paginate"]): null;
 
 //           var len = value?["result"].length;
@@ -497,7 +497,7 @@
 
 //           if(mounted){
 //             setState((){
-//               _data = temp;
+//               dataModel = temp;
 //             });
 //             if(temp.length == paginateModel?.total){
 //               setState(() {
@@ -626,7 +626,7 @@
 //                               page = 0;
 //                               isLoading = false;
 //                               isEnded = false;
-//                               _data = [];
+//                               dataModel = [];
 //                             });
 //                             loadData();
 //                           },
@@ -922,7 +922,7 @@
 //                       ),
 //                     ]
 //                   ],
-//                   isEnded && _data.isEmpty
+//                   isEnded && dataModel.isEmpty
 //                     ? Padding(
 //                       padding: const EdgeInsets.only(top: kGap),
 //                       child: NoDataCoffeeMug(),
@@ -931,11 +931,11 @@
 //                       mainAxisAlignment: MainAxisAlignment.center,
 //                       crossAxisAlignment: CrossAxisAlignment.center,
 //                       children: [
-//                         _data.isEmpty
+//                         dataModel.isEmpty
 //                           ? const SizedBox.shrink()
 //                           : Column(
-//                             children: List.generate(_data.length, (index) {
-//                               PartnerProductModel item = _data[index];
+//                             children: List.generate(dataModel.length, (index) {
+//                               PartnerProductModel item = dataModel[index];
 //                               return ProductItem(
 //                                 data: item,
 //                                 onTap: () => _onTap(
@@ -951,7 +951,7 @@
 //                               );
 //                             }),
 //                           ),
-//                         if(isEnded && _data.isNotEmpty) ...[
+//                         if(isEnded && dataModel.isNotEmpty) ...[
 //                           Center(
 //                             child: Padding(
 //                               padding: const EdgeInsets.only(top: kGap, bottom: 2*kGap),

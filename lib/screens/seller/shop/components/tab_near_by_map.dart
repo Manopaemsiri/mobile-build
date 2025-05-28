@@ -34,7 +34,7 @@ class _TabFavoritesState extends State<TabNearByMap> {
 
   late GoogleMapController _mapController;
   Set<Marker> _mapMarkers = {};
-  List<String> _markerIds = [];
+  final List<String> _markerIds = [];
   late Uint8List? _mapMarkerIcon;
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
@@ -74,23 +74,23 @@ class _TabFavoritesState extends State<TabNearByMap> {
       });
 
       if(res!["result"] != null){
-        Set<Marker> _temp = _mapMarkers;
+        Set<Marker> temp = _mapMarkers;
         int len = res["result"].length;
         for(int i=0; i<len; i++){
-          SellerShopModel _d = SellerShopModel.fromJson(res["result"][i]);
-          setState(() => _markerIds.add(_d.id ?? ''));
-          _temp.add(Marker(
+          SellerShopModel dataModel = SellerShopModel.fromJson(res["result"][i]);
+          setState(() => _markerIds.add(dataModel.id ?? ''));
+          temp.add(Marker(
             position: LatLng(
-              _d.address?.lat ?? 0,
-              _d.address?.lng ?? 0
+              dataModel.address?.lat ?? 0,
+              dataModel.address?.lng ?? 0
             ),
-            markerId: MarkerId(_d.id ?? ''),
-            icon: BitmapDescriptor.fromBytes(_mapMarkerIcon!),
+            markerId: MarkerId(dataModel.id ?? ''),
+            icon: BitmapDescriptor.bytes(_mapMarkerIcon!),
             anchor: const Offset(0.5, 0.5),
-            onTap: () => _onTabMarker(_d),
+            onTap: () => _onTabMarker(dataModel),
           ));
         }
-        setState(() => _mapMarkers = _temp);
+        setState(() => _mapMarkers = temp);
       }
       setState(() => isReady = true);
     }

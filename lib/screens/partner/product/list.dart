@@ -31,7 +31,7 @@ class _PartnerProductsScreenState extends State<PartnerProductsScreen> {
   final LanguageController lController = Get.find<LanguageController>();
   final AppController aController = Get.find<AppController>();
   final CustomerController _customerController = Get.find<CustomerController>();
-  List<PartnerProductModel> _data = [];
+  List<PartnerProductModel> dataModel = [];
 
   PartnerShopModel? _partnerShop;
 
@@ -66,7 +66,7 @@ class _PartnerProductsScreenState extends State<PartnerProductsScreen> {
         page = 0;
         isLoading = false;
         isEnded = false;
-        _data = [];
+        dataModel = [];
       });
       loadData();
     }
@@ -96,12 +96,12 @@ class _PartnerProductsScreenState extends State<PartnerProductsScreen> {
         for (var i = 0; i < len; i++) {
           PartnerProductModel model =
               PartnerProductModel.fromJson(res!["result"][i]);
-          _data.add(model);
+          dataModel.add(model);
         }
         if(mounted){
           setState(() {
-            _data;
-            if (_data.length == paginateModel.total) {
+            dataModel;
+            if (dataModel.length == paginateModel.total) {
               isEnded = true;
               isLoading = false;
             } else if (res != null) {
@@ -140,7 +140,7 @@ class _PartnerProductsScreenState extends State<PartnerProductsScreen> {
           const Gap(gap: kGap),
           Column(
             children: [
-              isEnded && _data.isEmpty
+              isEnded && dataModel.isEmpty
               ? Padding(
                 padding: const EdgeInsets.only(top: kGap),
                 child: NoDataCoffeeMug(),
@@ -148,7 +148,7 @@ class _PartnerProductsScreenState extends State<PartnerProductsScreen> {
               : CardProductGrid(
                 key: const ValueKey<String>("partner-products"),
                 padding: const EdgeInsets.fromLTRB(kGap, 0, kGap, kHalfGap),
-                data: _data,
+                data: dataModel,
                 customerController: _customerController,
                 lController: lController,
                 aController: aController,
@@ -156,7 +156,7 @@ class _PartnerProductsScreenState extends State<PartnerProductsScreen> {
                 showStock: _customerController.isShowStock(),
                 trimDigits: true,
               ),
-              if (isEnded && _data.isNotEmpty) ...[
+              if (isEnded && dataModel.isNotEmpty) ...[
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.only(top: kHalfGap, bottom: kGap),

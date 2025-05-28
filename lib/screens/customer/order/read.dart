@@ -97,13 +97,13 @@ class _CustomerOrderScreenState extends State<CustomerOrderScreen> {
                 maxWidth: 30,
                 maxHeight: 30
               ),
+              padding: const EdgeInsets.all(kHalfGap),
+              shape: const CircleBorder(),
               child: SvgPicture.asset(
                 'assets/icons/support.svg',
                 width: kGap,
                 height: kGap,
               ),
-              padding: const EdgeInsets.all(kHalfGap),
-              shape: const CircleBorder(),
             ),
             const Gap()
           ],

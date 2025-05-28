@@ -14,19 +14,19 @@ class MessageText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color widgetColor = kAppColor;
-    double _width = MediaQuery.of(context).size.width * 0.75;
+    double widgetWidth = MediaQuery.of(context).size.width * 0.75;
 
-    bool _isSender = model["fromCustomer"] ?? false;
-    String _message = model["text"] ?? '';
+    bool isSender = model["fromCustomer"] ?? false;
+    String dataMessage = model["text"] ?? '';
 
     return Flexible(
       child: Container(
-        constraints: BoxConstraints(maxWidth: _width),
+        constraints: BoxConstraints(maxWidth: widgetWidth),
         padding: const EdgeInsets.symmetric(
           vertical: 12, horizontal: 14
         ),
         decoration: BoxDecoration(
-          color: widgetColor.withValues(alpha: _isSender? 1: 0.1),
+          color: widgetColor.withValues(alpha: isSender? 1: 0.1),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
@@ -38,9 +38,9 @@ class MessageText extends StatelessWidget {
                   throw Exception('Could not launch ${link.url}');
                 }
               },
-              text: _message,
+              text: dataMessage,
               style: TextStyle(
-                color: _isSender? kWhiteColor: kDarkColor,
+                color: isSender? kWhiteColor: kDarkColor,
                 fontWeight: FontWeight.w400
               ),
               linkStyle: const TextStyle(

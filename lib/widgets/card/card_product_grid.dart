@@ -278,7 +278,7 @@ class CardProductGrid extends StatelessWidget {
                                 softWrap: true,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.start,
-                                textScaleFactor: 1,
+                                textScaler: TextScaler.linear(1),
                                 text: TextSpan(
                                   text: widgetMemberPrice,
                                   style: title.copyWith(
@@ -334,7 +334,7 @@ class CardProductGrid extends StatelessWidget {
                                 softWrap: true,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.start,
-                                textScaleFactor: 1,
+                                textScaler: TextScaler.linear(1),
                                 text: TextSpan(
                                   text: widgetPrice,
                                   style: title.copyWith(
@@ -382,7 +382,7 @@ class CardProductGrid extends StatelessWidget {
                                       softWrap: true,
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.start,
-                                      textScaleFactor: 1,
+                                      textScaler: TextScaler.linear(1),
                                       text: TextSpan(
                                         children: [
                                           WidgetSpan(

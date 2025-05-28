@@ -1,15 +1,11 @@
-import 'dart:developer' as log1;
 import 'dart:math';
 import 'package:coffee2u/controller/language_controller.dart';
 import 'package:intl/intl.dart';
 import 'package:timezone/standalone.dart' as tz;
-// import 'package:thai_date_formatter/thai_date_formatter.dart';
 
 final tzAsiaBangkok = tz.getLocation('Asia/Bangkok');
 
 String dateFormat(DateTime? date, {String format = 'dd/MM/y', String local = 'th', int addDays = 0}) {
-  // format: dd/MM/yyyy kk:mm:ss
-  // format: dd/MM/y kk:mm:ss
   if(date == null) return '';
 
   if(addDays > 0){
@@ -33,10 +29,6 @@ String priceFormat(double? num, LanguageController lController,
   } else {
     final symbol = lController.usedCurrency?.icon ?? lController.defaultCurrency?.icon ?? '฿';
 
-    // if (vat > 0) {
-    //   num += num * vat / 100;
-    // }
-    // digits = 4;
     if (digits > 0) {
       num = (num * pow(10, digits)).round().toDouble() / pow(10, digits);
     } else {
@@ -72,11 +64,10 @@ String numberFormat(double? num, {int digits = 2}) {
 }
 
 String reString(String input) {
-    if (input.length <= 2 && input.isNotEmpty) return '${input[0]}*';
-    
-    String firstChar = input[0];
-    String lastChar = input[input.length - 1];
-    String maskedPart = '*' * (input.length - 2);
-    return '$firstChar$maskedPart$lastChar';
-  }
-
+  if (input.length <= 2 && input.isNotEmpty) return '${input[0]}*';
+  
+  String firstChar = input[0];
+  String lastChar = input[input.length - 1];
+  String maskedPart = '*' * (input.length - 2);
+  return '$firstChar$maskedPart$lastChar';
+}

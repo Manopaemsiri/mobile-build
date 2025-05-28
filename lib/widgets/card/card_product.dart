@@ -39,11 +39,6 @@ class CardProduct extends StatelessWidget {
     final imageUrl = data.image?.path ?? '';
     final String name = data.name;
 
-    final String price = data.displayPrice(lController, trimDigits: trimDigits);
-    final String memberPrice = data.isDiscounted() 
-      ? data.displayDiscountPrice(lController, trimDigits: trimDigits): data.displayMemberPrice(lController, trimDigits: trimDigits);
-    final String unit = "/ ${data.unit}";
-
     bool showStock = customerController.isShowStock();
 
     bool stockCenter = data.stockCenter > 0 && data.status != 1;
@@ -234,7 +229,7 @@ class CardProduct extends StatelessWidget {
                         softWrap: true,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.start,
-                        textScaleFactor: 1,
+                        textScaler: TextScaler.linear(1),
                         text: TextSpan(
                           text: widgetMemberPrice,
                           style: title.copyWith(
@@ -290,7 +285,7 @@ class CardProduct extends StatelessWidget {
                         softWrap: true,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.start,
-                        textScaleFactor: 1,
+                        textScaler: TextScaler.linear(1),
                         text: TextSpan(
                           text: widgetPrice,
                           style: title.copyWith(
@@ -338,7 +333,7 @@ class CardProduct extends StatelessWidget {
                               softWrap: true,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.start,
-                              textScaleFactor: 1,
+                              textScaler: TextScaler.linear(1),
                               text: TextSpan(
                                 children: [
                                   WidgetSpan(

@@ -33,9 +33,9 @@ class WillReceivedCoupons extends StatelessWidget {
           children: [
             LayoutBuilder(
               builder: (buildContext, constraints) {
-                double _cardHeight = (kHalfGap*2) + kQuarterGap + (bodyText2.fontSize!*2*1.4);
-                double _cardWidth = constraints.maxWidth;
-                double _aspectratio = _cardWidth/_cardHeight;
+                double cardHeight = (kHalfGap*2) + kQuarterGap + (bodyText2.fontSize!*2*1.4);
+                double cardWidth = constraints.maxWidth;
+                double aspectratio = cardWidth/cardHeight;
 
                 return CarouselSlider.builder(
                   carouselController: controller.pageController,
@@ -44,7 +44,7 @@ class WillReceivedCoupons extends StatelessWidget {
                   itemCount: controller.data.length,
                   options: CarouselOptions(
                     autoPlay: false,
-                    aspectRatio: _aspectratio,
+                    aspectRatio: aspectratio,
                     viewportFraction: 1,
                     enableInfiniteScroll: controller.data.length > 1,
                     onPageChanged: (index, reason) => controller.onPageChanged(index),

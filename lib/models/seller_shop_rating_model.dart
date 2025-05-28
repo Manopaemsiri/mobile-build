@@ -53,8 +53,7 @@ class SellerShopRatingModel {
     "images": List<Map<String, dynamic>>
       .from(images.map((x) => x.toJson())),
     "isShown": isShown,
-    "createdAt": createdAt == null
-      ? null: createdAt!.toIso8601String(),
+    "createdAt": createdAt?.toIso8601String(),
   };
 
   bool isValid() {

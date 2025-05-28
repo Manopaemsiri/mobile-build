@@ -20,7 +20,7 @@ class PartnerProductCouponsScreen extends StatefulWidget {
 
 class _PartnerProductCouponsScreenState extends State<PartnerProductCouponsScreen> {
   final LanguageController lController = Get.find<LanguageController>();
-  List<PartnerProductCouponModel> _data = [];
+  List<PartnerProductCouponModel> dataModel = [];
 
   int page = 0;
   bool isLoading = false;
@@ -37,7 +37,7 @@ class _PartnerProductCouponsScreenState extends State<PartnerProductCouponsScree
       page = 0;
       isLoading = false;
       isEnded = false;
-      _data = [];
+      dataModel = [];
     });
     loadData();
   }
@@ -60,12 +60,12 @@ class _PartnerProductCouponsScreenState extends State<PartnerProductCouponsScree
           for (var i = 0; i < len; i++) {
             PartnerProductCouponModel model =
               PartnerProductCouponModel.fromJson(value!["result"][i]);
-            _data.add(model);
+            dataModel.add(model);
           }
 
           setState(() {
-            _data;
-            if (_data.length >= paginateModel.total!) {
+            dataModel;
+            if (dataModel.length >= paginateModel.total!) {
               isEnded = true;
               isLoading = false;
             } else if (value != null) {
@@ -73,7 +73,7 @@ class _PartnerProductCouponsScreenState extends State<PartnerProductCouponsScree
             }
           });
         });
-      } catch (e) {}
+      } catch(_) {}
     }
   }
 
@@ -104,14 +104,14 @@ class _PartnerProductCouponsScreenState extends State<PartnerProductCouponsScree
               padding: kPadding,
               child: Column(
                 children: [
-                  _data.isEmpty
+                  dataModel.isEmpty
                   ? const SizedBox(height: 0)
                   : ListView.builder(
                       shrinkWrap: true,
-                      itemCount: _data.length,
+                      itemCount: dataModel.length,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
-                        PartnerProductCouponModel item = _data[index];
+                        PartnerProductCouponModel item = dataModel[index];
                         return CardProductCoupon2(
                           model: item,
                           onPressed: () => Get.to(() => PartnerProductCouponScreen(id: item.id!)),

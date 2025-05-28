@@ -67,9 +67,9 @@ class PartnerProductSubscriptionScreen extends StatelessWidget {
     final String name = data?.name ?? '';
     final String description = data?.description ?? '';
     final String content = data?.content ?? '';
-    List<FileModel> _gallery = [];
-    if(data?.image?.isValid() == true) _gallery.insert(0, data!.image!);
-    if(data?.gallery?.isNotEmpty == true) _gallery.addAll(data!.gallery!);
+    List<FileModel> widgetGallery = [];
+    if(data?.image?.isValid() == true) widgetGallery.insert(0, data!.image!);
+    if(data?.gallery?.isNotEmpty == true) widgetGallery.addAll(data!.gallery!);
 
     final String priceInVAT = priceFormat(data!.priceInVAT, lController, trimDigits: true);
     final String discountPriceInVAT = priceFormat(data.discountPriceInVAT, lController, trimDigits: true);
@@ -80,14 +80,14 @@ class PartnerProductSubscriptionScreen extends StatelessWidget {
       .replaceFirst('_VALUE_', '${data.recurringCount}')
       .replaceFirst('_VALUE2_', data.displayRecurringTypeName(lController));
 
-    List<PartnerProductModel> _packageProducts = data.packageProducts;
+    List<PartnerProductModel> dataProducts = data.packageProducts;
 
     return ListView(
       children: [
-        if(_gallery.isNotEmpty)...[
+        if(widgetGallery.isNotEmpty)...[
           const Gap(),
           CarouselGallery(
-            data: _gallery,
+            data: widgetGallery,
             viewportFraction: 1,
           ),
           const Gap(gap: kHalfGap),
@@ -183,7 +183,7 @@ class PartnerProductSubscriptionScreen extends StatelessWidget {
         ],
         
 
-        if(_packageProducts.isNotEmpty) ...[
+        if(dataProducts.isNotEmpty) ...[
           const Gap(gap: kHalfGap),
           SectionTitle(
             titleText: lController.getLang('Related Products'),
@@ -191,7 +191,7 @@ class PartnerProductSubscriptionScreen extends StatelessWidget {
           CardPackageProduct(
             key: const ValueKey<String>('package-products'),
             padding: const EdgeInsets.fromLTRB(kGap, 0, kGap, 0),
-            data: _packageProducts,
+            data: dataProducts,
             customerController: Get.find<CustomerController>(),
             lController: lController,
             aController: Get.find<AppController>(),

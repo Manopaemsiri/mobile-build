@@ -69,7 +69,7 @@ class _AddressAddScreenState extends State<AddressAddScreen> {
   GoogleMapController? _mapController;
   bool _mapNeedRender = false;
   late LatLng _mapCenter;
-  Set<Marker> _mapMarkers = {};
+  final Set<Marker> _mapMarkers = {};
   late Uint8List? _mapMarkerIcon;
 
   _initState() async {
@@ -103,11 +103,11 @@ class _AddressAddScreenState extends State<AddressAddScreen> {
       );
     });
 
-    LatLng _tempCenter = LatLng(
+    LatLng dataCenter = LatLng(
       _model.lat ?? 13.810076929,
       _model.lng ?? 100.5966026673
     );
-    _onAddMarkerButtonPressed(_tempCenter);
+    _onAddMarkerButtonPressed(dataCenter);
     setState(() => _mapNeedRender = !_model.isValidAddress());
 
     setState(() {
@@ -174,14 +174,14 @@ class _AddressAddScreenState extends State<AddressAddScreen> {
 
   Future<void> _checkUpdateLatLngFromAddress() async {
     if(_mapNeedRender && model.isValidAddress()){
-      String _addressStr = model.displayAddress(lController, withCountry: true);
-      await locationFromAddress(_addressStr).then((value) {
+      String addressStr = model.displayAddress(lController, withCountry: true);
+      await locationFromAddress(addressStr).then((value) {
         if(mounted && value.isNotEmpty){
-          LatLng _tempCenter = LatLng(
+          LatLng dataCenter = LatLng(
             value.first.latitude,
             value.first.longitude
           );
-          _onAddMarkerButtonPressed(_tempCenter);
+          _onAddMarkerButtonPressed(dataCenter);
           setState(() => _mapNeedRender = false);
         }
       });
@@ -198,7 +198,7 @@ class _AddressAddScreenState extends State<AddressAddScreen> {
       _mapMarkers.add(Marker(
         position: latLng,
         markerId: MarkerId(latLng.toString()),
-        icon: BitmapDescriptor.fromBytes(_mapMarkerIcon!),
+        icon: BitmapDescriptor.bytes(_mapMarkerIcon!),
       ));
       _mapController?.moveCamera(
         CameraUpdate.newCameraPosition(

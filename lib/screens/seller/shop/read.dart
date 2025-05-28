@@ -67,7 +67,7 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double _appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
+    double appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
     
     List<FileModel> _gallery = [];
     if(model?.image != null && model?.image?.path != null){
@@ -120,7 +120,7 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
                         return FlexibleSpaceBar(
                           background: Column(
                             children: [
-                              SizedBox(height: _appBarHeight),
+                              SizedBox(height: appBarHeight),
                               Padding(
                                 padding: const EdgeInsets.only(left: kOtGap, right: kOtGap),
                                 child: Carousel(

@@ -85,7 +85,7 @@ class ApiService {
     ShowDialog.showLoadingDialog();
     final lCode = await LocalStorage.get(prefLanguage) ?? 'th';
     try {
-      var data1 = await http.post(Uri.parse(apiUrl + 'auth/customer-signin'),
+      var data1 = await http.post(Uri.parse('${apiUrl}auth/customer-signin'),
           headers: {'Content-Type': 'application/json; charset=UTF-8'},
           body: jsonEncode(input));
       if ([200, 201, 204].contains(data1.statusCode)) {
@@ -117,9 +117,9 @@ class ApiService {
 
           CustomerShippingAddressModel? address;
           var data2 = await http.get(
-              Uri.parse(apiUrl + 'customer/shipping-address-get-selected' + '?lang=${systemLanguages.length > 1
-                  ? lCode.toUpperCase()
-                  : systemLanguages[0].toUpperCase()}'),
+              Uri.parse('${apiUrl}customer/shipping-address-get-selected?lang=${systemLanguages.length > 1
+                ? lCode.toUpperCase()
+                : systemLanguages[0].toUpperCase()}'),
               headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
                 'Authorization': 'Bearer ${res1.data?.accessToken}'
@@ -135,7 +135,7 @@ class ApiService {
 
           CustomerCartModel? cart;
           var data3 = await http.get(
-            Uri.parse(apiUrl + 'customer/cart'+ '?lang=${systemLanguages.length > 1
+            Uri.parse('${apiUrl}customer/cart?lang=${systemLanguages.length > 1
               ? lCode.toUpperCase()
               : systemLanguages[0].toUpperCase()}'),
             headers: {
@@ -152,7 +152,7 @@ class ApiService {
 
           CustomerBillingAddressModel? billingAddress;
           var data4 = await http.get(
-              Uri.parse(apiUrl + 'customer/billing-address-get-selected'+ '?lang=${systemLanguages.length > 1
+              Uri.parse('${apiUrl}customer/billing-address-get-selected?lang=${systemLanguages.length > 1
                 ? lCode.toUpperCase()
                 : systemLanguages[0].toUpperCase()}'),
               headers: {
@@ -199,7 +199,7 @@ class ApiService {
     log("API CALL: Auth Signup");
     ShowDialog.showLoadingDialog();
     try {
-      var data1 = await http.post(Uri.parse(apiUrl + (isScan? 'auth/customer-signup-with-info': 'auth/customer-signup')),
+      var data1 = await http.post(Uri.parse('$apiUrl${isScan? 'auth/customer-signup-with-info': 'auth/customer-signup'}'),
           headers: {'Content-Type': 'application/json; charset=UTF-8'},
           body: jsonEncode(input));
 
@@ -238,7 +238,7 @@ class ApiService {
         'lang': systemLanguages.length > 1? lCode.toUpperCase(): systemLanguages[0].toUpperCase()
       };
 
-      var data1 = await http.post(Uri.parse(apiUrl + endpoint),
+      var data1 = await http.post(Uri.parse('$apiUrl$endpoint'),
           headers: apiHeader, body: jsonEncode(input));
       Map<String, dynamic> res = json.decode(data1.body);
 
@@ -260,7 +260,7 @@ class ApiService {
       Map<String, dynamic> _input = input;
       _input['lang'] = systemLanguages.length > 1? lCode.toUpperCase(): systemLanguages[0].toUpperCase();
 
-      var data1 = await http.post(Uri.parse(apiUrl + endpoint),
+      var data1 = await http.post(Uri.parse('$apiUrl$endpoint'),
           headers: apiHeader, body: jsonEncode(_input));
       Map<String, dynamic> res = json.decode(data1.body);
       Get.back();
@@ -279,7 +279,7 @@ class ApiService {
     log("API CALL: Auth Signup");
     ShowDialog.showLoadingDialog();
     try {
-      var data1 = await http.post(Uri.parse(apiUrl + 'auth/customer-forget-password'),
+      var data1 = await http.post(Uri.parse('${apiUrl}auth/customer-forget-password'),
           headers: {'Content-Type': 'application/json; charset=UTF-8'},
           body: jsonEncode(input));
       Get.back();
@@ -304,7 +304,7 @@ class ApiService {
     log("API CALL: Auth Signup");
     ShowDialog.showLoadingDialog();
     try {
-      var data1 = await http.patch(Uri.parse(apiUrl + 'auth/customer-reset-password'),
+      var data1 = await http.patch(Uri.parse('${apiUrl}auth/customer-reset-password'),
           headers: {'Content-Type': 'application/json; charset=UTF-8'},
           body: jsonEncode(input));
       Get.back();
@@ -330,7 +330,7 @@ class ApiService {
     ShowDialog.showLoadingDialog();
     try {
       var data1 = await http.post(
-          Uri.parse(apiUrl + 'auth/customer-check-duplicate'),
+          Uri.parse('${apiUrl}auth/customer-check-duplicate'),
           headers: {'Content-Type': 'application/json; charset=UTF-8'},
           body: jsonEncode(input));
 
@@ -388,7 +388,7 @@ class ApiService {
     };
     try {
       var data1 = await http.post(
-        Uri.parse(apiUrl + 'tool/customer-card-scanner'),
+        Uri.parse('${apiUrl}tool/customer-card-scanner'),
         // headers: {'Content-Type': 'multipart/form-data'},
         headers: {'Content-Type': 'application/json; charset=UTF-8'},
         body: jsonEncode(input));
@@ -413,7 +413,7 @@ class ApiService {
     log("CALL API: Guest Init");
     final lCode = await LocalStorage.get(prefLanguage) ?? 'th';
     try {
-      var data1 = await http.post(Uri.parse(apiUrl + 'auth/guest-init'),
+      var data1 = await http.post(Uri.parse('${apiUrl}auth/guest-init'),
           headers: {'Content-Type': 'application/json; charset=UTF-8'},
           body: jsonEncode({"customerId": customerId}));
       if ([200, 201, 204].contains(data1.statusCode)) {
@@ -474,7 +474,7 @@ class ApiService {
     CustomerShippingAddressModel? address;
     try {
       var data = await http.get(
-          Uri.parse(apiUrl + 'customer/shipping-address-get-selected'+ '?lang=${systemLanguages.length > 1
+          Uri.parse('${apiUrl}customer/shipping-address-get-selected?lang=${systemLanguages.length > 1
             ? lang.toUpperCase()
             : systemLanguages[0].toUpperCase()}'),
           headers: {
@@ -493,7 +493,7 @@ class ApiService {
   static Future<CustomerCartModel?> _readCustomerCart({required String lang, required String accessToken}) async {
     CustomerCartModel? cart;
     try {
-      var data = await http.get(Uri.parse(apiUrl + 'customer/cart'+ '?lang=${systemLanguages.length > 1
+      var data = await http.get(Uri.parse('${apiUrl}customer/cart?lang=${systemLanguages.length > 1
             ? lang.toUpperCase()
             : systemLanguages[0].toUpperCase()}'), headers: {
         'Content-Type': 'application/json; charset=UTF-8',
@@ -512,7 +512,7 @@ class ApiService {
     CustomerBillingAddressModel? billingAddress;
     try {
       var data4 = await http.get(
-        Uri.parse(apiUrl + 'customer/billing-address-get-selected'+ '?lang=${systemLanguages.length > 1
+        Uri.parse('${apiUrl}customer/billing-address-get-selected?lang=${systemLanguages.length > 1
           ? lang.toUpperCase()
           : systemLanguages[0].toUpperCase()}'),
         headers: {
@@ -535,7 +535,7 @@ class ApiService {
     ShowDialog.showLoadingDialog();
     try {
       final accessToken = await storage.read(key: localAccessToken);
-      var data1 = await http.post(Uri.parse(apiUrl + 'customer/chatroom'),
+      var data1 = await http.post(Uri.parse('${apiUrl}customer/chatroom'),
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer $accessToken'
@@ -569,7 +569,7 @@ class ApiService {
     if (needLoading) ShowDialog.showLoadingDialog();
     try {
       final accessToken = await storage.read(key: localAccessToken);
-      var data1 = await http.patch(Uri.parse(apiUrl + 'customer/cart'),
+      var data1 = await http.patch(Uri.parse('${apiUrl}customer/cart'),
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer $accessToken',
@@ -601,7 +601,7 @@ class ApiService {
       // Add Language Code
       final accessToken = await storage.read(key: localAccessToken);
       var data1 = await http.get(
-        Uri.parse(apiUrl + 'customer/cart'+ '?lang=${systemLanguages.length > 1
+        Uri.parse('${apiUrl}customer/cart?lang=${systemLanguages.length > 1
           ? lCode.toUpperCase()
           : systemLanguages[0].toUpperCase()}'
         ),
@@ -651,7 +651,7 @@ class ApiService {
     ShowDialog.showLoadingDialog();
     try {
       final accessToken = await storage.read(key: localAccessToken);
-      var data1 = await http.post(Uri.parse(apiUrl + 'customer/checkout-payment-2c2p'),
+      var data1 = await http.post(Uri.parse('${apiUrl}customer/checkout-payment-2c2p'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $accessToken'
@@ -717,7 +717,7 @@ class ApiService {
       if(salesManagerId?.isNotEmpty == true) _input['salesManagerId'] = salesManagerId;
 
       final accessToken = await storage.read(key: localAccessToken);
-      var data1 = await http.post(Uri.parse(apiUrl + 'customer/subscription-payment-2c2p'),
+      var data1 = await http.post(Uri.parse('${apiUrl}customer/subscription-payment-2c2p'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $accessToken'
@@ -751,7 +751,7 @@ class ApiService {
     try {
       final accessToken = await storage.read(key: localAccessToken);
       var data1 = await http.post(
-        Uri.parse(apiUrl + 'customer/checkout-payment-2c2p-completed'),
+        Uri.parse('${apiUrl}customer/checkout-payment-2c2p-completed'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $accessToken'
@@ -833,7 +833,7 @@ class ApiService {
         "amountDefault": amountDefault,
         "missingPaymentDefault": missingPaymentDefault,
       };
-      var data1 = await http.post(Uri.parse(apiUrl + 'customer/checkout-payment-stripe'),
+      var data1 = await http.post(Uri.parse('${apiUrl}customer/checkout-payment-stripe'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $accessToken'
@@ -867,7 +867,7 @@ class ApiService {
     try {
       final accessToken = await storage.read(key: localAccessToken);
       var data1 = await http.post(
-        Uri.parse(apiUrl + 'customer/checkout-payment-stripe-completed'),
+        Uri.parse('${apiUrl}customer/checkout-payment-stripe-completed'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $accessToken'
@@ -929,7 +929,7 @@ class ApiService {
     try {
       final accessToken = await storage.read(key: localAccessToken);
       var data1 = await http.post(
-        Uri.parse(apiUrl + 'customer/checkout'),
+        Uri.parse('${apiUrl}customer/checkout'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $accessToken'
@@ -1149,7 +1149,7 @@ class ApiService {
           input2['dataFilter'] = input3;
           input = input2;
         }
-        var data1 = await http.post(Uri.parse(apiUrl + endpoint + type),
+        var data1 = await http.post(Uri.parse('$apiUrl$endpoint$type'),
             headers: apiHeader, body: jsonEncode(input));
         var res1 = apiDataFromJson(data1.body);
         res['result'] = res1.data?.result?.toList() == null
@@ -1211,7 +1211,7 @@ class ApiService {
       }
       if (ready) {
         var data1 = await http.get(
-          Uri.parse(apiUrl + endpoint + type + inputUrl),
+          Uri.parse('$apiUrl$endpoint$type$inputUrl'),
           headers: apiHeader,
         );
         var res1 = resApiReadFromJson(data1.body);
@@ -1252,7 +1252,7 @@ class ApiService {
       }
 
       if(ready){
-        var data1 = await http.post(Uri.parse(apiUrl + endpoint + type),
+        var data1 = await http.post(Uri.parse('$apiUrl$endpoint$type'),
             headers: apiHeader, body: jsonEncode(input));
         if (needLoading) Get.back();
         log("data1 ${data1.body}");
@@ -1301,7 +1301,7 @@ class ApiService {
 
       if (ready) {
         var data1 = await http.patch(
-          Uri.parse(apiUrl + endpoint + type),
+          Uri.parse('$apiUrl$endpoint$type'),
           headers: apiHeader,
           body: jsonEncode(input)
         );
@@ -1352,7 +1352,7 @@ class ApiService {
       }
 
       if (ready) {
-        var data1 = await http.delete(Uri.parse(apiUrl + endpoint + type),
+        var data1 = await http.delete(Uri.parse('$apiUrl$endpoint$type'),
             headers: apiHeader, body: jsonEncode(input));
         if (needLoading) Get.back();
         if ([200, 201, 204].contains(data1.statusCode)) {

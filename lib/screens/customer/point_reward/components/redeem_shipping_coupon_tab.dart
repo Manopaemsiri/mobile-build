@@ -20,7 +20,7 @@ class RedeemShippingCouponTab extends StatefulWidget {
 class _RedeemShippingCouponTabState extends State<RedeemShippingCouponTab> {
   final LanguageController lController = Get.find<LanguageController>();
 
-  List<PartnerShippingCouponModel> _data = [];
+  List<PartnerShippingCouponModel> dataModel = [];
 
   int page = 0;
   bool isLoading = false;
@@ -37,7 +37,7 @@ class _RedeemShippingCouponTabState extends State<RedeemShippingCouponTab> {
       page = 0;
       isLoading = false;
       isEnded = false;
-      _data = [];
+      dataModel = [];
     });
     loadData();
   }
@@ -60,12 +60,12 @@ class _RedeemShippingCouponTabState extends State<RedeemShippingCouponTab> {
           for (var i = 0; i < len; i++) {
             PartnerShippingCouponModel model = 
               PartnerShippingCouponModel.fromJson(value!["result"][i]);
-            _data.add(model);
+            dataModel.add(model);
           }
 
           setState(() {
-            _data;
-            if (_data.length >= paginateModel.total!) {
+            dataModel;
+            if (dataModel.length >= paginateModel.total!) {
               isEnded = true;
               isLoading = false;
             } else if (value != null) {
@@ -73,7 +73,7 @@ class _RedeemShippingCouponTabState extends State<RedeemShippingCouponTab> {
             }
           });
         });
-      } catch (e) {}
+      } catch(_) {}
     }
   }
 
@@ -99,7 +99,7 @@ class _RedeemShippingCouponTabState extends State<RedeemShippingCouponTab> {
       color: kAppColor,
       child: SingleChildScrollView(
         padding: kPadding,
-        child: isEnded && _data.isEmpty
+        child: isEnded && dataModel.isEmpty
           ? SizedBox(
             child: Center(
               child: NoDataCoffeeMug(),
@@ -109,14 +109,14 @@ class _RedeemShippingCouponTabState extends State<RedeemShippingCouponTab> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _data.isEmpty
+              dataModel.isEmpty
                 ? const SizedBox(height: 0)
                 : ListView.builder(
                     shrinkWrap: true,
-                    itemCount: _data.length,
+                    itemCount: dataModel.length,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) {
-                      PartnerShippingCouponModel item = _data[index];
+                      PartnerShippingCouponModel item = dataModel[index];
                       return CardShippingCoupon2(
                         model: item,
                         onPressed: () => Get.to(() => PartnerShippingCouponScreen(

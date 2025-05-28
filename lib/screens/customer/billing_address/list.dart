@@ -29,7 +29,7 @@ class _BillingAddressesScreenState extends State<BillingAddressesScreen> {
   final LanguageController lController = Get.find<LanguageController>();
   final AppController _appController = Get.find<AppController>();
   
-  List<CustomerBillingAddressModel> _data = [];
+  List<CustomerBillingAddressModel> dataModel = [];
 
   CustomerGroupModel? _customerGroup;
 
@@ -37,11 +37,11 @@ class _BillingAddressesScreenState extends State<BillingAddressesScreen> {
   
   Future<void> billingAddressList({bool updateState = false}) async {
     try {
-      _data = [];
+      dataModel = [];
       final res = await ApiService.processList("billing-addresses");
       var len = res?["result"].length;
       for (var i = 0; i < len; i++) {
-        _data.add(CustomerBillingAddressModel.fromJson(res!["result"][i]));
+        dataModel.add(CustomerBillingAddressModel.fromJson(res!["result"][i]));
       }
 
       if(mounted && updateState) setState(() {});
@@ -97,7 +97,7 @@ class _BillingAddressesScreenState extends State<BillingAddressesScreen> {
                 children: [
                   GetBuilder<CustomerController>(builder: (controller) {
                     return Column(children: [
-                      _data.isNotEmpty
+                      dataModel.isNotEmpty
                         ? Card(
                           clipBehavior: Clip.hardEdge,
                           margin: const EdgeInsets.fromLTRB(0, 0, 0, kHalfGap),
@@ -127,7 +127,7 @@ class _BillingAddressesScreenState extends State<BillingAddressesScreen> {
                           ),
                         )
                         : const SizedBox.shrink(),
-                      _data.isEmpty
+                      dataModel.isEmpty
                         ? Card(
                           child: Padding(
                             padding: const EdgeInsets.only(top: kHalfGap, bottom: kQuarterGap),
@@ -137,8 +137,8 @@ class _BillingAddressesScreenState extends State<BillingAddressesScreen> {
                         : Card(
                           margin: EdgeInsets.zero,
                           child: Column(
-                            children: List.generate(_data.length, (index) {
-                              CustomerBillingAddressModel item = _data[index];
+                            children: List.generate(dataModel.length, (index) {
+                              CustomerBillingAddressModel item = dataModel[index];
                               return SizedBox(
                                 child: Column(
                                   children: [
@@ -230,10 +230,10 @@ class _BillingAddressesScreenState extends State<BillingAddressesScreen> {
                             }),
                           ),
                         ),
-                      _data.length < 3
+                      dataModel.length < 3
                         ? const SizedBox(height: kGap)
                         : const SizedBox(height: 0),
-                      _data.length < 3 && (_customerGroup == null || !_appController.enabledCustomerGroup)
+                      dataModel.length < 3 && (_customerGroup == null || !_appController.enabledCustomerGroup)
                         ? Card(
                           margin: EdgeInsets.zero,
                           child: ListTile(

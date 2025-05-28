@@ -59,7 +59,7 @@ class _PartnerProductCategoriesScreenState extends State<PartnerProductCategorie
   bool showSubCategory = false;
 
   PartnerShopModel? _partnerShop;
-  List<PartnerProductModel> _data = [];
+  List<PartnerProductModel> dataModel = [];
 
   final TextEditingController _cKeywords = TextEditingController();
   String filterKeywords = '';
@@ -383,7 +383,7 @@ class _PartnerProductCategoriesScreenState extends State<PartnerProductCategorie
             "pp": 26,
           }
         });
-        List<PartnerProductModel> temp = _data;
+        List<PartnerProductModel> temp = dataModel;
         PaginateModel paginateModel = PaginateModel.fromJson(res?["paginate"]);
 
         var len = res?["result"].length;
@@ -394,7 +394,7 @@ class _PartnerProductCategoriesScreenState extends State<PartnerProductCategorie
 
         if(mounted){
           // if(tabList[_selectedIndex].categoryId == _selectedCateId){
-          _data = temp;
+          dataModel = temp;
           if (temp.length == paginateModel.total) {
             isEnded = true;
             isLoading = false;
@@ -810,7 +810,7 @@ class _PartnerProductCategoriesScreenState extends State<PartnerProductCategorie
                             // ),
                             // 2 
                             AbsorbPointer(
-                              absorbing: _data.isEmpty && isLoading? true: false,
+                              absorbing: dataModel.isEmpty && isLoading? true: false,
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: kGap) + const EdgeInsets.only(top: kGap),
                                 child: Row(
@@ -865,7 +865,7 @@ class _PartnerProductCategoriesScreenState extends State<PartnerProductCategorie
                                 ),
                               ),
                             ),
-                            if(isEnded && _data.isEmpty)...[
+                            if(isEnded && dataModel.isEmpty)...[
                               Padding(
                                 padding: const EdgeInsets.only(top: kGap),
                                 child: NoDataCoffeeMug()
@@ -873,7 +873,7 @@ class _PartnerProductCategoriesScreenState extends State<PartnerProductCategorie
                             ]else ...[
                               CardProductGrid(
                                 key: ValueKey<String>(tabList[_selectedIndex].titleText),
-                                data: _data,
+                                data: dataModel,
                                 customerController: _customerController,
                                 lController: _lController,
                                 aController: aController,
@@ -890,7 +890,7 @@ class _PartnerProductCategoriesScreenState extends State<PartnerProductCategorie
                             ]
                           ],
                         ),
-                        if (isEnded && _data.isNotEmpty) ...[
+                        if (isEnded && dataModel.isNotEmpty) ...[
                           Center(
                             child: Padding(
                               padding: const EdgeInsets.only(top: kGap, bottom: 2*kGap),
@@ -1056,6 +1056,6 @@ class _PartnerProductCategoriesScreenState extends State<PartnerProductCategorie
     page = 0;
     isLoading = false;
     isEnded = false;
-    _data = [];
+    dataModel = [];
   }
 }

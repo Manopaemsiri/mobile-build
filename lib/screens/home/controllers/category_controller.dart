@@ -8,11 +8,11 @@ class CategoryController extends GetxController {
 
   // Category
   ScrollController? _controller;
-  final double _width = kGap*2;
+  final double widgetWidth = kGap*2;
   double _move = 0.0;
 
   ScrollController? get controller => _controller;
-  double get width => _width;
+  double get width => widgetWidth;
   double get move => _move;
 
   @override
@@ -32,7 +32,7 @@ class CategoryController extends GetxController {
   }
   void _scrollListener() {
     double currentPixels = _controller?.position.pixels ?? 0;
-    double mainContainer = (_controller?.position.maxScrollExtent ?? 0) / _width;
+    double mainContainer = (_controller?.position.maxScrollExtent ?? 0) / widgetWidth;
     _move = (currentPixels / mainContainer);
     update();
   }

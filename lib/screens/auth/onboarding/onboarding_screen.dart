@@ -184,7 +184,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
               final widgetTitle = item.title == ''
                 ? lController.getLang('Privacy Policy'): item.title;
-              final _content = item.content;
+              final widgetContent = item.content;
               return AlertDialog(
                 title: Text(
                   widgetTitle,
@@ -202,7 +202,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                     child: ListView(
                       children: [
-                        HtmlContent(content: _content),
+                        HtmlContent(content: widgetContent),
                       ],
                     ),
                   ),

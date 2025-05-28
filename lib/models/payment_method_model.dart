@@ -81,7 +81,7 @@ class PaymentMethodModel {
   Map<String, dynamic> toJson() => {
     "_id": id,
     "name": name,
-    "icon": icon == null? null: icon!.toJson(),
+    "icon": icon?.toJson(),
     "type": type,
     "order": order,
     "status": status,

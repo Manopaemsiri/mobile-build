@@ -98,9 +98,9 @@ class SubscriptionCreateController extends GetxController {
 
   bool _validation({bool checkProductEmpty = false}) {
     bool _temp = true;
-    final _products = _step[_currentPage].products
+    final dataProducts = _step[_currentPage].products
       .where((d) => d.quantity > 0);
-    final double sumCredit = _products
+    final double sumCredit = dataProducts
       .fold(0, (sum, item) => sum + (item.credit*item.quantity));
     if(sumCredit > _step[_currentPage].credit){
       ShowDialog.showErrorToast(
@@ -108,9 +108,9 @@ class SubscriptionCreateController extends GetxController {
       );
       _temp = false;
     }else if(checkProductEmpty){
-      final _products = _step.expand((d) => d.products)
+      final dataProducts = _step.expand((d) => d.products)
         .where((d) => d.quantity > 0).toList();
-      if(_products.isEmpty){
+      if(dataProducts.isEmpty){
         ShowDialog.showErrorToast(
           desc: lController.getLang('Please select products')
         );

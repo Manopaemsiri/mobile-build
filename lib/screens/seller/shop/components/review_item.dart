@@ -19,10 +19,10 @@ class ReviewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _avatar = model.customer?.avatar?.path ?? defaultAvatar;
+    String widgetAvatar = model.customer?.avatar?.path ?? defaultAvatar;
     String widgetName = model.customer == null
       ? 'Anonymous Customer': model.customer!.displayName();
-    String _rank = model.customer == null
+    String widgetRank = model.customer == null
       ? 'Welcome Tier'
       : model.customer?.tier?.name ?? 'Welcome Tier';
 
@@ -30,7 +30,7 @@ class ReviewItem extends StatelessWidget {
       children: [
         ListTile(
           leading: ImageProfileCircle(
-            imageUrl: _avatar,
+            imageUrl: widgetAvatar,
             size: 48,
           ),
           title: Text(
@@ -53,7 +53,7 @@ class ReviewItem extends StatelessWidget {
                 ),
                 const Gap(gap: kHalfGap),
                 Text(
-                  _rank,
+                  widgetRank,
                   style: subtitle2.copyWith(
                     color: kDarkLightColor,
                     fontWeight: FontWeight.w600

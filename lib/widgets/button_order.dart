@@ -33,7 +33,7 @@ class ButtonOrder extends StatelessWidget {
   Widget build(BuildContext context) {
     String widgetTitle = title;
     String widgetQty = "$qty";
-    String _total = priceFormat(total, lController, trimDigits: trimDigits);
+    String widgetTotal = priceFormat(total, lController, trimDigits: trimDigits);
 
     return Stack(
       children: [
@@ -97,7 +97,7 @@ class ButtonOrder extends StatelessWidget {
                   height: kButtonHeight / 2,
                   child: Center(
                     child: Text(
-                      _total,
+                      widgetTotal,
                       style: subtitle1.copyWith(
                         fontSize: 18,
                         color: kWhiteColor,

@@ -35,15 +35,15 @@ class _AddressScreenState extends State<AddressScreen> {
   CustomerGroupModel? _customerGroup;
 
   bool loading = true;
-  List<CustomerShippingAddressModel> _data = [];
+  List<CustomerShippingAddressModel> dataModel = [];
 
   Future<void> shippingAddressList({bool updateState = false}) async {
     try {
-      _data = [];
+      dataModel = [];
       final res = await ApiService.processList("shipping-addresses");
       var len = res?["result"].length;
       for (var i = 0; i < len; i++) {
-        _data.add(CustomerShippingAddressModel.fromJson(res!["result"][i]));
+        dataModel.add(CustomerShippingAddressModel.fromJson(res!["result"][i]));
       }
       if(mounted && updateState) setState(() => loading = false);
     } catch (e) {
@@ -96,7 +96,7 @@ class _AddressScreenState extends State<AddressScreen> {
           return ListView(
             padding: const EdgeInsets.fromLTRB(kGap, kGap, kGap, kGap),
             children: [
-              !loading && _data.isEmpty
+              !loading && dataModel.isEmpty
                 ? Card(
                   child: Padding(
                     padding: const EdgeInsets.only(top: kHalfGap, bottom: kQuarterGap),
@@ -106,8 +106,8 @@ class _AddressScreenState extends State<AddressScreen> {
                 : Card(
                   margin: EdgeInsets.zero,
                   child: Column(
-                    children: List.generate(_data.length, (index) {
-                      CustomerShippingAddressModel item = _data[index];
+                    children: List.generate(dataModel.length, (index) {
+                      CustomerShippingAddressModel item = dataModel[index];
                       return SizedBox(
                         child: Column(
                           children: [
@@ -175,7 +175,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                                     Get.back();
                                                   }
                                                 },
-                                                activeColor: kAppColor,
+                                                activeTrackColor: kAppColor,
                                               ),
                                             ),
                                           ],
@@ -223,10 +223,10 @@ class _AddressScreenState extends State<AddressScreen> {
                     }),
                   ),
                 ),
-              !loading && _data.length < 3
+              !loading && dataModel.length < 3
                 ? const SizedBox(height: kGap)
                 : const SizedBox(height: 0),
-              !loading && _data.length < 3 && (_customerGroup == null || !_appController.enabledCustomerGroup)
+              !loading && dataModel.length < 3 && (_customerGroup == null || !_appController.enabledCustomerGroup)
                 ? Card(
                   margin: EdgeInsets.zero,
                   child: ListTile( 

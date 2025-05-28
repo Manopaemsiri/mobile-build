@@ -14,9 +14,9 @@ import 'package:coffee2u/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-const double _flex = 2.5;
-final double _screenwidth = DeviceUtils.getDeviceWidth();
-final double _cardWidth = _screenwidth / _flex;
+const double widgetFlex = 2.5;
+final double screenwidth = DeviceUtils.getDeviceWidth();
+final double cardWidth = screenwidth / widgetFlex;
 
 class CmsContentScreen extends StatefulWidget {
   const CmsContentScreen({
@@ -100,11 +100,11 @@ class _CmsContentScreenState extends State<CmsContentScreen> {
   }
 
   Widget body1(CmsContentModel item, List<FileModel>? gallery, bool showTag, CmsContentController cmsController) {
-    String _date = dateFormat(item.createdAt ?? DateTime.now(), format: 'dd/MM/y kk:mm');
+    String dataDate = dateFormat(item.createdAt ?? DateTime.now(), format: 'dd/MM/y kk:mm');
     String widgetTitle = item.title;
     String _category = item.category?.title ?? '';
     String _youtubeId = item.youtubeVideoId;
-    String _content = item.content;
+    String widgetContent = item.content;
 
     List<PartnerShopModel> _relatedPartnerShops = item.relatedPartnerShops;
     List<PartnerProductCategoryModel> _relatedProductCategories =
@@ -153,7 +153,7 @@ class _CmsContentScreenState extends State<CmsContentScreen> {
                         onTap: () {}
                       ),
                       Text(
-                        _date,
+                        dataDate,
                         style: subtitle2.copyWith(
                           color: kDarkColor,
                           fontWeight: FontWeight.w500,
@@ -162,9 +162,9 @@ class _CmsContentScreenState extends State<CmsContentScreen> {
                     ],
                   ),
                 ],
-                if (_content != '') ...[
+                if (widgetContent != '') ...[
                   const Gap(gap: kHalfGap),
-                  HtmlContent(content: _content)
+                  HtmlContent(content: widgetContent)
                 ],
                 if(_youtubeId != '') ...[
                   const Gap(gap: kGap + kHalfGap),
@@ -204,7 +204,7 @@ class _CmsContentScreenState extends State<CmsContentScreen> {
                             right: index == _relatedPartnerShops.length - 1? kGap - 2: 0
                           ),
                           child: CardShop(
-                            width: _cardWidth,
+                            width: cardWidth,
                             model: d,
                             showDistance: false,
                             onPressed: () => _onTapShop(d.id ?? ''),
@@ -245,7 +245,7 @@ class _CmsContentScreenState extends State<CmsContentScreen> {
                                 ? kGap - 2
                                 : 0),
                         child: CardProductCategory(
-                          width: _cardWidth,
+                          width: cardWidth,
                           model: d,
                           onPressed: () => Get.to(() => SearchScreen(
                             initSearch: '#${d.name}', 
@@ -297,7 +297,7 @@ class _CmsContentScreenState extends State<CmsContentScreen> {
                 children: _relatedProductCoupons.map((item) {
 
                   return CardProductCoupon(
-                    width: _cardWidth,
+                    width: cardWidth,
                     model: item,
                     onPressed: () => Get.to(() => PartnerProductCouponScreen(id: item.id!)),
                   );

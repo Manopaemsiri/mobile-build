@@ -20,15 +20,15 @@ class DetailSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String widgetImage = "${model.image!.path}";
+    String widgetImage = model.image?.path ?? "";
     String widgetName = model.name;
     String widgetStatus = "${model.status}";
     String widgetDistance = "${model.distance} km.";
-    String _star = "4.5";
-    String _review = "128 ${lController.getLang("Review(s)")}";
-    String _caption = model.description;
-    String _closingTime = model.todayOpenRange();
-    bool _isFavorite = false;
+    String widgetStar = "4.5";
+    String widgetReview = "128 ${lController.getLang("Review(s)")}";
+    String widgetCaption = model.description;
+    String widgetClosingTime = model.todayOpenRange();
+    bool widgetIsFavorite = false;
 
     return Column(
       children: [
@@ -58,7 +58,7 @@ class DetailSection extends StatelessWidget {
                   overflow: TextOverflow.clip,
                 ),
               ),
-              favButton(_isFavorite),
+              favButton(widgetIsFavorite),
             ],
           ),
           subtitle: Column(
@@ -69,13 +69,13 @@ class DetailSection extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   BadgeDefault(
-                    title: _star,
+                    title: widgetStar,
                     iconRight: Icons.star,
                     size: 12,
                   ),
                   const Gap(gap: kHalfGap),
                   Text(
-                    _review,
+                    widgetReview,
                     style: caption.copyWith(color: kGrayColor),
                   ),
                   const Gap(gap: kHalfGap),
@@ -98,7 +98,7 @@ class DetailSection extends StatelessWidget {
               ),
               const Gap(gap: kQuarterGap),
               Text(
-                _caption,
+                widgetCaption,
                 style: bodyText2.copyWith(color: kGrayColor),
               ),
               const Gap(),
@@ -110,7 +110,7 @@ class DetailSection extends StatelessWidget {
                   ),
                   const Gap(gap: kHalfGap),
                   Text(
-                    _closingTime,
+                    widgetClosingTime,
                     style: bodyText2.copyWith(
                       color: kGrayColor,
                       fontWeight: FontWeight.w300

@@ -64,9 +64,7 @@ class CmsBannerModel {
     "status": status,
     "isExternal": isExternal,
     "externalUrl": externalUrl,
-    "updatedAt": updatedAt == null
-      ? null: updatedAt!.toIso8601String(),
-    "createdAt": createdAt == null
-      ? null: createdAt!.toIso8601String(),
+    "updatedAt": updatedAt?.toIso8601String(),
+    "createdAt": createdAt?.toIso8601String(),
   };
 }

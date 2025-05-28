@@ -6,8 +6,8 @@ class ProductReviewsController extends GetxController {
   final String productId;
   ProductReviewsController(this.productId);
 
-  List<PartnerProductRatingModel> _data = [];
-  List<PartnerProductRatingModel>  get data => _data;
+  List<PartnerProductRatingModel> dataModel = [];
+  List<PartnerProductRatingModel>  get data => dataModel;
   
   int page = 0;
   bool isLoading = false;
@@ -23,7 +23,7 @@ class ProductReviewsController extends GetxController {
     page = 0;
     isLoading = false;
     isEnded = false;
-    _data = [];
+    dataModel = [];
     update();
     _getData();
   }
@@ -56,10 +56,10 @@ class ProductReviewsController extends GetxController {
         for (var i = 0; i < len; i++) {
           PartnerProductRatingModel model =
               PartnerProductRatingModel.fromJson(res!["result"][i]);
-          _data.add(model);
+          dataModel.add(model);
         }
-        _data;
-        if (_data.length == paginateModel.total) {
+        dataModel;
+        if (dataModel.length == paginateModel.total) {
           isEnded = true;
           isLoading = false;
         } else if (res != null) {

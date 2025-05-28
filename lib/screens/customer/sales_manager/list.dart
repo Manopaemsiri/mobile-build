@@ -113,7 +113,7 @@ class _SalesManagersScreenState extends State<SalesManagersScreen> {
                             },
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
-                              labelText: lController.getLang("Search")+"...",
+                              labelText: '${lController.getLang("Search")}...',
                               suffixIcon: fieldIsEmpty
                               ? IconButton(
                                 icon: const Icon(Icons.search),

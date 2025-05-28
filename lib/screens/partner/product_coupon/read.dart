@@ -9,9 +9,9 @@ import 'package:coffee2u/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-const double _flex = 2.5;
-final double _screenwidth = DeviceUtils.getDeviceWidth();
-final double _cardWidth = _screenwidth / _flex;
+const double widgetFlex = 2.5;
+final double screenwidth = DeviceUtils.getDeviceWidth();
+final double cardWidth = screenwidth / widgetFlex;
 
 
 class PartnerProductCouponScreen extends StatefulWidget {
@@ -148,11 +148,11 @@ class _PartnerProductCouponScreenState extends State<PartnerProductCouponScreen>
   }
 
   Widget body1(PartnerProductCouponModel item, List<FileModel>? gallery) {
-    String _date = lController.getLang("From")
+    String dataDate = lController.getLang("From")
       +' '+dateFormat(item.startAt ?? DateTime.now())+' '
       +lController.getLang("To")
       +' '+dateFormat(item.endAt ?? DateTime.now());
-    String _content = item.description == ''
+    String widgetContent = item.description == ''
       ? item.shortDescription: item.description;
 
     List<PartnerShopModel> _forPartnerShops = item.forPartnerShops;
@@ -191,7 +191,7 @@ class _PartnerProductCouponScreenState extends State<PartnerProductCouponScreen>
                 
                 const Gap(gap: kOtGap),
                 Text(
-                  _date,
+                  dataDate,
                   style: subtitle1.copyWith(
                     color: kDarkColor,
                     fontWeight: FontWeight.w500
@@ -207,10 +207,10 @@ class _PartnerProductCouponScreenState extends State<PartnerProductCouponScreen>
                   ),
                 ),
                 
-                if(_content != '') ...[
+                if(widgetContent != '') ...[
                   const Gap(gap: kOtGap),
                   Text(
-                    _content,
+                    widgetContent,
                     style: subtitle1.copyWith(
                       color: kDarkColor
                     ),
@@ -247,7 +247,7 @@ class _PartnerProductCouponScreenState extends State<PartnerProductCouponScreen>
                             right: index == _forPartnerShops.length - 1? kGap - 2: 0
                           ),
                           child: CardShop(
-                            width: _cardWidth,
+                            width: cardWidth,
                             model: shop,
                             showDistance: false,
                             onPressed: () => _onTapShop(shop.id ?? ''),
@@ -284,7 +284,7 @@ class _PartnerProductCouponScreenState extends State<PartnerProductCouponScreen>
                             right: index == _partnerShops.length - 1? kGap - 2: 0
                           ),
                           child: CardShop(
-                            width: _cardWidth,
+                            width: cardWidth,
                             model: shop,
                             showDistance: true,
                             onPressed: () => _onTapShop(shop.id??''),
@@ -323,7 +323,7 @@ class _PartnerProductCouponScreenState extends State<PartnerProductCouponScreen>
                           right: index == _forCustomerTiers.length - 1? kGap - 2: 0
                         ),
                         child: CardGeneral(
-                          width: _cardWidth,
+                          width: cardWidth,
                           titleText: d.name,
                           image: d.icon?.path ?? "",
                           onPressed: () => {}
@@ -361,7 +361,7 @@ class _PartnerProductCouponScreenState extends State<PartnerProductCouponScreen>
                           right: index == _customerTiers.length - 1? kGap - 2: 0
                         ),
                         child: CardGeneral(
-                          width: _cardWidth,
+                          width: cardWidth,
                           titleText: d.name,
                           image: d.icon?.path ?? "",
                           onPressed: () => {}

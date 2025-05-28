@@ -22,15 +22,15 @@ class ButtonHalf extends StatelessWidget {
       height: kButtonHalfHeight,
       child: ElevatedButton(
         onPressed: onPressed,
-        child: Text(
-          title,
-          style: subtitle1.copyWith(color: kWhiteColor),
-        ),
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(kButtonRadius),
           ),
+        ),
+        child: Text(
+          title,
+          style: subtitle1.copyWith(color: kWhiteColor),
         ),
       ),
     );

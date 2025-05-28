@@ -21,7 +21,7 @@ class CmsContentsScreen extends StatefulWidget {
 
 class _CmsContentsScreenState extends State<CmsContentsScreen> {
   final LanguageController lController = Get.find<LanguageController>();
-  List<CmsContentModel> _data = [];
+  List<CmsContentModel> dataModel = [];
 
   int page = 0;
   bool isLoading = false;
@@ -39,7 +39,7 @@ class _CmsContentsScreenState extends State<CmsContentsScreen> {
         page = 0;
         isLoading = false;
         isEnded = false;
-        _data = [];
+        dataModel = [];
       });
     }
     loadData();
@@ -62,13 +62,13 @@ class _CmsContentsScreenState extends State<CmsContentsScreen> {
           for (var i = 0; i < len; i++) {
             CmsContentModel model =
                 CmsContentModel.fromJson(value!["result"][i]);
-            _data.add(model);
+            dataModel.add(model);
           }
 
           if(mounted){
             setState(() {
-              _data;
-              if (_data.length >= paginateModel.total!) {
+              dataModel;
+              if (dataModel.length >= paginateModel.total!) {
                 isEnded = true;
                 isLoading = false;
               } else if (value != null) {
@@ -106,14 +106,14 @@ class _CmsContentsScreenState extends State<CmsContentsScreen> {
               padding: kPadding,
               child: Column(
                 children: [
-                  _data.isEmpty
+                  dataModel.isEmpty
                   ? const SizedBox(height: 0)
                   : ListView.builder(
                       shrinkWrap: true,
-                      itemCount: _data.length,
+                      itemCount: dataModel.length,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
-                        CmsContentModel item = _data[index];
+                        CmsContentModel item = dataModel[index];
                         return CardCmsContent2(
                           model: item,
                           onPressed: () => Get.to(() => CmsContentScreen(url: item.url)),

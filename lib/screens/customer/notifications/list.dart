@@ -35,34 +35,34 @@ class _NotificationScreenState extends State<NotificationScreen> {
             if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
               return NoDataCoffeeMug();
             } else {
-              List<CustomerNotiModel> _data = [];
-              List<dynamic> _list = snapshot.data?.docs ?? [];
-              int len = _list.length;
+              List<CustomerNotiModel> dataModel = [];
+              List<dynamic> widgetList = snapshot.data?.docs ?? [];
+              int len = widgetList.length;
               for(var i=0; i<len; i++){
-                var _d = _list[i].data();
+                var temp = widgetList[i].data();
                 CustomerNotiModel model = CustomerNotiModel(
-                  id: _d["_id"],
-                  type: _d["type"] ?? 1,
-                  customer: _d["customer"],
-                  partnerShop: _d["partnerShop"],
-                  order: _d["order"] ?? {},
-                  subscription: _d["subscription"] ?? {},
-                  isReadCustomer: _d["isReadCustomer"],
-                  shippingStatus: _d["shippingStatus"] ?? '',
-                  shippingSubStatus: _d["shippingSubStatus"] ?? '',
-                  updatedAt: _d["updatedAt"] == null
-                    ? DateTime.now(): DateTime.parse(_d["updatedAt"]),
+                  id: temp["_id"],
+                  type: temp["type"] ?? 1,
+                  customer: temp["customer"],
+                  partnerShop: temp["partnerShop"],
+                  order: temp["order"] ?? {},
+                  subscription: temp["subscription"] ?? {},
+                  isReadCustomer: temp["isReadCustomer"],
+                  shippingStatus: temp["shippingStatus"] ?? '',
+                  shippingSubStatus: temp["shippingSubStatus"] ?? '',
+                  updatedAt: temp["updatedAt"] == null
+                    ? DateTime.now(): DateTime.parse(temp["updatedAt"]),
                 );
-                _data.add(model);
+                dataModel.add(model);
               }
 
               return ListView.separated(
                 separatorBuilder: (context, index) {
                   return const Divider(height: 1);
                 },
-                itemCount: _data.length,
+                itemCount: dataModel.length,
                 itemBuilder: (c, index) {
-                  CustomerNotiModel d = _data[index];
+                  CustomerNotiModel d = dataModel[index];
                   return NotificationItem(
                     model: d, lController: lController,
                   );

@@ -71,19 +71,19 @@ class _MessageScreenState extends State<MessageScreen> {
                       titleText: 'No messages',
                     );
                   } else {
-                    List<Map<String, dynamic>> _data = [];
-                    List<dynamic> _list = snapshot.data?.docs ?? [];
-                    int len = _list.length;
+                    List<Map<String, dynamic>> dataModel = [];
+                    List<dynamic> widgetList = snapshot.data?.docs ?? [];
+                    int len = widgetList.length;
                     for(var i=0; i<len; i++){
-                      var _d = _list[i].data();
-                      _data.add({
-                        "text": _d["text"] ?? '',
-                        "images": _d["images"] ?? [],
-                        "sender": _d["sender"] ?? {},
-                        "fromCustomer": _d["fromCustomer"] == null
-                          ? false: _d["fromCustomer"].toString() == 'true',
-                        "createdAt": _d["createdAt"] == null
-                          ? DateTime.now(): DateTime.parse(_d["createdAt"])
+                      var tempData = widgetList[i].data();
+                      dataModel.add({
+                        "text": tempData["text"] ?? '',
+                        "images": tempData["images"] ?? [],
+                        "sender": tempData["sender"] ?? {},
+                        "fromCustomer": tempData["fromCustomer"] == null
+                          ? false: tempData["fromCustomer"].toString() == 'true',
+                        "createdAt": tempData["createdAt"] == null
+                          ? DateTime.now(): DateTime.parse(tempData["createdAt"])
                       });
                     }
 
@@ -95,14 +95,14 @@ class _MessageScreenState extends State<MessageScreen> {
                         reverse: true,
                         controller: _scrollController,
                         padding: EdgeInsets.zero,
-                        itemCount: _data.length,
+                        itemCount: dataModel.length,
                         physics: const BouncingScrollPhysics(),
                         itemBuilder: (context, index) {
-                          Map<String, dynamic> d = _data[index];
+                          Map<String, dynamic> d = dataModel[index];
                           bool _showAvatar = true;
                           bool _showPaddingTop = false;
                           if(index > 0){
-                            Map<String, dynamic> n = _data[index-1];
+                            Map<String, dynamic> n = dataModel[index-1];
                             if((d["fromCustomer"] == true && n['fromCustomer'] == false) 
                             || d["fromCustomer"] == true 
                             || (d["fromCustomer"] == false && n['fromCustomer'] == false)){

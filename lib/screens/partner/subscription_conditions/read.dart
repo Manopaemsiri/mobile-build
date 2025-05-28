@@ -24,14 +24,14 @@ class SubscriptionConditionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    double _width = Get.width-(kGap*2)-1-(kQuarterGap*2);
+    double widgetWidth = Get.width-(kGap*2)-1-(kQuarterGap*2);
 
     return GetBuilder<SubscriptionConditionsController>(
       init: SubscriptionConditionsController(data: data, shipping: shipping),
       builder: (controller) {
         Widget body = Center(child: Loading());
         if(controller.stateStatus == 1){
-          body = widgetBody(controller, _width);
+          body = widgetBody(controller, widgetWidth);
         }else if(controller.stateStatus == 2){
           body = NoData();
         }else if(controller.stateStatus == 3){

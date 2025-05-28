@@ -47,9 +47,9 @@ class _SignInMenuScreenState extends State<SignInMenuScreen>  {
 
   @override
   Widget build(BuildContext context) {
-    double _width = MediaQuery.of(context).size.width;
-    double _logoWidth = MediaQuery.of(context).size.shortestSide < 600
-      ? _width / 5.5: MediaQuery.of(context).size.width/8;
+    double widgetWidth = MediaQuery.of(context).size.width;
+    double widgetLogoWidth = MediaQuery.of(context).size.shortestSide < 600
+      ? widgetWidth / 5.5: MediaQuery.of(context).size.width/8;
 
     return GestureDetector(
       onTap: () {
@@ -76,8 +76,8 @@ class _SignInMenuScreenState extends State<SignInMenuScreen>  {
                         children: [
                           Image.asset(
                             'assets/images/logo-app-white.png',
-                            width: _logoWidth,
-                            height: _logoWidth,
+                            width: widgetLogoWidth,
+                            height: widgetLogoWidth,
                           ),
                           const Gap(gap: kHalfGap),
                           Text(
