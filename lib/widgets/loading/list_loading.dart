@@ -5,9 +5,9 @@ import '../index.dart';
 
 class ListLoading extends StatelessWidget {
   const ListLoading({
-    Key? key,
+    super.key,
     this.itemCount = 7
-  }) : super(key: key);
+  });
   final int itemCount;
 
   @override

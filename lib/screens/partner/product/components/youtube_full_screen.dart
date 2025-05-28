@@ -6,11 +6,11 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YoutubeFullScreen extends StatefulWidget {
   const YoutubeFullScreen({ 
-    Key? key , 
+    super.key , 
     required this.youtubeId,
     required this.duration,
     required this.backTo
-  }) : super(key: key);
+  });
   final String youtubeId;
   final Duration duration;
   final String backTo;

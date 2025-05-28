@@ -14,7 +14,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpPasswordScreen extends StatefulWidget {
   OtpPasswordScreen({
-    Key? key,
+    super.key,
     required this.telephone,
     this.telephoneCode = '+66',
 
@@ -25,7 +25,7 @@ class OtpPasswordScreen extends StatefulWidget {
     this.resendToken,
 
     this.response,
-  }) : super(key: key);
+  });
   
   final String telephone;
   final String telephoneCode;
@@ -246,7 +246,7 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
                           fieldHeight: 60,
                           fieldWidth: 50,
                           borderWidth: 2,
-                          inactiveColor: kAppColor.withOpacity(0.4),
+                          inactiveColor: kAppColor.withValues(alpha: 0.4),
                           inactiveFillColor: kWhiteColor,
                           activeColor: kAppColor,
                           selectedColor: kAppColor,

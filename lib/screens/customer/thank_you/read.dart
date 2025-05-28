@@ -25,10 +25,10 @@ import 'widgets/received_coupon.dart';
 
 class ThankYouScreen extends StatefulWidget {
   const ThankYouScreen({
-    Key? key,
+    super.key,
     required this.orderTemp,
     this.subscription = false,
-  }): super(key: key);
+  });
 
   final dynamic orderTemp;
   final bool subscription;

@@ -16,9 +16,9 @@ import '../../../utils/formater.dart';
 
 class MyProductCouponScreen extends StatelessWidget {
   MyProductCouponScreen({
-    Key? key,
+    super.key,
     required this.id
-  }) : super(key: key);
+  });
   final String id;
   final LanguageController lController = Get.find<LanguageController>();
 
@@ -31,7 +31,7 @@ class MyProductCouponScreen extends StatelessWidget {
         
         return Scaffold(
           appBar: _buildAppBar(controller),
-          body: _body(controller),
+          body: widgetBody(controller),
         );
       },
     );
@@ -48,7 +48,7 @@ class MyProductCouponScreen extends StatelessWidget {
     );
   }
   
-  _body(MyProductCouponController controller) {
+  widgetBody(MyProductCouponController controller) {
     if(controller.status == StateStatus.Success) {
       if(controller.data == null){
         return NoDataCoffeeMug();

@@ -13,8 +13,8 @@ import '../controllers/category_controller.dart';
 
 class ListCategories extends StatelessWidget {
   const ListCategories({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   
   @override
   Widget build(BuildContext context) {

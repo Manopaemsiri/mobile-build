@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MyFavoriteProductsScreen extends StatefulWidget {
-  const MyFavoriteProductsScreen({Key? key}) : super(key: key);
+  const MyFavoriteProductsScreen({super.key});
 
   @override
   State<MyFavoriteProductsScreen> createState() =>

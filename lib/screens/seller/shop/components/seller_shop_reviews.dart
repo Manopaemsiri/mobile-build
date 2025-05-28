@@ -12,9 +12,9 @@ import 'package:percent_indicator/percent_indicator.dart';
 
 class SellerShopReviews extends StatefulWidget {
   const SellerShopReviews({
-    Key? key,
+    super.key,
     required this.model,
-  }): super(key: key);
+  });
 
   final SellerShopModel model;
 

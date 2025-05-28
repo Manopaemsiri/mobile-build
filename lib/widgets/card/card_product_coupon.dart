@@ -9,11 +9,11 @@ import 'package:get/get.dart';
 
 class CardProductCoupon extends StatelessWidget {
   const CardProductCoupon({
-    Key? key,
+    super.key,
     this.width = 150,
     required this.model,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final double width;
   final PartnerProductCouponModel model;
@@ -21,9 +21,9 @@ class CardProductCoupon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _image = model.image?.path ?? "";
-    String _title = model.name;
-    String _body = model.shortDescription;
+    String widgetImage = model.image?.path ?? "";
+    String widgetTitle = model.name;
+    String widgetBody = model.shortDescription;
 
     const double imageRatio = 178/150;
     final double cardWidth = min((Get.width-kGap)/2.4, 172.5);
@@ -56,7 +56,7 @@ class CardProductCoupon extends StatelessWidget {
                 child: AspectRatio(
                   aspectRatio: imageRatio,
                   child: ImageUrl(
-                    imageUrl: _image,
+                    imageUrl: widgetImage,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -67,7 +67,7 @@ class CardProductCoupon extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '$_title\n\n',
+                      '$widgetTitle\n\n',
                       maxLines: 2,
                       textAlign: TextAlign.start,
                       style: bodyText1.copyWith(
@@ -79,7 +79,7 @@ class CardProductCoupon extends StatelessWidget {
                     ),
                     const Gap(gap: kQuarterGap),
                     Text(
-                      '$_body\n\n',
+                      '$widgetBody\n\n',
                       maxLines: 2,
                       textAlign: TextAlign.start,
                       style: bodyText2.copyWith(

@@ -25,7 +25,7 @@ import '../partner/subscription/list.dart';
 import 'controllers/category_controller.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key, this.showPopup = true}) : super(key: key);
+  const HomeScreen({super.key, this.showPopup = true});
   final bool showPopup;
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -364,7 +364,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: kHalfGap),
                 decoration: BoxDecoration(
-                  color: kAppColor.withOpacity(0.2),
+                  color: kAppColor.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(kRadius)
                 ),
                 child: Text(

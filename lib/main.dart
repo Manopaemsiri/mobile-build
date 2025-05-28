@@ -31,7 +31,7 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -123,13 +123,14 @@ class _MyAppState extends State<MyApp> {
       initialBinding: ControllerConfig(),
       builder: (context, child) {
 
-        final mediaQueryData = MediaQuery.of(context);
-        final scale = mediaQueryData.textScaleFactor.clamp(1.0, 1.0);
+        final scale = MediaQuery.textScalerOf(context).scale(1);
         return ScrollConfiguration(
           behavior: MyBehavior(),
           child: MediaQuery(
+            data: MediaQuery.of(context).copyWith(
+              textScaler: TextScaler.linear(scale),
+            ),
             child: child!,
-            data: MediaQuery.of(context).copyWith(textScaleFactor: scale)
           ),
         );
       },

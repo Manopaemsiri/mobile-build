@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class ButtonSignInSocial extends StatelessWidget {
   const ButtonSignInSocial({
-    Key? key,
+    super.key,
     required this.title,
     this.color,
     this.leftWigget,
@@ -11,7 +11,7 @@ class ButtonSignInSocial extends StatelessWidget {
     this.width,
     this.height,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final String title;
   final Color? color;

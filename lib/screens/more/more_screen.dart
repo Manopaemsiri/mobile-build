@@ -25,8 +25,8 @@ import 'package:get/get.dart';
 
 class MoreScreen extends StatefulWidget {
   const MoreScreen({
-    Key? key
-  }): super(key: key);
+    super.key
+  });
 
   @override
   State<MoreScreen> createState() => _MoreScreenState();
@@ -42,7 +42,7 @@ class _MoreScreenState extends State<MoreScreen> {
       String name = controller.customerModel == null
         ? 'Guest Account'
         : controller.customerModel!.displayName();
-      String _image = controller.customerModel?.avatar?.path ?? '';
+      String widgetImage = controller.customerModel?.avatar?.path ?? '';
 
       return Scaffold(
         backgroundColor: kWhiteSmokeColor,
@@ -56,7 +56,7 @@ class _MoreScreenState extends State<MoreScreen> {
               child: ListTile(
                 contentPadding: EdgeInsets.zero,
                 leading: ImageProfileCircle(
-                  imageUrl: _image,
+                  imageUrl: widgetImage,
                 ),
                 title: Text(
                   name,
@@ -406,14 +406,14 @@ class _MoreScreenState extends State<MoreScreen> {
                         );
                       },
                       child: Container(
-                        color: langCode == _lController.languageCode? kAppColor.withOpacity(0.2): null,
+                        color: langCode == _lController.languageCode? kAppColor.withValues(alpha: 0.2): null,
                         child: ListTile(
                           leading: Container(
                             height: kGap*2,
                             decoration: BoxDecoration(
                               boxShadow: [
                                  BoxShadow(
-                                  color: Colors.grey.withOpacity(0.3),
+                                  color: Colors.grey.withValues(alpha: 0.3),
                                   spreadRadius: 3,
                                   blurRadius: kGap,
                                   offset: const Offset(0, 0),

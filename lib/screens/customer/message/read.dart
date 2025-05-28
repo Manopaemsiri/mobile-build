@@ -14,9 +14,9 @@ import 'package:image_picker/image_picker.dart';
 
 class MessageScreen extends StatefulWidget {
   const MessageScreen({
-    Key? key,
+    super.key,
     required this.model
-  }): super(key: key);
+  });
 
   final CustomerChatroomModel model;
 
@@ -172,7 +172,7 @@ class _MessageScreenState extends State<MessageScreen> {
                       child: Container(
                         padding: const EdgeInsets.only(left: kGap),
                         decoration: BoxDecoration(
-                          color: kAppColor.withOpacity(0.1),
+                          color: kAppColor.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Row(

@@ -7,10 +7,10 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YoutubeView extends StatefulWidget {
   const YoutubeView({
-    Key? key,
+    super.key,
     required this.youtubeId,
     required this.backTo,
-  }) : super(key: key);
+  });
   final String youtubeId;
   final String backTo;
 

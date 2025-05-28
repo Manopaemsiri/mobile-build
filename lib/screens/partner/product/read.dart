@@ -20,14 +20,14 @@ import '../product_reviews/list.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({
-    Key? key,
+    super.key,
     this.productId,
     this.youtubeVideo,
     this.eventId,
     this.eventName,
     this.backTo,
     this.subscription = false,
-  }) : super(key: key);
+  });
 
   final String? productId;
   final Widget? youtubeVideo;
@@ -59,7 +59,7 @@ class _ProductScreenState extends State<ProductScreen> {
   bool _isReady = false;
   int _quantity = 1;
   int _stock = 0;
-  PartnerProductUnitModel? _unit;
+  PartnerProductUnitModel? widgetUnit;
   List<PartnerProductModel> _relatedProducts = [];
   List<PartnerProductModel> _upSalesProducts = [];
 
@@ -228,15 +228,15 @@ class _ProductScreenState extends State<ProductScreen> {
 
   onPressedOrder(PartnerProductModel? _product) async {
     if (_product != null && _quantity > 0) {
-      bool isClearance = _unit == null 
+      bool isClearance = widgetUnit == null 
         ? _product.isClearance() 
-        : _unit!.isClearance();
+        : widgetUnit!.isClearance();
       // Current product is clearance
       if(isClearance){
         await _customerController.addCart(
           _product,
           _quantity,
-          unit: _unit,
+          unit: widgetUnit,
           isClearance: isClearance,
           eventId: eventId,
           eventName: eventName,
@@ -254,7 +254,7 @@ class _ProductScreenState extends State<ProductScreen> {
         await _customerController.addCart(
           _product,
           _quantity,
-          unit: _unit,
+          unit: widgetUnit,
           isClearance: clearance,
           eventId: eventId,
           eventName: eventName,
@@ -345,7 +345,7 @@ class _ProductScreenState extends State<ProductScreen> {
         ),
       );
     }
-    String _price = data!.isSetSaved()
+    String widgetPrice = data!.isSetSaved()
     ? data!.displaySetSavedPrice(lController, trimDigits: trimDigits)
     : !_customerController.isCustomer() 
       ? data!.displayPrice(lController, trimDigits: trimDigits)
@@ -395,7 +395,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         children: [
                           RichText(
                             text: TextSpan(
-                              text: _price,
+                              text: widgetPrice,
                               style: headline5.copyWith(
                                 fontFamily: 'Kanit',
                                 color: kAppColor,
@@ -457,7 +457,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         text: TextSpan(
-                          text: _price,
+                          text: widgetPrice,
                           style: headline5.copyWith(
                             fontFamily: 'Kanit',
                             color: kAppColor,
@@ -919,7 +919,7 @@ class _ProductScreenState extends State<ProductScreen> {
             if(mounted) setState(() => _quantity = value);
           },
           onChangeUnit: (PartnerProductUnitModel? model) async {
-            if(mounted) setState(() => _unit = model);
+            if(mounted) setState(() => widgetUnit = model);
           },
           onPressedOrder: () => onPressedOrder(data!),
           trimDigits: trimDigits,

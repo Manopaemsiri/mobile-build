@@ -18,9 +18,9 @@ import 'package:coffee2u/apis/api_service.dart';
 
 class CustomerSubscriptionScreen extends StatelessWidget {
   CustomerSubscriptionScreen({
-    Key? key,
+    super.key,
     required this.id,
-  }) : super(key: key);
+  });
 
   final String id;
   final lController = Get.find<LanguageController>();
@@ -42,7 +42,7 @@ class CustomerSubscriptionScreen extends StatelessWidget {
             builder: (controller) {
               Widget body = Center(child: Loading());
               if (controller.stateStatus == 1) {
-                body = _body(controller);
+                body = widgetBody(controller);
               } else if (controller.stateStatus == 2) {
                 body = NoData();
               } else if (controller.stateStatus == 3) {
@@ -56,7 +56,7 @@ class CustomerSubscriptionScreen extends StatelessWidget {
     );
   }
 
-  Widget _body(CustomerSubscriptionController controller) {
+  Widget widgetBody(CustomerSubscriptionController controller) {
     final CustomerSubscriptionModel? item = controller.data;
     if (item == null) return const SizedBox.shrink();
     final String orderRef = item.prefixOrderId2C2P;

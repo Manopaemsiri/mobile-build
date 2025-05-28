@@ -10,10 +10,10 @@ import 'controller/carousel_full_screen_controller.dart';
 
 class CarouselFullScreen extends StatelessWidget {
   const CarouselFullScreen({
-    Key? key,
+    super.key,
     required this.images,
     this.initIndex = 0,
-  }) : super(key: key);
+  });
 
   final List<FileModel> images;
   final int initIndex;
@@ -38,7 +38,7 @@ class CarouselFullScreen extends StatelessWidget {
             ? Container(
               padding: const EdgeInsets.symmetric(horizontal: kHalfGap),
               decoration: BoxDecoration(
-                color: kDarkLightColor.withOpacity(0.5),
+                color: kDarkLightColor.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(kRadius)
               ),
               child: Text(
@@ -51,7 +51,7 @@ class CarouselFullScreen extends StatelessWidget {
             : null,
           ),
           body: CarouselSlider(
-            items: _body(context, controller.data),
+            items: widgetBody(context, controller.data),
             options: CarouselOptions(
               initialPage: controller.currentIndex,
               aspectRatio: Get.width/Get.height,
@@ -67,7 +67,7 @@ class CarouselFullScreen extends StatelessWidget {
     );
   }
 
-  List<Widget> _body(BuildContext context, List<FileModel> values) {
+  List<Widget> widgetBody(BuildContext context, List<FileModel> values) {
 
     return values.map((value){
       return Container(

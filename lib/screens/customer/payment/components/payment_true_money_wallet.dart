@@ -19,9 +19,9 @@
 
 // class PaymentTrueMoneyWalletScreen extends StatefulWidget {
 //   const PaymentTrueMoneyWalletScreen({
-//     Key? key,
+//     super.key,
 //     required this.model,
-//   }): super(key: key);
+//   });
 
 //   final Payment2C2PModel model;
 

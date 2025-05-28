@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 
 class AddImageButton extends StatelessWidget {
   const AddImageButton({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.imageWidth,
     required this.lController,
     this.images = const [],
     this.maxImage = 3,
-  }) : super(key: key);
+  });
 
   final Function() onTap;
   final double imageWidth;

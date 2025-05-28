@@ -21,10 +21,10 @@ import '../shop/components/partner_shop_sorting.dart';
 
 class PartnerProductCategoriesScreen extends StatefulWidget {
   const PartnerProductCategoriesScreen({
-    Key? key,
+    super.key,
     this.initCategoryId,
     this.dataFilter,
-  }) : super(key: key);
+  });
 
   final String? initCategoryId;
   final Map<String, dynamic>? dataFilter;

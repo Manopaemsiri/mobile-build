@@ -10,11 +10,11 @@ import '../../../../utils/index.dart';
 
 class CardCustomerSubscription extends StatelessWidget {
   const CardCustomerSubscription({
-    Key? key,
+    super.key,
     required this.data,
     required this.lController,
     required this.onTap,
-  }) : super(key: key);
+  });
   final CustomerSubscriptionModel data;
   final Function(String) onTap;
   final LanguageController lController;

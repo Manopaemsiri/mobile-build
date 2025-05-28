@@ -7,19 +7,19 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class SellerShopItem extends StatelessWidget {
   const SellerShopItem({
-    Key? key,
+    super.key,
     required this.model,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final SellerShopModel model;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    String _image = model.logo != null? model.logo!.path
+    String widgetImage = model.logo != null? model.logo!.path
       : model.image != null? model.image!.path: '';
-    String? _distance = model.distance == null ? "" : "${model.distance} km.";
+    String? widgetDistance = model.distance == null ? "" : "${model.distance} km.";
     
     return InkWell(
       onTap: onTap,
@@ -32,7 +32,7 @@ class SellerShopItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ImageProduct(
-                  imageUrl: _image,
+                  imageUrl: widgetImage,
                   width: 100,
                   height: 100,
                 ),
@@ -74,7 +74,7 @@ class SellerShopItem extends StatelessWidget {
                             ),
                             const Gap(gap: kQuarterGap),
                             Text(
-                              _distance,
+                              widgetDistance,
                               style: caption.copyWith(
                                 color: kGrayColor,
                                 fontWeight: FontWeight.w500,

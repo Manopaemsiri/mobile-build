@@ -10,9 +10,9 @@ import '../../../widgets/index.dart';
 
 class ProductReviewsScreen extends StatelessWidget {
   ProductReviewsScreen({
-    Key? key,
+    super.key,
     required this.productId,
-  }) : super(key: key);
+  });
 
   final String productId;
 

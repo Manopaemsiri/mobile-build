@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class ButtonOrder extends StatelessWidget {
   const ButtonOrder({
-    Key? key,
+    super.key,
     this.title = "Order Now",
     this.color,
     this.width,
@@ -17,7 +17,7 @@ class ButtonOrder extends StatelessWidget {
     required this.onPressed,
     required this.lController,
     this.trimDigits = false
-  }) : super(key: key);
+  });
 
   final String title;
   final Color? color;
@@ -31,8 +31,8 @@ class ButtonOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _title = title;
-    String _qty = "$qty";
+    String widgetTitle = title;
+    String widgetQty = "$qty";
     String _total = priceFormat(total, lController, trimDigits: trimDigits);
 
     return Stack(
@@ -47,14 +47,14 @@ class ButtonOrder extends StatelessWidget {
                 borderRadius: BorderRadius.circular(kButtonRadius),
               ),
             ),
+            onPressed: onPressed,
             child: Text(
-              _title,
+              widgetTitle,
               style: headline6.copyWith(
                 color: kWhiteColor,
                  fontSize: 18, 
               ),
             ),
-            onPressed: onPressed,
           ),
         ),
         Positioned(
@@ -75,7 +75,7 @@ class ButtonOrder extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      _qty,
+                      widgetQty,
                       style: headline6,
                     ),
                   ),

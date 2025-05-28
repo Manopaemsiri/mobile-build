@@ -9,9 +9,9 @@ import 'package:get/get.dart';
 
 class CustomerOrdersScreen extends StatelessWidget {
   CustomerOrdersScreen({
-    Key? key,
+    super.key,
     this.initialTab = 0,
-  }) : super(key: key);
+  });
 
   final int initialTab;
   final LanguageController lController = Get.find<LanguageController>();

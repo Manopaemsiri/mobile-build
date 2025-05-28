@@ -11,14 +11,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 class ListDiscountProducts extends StatelessWidget {
   const ListDiscountProducts({
-    Key? key,
+    super.key,
     required this.lController,
     required this.customerController,
     required this.aController,
     this.showStock = false, 
     this.eventId,
     this.eventName,
-  }) : super(key: key);
+  });
   final LanguageController lController;
   final CustomerController customerController;
   final AppController aController;

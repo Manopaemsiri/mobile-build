@@ -15,8 +15,8 @@ final double _cardWidth = _screenwidth / _flex;
 
 class ListPartnerShippingCoupons extends StatelessWidget {
   ListPartnerShippingCoupons({
-    Key? key
-  }): super(key: key);
+    super.key
+  });
 
   final LanguageController lController = Get.find<LanguageController>();
   

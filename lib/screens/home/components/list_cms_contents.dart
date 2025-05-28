@@ -14,8 +14,8 @@ final double _cardWidth = _screenwidth / _flex;
 
 class ListCmsContents extends StatelessWidget {
   const ListCmsContents({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

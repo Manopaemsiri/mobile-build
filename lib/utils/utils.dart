@@ -179,7 +179,7 @@ class Utils {
     return Container(
       width: 88, height: 88,
       padding: const EdgeInsets.all(kQuarterGap),
-      color: kWhiteColor.withOpacity(0.45),
+      color: kWhiteColor.withValues(alpha: 0.45),
       child: Center(
         child: Text(
           'Coming\nSoon',
@@ -235,18 +235,18 @@ class Utils {
         final Uri? initialLink = await AppLinks().getInitialLink();
         resRef = initialLink?.path ?? '';
         if(resRef.isEmpty){
-          const MethodChannel _channel = MethodChannel('com.coffee2u.aroma');
+          const MethodChannel widgetChannel = MethodChannel('com.coffee2u.aroma');
           const String installReferrer = "app_install_referrer";
-          resRef = await _channel.invokeMethod(installReferrer).timeout(const Duration(seconds: 5), onTimeout: () async {
+          resRef = await widgetChannel.invokeMethod(installReferrer).timeout(const Duration(seconds: 5), onTimeout: () async {
             if(kDebugMode) print("ERROR : Install referrer time out");
             await LocalStorage.clear(prefAppInstallRefferrer);
           });
         }
-      }else {
-        const MethodChannel _channel = MethodChannel('com.coffee2u.aroma');
+      }else{
+        const MethodChannel widgetChannel = MethodChannel('com.coffee2u.aroma');
         const String installReferrer = "app_install_referrer";
         try {
-          resRef = await _channel.invokeMethod(installReferrer).timeout(const Duration(seconds: 5), onTimeout: () async {
+          resRef = await widgetChannel.invokeMethod(installReferrer).timeout(const Duration(seconds: 5), onTimeout: () async {
             if(kDebugMode) print("ERROR : Install referrer time out");
             await LocalStorage.clear(prefAppInstallRefferrer);
           });

@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 
 class ProductFavoriteItem extends StatelessWidget {
   const ProductFavoriteItem({
-    Key? key,
+    super.key,
     required this.model,
     required this.onTap,
     this.isFavorited = true,
@@ -17,7 +17,7 @@ class ProductFavoriteItem extends StatelessWidget {
     required this.lController,
     required this.aController,
     this.trimDigits = false
-  }): super(key: key);
+  });
 
   final PartnerProductModel model;
   final VoidCallback onTap;
@@ -31,22 +31,22 @@ class ProductFavoriteItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final CustomerController _customerController = Get.find<CustomerController>();
 
-    String _image = model.image?.path ?? '';
-    String _name = model.name;
-    String _memberPrice = model.isDiscounted()
+    String widgetImage = model.image?.path ?? '';
+    String widgetName = model.name;
+    String widgetMemberPrice = model.isDiscounted()
       ? model.displayDiscountPrice(lController, trimDigits: trimDigits) 
       : model.displayMemberPrice(lController, trimDigits: trimDigits);
-    String _unit = "/ ${model.unit}";
-    Widget _favoriteIcon = isFavorited
+    String widgetUnit = "/ ${model.unit}";
+    Widget widgetFavoriteIcon = isFavorited
       ? const Icon(Icons.favorite, color: kAppColor)
       : const Icon(Icons.favorite_border, color: kAppColor);
 
-    PartnerProductStatusModel? _status;
+    PartnerProductStatusModel? widgetStatus;
     if(aController.productStatuses.isNotEmpty && model.stock > 0){
       final int index = aController.productStatuses.indexWhere((d) => d.productStatus == model.status && d.type != 1);
-      if(index > -1) _status = aController.productStatuses[index];
+      if(index > -1) widgetStatus = aController.productStatuses[index];
     }
-    _status ??= model.productBadge(lController);
+    widgetStatus ??= model.productBadge(lController);
     const double imageWidth = 88;
     const double badgeWidth = imageWidth/2.5;
 
@@ -66,20 +66,20 @@ class ProductFavoriteItem extends StatelessWidget {
                   Stack(
                     children: [
                       ImageProduct(
-                        imageUrl: _image,
+                        imageUrl: widgetImage,
                         width: imageWidth,
                         height: imageWidth,
                       ),
                       // if(_tag != null) ...[
                       //   Positioned(top: 0, left: 0, child: _tag),
                       // ],
-                      if(_status != null)...[
-                        if(_status.productStatus == 1)...[
+                      if(widgetStatus != null)...[
+                        if(widgetStatus.productStatus == 1)...[
                           Positioned(
                             top: 0, bottom: 0, left: 0, right: 0,
                             child: Container(
                               padding: const EdgeInsets.all(kQuarterGap),
-                              color: kWhiteColor.withOpacity(0.45),
+                              color: kWhiteColor.withValues(alpha: 0.45),
                               child: Center(
                                 child: Text(
                                   'Coming\nSoon',
@@ -95,50 +95,50 @@ class ProductFavoriteItem extends StatelessWidget {
                             ),
                           ),
                         ]else...[
-                          if(_status.type == 1)...[
+                          if(widgetStatus.type == 1)...[
                             Positioned(
                               top: 0, left: 0,
                               child: Container(
                                 padding: const EdgeInsets.symmetric(horizontal: kQuarterGap),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(4),
-                                  color: _status.textBgColor2,
+                                  color: widgetStatus.textBgColor2,
                                 ),
                                 child: Text(
-                                  // _status.needTranslate? lController.getLang(_status.name): _status.name,
-                                  _status.text,
+                                  // widgetStatus.needTranslate? lController.getLang(widgetStatus.name): widgetStatus.name,
+                                  widgetStatus.text,
                                   style: caption.copyWith(
-                                    color: _status.textColor2,
+                                    color: widgetStatus.textColor2,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ),
                             ),
-                          ]else if(_status.type == 2)...[
+                          ]else if(widgetStatus.type == 2)...[
                             Positioned(
                               top: 0, left: 0,
                               child: Container(
                                 padding: const EdgeInsets.symmetric(horizontal: kQuarterGap),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(4),
-                                  color: _status.textBgColor2,
+                                  color: widgetStatus.textBgColor2,
                                 ),
                                 child: Text(
                                   model.isDiscounted()
-                                    ? _status.text.replaceAll('_DISCOUNT_PERCENT_', "${model.discountPercent()}")
-                                    : _status.text,
+                                    ? widgetStatus.text.replaceAll('_DISCOUNT_PERCENT_', "${model.discountPercent()}")
+                                    : widgetStatus.text,
                                   style: caption.copyWith(
-                                    color: _status.textColor2,
+                                    color: widgetStatus.textColor2,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ),
                             ),
-                          ]else if(_status.type == 3)...[
+                          ]else if(widgetStatus.type == 3)...[
                             Positioned(
                               top: 0, left: 0,
                               child: ImageProduct(
-                                imageUrl: _status.icon?.path ?? '',
+                                imageUrl: widgetStatus.icon?.path ?? '',
                                 width: badgeWidth, 
                                 height: badgeWidth,
                                 decoration: const BoxDecoration(),
@@ -166,7 +166,7 @@ class ProductFavoriteItem extends StatelessWidget {
                                 child: SizedBox(
                                   height: 48,
                                   child: Text(
-                                    _name,
+                                    widgetName,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     textAlign: TextAlign.start,
@@ -178,7 +178,7 @@ class ProductFavoriteItem extends StatelessWidget {
                                 ),
                               ),
                               IconButton(
-                                icon: _favoriteIcon,
+                                icon: widgetFavoriteIcon,
                                 iconSize: 1.5*kGap,
                                 splashRadius: 1.25*kGap,
                                 onPressed: () async {
@@ -192,7 +192,7 @@ class ProductFavoriteItem extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             text: TextSpan(
-                              text: _memberPrice,
+                              text: widgetMemberPrice,
                               style: headline6.copyWith(
                                 fontFamily: 'Kanit',
                                 color: kAppColor,
@@ -200,7 +200,7 @@ class ProductFavoriteItem extends StatelessWidget {
                               ),
                               children: [
                                 TextSpan(
-                                  text: " $_unit",
+                                  text: " $widgetUnit",
                                   style: caption.copyWith(
                                     fontFamily: 'Kanit',
                                     color: kDarkColor,
@@ -234,7 +234,7 @@ class ProductFavoriteItem extends StatelessWidget {
                               text: TextSpan(
                                 text: lController.getLang("text_shipping"),
                                 style: subtitle2.copyWith(
-                                  color: stockCenter? kAppColor.withOpacity(0.8): kDarkLightGrayColor.withOpacity(0.6),
+                                  color: stockCenter? kAppColor.withValues(alpha: 0.8): kDarkLightGrayColor.withValues(alpha: 0.6),
                                   fontWeight: FontWeight.w500,
                                   fontFamily: "Kanit",
                                 ),
@@ -243,7 +243,7 @@ class ProductFavoriteItem extends StatelessWidget {
                                   TextSpan(
                                     text: lController.getLang("text_click_and_collect"),
                                     style: subtitle2.copyWith(
-                                      color: stockShop? kAppColor.withOpacity(0.8): kDarkLightGrayColor.withOpacity(0.6),
+                                      color: stockShop? kAppColor.withValues(alpha: 0.8): kDarkLightGrayColor.withValues(alpha: 0.6),
                                       fontWeight: FontWeight.w500,
                                       fontFamily: "Kanit",
                                     ),

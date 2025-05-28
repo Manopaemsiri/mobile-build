@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 
 class CardProductCategory extends StatelessWidget {
   const CardProductCategory({
-    Key? key,
+    super.key,
     this.width = 150,
     required this.model,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final double width;
   final PartnerProductCategoryModel model;
@@ -17,8 +17,8 @@ class CardProductCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _image = model.image?.path ?? "";
-    String _name = model.name;
+    String widgetImage = model.image?.path ?? "";
+    String widgetName = model.name;
 
     return SizedBox(
       width: width,
@@ -41,7 +41,7 @@ class CardProductCategory extends StatelessWidget {
                     topRight: Radius.circular(kRadius),
                   ),
                   child: ImageUrl(
-                    imageUrl: _image,
+                    imageUrl: widgetImage,
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(4),
                       topRight: Radius.circular(4),
@@ -57,7 +57,7 @@ class CardProductCategory extends StatelessWidget {
                     SizedBox(
                       height: 24,
                       child: Text(
-                        _name,
+                        widgetName,
                         maxLines: 1,
                         style: bodyText2.copyWith(
                             color: kDarkColor,

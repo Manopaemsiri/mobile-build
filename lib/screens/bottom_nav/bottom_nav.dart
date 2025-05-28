@@ -19,10 +19,10 @@ import 'package:get/get.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({
-    Key? key,
+    super.key,
     this.initialTab = 0,
     this.showPopup = true
-  }) : super(key: key);
+  });
 
   final int initialTab;
   final bool showPopup;

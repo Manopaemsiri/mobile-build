@@ -2,7 +2,7 @@ import 'package:coffee2u/config/index.dart';
 import 'package:flutter/material.dart';
 
 class DividerThick extends StatelessWidget {
-  const DividerThick({Key? key}) : super(key: key);
+  const DividerThick({super.key});
 
   @override
   Widget build(BuildContext context) {

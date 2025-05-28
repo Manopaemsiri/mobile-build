@@ -10,9 +10,9 @@ import 'package:get/get.dart';
 
 class RedeemProductCouponTab extends StatefulWidget {
   const RedeemProductCouponTab({
-    Key? key,
+    super.key,
     this.isCashCoupon = false,
-  }): super(key: key);
+  });
 
   final bool isCashCoupon;
 

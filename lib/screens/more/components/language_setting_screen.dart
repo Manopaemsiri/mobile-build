@@ -8,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LanguageSettingScreen extends StatefulWidget {
-  const LanguageSettingScreen({Key? key}) : super(key: key);
+  const LanguageSettingScreen({super.key});
 
   @override
   State<LanguageSettingScreen> createState() => _LanguageSettingScreenState();

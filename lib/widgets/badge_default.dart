@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 
 class BadgeDefault extends StatelessWidget {
   const BadgeDefault({
-    Key? key,
+    super.key,
     required this.title,
     this.icon,
     this.iconRight,
     this.color,
     this.size = 12,
     this.textColor,
-  }) : super(key: key);
+  });
 
   final String title;
   final IconData? icon;
@@ -22,14 +22,14 @@ class BadgeDefault extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color _color = Theme.of(context).primaryColor;
+    Color widgetColor = Theme.of(context).primaryColor;
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: kHalfGap,
         vertical: kQuarterGap / 2,
       ),
       decoration: BoxDecoration(
-        color: color ?? _color,
+        color: color ?? widgetColor,
         borderRadius: BorderRadius.circular(kRadius),
       ),
       child: Row(

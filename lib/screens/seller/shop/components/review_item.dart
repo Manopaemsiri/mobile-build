@@ -11,16 +11,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ReviewItem extends StatelessWidget {
   const ReviewItem({
-    Key? key,
+    super.key,
     required this.model,
-  }) : super(key: key);
+  });
 
   final SellerShopRatingModel model;
 
   @override
   Widget build(BuildContext context) {
     String _avatar = model.customer?.avatar?.path ?? defaultAvatar;
-    String _name = model.customer == null
+    String widgetName = model.customer == null
       ? 'Anonymous Customer': model.customer!.displayName();
     String _rank = model.customer == null
       ? 'Welcome Tier'
@@ -34,7 +34,7 @@ class ReviewItem extends StatelessWidget {
             size: 48,
           ),
           title: Text(
-            _name,
+            widgetName,
             style: subtitle1.copyWith(
               color: kAppColor,
               fontFamily: "CenturyGothic",

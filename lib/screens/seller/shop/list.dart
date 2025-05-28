@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 
 class SellerShopsScreen extends StatefulWidget {
   const SellerShopsScreen({
-    Key? key
-  }): super(key: key);
+    super.key
+  });
 
   @override
   State<SellerShopsScreen> createState() => _SellerShopsScreenState();
@@ -27,7 +27,7 @@ class _SellerShopsScreenState extends State<SellerShopsScreen> {
   late double _lat;
   late double _lng;
 
-  Widget _body() {
+  Widget widgetBody() {
     if(isLoading){
       return Padding(
         padding: const EdgeInsets.only(top: 3*kGap),
@@ -108,7 +108,7 @@ class _SellerShopsScreenState extends State<SellerShopsScreen> {
                 const Divider(height: 1, thickness: 2),
               ],
             ),
-            _body(),
+            widgetBody(),
           ],
         ),
       ),

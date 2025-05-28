@@ -22,9 +22,9 @@ import '../product_review/create.dart';
 
 class CustomerOrderScreen extends StatefulWidget {
   const CustomerOrderScreen({
-    Key? key,
+    super.key,
     required this.orderId
-  }): super(key: key);
+  });
   
   final String orderId;
 
@@ -149,7 +149,7 @@ class _CustomerOrderScreenState extends State<CustomerOrderScreen> {
                     Container(
                       padding: const EdgeInsets.symmetric(vertical: kQuarterGap/2, horizontal: kQuarterGap),
                       decoration: BoxDecoration(
-                        color: kYellowColor.withOpacity(0.1),
+                        color: kYellowColor.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(kRadius)
                       ),
                       child: RichText(
@@ -311,7 +311,7 @@ class _CustomerOrderScreenState extends State<CustomerOrderScreen> {
                             child: Container(
                               padding: const EdgeInsets.all(kHalfGap),
                               decoration: BoxDecoration(
-                                color: kDarkLightGrayColor.withOpacity(0.05),
+                                color: kDarkLightGrayColor.withValues(alpha: 0.05),
                                 borderRadius: BorderRadius.circular(kRadius)
                               ),
                               child: Column(
@@ -361,7 +361,7 @@ class _CustomerOrderScreenState extends State<CustomerOrderScreen> {
                             child: Container(
                               padding: const EdgeInsets.all(kHalfGap),
                               decoration: BoxDecoration(
-                                color: kDarkLightGrayColor.withOpacity(0.05),
+                                color: kDarkLightGrayColor.withValues(alpha: 0.05),
                                 borderRadius: BorderRadius.circular(kRadius)
                               ),
                               child: Column(

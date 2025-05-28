@@ -8,10 +8,10 @@ import 'package:sliver_tools/sliver_tools.dart';
 
 class SalesManagersScreen extends StatefulWidget {
   const SalesManagersScreen({
-    Key? key,
+    super.key,
     this.initId = '',
     required this.onPressed,
-  }): super(key: key);
+  });
 
   final String? initId;
   final Function(String?) onPressed;

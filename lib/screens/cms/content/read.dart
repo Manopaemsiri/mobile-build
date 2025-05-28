@@ -20,12 +20,12 @@ final double _cardWidth = _screenwidth / _flex;
 
 class CmsContentScreen extends StatefulWidget {
   const CmsContentScreen({
-    Key? key,
+    super.key,
     this.url,
     this.showCart = true,
     this.showTag = false,
     this.backTo,
-  }): super(key: key);
+  });
   final String? url;
   final bool showCart;
   final bool showTag;
@@ -101,7 +101,7 @@ class _CmsContentScreenState extends State<CmsContentScreen> {
 
   Widget body1(CmsContentModel item, List<FileModel>? gallery, bool showTag, CmsContentController cmsController) {
     String _date = dateFormat(item.createdAt ?? DateTime.now(), format: 'dd/MM/y kk:mm');
-    String _title = item.title;
+    String widgetTitle = item.title;
     String _category = item.category?.title ?? '';
     String _youtubeId = item.youtubeVideoId;
     String _content = item.content;
@@ -135,7 +135,7 @@ class _CmsContentScreenState extends State<CmsContentScreen> {
               children: [
                 SizedBox(
                   child: Text(
-                    _title,
+                    widgetTitle,
                     style: headline5.copyWith(
                       fontWeight: FontWeight.w600,
                       height: 1

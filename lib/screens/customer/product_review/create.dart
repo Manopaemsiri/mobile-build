@@ -14,9 +14,9 @@ import 'widgets/product_item.dart';
 
 class ProductReviewScreen extends StatelessWidget {
   ProductReviewScreen({
-    Key? key,
+    super.key,
     required this.customerOrder,
-  }) : super(key: key);
+  });
 
   final CustomerOrderModel customerOrder;
   final LanguageController lController = Get.find<LanguageController>();
@@ -28,7 +28,7 @@ class ProductReviewScreen extends StatelessWidget {
       builder: (controller) {
         Widget body = Center(child: Loading());
         if(controller.stateStatus == 1){
-          body = _body(controller);
+          body = widgetBody(controller);
         }else if(controller.stateStatus == 2){
           body = NoData();
         }else if(controller.stateStatus == 3){
@@ -64,7 +64,7 @@ class ProductReviewScreen extends StatelessWidget {
     );
   }
 
-  Widget _body(RateProductController controller) {
+  Widget widgetBody(RateProductController controller) {
     double imageWidth = min(Get.width/5, 78.54);
 
     return SingleChildScrollView(

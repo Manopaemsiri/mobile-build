@@ -13,12 +13,12 @@ class MyShippingCouponController extends GetxController {
   PartnerShippingCouponModel? _data;
   List<CustomerTierModel> _customerTiers = [];
   
-  StateStatus _status = StateStatus.Loading;
+  StateStatus widgetStatus = StateStatus.Loading;
   String _errorMsg = "";
 
   PartnerShippingCouponModel? get data => _data;
   List<CustomerTierModel> get customerTiers => _customerTiers;
-  StateStatus get status => _status;
+  StateStatus get status => widgetStatus;
   String get errorMsg => _errorMsg;
   
   @override
@@ -28,7 +28,7 @@ class MyShippingCouponController extends GetxController {
   }
 
   Future<void> _onInit() async {
-    _status = StateStatus.Loading;
+    widgetStatus = StateStatus.Loading;
     _errorMsg = "";
 
     try {
@@ -50,10 +50,10 @@ class MyShippingCouponController extends GetxController {
       }
 
       if(_data != null){
-        _status = StateStatus.Success;
+        widgetStatus = StateStatus.Success;
       }
     } catch (e) {
-      _status = StateStatus.Error;
+      widgetStatus = StateStatus.Error;
       _errorMsg = "Error";
     }
     update();

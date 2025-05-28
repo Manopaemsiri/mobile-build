@@ -17,11 +17,11 @@ import 'widgets/card_package_product.dart';
 
 class PartnerProductSubscriptionScreen extends StatelessWidget {
   const PartnerProductSubscriptionScreen({
-    Key? key,
+    super.key,
     required this.id,
     this.subscribeButton = true,
     required this.lController,
-  }) : super(key: key);
+  });
   final String id;
   final bool subscribeButton;
   final LanguageController lController;
@@ -35,7 +35,7 @@ class PartnerProductSubscriptionScreen extends StatelessWidget {
 
         Widget body = Center(child: Loading());
         if(controller.stateStatus == 1){
-          body = _body(controller.data);
+          body = widgetBody(controller.data);
         }else if(controller.stateStatus == 2){
           body = NoData();
         }else if(controller.stateStatus == 3){
@@ -62,7 +62,7 @@ class PartnerProductSubscriptionScreen extends StatelessWidget {
     );
   }
 
-  Widget _body(PartnerProductSubscriptionModel? data) {
+  Widget widgetBody(PartnerProductSubscriptionModel? data) {
     if(!data?.isValid()) return const SizedBox.shrink();
     final String name = data?.name ?? '';
     final String description = data?.description ?? '';
@@ -137,7 +137,7 @@ class PartnerProductSubscriptionScreen extends StatelessWidget {
                           TextSpan(
                             text: discountPrice,
                             style: subtitle2.copyWith(
-                              color: kDarkColor.withOpacity(0.4),
+                              color: kDarkColor.withValues(alpha: 0.4),
                               fontFamily: 'Kanit',
                               decoration: TextDecoration.lineThrough,
                               fontWeight: FontWeight.w400,

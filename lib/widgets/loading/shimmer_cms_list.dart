@@ -5,9 +5,9 @@ import '../index.dart';
 
 class ShimmerCmsList extends StatelessWidget {
   const ShimmerCmsList({
-    Key? key,
+    super.key,
     this.itemCount = 7,
-  }) : super(key: key);
+  });
   final int itemCount;
 
   @override

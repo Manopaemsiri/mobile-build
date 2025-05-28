@@ -24,8 +24,8 @@
 
 // class PaymentMethodsScreen extends StatefulWidget {
 //   const PaymentMethodsScreen({
-//     Key? key,
-//   }): super(key: key);
+//     super.key,
+//   });
 
 //   @override
 //   State<PaymentMethodsScreen> createState() => _PaymentMethodsScreenState();

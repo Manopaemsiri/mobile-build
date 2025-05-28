@@ -23,10 +23,10 @@ import 'group_sign_up/tax_id/tax_id_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({
-    Key? key,
+    super.key,
     this.isFirstState = false,
     this.backTo,
-  }): super(key: key);
+  });
 
   final bool isFirstState;
   final String? backTo;
@@ -699,12 +699,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 return const SizedBox.shrink();
               }
 
-              final _title = item.title == ''
+              final widgetTitle = item.title == ''
                 ? lController.getLang('Privacy Policy'): item.title;
               final _content = item.content;
               return AlertDialog(
                 title: Text(
-                  _title,
+                  widgetTitle,
                   style: subtitle1.copyWith(fontWeight: FontWeight.w500),
                 ),
                 content: Scrollbar(

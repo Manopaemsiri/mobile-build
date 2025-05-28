@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 
 class CardAddress extends StatelessWidget {
   const CardAddress({
-    Key? key,
+    super.key,
     this.model,
     required this.onTap,
     required this.lController
-  }) : super(key: key);
+  });
 
   final CustomerShippingAddressModel? model;
   final VoidCallback onTap;

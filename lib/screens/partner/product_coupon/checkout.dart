@@ -13,9 +13,9 @@ import 'package:get/get.dart';
 
 class CheckoutPartnerProductCouponsScreen extends StatefulWidget {
   const CheckoutPartnerProductCouponsScreen({
-    Key? key,
+    super.key,
     this.isCashCoupon = 0,
-  }): super(key: key);
+  });
 
   final int isCashCoupon;
 

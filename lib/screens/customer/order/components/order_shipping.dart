@@ -8,10 +8,10 @@ import 'package:get/get.dart';
 
 class OrderShipping extends StatelessWidget {
   OrderShipping({
-    Key? key,
+    super.key,
     required this.model,
     required this.lController,
-  }) : super(key: key);
+  });
 
   final CustomerOrderModel model;
   final LanguageController lController;

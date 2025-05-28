@@ -15,10 +15,10 @@ import 'dart:ui' as ui;
 
 class TabNearByMap extends StatefulWidget {
   const TabNearByMap({
-    Key? key,
+    super.key,
     this.lat,
     this.lng,
-  }): super(key: key);
+  });
 
   final double? lat;
   final double? lng;
@@ -138,9 +138,9 @@ class _TabFavoritesState extends State<TabNearByMap> {
     if(isTabReady){
       setState(() => isTabReady = false);
 
-      String _image = model.logo != null? model.logo!.path
+      String widgetImage = model.logo != null? model.logo!.path
         : model.image != null? model.image!.path: '';
-      String? _distance = model.distance == null ? "" : "${model.distance} km.";
+      String? widgetDistance = model.distance == null ? "" : "${model.distance} km.";
 
       showDialog(
         context: context,
@@ -185,7 +185,7 @@ class _TabFavoritesState extends State<TabNearByMap> {
                         ),
                         const Gap(gap: kQuarterGap),
                         Text(
-                          _distance,
+                          widgetDistance,
                           style: caption.copyWith(
                             color: kGrayColor,
                             fontWeight: FontWeight.w500,
@@ -224,7 +224,7 @@ class _TabFavoritesState extends State<TabNearByMap> {
                       ),
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width,
-                        child: ImageUrl(imageUrl: _image),
+                        child: ImageUrl(imageUrl: widgetImage),
                       ),
                     ),
                   ),

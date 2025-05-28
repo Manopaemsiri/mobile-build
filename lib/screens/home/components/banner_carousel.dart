@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 
 class BannerCarousel extends StatefulWidget {
   const BannerCarousel({
-    Key? key,
+    super.key,
     required this.cmsBannerModel,
     this.isShowIndicator = true,
     this.aspectRatio = 16 / 9,
@@ -17,7 +17,7 @@ class BannerCarousel extends StatefulWidget {
     this.margin = 6.0,
     this.radius = const BorderRadius.all(Radius.circular(5.0)),
     this.isPopImage = false,
-  }) : super(key: key);
+  });
 
   final List<CmsBannerModel> cmsBannerModel;
   final bool isShowIndicator;
@@ -79,7 +79,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
         //           ),
         //           decoration: BoxDecoration(
         //             shape: BoxShape.circle,
-        //             color: kDarkColor.withOpacity(_current == entry.key ? 0.9 : 0.4),
+        //             color: kDarkColor.withValues(alpha: _current == entry.key ? 0.9 : 0.4),
         //           ),
         //         ),
         //       );

@@ -7,13 +7,13 @@ import 'package:shimmer/shimmer.dart';
 
 class ProductGridLoader extends StatelessWidget {
   const ProductGridLoader({
-    Key? key,
+    super.key,
     this.itemLength = 10,
     this.showStock = false,
     this.enabledBoxShadow = false,
     this.bgColor = kWhiteColor,
     this.padding = const EdgeInsets.fromLTRB(kGap, kGap, kGap, kGap),
-  }) : super(key: key);
+  });
   final int itemLength;
   final bool showStock;
   final bool enabledBoxShadow;
@@ -62,7 +62,7 @@ class ProductGridLoader extends StatelessWidget {
                 borderRadius: BorderRadius.circular(kCardRadius),
                 boxShadow: enabledBoxShadow? [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     spreadRadius: 1,
                     blurRadius: 10.5,
                     offset: const Offset(0, 0),

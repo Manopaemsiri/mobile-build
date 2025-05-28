@@ -76,11 +76,11 @@ class RateOrderController extends GetxController {
         ];
       }
     }else{
-      XFile? _image = await picker.pickImage(source: source);
-      if(_image != null){
+      XFile? widgetImage = await picker.pickImage(source: source);
+      if(widgetImage != null){
         images = [
           ...images,
-          { 'type': 'XFile', 'value': _image }
+          { 'type': 'XFile', 'value': widgetImage }
         ];
       }
     }
@@ -88,8 +88,8 @@ class RateOrderController extends GetxController {
   } 
   onDeleteImage(int index) async {
     try {
-      dynamic _image = images[index];
-      if(_image != null && images.isNotEmpty) images.removeAt(index);
+      dynamic widgetImage = images[index];
+      if(widgetImage != null && images.isNotEmpty) images.removeAt(index);
     } catch (_) {}
     update();
   }

@@ -9,11 +9,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class OrderProduct extends StatelessWidget {
   const OrderProduct({
-    Key? key,
+    super.key,
     required this.model,
     required this.lController,
     this.fromSubscription = false,
-  }) : super(key: key);
+  });
 
   final CustomerOrderModel model;
   final LanguageController lController;
@@ -168,7 +168,7 @@ class OrderProduct extends StatelessWidget {
           const Divider(height: 1),
           Container(
             decoration: BoxDecoration(
-              color: kYellowColor.withOpacity(0.05)
+              color: kYellowColor.withValues(alpha: 0.05)
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -188,11 +188,11 @@ class OrderProduct extends StatelessWidget {
                                 padding: const EdgeInsets.symmetric(vertical: kQuarterGap, horizontal: kQuarterGap),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(kRadius),
-                                  color: kAppColor.withOpacity(0.1)
+                                  color: kAppColor.withValues(alpha: 0.1)
                                 ),
                                 child: Icon(
                                   Icons.redeem_rounded,
-                                  color: kAppColor.withOpacity(0.8)
+                                  color: kAppColor.withValues(alpha: 0.8)
                                 ),
                               )
                             ),
@@ -223,7 +223,7 @@ class OrderProduct extends StatelessWidget {
                   itemBuilder: (_, index) {
                     PartnerProductModel item = freeProducts[index];
 
-                    String _image = item.image?.path ?? '';
+                    String widgetImage = item.image?.path ?? '';
                     String name = item.name;
                     String inCart = "x ${item.inCart} ${item.selectedUnit != null? item.selectedUnit?.unit: item.unit}";
 
@@ -236,7 +236,7 @@ class OrderProduct extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ImageProduct(
-                            imageUrl: _image,
+                            imageUrl: widgetImage,
                             width: 40,
                             height: 40,
                           ),

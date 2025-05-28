@@ -12,7 +12,7 @@ import 'controllers/customer_subscriptions_controller.dart';
 import 'widgets/card_customer_subscription.dart';
 
 class CustomerSubscriptionsScreen extends StatelessWidget {
-  CustomerSubscriptionsScreen({Key? key}) : super(key: key);
+  CustomerSubscriptionsScreen({super.key});
   final lController = Get.find<LanguageController>();
 
   @override
@@ -82,7 +82,7 @@ class CustomerSubscriptionsScreen extends StatelessWidget {
     );
   }
 
-  Widget _body(CustomerSubscriptionsController controller) {
+  Widget widgetBody(CustomerSubscriptionsController controller) {
     return Container();
 
   }

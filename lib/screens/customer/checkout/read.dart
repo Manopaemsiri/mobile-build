@@ -29,7 +29,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class CheckOutScreen extends StatefulWidget {
-  const CheckOutScreen({Key? key}) : super(key: key);
+  const CheckOutScreen({super.key});
 
   @override
   State<CheckOutScreen> createState() => _CheckOutScreenState();
@@ -271,7 +271,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       margin: const EdgeInsets.symmetric(horizontal: kGap, vertical: kGap),
                       decoration: BoxDecoration(
                         color: kAppColor,
-                        // color: kAppColor2.withOpacity(0.1),
+                        // color: kAppColor2.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(kRadius),
                       ),
                       child: Column(
@@ -666,7 +666,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
             ignoring: true,
             child: Material(
               type: MaterialType.card,
-              color: kWhiteColor.withOpacity(0.5),
+              color: kWhiteColor.withValues(alpha: 0.5),
               child: Loading(),
             ),
           )

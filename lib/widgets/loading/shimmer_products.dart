@@ -6,9 +6,9 @@ import '../index.dart';
 
 class ShimmerProducts extends StatelessWidget {
   const ShimmerProducts({
-    Key? key,
+    super.key,
     this.itemCount = 7,
-  }) : super(key: key);
+  });
   final int itemCount;
 
   @override

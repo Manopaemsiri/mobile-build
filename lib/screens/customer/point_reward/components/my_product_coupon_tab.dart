@@ -13,9 +13,9 @@ import '../../my_product_coupon/my_product_coupon_screen.dart';
 
 class MyProductCouponTab extends StatefulWidget {
   const MyProductCouponTab({
-    Key? key,
+    super.key,
     this.isCashCoupon = false,
-  }): super(key: key);
+  });
 
   final bool isCashCoupon;
 

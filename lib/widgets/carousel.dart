@@ -11,7 +11,7 @@ import 'package:photo_view/photo_view.dart';
 
 class Carousel extends StatefulWidget {
   const Carousel({
-    Key? key,
+    super.key,
     required this.images,
     this.isShowIndicator = true,
     this.aspectRatio = 16 / 9,
@@ -22,7 +22,7 @@ class Carousel extends StatefulWidget {
     this.pageSnapping = true,
     this.disableCenter = false,
     this.padEnds = true,
-  }) : super(key: key);
+  });
 
   final List<FileModel>? images;
   final bool isShowIndicator;
@@ -97,7 +97,7 @@ class _CarouselState extends State<Carousel> {
                
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: kDarkColor.withOpacity(_current == entry.key ? 0.9 : 0.4),
+                    color: kDarkColor.withValues(alpha: _current == entry.key ? 0.9 : 0.4),
                   ),
                 ),
               );

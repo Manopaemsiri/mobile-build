@@ -17,10 +17,10 @@
 
 // class PartnerShopsScreen extends StatefulWidget {
 //   const PartnerShopsScreen({
-//     Key? key,
+//     super.key,
 //     this.type = '',
 //     this.onPressed,
-//   }) : super(key: key);
+//   });
 
 //   final String type;
 //   final Function(PartnerShopModel)? onPressed;

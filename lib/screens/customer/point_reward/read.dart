@@ -14,8 +14,8 @@ import 'package:get/get.dart';
 
 class PointRewardScreen extends StatefulWidget {
   const PointRewardScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<PointRewardScreen> createState() => _PointRewardScreenState();

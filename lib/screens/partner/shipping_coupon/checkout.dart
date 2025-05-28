@@ -15,8 +15,8 @@ import 'package:get/get.dart';
 
 class CheckoutPartnerShippingCouponsScreen extends StatefulWidget {
   const CheckoutPartnerShippingCouponsScreen({
-    Key? key,
-  }): super(key: key);
+    super.key,
+  });
 
   @override
   State<CheckoutPartnerShippingCouponsScreen> createState() => _CheckoutPartnerShippingCouponsScreenState();

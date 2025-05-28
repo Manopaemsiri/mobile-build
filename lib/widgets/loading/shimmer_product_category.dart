@@ -5,12 +5,12 @@ import 'package:shimmer/shimmer.dart';
 
 class ShimmerProductCategory extends StatelessWidget {
   const ShimmerProductCategory({
-    Key? key,
+    super.key,
     required this.height,
     required this.width,
     required this.childAspectRatio,
     required this.iconSize
-  }) : super(key: key);
+  });
   final double height;
   final double width;
   final double childAspectRatio;

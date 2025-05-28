@@ -8,12 +8,12 @@ import 'package:flutter/material.dart';
 
 class MessageChat extends StatelessWidget {
   const MessageChat({
-    Key? key,
+    super.key,
     required this.model,
     required this.partnerShop,
     this.showAvatar = true,
     this.showPaddingTop = false
-  }) : super(key: key);
+  });
 
   final Map<String, dynamic> model;
   final Map<String, dynamic> partnerShop;

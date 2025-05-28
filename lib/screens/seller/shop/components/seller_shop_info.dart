@@ -12,9 +12,9 @@ import 'dart:ui' as ui;
 
 class SellerShopInfo extends StatefulWidget {
   const SellerShopInfo({
-    Key? key,
+    super.key,
     required this.model,
-  }): super(key: key);
+  });
 
   final SellerShopModel model;
 

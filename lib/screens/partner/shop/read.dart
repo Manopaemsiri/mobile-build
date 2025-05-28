@@ -19,9 +19,9 @@
 
 // class PartnerShopScreen extends StatefulWidget {
 //   const PartnerShopScreen({
-//     Key? key,
+//     super.key,
 //     this.shopId,
-//   }) : super(key: key);
+//   });
 //   final String? shopId;
 
 //   @override
@@ -566,7 +566,7 @@
 //         ),
 //       );
 //     }else{
-//       String _name = model.name ?? '';
+//       String widgetName = model.name ?? '';
 //       bool _isOpen = model.isOpen();
 //       List<FileModel> _gallery = [];
 
@@ -581,7 +581,7 @@
 //         backgroundColor: kWhiteColor,
 //         appBar: AppBar(
 //           title: Text(
-//             _name,
+//             widgetName,
 //             maxLines: 1,
 //             overflow: TextOverflow.ellipsis,
 //           ),

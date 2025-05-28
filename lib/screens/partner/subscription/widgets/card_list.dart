@@ -9,12 +9,12 @@ import '../../../../models/index.dart';
 
 class SubscriptionCardList extends StatefulWidget {
   const SubscriptionCardList({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.data,
     required this.lController,
     this.cardWidth,
-  }) : super(key: key);
+  });
 
   final PartnerProductSubscriptionModel data;
   final Function(String) onTap;
@@ -152,7 +152,7 @@ class _SubscriptionCardListState extends State<SubscriptionCardList> {
                                           TextSpan(
                                             text: discountPrice,
                                             style: subtitle2.copyWith(
-                                              color: _textColor.withOpacity(0.4),
+                                              color: _textColor.withValues(alpha: 0.4),
                                               decoration: TextDecoration.lineThrough,
                                               fontFamily: 'Kanit',
                                             ),

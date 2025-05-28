@@ -6,10 +6,10 @@ import '../utils/formater.dart';
 
 class CardStarRating extends StatelessWidget {
   const CardStarRating({
-    Key? key,
+    super.key,
     required this.height,
     this.score,
-  }) : super(key: key);
+  });
 
   final double? score;
   final double height;

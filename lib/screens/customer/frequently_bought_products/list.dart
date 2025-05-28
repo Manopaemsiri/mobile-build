@@ -13,8 +13,8 @@ import 'package:get/get.dart';
 
 class FrequentlyBoughtProductsScreen extends StatefulWidget {
   const FrequentlyBoughtProductsScreen({
-    Key? key
-  }): super(key: key);
+    super.key
+  });
 
   @override
   State<FrequentlyBoughtProductsScreen> createState() =>
@@ -94,7 +94,7 @@ class _FrequentlyBoughtProductsScreenState extends State<FrequentlyBoughtProduct
                 //             height: 32,
                 //             decoration: BoxDecoration(
                 //               shape: BoxShape.circle,
-                //               color: kAppColor.withOpacity(0.1),
+                //               color: kAppColor.withValues(alpha: 0.1),
                 //             ),
                 //             child: const Center(
                 //               child: Icon(

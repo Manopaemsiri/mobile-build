@@ -6,13 +6,13 @@ import 'package:get/get.dart';
 
 class PackagingList extends StatefulWidget {
   PackagingList({
-    Key? key,
+    super.key,
     required this.model,
     required this.units,
     this.stock = 0,
     this.selectedUnitId = '',
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   final PartnerProductModel model;
   final List<PartnerProductUnitModel> units;

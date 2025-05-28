@@ -2,7 +2,7 @@ import 'package:coffee2u/config/index.dart';
 import 'package:flutter/material.dart';
 
 class DividerText extends StatelessWidget {
-  const DividerText({Key? key, required this.text}) : super(key: key);
+  const DividerText({super.key, required this.text});
 
   final String text;
 

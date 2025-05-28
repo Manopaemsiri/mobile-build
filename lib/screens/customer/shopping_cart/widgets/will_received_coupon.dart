@@ -10,12 +10,12 @@ import '../../../../models/partner_product_coupon_model.dart';
 
 class WillReceivedCoupons extends StatelessWidget {
   const WillReceivedCoupons({
-    Key? key,
+    super.key,
     required this.data,
     required this.lController,
     this.onTap,
     this.couponTitle = "คูปองที่จะได้รับ",
-  }) : super(key: key);
+  });
   final List<PartnerProductCouponModel> data;
   final Function(String)? onTap;
   final LanguageController lController;
@@ -40,7 +40,7 @@ class WillReceivedCoupons extends StatelessWidget {
                 return CarouselSlider.builder(
                   carouselController: controller.pageController,
                   itemBuilder: (BuildContext context, int index, int realIndex) =>
-                    _body(controller.data[index], onTap),
+                    widgetBody(controller.data[index], onTap),
                   itemCount: controller.data.length,
                   options: CarouselOptions(
                     autoPlay: false,
@@ -80,7 +80,7 @@ class WillReceivedCoupons extends StatelessWidget {
     );
   }
 
-  Widget _body(PartnerProductCouponModel item, Function(String)? onTap) {
+  Widget widgetBody(PartnerProductCouponModel item, Function(String)? onTap) {
     final id = item.id ?? '';
     final imageUrl = item.image?.path ?? '';
     final name = item.name;
@@ -92,7 +92,7 @@ class WillReceivedCoupons extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         margin: const EdgeInsets.symmetric(horizontal: kGap),
         decoration: BoxDecoration(
-          color: kAppColor.withOpacity(0.1),
+          color: kAppColor.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(kRadius)
         ),
         child: IntrinsicHeight(
@@ -131,7 +131,7 @@ class WillReceivedCoupons extends StatelessWidget {
                           '$name\n\n',
                           maxLines: 1,
                           style: bodyText2.copyWith(
-                            color: kAppColor.withOpacity(0.7),
+                            color: kAppColor.withValues(alpha: 0.7),
                             fontWeight: FontWeight.w400
                           ),
                         ),

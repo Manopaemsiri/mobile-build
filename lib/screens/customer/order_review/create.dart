@@ -13,9 +13,9 @@ import '../../../controller/language_controller.dart';
 
 class OrderReviewScreen extends StatelessWidget {
   OrderReviewScreen({
-    Key? key,
+    super.key,
     required this.customerOrder,
-  }) : super(key: key);
+  });
   final CustomerOrderModel customerOrder;
   final LanguageController lController = Get.find<LanguageController>();
 
@@ -26,7 +26,7 @@ class OrderReviewScreen extends StatelessWidget {
       builder: (controller) {
         Widget body = Center(child: Loading());
         if(controller.stateStatus == 1){
-          body = _body(controller);
+          body = widgetBody(controller);
         }else if(controller.stateStatus == 2){
           body = NoData();
         }else if(controller.stateStatus == 3){
@@ -62,7 +62,7 @@ class OrderReviewScreen extends StatelessWidget {
     );
   }
 
-  Widget _body(RateOrderController controller) {
+  Widget widgetBody(RateOrderController controller) {
     double imageWidth = min(Get.width/5, 78.54);
 
     return SingleChildScrollView(

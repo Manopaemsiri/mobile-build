@@ -7,9 +7,9 @@ import 'package:get/get.dart';
 
 class NoDataCoffeeMug extends StatelessWidget {
   NoDataCoffeeMug({
-    Key? key,
+    super.key,
     this.titleText ,
-  }) : super(key: key);
+  });
 
   final String? titleText;
   final LanguageController lController = Get.find<LanguageController>();

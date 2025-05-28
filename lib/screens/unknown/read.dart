@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import '../../constants/app_constants.dart';
 
 class UnknownScreen extends StatefulWidget {
-  const UnknownScreen({Key? key}) : super(key: key);
+  const UnknownScreen({super.key});
 
   @override
   State<UnknownScreen> createState() => _UnknownScreenState();

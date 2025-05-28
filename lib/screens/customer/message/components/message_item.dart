@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 
 class MessageItem extends StatelessWidget {
   const MessageItem({
-    Key? key,
+    super.key,
     required this.model,
     required this.onPressed,
     required this.lController,
-  }): super(key: key);
+  });
 
   final CustomerChatroomModel model;
   final VoidCallback onPressed;

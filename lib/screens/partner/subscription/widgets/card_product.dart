@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 
 class SubscriptionProduct extends StatelessWidget {
   const SubscriptionProduct({
-    Key? key,
+    super.key,
     required this.data,
     required this.onTap,
     required this.lController,
@@ -24,7 +24,7 @@ class SubscriptionProduct extends StatelessWidget {
     this.sumCredit = 0,
     this.increaseItem,
     this.decreaseItem,
-  }) : super(key: key);
+  });
   final SelectionSteps data;
   final Function(PartnerProductModel) onTap;
   final LanguageController lController;
@@ -98,7 +98,7 @@ class SubscriptionProduct extends StatelessWidget {
                 borderRadius: BorderRadius.circular(kCardRadius),
                 boxShadow: enabledBoxShadow? [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     spreadRadius: 1,
                     blurRadius: 10.5,
                     offset: const Offset(0, 0),
@@ -226,7 +226,7 @@ class SubscriptionProduct extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: kQuarterGap, vertical: kQuarterGap),
                             decoration: BoxDecoration(
-                              color: kAppColor.withOpacity(0.1),
+                              color: kAppColor.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(kRadius)
                             ),
                             child: Row(
@@ -252,7 +252,7 @@ class SubscriptionProduct extends StatelessWidget {
                                   '$_quantity',
                                   style: title.copyWith(
                                     fontWeight: FontWeight.w500,
-                                    color: kDarkColor.withOpacity(_quantity<=0? 0.4: 1)
+                                    color: kDarkColor.withValues(alpha: _quantity<=0? 0.4: 1)
                                   ),
                                 ),
                                 InkWell(

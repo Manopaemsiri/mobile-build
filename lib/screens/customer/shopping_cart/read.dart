@@ -16,8 +16,8 @@ import 'package:get/get.dart';
 
 class ShoppingCartScreen extends StatefulWidget {
   const ShoppingCartScreen({
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
   State<ShoppingCartScreen> createState() => _ShoppingCartScreenState();
@@ -121,35 +121,35 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                   itemBuilder: (_, index) {
                     PartnerProductModel item = products[index];
                     
-                    String _image = item.image?.path ?? '';
-                    String _price = '';
-                    String _unit = '';
+                    String widgetImage = item.image?.path ?? '';
+                    String widgetPrice = '';
+                    String widgetUnit = '';
                     if(item.selectedUnit != null) {
-                      _unit = '/ ${item.selectedUnit!.unit}';
+                      widgetUnit = '/ ${item.selectedUnit!.unit}';
                       if(controller.isCustomer()){
-                        _price = item.selectedUnit!.isDiscounted() 
+                        widgetPrice = item.selectedUnit!.isDiscounted() 
                           ? item.selectedUnit!.displayDiscountPrice(_lController) 
                           : item.selectedUnit!.displayMemberPrice(_lController);
                       }else{
-                        _price = item.selectedUnit!.displayPrice(_lController);
+                        widgetPrice = item.selectedUnit!.displayPrice(_lController);
                       }
                     }else{
-                      _unit = '/ ${item.unit}';
+                      widgetUnit = '/ ${item.unit}';
                       if(controller.isCustomer()){
-                        _price = item.isDiscounted() 
+                        widgetPrice = item.isDiscounted() 
                           ? item.displayDiscountPrice(_lController) 
                           : item.displayMemberPrice(_lController);
                       }else{
-                        _price = item.displayPrice(_lController);
+                        widgetPrice = item.displayPrice(_lController);
                       }
                     }
 
-                    PartnerProductStatusModel? _status;
+                    PartnerProductStatusModel? widgetStatus;
                     if(_appController.productStatuses.isNotEmpty && item.stock > 0){
                       final int index = _appController.productStatuses.indexWhere((d) => d.productStatus == item.status && d.type != 1);
-                      if(index > -1) _status = _appController.productStatuses[index];
+                      if(index > -1) widgetStatus = _appController.productStatuses[index];
                     }
-                    _status ??= item.productBadge(_lController, showSelectedUnit: item.selectedUnit?.isDiscounted() == true, isCart: true, showDiscounted: controller.isCustomer());
+                    widgetStatus ??= item.productBadge(_lController, showSelectedUnit: item.selectedUnit?.isDiscounted() == true, isCart: true, showDiscounted: controller.isCustomer());
 
                     return Container(
                       key: ValueKey<String>('cart_item_${item.id}_${item.selectedUnit != null? item.selectedUnit?.id: ""}'),
@@ -172,17 +172,17 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                                       child: Stack(
                                         children: [
                                           ImageProduct(
-                                            imageUrl: _image,
+                                            imageUrl: widgetImage,
                                             width: imageWidth,
                                             height: imageWidth,
                                           ),
-                                          if(_status != null)...[
-                                            if(_status.productStatus == 1)...[
+                                          if(widgetStatus != null)...[
+                                            if(widgetStatus.productStatus == 1)...[
                                               Positioned(
                                                 top: 0, bottom: 0, left: 0, right: 0,
                                                 child: Container(
                                                   padding: const EdgeInsets.all(kQuarterGap),
-                                                  color: kWhiteColor.withOpacity(0.45),
+                                                  color: kWhiteColor.withValues(alpha: 0.45),
                                                   child: Center(
                                                     child: Text(
                                                       'Coming\nSoon',
@@ -198,50 +198,50 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                                                 ),
                                               ),
                                             ]else...[
-                                              if(_status.type == 1)...[
+                                              if(widgetStatus.type == 1)...[
                                                 Positioned(
                                                   top: 0, left: 0,
                                                   child: Container(
                                                     padding: const EdgeInsets.symmetric(horizontal: kQuarterGap),
                                                     decoration: BoxDecoration(
                                                       borderRadius: BorderRadius.circular(4),
-                                                      color: _status.textBgColor2,
+                                                      color: widgetStatus.textBgColor2,
                                                     ),
                                                     child: Text(
-                                                      // _status.needTranslate? lController.getLang(_status.name): _status.name,
-                                                      _status.text,
+                                                      // widgetStatus.needTranslate? lController.getLang(widgetStatus.name): widgetStatus.name,
+                                                      widgetStatus.text,
                                                       style: caption.copyWith(
-                                                        color: _status.textColor2,
+                                                        color: widgetStatus.textColor2,
                                                         fontWeight: FontWeight.w600,
                                                       ),
                                                     ),
                                                   ),
                                                 ),
-                                              ]else if(_status.type == 2)...[
+                                              ]else if(widgetStatus.type == 2)...[
                                                 Positioned(
                                                   top: 0, left: 0,
                                                   child: Container(
                                                     padding: const EdgeInsets.symmetric(horizontal: kQuarterGap),
                                                     decoration: BoxDecoration(
                                                       borderRadius: BorderRadius.circular(4),
-                                                      color: _status.textBgColor2,
+                                                      color: widgetStatus.textBgColor2,
                                                     ),
                                                     child: Text(
                                                       item.isDiscounted()
-                                                        ? _status.text.replaceAll('_DISCOUNT_PERCENT_', "${item.selectedUnit == null? item.discountPercent(): item.selectedUnit?.discountPercent()}")
-                                                        : _status.text,
+                                                        ? widgetStatus.text.replaceAll('_DISCOUNT_PERCENT_', "${item.selectedUnit == null? item.discountPercent(): item.selectedUnit?.discountPercent()}")
+                                                        : widgetStatus.text,
                                                       style: caption.copyWith(
-                                                        color: _status.textColor2,
+                                                        color: widgetStatus.textColor2,
                                                         fontWeight: FontWeight.w600,
                                                       ),
                                                     ),
                                                   ),
                                                 ),
-                                              ]else if(_status.type == 3)...[
+                                              ]else if(widgetStatus.type == 3)...[
                                                 Positioned(
                                                   top: kHalfGap, left: kHalfGap,
                                                   child: ImageProduct(
-                                                    imageUrl: _status.icon?.path ?? '',
+                                                    imageUrl: widgetStatus.icon?.path ?? '',
                                                     width: badgeWidth, 
                                                     height: badgeWidth,
                                                     decoration: const BoxDecoration(),
@@ -324,7 +324,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                                                         maxLines: 1,
                                                         overflow: TextOverflow.ellipsis,
                                                         text: TextSpan(
-                                                          text: _price,
+                                                          text: widgetPrice,
                                                           style: headline6.copyWith(
                                                             fontFamily: 'Kanit',
                                                             color: kAppColor,
@@ -332,7 +332,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                                                           ),
                                                           children: [
                                                             TextSpan(
-                                                              text: " $_unit ",
+                                                              text: " $widgetUnit ",
                                                               style: caption.copyWith(
                                                                 fontFamily: 'Kanit',
                                                                 color: kDarkColor,
@@ -456,7 +456,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                           // if(expiredEvent)...[
                           //   Positioned.fill(
                           //     child: Container(
-                          //       color: kDarkLightGrayColor.withOpacity(0.3),
+                          //       color: kDarkLightGrayColor.withValues(alpha: 0.3),
                           //     )
                           //   )
                           // ]
@@ -472,7 +472,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                 && freeProducts.isNotEmpty)...[
                   Container(
                     decoration: BoxDecoration(
-                      color: kYellowColor.withOpacity(0.05)
+                      color: kYellowColor.withValues(alpha: 0.05)
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -492,11 +492,11 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                                         padding: const EdgeInsets.symmetric(vertical: kQuarterGap, horizontal: kQuarterGap),
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(kRadius),
-                                          color: kAppColor.withOpacity(0.1)
+                                          color: kAppColor.withValues(alpha: 0.1)
                                         ),
                                         child: Icon(
                                           Icons.redeem_rounded,
-                                          color: kAppColor.withOpacity(0.8)
+                                          color: kAppColor.withValues(alpha: 0.8)
                                         ),
                                       )
                                     ),
@@ -527,7 +527,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                           itemBuilder: (_, index) {
                             PartnerProductModel item = freeProducts[index];
 
-                            String _image = item.image?.path ?? '';
+                            String widgetImage = item.image?.path ?? '';
                             String name = item.name;
                             String inCart = "x ${item.inCart} ${item.selectedUnit != null? item.selectedUnit?.unit: item.unit}";
 
@@ -538,7 +538,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   ImageProduct(
-                                    imageUrl: _image,
+                                    imageUrl: widgetImage,
                                     width: imageWidth/2,
                                     height: imageWidth/2,
                                   ),

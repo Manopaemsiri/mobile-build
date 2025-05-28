@@ -11,7 +11,7 @@ import '../controllers/partner_shop_filter_controller.dart';
 
 class PartnerShopFilter extends StatelessWidget {
   const PartnerShopFilter({
-    Key? key,
+    super.key,
     required this.onSubmit,
     required this.lController,
     this.categoryId = '',
@@ -22,7 +22,7 @@ class PartnerShopFilter extends StatelessWidget {
     this.initFilterBrands = const [],
     this.initFilterProductTags = const [],
     this.shopId,
-  }): super(key: key);
+  });
 
   final Function({List<Map<String, dynamic>> selectedCategories, List<String> selectedSubCategories, List<String> selectedBrands, List<String> selectedProductTags}) onSubmit;
   final LanguageController lController;

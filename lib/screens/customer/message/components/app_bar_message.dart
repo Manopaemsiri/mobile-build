@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 
 class AppBarMessage extends StatelessWidget implements PreferredSizeWidget {
   const AppBarMessage({
-    Key? key,
+    super.key,
     this.preferredSize = const Size.fromHeight(kToolbarHeight),
     required this.model,
-  }) : super(key: key);
+  });
 
   @override
   final Size preferredSize;

@@ -6,9 +6,9 @@ import 'package:get/get.dart';
 
 class NearByTabBar extends StatefulWidget {
   const NearByTabBar({
-    Key? key,
+    super.key,
     required this.onChange,
-  }): super(key: key);
+  });
 
   final Function(int index) onChange;
 

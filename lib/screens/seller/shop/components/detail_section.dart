@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 
 class DetailSection extends StatelessWidget {
   const DetailSection({
-    Key? key,
+    super.key,
     required this.model,
     required this.lController,
     this.onPressFav,
-  }) : super(key: key);
+  });
 
   final SellerShopModel model;
   final VoidCallback? onPressFav;
@@ -20,10 +20,10 @@ class DetailSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _image = "${model.image!.path}";
-    String _name = model.name;
-    String _status = "${model.status}";
-    String _distance = "${model.distance} km.";
+    String widgetImage = "${model.image!.path}";
+    String widgetName = model.name;
+    String widgetStatus = "${model.status}";
+    String widgetDistance = "${model.distance} km.";
     String _star = "4.5";
     String _review = "128 ${lController.getLang("Review(s)")}";
     String _caption = model.description;
@@ -40,7 +40,7 @@ class DetailSection extends StatelessWidget {
               bottom: Radius.circular(10),
             ),
             child: ImageUrl(
-              imageUrl: _image,
+              imageUrl: widgetImage,
             ),
           ),
         ),
@@ -51,7 +51,7 @@ class DetailSection extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  _name,
+                  widgetName,
                   style: headline5.copyWith(
                     fontWeight: FontWeight.w600
                   ),
@@ -91,7 +91,7 @@ class DetailSection extends StatelessWidget {
                   ),
                   const Gap(gap: kQuarterGap),
                   Text(
-                    _distance,
+                    widgetDistance,
                     style: caption.copyWith(color: kGrayColor),
                   ),
                 ],
@@ -105,7 +105,7 @@ class DetailSection extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    _status,
+                    widgetStatus,
                     style: bodyText2.copyWith(color: kGreenColor),
                   ),
                   const Gap(gap: kHalfGap),

@@ -12,9 +12,9 @@ import 'package:get/get.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({
-    Key? key,
+    super.key,
     this.isFirstState = false,
-  }) : super(key: key);
+  });
   final bool isFirstState;
 
   @override

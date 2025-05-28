@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 class ButtonText extends StatelessWidget {
   const ButtonText({
-    Key? key,
+    super.key,
     required this.title,
     this.color,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final String title;
   final Color? color;
@@ -19,16 +19,16 @@ class ButtonText extends StatelessWidget {
       height: kButtonTextHeight,
       child: TextButton(
         onPressed: onPressed,
-        child: Text(
-          title,
-          style: TextStyle(color: color),
-        ),
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           padding: const EdgeInsets.symmetric(
             vertical: kQuarterGap,
             horizontal: kHalfGap,
           ),
+        ),
+        child: Text(
+          title,
+          style: TextStyle(color: color),
         ),
       ),
     );

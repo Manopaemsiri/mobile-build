@@ -16,9 +16,9 @@ import '../../partner/subscription/controllers/subscription_checkout_update_cont
 
 class BillingAddressesScreen extends StatefulWidget {
   const BillingAddressesScreen({
-    Key? key,
+    super.key,
     this.subscription,
-  }) : super(key: key);
+  });
   final int? subscription;
 
   @override

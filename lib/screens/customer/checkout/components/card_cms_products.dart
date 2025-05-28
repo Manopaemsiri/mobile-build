@@ -11,13 +11,13 @@ import 'package:get/get.dart';
 
 class CardCmsProducts extends StatelessWidget {
   const CardCmsProducts({
-    Key? key,
+    super.key,
     required this.lController,
     required this.customerController,
     required this.aController,
     this.showStock = false,
     this.products = const [],
-  }) : super(key: key);
+  });
   final List<PartnerProductModel> products;
   final LanguageController lController;
   final CustomerController customerController;
@@ -97,7 +97,7 @@ class CardCmsProducts extends StatelessWidget {
                                   shape: BoxShape.circle,
                                   boxShadow: [
                                     BoxShadow(
-                                      color: kDarkColor.withOpacity(0.2),
+                                      color: kDarkColor.withValues(alpha: 0.2),
                                       offset: Offset.zero,
                                       blurRadius: 7,
                                       spreadRadius: 0.5,

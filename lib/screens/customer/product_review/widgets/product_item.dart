@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 
 class ProductItem extends StatelessWidget {
   const ProductItem({
-    Key? key,
+    super.key,
     required this.product,
     required this.onChanged,
     required this.value,
     required this.imageWidth,
-  }) : super(key: key);
+  });
 
   final PartnerProductModel product;
   final Function(bool?) onChanged;

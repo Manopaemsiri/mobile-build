@@ -11,8 +11,8 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 class PartnerProductCouponsScreen extends StatefulWidget {
   const PartnerProductCouponsScreen({
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
   State<PartnerProductCouponsScreen> createState() => _PartnerProductCouponsScreenState();

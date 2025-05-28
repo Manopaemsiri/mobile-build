@@ -15,12 +15,12 @@ import 'controllers/subscription_create_controller.dart';
 
 class PartnerProductSubscriptionCreateScreen extends StatelessWidget {
   const PartnerProductSubscriptionCreateScreen({
-    Key? key,
+    super.key,
     required this.data,
     required this.lController,
     this.subscription,
     this.type = 1
-  }) : super(key: key);
+  });
   final PartnerProductSubscriptionModel data;
   final LanguageController lController;
   final CustomerSubscriptionModel? subscription;

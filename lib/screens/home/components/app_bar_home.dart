@@ -7,10 +7,10 @@ import 'package:get/get.dart';
 
 class AppBarHome extends StatelessWidget implements PreferredSizeWidget {
   const AppBarHome({
-    Key? key,
+    super.key,
     this.preferredSize = const Size.fromHeight(kToolbarHeight),
     required this.lController
-  }) : super(key: key);
+  });
 
   @override
   final Size preferredSize;

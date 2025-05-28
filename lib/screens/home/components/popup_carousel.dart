@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 
 class PopupCarousel extends StatefulWidget {
   const PopupCarousel({
-    Key? key,
+    super.key,
     required this.popupModels,
     this.isShowIndicator = true,
     this.aspectRatio = 16 / 9,
@@ -17,7 +17,7 @@ class PopupCarousel extends StatefulWidget {
     this.margin = 6.0,
     this.radius = const BorderRadius.all(Radius.circular(5.0)),
     this.isPopImage = false,
-  }) : super(key: key);
+  });
 
   final List<CmsPopupModel> popupModels;
   final bool isShowIndicator;
@@ -77,7 +77,7 @@ class _PopupCarouselState extends State<PopupCarousel> {
                   ),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: kDarkColor.withOpacity(_current == entry.key ? 0.9 : 0.4),
+                    color: kDarkColor.withValues(alpha: _current == entry.key ? 0.9 : 0.4),
                   ),
                 ),
               );

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 class AppBarDivider extends StatelessWidget implements PreferredSizeWidget {
   const AppBarDivider({
-    Key? key,
+    super.key,
     this.preferredSize = const Size.fromHeight(kQuarterGap),
-  }) : super(key: key);
+  });
 
   @override
   final Size preferredSize;
@@ -13,12 +13,12 @@ class AppBarDivider extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return PreferredSize(
+      preferredSize: preferredSize,
       child: Container(
         color: kWhiteSmokeColor,
         width: double.infinity,
         height: kQuarterGap,
       ),
-      preferredSize: preferredSize,
     );
   }
 }
