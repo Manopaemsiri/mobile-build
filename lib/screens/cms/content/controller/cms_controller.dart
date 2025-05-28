@@ -16,16 +16,16 @@ class CmsContentController extends GetxController {
 
   bool _isReady = false;
   final bool _trimDigits = true;
-  final AppController _appController = Get.find<AppController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final AppController controllerApp = Get.find<AppController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
   final LanguageController _lController = Get.find<LanguageController>();
 
   CmsContentModel? get data => dataModel;
   List<FileModel>? get gallery => _gallery;
   bool get isReady => _isReady;
   bool get trimDigits => _trimDigits;
-  AppController get appController => _appController;
-  CustomerController get customerController => _customerController;
+  AppController get appController => controllerApp;
+  CustomerController get customerController => controllerCustomer;
   LanguageController get lController => _lController;
 
 
@@ -39,8 +39,8 @@ class CmsContentController extends GetxController {
     CmsContentModel? item;
     if(url?.isNotEmpty == true){
       final input = { "url": url };
-      if(_customerController.partnerShop != null && _customerController.partnerShop?.type != 9) {
-        if(_customerController.partnerShop?.isValid() == true) input['partnerShopId'] = _customerController.partnerShop!.id!;
+      if(controllerCustomer.partnerShop != null && controllerCustomer.partnerShop?.type != 9) {
+        if(controllerCustomer.partnerShop?.isValid() == true) input['partnerShopId'] = controllerCustomer.partnerShop!.id!;
       }else {
         input['partnerShopCode'] = "CENTER";
       }

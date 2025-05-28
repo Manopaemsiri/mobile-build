@@ -33,7 +33,7 @@ class PopupCarousel extends StatefulWidget {
 
 class _PopupCarouselState extends State<PopupCarousel> {
   int _current = 0;
-  final CarouselSliderController _controller = CarouselSliderController();
+  final CarouselSliderController controllerWidget = CarouselSliderController();
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class _PopupCarouselState extends State<PopupCarousel> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: widget.popupModels.asMap().entries.map((entry) {
               return GestureDetector(
-                onTap: () => _controller.animateToPage(entry.key),
+                onTap: () => controllerWidget.animateToPage(entry.key),
                 child: Container(
                   width: 6.4,
                   height: 6.4,

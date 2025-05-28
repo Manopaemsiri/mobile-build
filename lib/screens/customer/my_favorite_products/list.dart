@@ -19,12 +19,12 @@ class MyFavoriteProductsScreen extends StatefulWidget {
 class _MyFavoriteProductsScreenState extends State<MyFavoriteProductsScreen> {
   final LanguageController lController = Get.find<LanguageController>();
   final AppController aController = Get.find<AppController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
   bool trimDigits = true;
   
   @override
   void initState() {
-    _customerController.updateFavoriteProducts();
+    controllerCustomer.updateFavoriteProducts();
     super.initState();
   }
   
@@ -46,13 +46,13 @@ class _MyFavoriteProductsScreenState extends State<MyFavoriteProductsScreen> {
                 key: const ValueKey<String>("partner-products"),
                 padding: const EdgeInsets.fromLTRB(kGap, kGap, kGap, kGap),
                 data: controller.frProducts,
-                customerController: _customerController,
+                customerController: controllerCustomer,
                 lController: lController,
                 aController: aController,
                 onTap: (d) => Get.to(() => ProductScreen(
                   productId: d.id ?? '',
                 )), 
-                showStock: _customerController.isShowStock(),
+                showStock: controllerCustomer.isShowStock(),
                 trimDigits: trimDigits,
                 showFavorited: true,
               ),

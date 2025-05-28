@@ -413,15 +413,14 @@ class CustomerOrderModel {
     "orderId": orderId,
 
     "orderIdKerry": orderIdKerry,
-    "pickupDateKerry": pickupDateKerry == null
-      ? null: pickupDateKerry!.toIso8601String(),
+    "pickupDateKerry": pickupDateKerry?.toIso8601String(),
     "pickupTimeKerry": pickupTimeKerry,
 
     "orderId2C2P": orderId2C2P,
     "paymentToken2C2P": paymentToken2C2P,
     
-    "customer": customer == null? null: customer!.toJson(),
-    "shop": shop == null? null: shop!.toJson(),
+    "customer": customer?.toJson(),
+    "shop": shop?.toJson(),
 
     "products": List<dynamic>.from(products.map((e) => e.toJson())),
     "subtotal": subtotal,
@@ -431,17 +430,17 @@ class CustomerOrderModel {
     
     "total": total,
     
-    "coupon": coupon == null? null: coupon!.toJson(),
+    "coupon": coupon?.toJson(),
     "couponDiscount": couponDiscount,
     "couponMissingPaymentDiscount": couponMissingPaymentDiscount,
     
-    "shipping": shipping == null? null: shipping!.toJson(),
-    "shippingFrontend": shippingFrontend == null? null: shippingFrontend!.toJson(),
+    "shipping": shipping?.toJson(),
+    "shippingFrontend": shippingFrontend?.toJson(),
     "shippingCost": shippingCost,
-    "shippingCoupon": shippingCoupon == null? null: shippingCoupon!.toJson(),
+    "shippingCoupon": shippingCoupon?.toJson(),
     "shippingDiscount": shippingDiscount,
     
-    "cashCoupon": cashCoupon == null? null: cashCoupon!.toJson(),
+    "cashCoupon": cashCoupon?.toJson(),
     "cashDiscount": cashDiscount,
     "cashMissingPaymentDiscount": cashMissingPaymentDiscount,
     
@@ -464,27 +463,22 @@ class CustomerOrderModel {
     "pointEarn": pointEarn,
     "pointEarnStatus": pointEarnStatus,
 
-    "shippingAddress": shippingAddress == null? null: shippingAddress!.toJson(),
-    "billingAddress": billingAddress == null? null: billingAddress!.toJson(),
+    "shippingAddress": shippingAddress?.toJson(),
+    "billingAddress": billingAddress?.toJson(),
 
     "shippingStatusDates": shippingStatusDates,
-    "shippingStatus": shippingStatus == null? null: shippingStatus!.toJson(),
+    "shippingStatus": shippingStatus?.toJson(),
     "shippingHistory": shippingHistory.map((d) => d.toJson()),
 
-    "minDeliveryDate": minDeliveryDate == null
-      ? null: minDeliveryDate!.toIso8601String(),
-    "maxDeliveryDate": maxDeliveryDate == null
-      ? null: maxDeliveryDate!.toIso8601String(),
-    "pickupDate": pickupDate == null
-      ? null: pickupDate!.toIso8601String(),
+    "minDeliveryDate": minDeliveryDate?.toIso8601String(),
+    "maxDeliveryDate": maxDeliveryDate?.toIso8601String(),
+    "pickupDate": pickupDate?.toIso8601String(),
     "pickupTime": pickupTime,
-    "deliveredDate": deliveredDate == null
-      ? null: deliveredDate!.toIso8601String(),
+    "deliveredDate": deliveredDate?.toIso8601String(),
 
-    "paymentMethod": paymentMethod == null? null: paymentMethod!.toJson(),
+    "paymentMethod": paymentMethod?.toJson(),
     "paymentStatus": paymentStatus,
-    "paymentDate": paymentDate == null
-      ? null: paymentDate!.toIso8601String(),
+    "paymentDate": paymentDate?.toIso8601String(),
     
     "packagings": packagings,
     
@@ -496,15 +490,13 @@ class CustomerOrderModel {
 
     "hasRatedProduct": _hasRatedProduct,
     // "hasRatedProduct": hasRatedProduct,
-    "productRatingEndAt": productRatingEndAt == null
-      ? null: productRatingEndAt!.toIso8601String(),
+    "productRatingEndAt": productRatingEndAt?.toIso8601String(),
     "hasRatedOrder": _hasRatedOrder,
     // "hasRatedOrder": hasRatedOrder,
-    "orderRatingEndAt": orderRatingEndAt == null
-      ? null: orderRatingEndAt!.toIso8601String(),
+    "orderRatingEndAt": orderRatingEndAt?.toIso8601String(),
 
-    "orderRating": orderRating == null? null: orderRating!.toJson(),
-    "productRating": productRating == null? null: productRating!.toJson(),
+    "orderRating": orderRating?.toJson(),
+    "productRating": productRating?.toJson(),
     "subscription": subscription == null
       ? null
       : subscription is CustomerSubscriptionModel
@@ -516,10 +508,8 @@ class CustomerOrderModel {
         ? subscriptionPlan?.toJson()
         : subscriptionPlan,
   
-    "createdAt": createdAt == null
-      ? null: createdAt!.toIso8601String(),
-    "updatedAt": updatedAt == null
-      ? null: updatedAt!.toIso8601String(),
+    "createdAt": createdAt?.toIso8601String(),
+    "updatedAt": updatedAt?.toIso8601String(),
   };
 
   bool isValid() {

@@ -109,7 +109,7 @@ class _DialogReviewState extends State<DialogReview> {
     );
   }
 
-  void _onTapAddPhoto() {}
+  // void _onTapAddPhoto() {}
 
   Future<void> _onTapPost() async {
     if (_formKey.currentState!.validate()) {

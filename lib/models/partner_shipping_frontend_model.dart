@@ -144,7 +144,7 @@ class PartnerShippingFrontendModel {
     "displayName": displayName,
     "description": description,
 
-    "icon": icon == null? null: icon!.toJson(),
+    "icon": icon?.toJson(),
       
     "price": price,
     "priceActual": priceActual,
@@ -154,11 +154,11 @@ class PartnerShippingFrontendModel {
     "minDuration": minDuration,
     "maxDuration": maxDuration,
 
-    "pickupDate": pickupDate == null? null: pickupDate!.toIso8601String(),
+    "pickupDate": pickupDate?.toIso8601String(),
     "pickupTime": pickupTime,
 
     "shortages": shortages,
-    "shop": shop == null? null: shop!.toJson(),
+    "shop": shop?.toJson(),
   };
 
   bool isValid() {
@@ -239,15 +239,15 @@ class PartnerShippingFrontendModel {
             final dataDate = '${minDate.day} - ${maxDate.day} ${dateFormat(minDate, format: 'MMM y')}';
             return '${controller.getLang("text_receive_product")} $dataDate';
           }else {
-            final __date1 = dateFormat(minDate, format: 'd MMM');
-            final __date2 = dateFormat(maxDate, format: 'd MMM');
-            final __date = dateFormat(minDate, format: 'y');
-            return '${controller.getLang("text_receive_product")} $__date1 - $__date2 $__date';
+            final date1 = dateFormat(minDate, format: 'd MMM');
+            final date2 = dateFormat(maxDate, format: 'd MMM');
+            final date = dateFormat(minDate, format: 'y');
+            return '${controller.getLang("text_receive_product")} $date1 - $date2 $date';
           }
         }else {
-          final __date1 = dateFormat(minDate, format: 'd MMM y');
-          final __date2 = dateFormat(maxDate, format: 'd MMM y');
-          return '${controller.getLang("text_receive_product")} $__date1 - $__date2';
+          final date1 = dateFormat(minDate, format: 'd MMM y');
+          final date2 = dateFormat(maxDate, format: 'd MMM y');
+          return '${controller.getLang("text_receive_product")} $date1 - $date2';
         }
       }else{
         return '';

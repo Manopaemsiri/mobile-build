@@ -45,9 +45,9 @@ class _TabFavoritesState extends State<TabNearByMap> {
       .buffer.asUint8List();
   }
 
-  _onMapCreated(GoogleMapController _controller) {
+  _onMapCreated(GoogleMapController controller) {
     setState(() {
-      _mapController = _controller;
+      _mapController = controller;
     });
   }
   _onCameraIdle() async {

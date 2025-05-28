@@ -34,7 +34,7 @@ class MoreScreen extends StatefulWidget {
 
 class _MoreScreenState extends State<MoreScreen> {
   final LanguageController _lController = Get.find<LanguageController>();
-  final FirebaseController _firebaseController = Get.find<FirebaseController>();
+  final FirebaseController controllerFirebase = Get.find<FirebaseController>();
 
   @override
   Widget build(BuildContext context) {
@@ -159,10 +159,10 @@ class _MoreScreenState extends State<MoreScreen> {
                 children: [
                   if (controller.isCustomer()) ...[
                     GetBuilder<AppController>(
-                      builder: (_appController){
+                      builder: (controllerApp){
                         return Column(
                           children: [
-                            if(_appController.settings(key: 'APP_MODULE_PARTNER_SUBSCRIPTION') == '1')...[
+                            if(controllerApp.settings(key: 'APP_MODULE_PARTNER_SUBSCRIPTION') == '1')...[
                               const Divider(height: 1),
                               ListTile(
                                 title: Text(_lController.getLang("Subscription Package")),
@@ -186,10 +186,10 @@ class _MoreScreenState extends State<MoreScreen> {
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => Get.to(() => const MyFavoriteProductsScreen()),
                     ),
-                    if(_firebaseController.isInit) ...[
+                    if(controllerFirebase.isInit) ...[
                       const Divider(height: 1),
                       StreamBuilder<QuerySnapshot>(
-                        stream: _firebaseController.streamNewMessages,
+                        stream: controllerFirebase.streamNewMessages,
                         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                           int countNewMessages = 0;
                           if(snapshot.hasData && snapshot.data!.docs.isNotEmpty){

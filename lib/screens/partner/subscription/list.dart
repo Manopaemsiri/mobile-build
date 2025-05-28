@@ -7,10 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-import '../../../config/index.dart';
-import '../../../widgets/index.dart';
-import '../../../widgets/loading/shimmer_partner_subscription_list.dart';
-import '../../../widgets/loading/shimmer_partner_subscription_list_grid.dart';
+import 'package:coffee2u/config/index.dart';
+import 'package:coffee2u/widgets/index.dart';
+import 'package:coffee2u/widgets/loading/shimmer_partner_subscription_list.dart';
 import 'controllers/subscriptions_controller.dart';
 
 class SubscriptionSearchController extends GetxController {
@@ -61,7 +60,6 @@ class PartnerProductSubscriptionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(SubscriptionSearchController());
-
     return Scaffold(
       appBar: AppBar(
         title: Text(lController.getLang('Subscription Package')),
@@ -81,7 +79,7 @@ class PartnerProductSubscriptionsScreen extends StatelessWidget {
       ),
       body: GetBuilder<SubscriptionsController>(
         init: SubscriptionsController(),
-        builder: (controller) {
+        builder: (controller){
           return Column(
             children: [
               GetBuilder<SubscriptionSearchController>(
@@ -115,7 +113,7 @@ class PartnerProductSubscriptionsScreen extends StatelessWidget {
 
               Expanded(
                 child: GetBuilder<SubscriptionSearchController>(
-                  builder: (searchCtrl) {
+                  builder: (searchCtrl){
                     final dataToShow = searchCtrl.filteredData.isNotEmpty || searchCtrl.searchQuery.isNotEmpty
                       ? searchCtrl.filteredData
                       : controller.data;
@@ -123,42 +121,42 @@ class PartnerProductSubscriptionsScreen extends StatelessWidget {
                     return RefreshIndicator(
                       onRefresh: () => controller.onRefresh(),
                       child: dataToShow.isEmpty
-                          ? NoDataCoffeeMug() 
-                          : ListView.builder(
-                              padding: const EdgeInsets.symmetric(horizontal: kGap, vertical: kGap),
-                              itemCount: dataToShow.length + 1,
-                              itemBuilder: (context, index) {
-                                if (index == dataToShow.length) {
-                                  return controller.isEnded
-                                    ? const SizedBox.shrink()
-                                    : VisibilityDetector(
-                                        key: const Key('loader-widget'),
-                                        onVisibilityChanged: controller.onLoadMore,
-                                        child: const ShimmerPartnerSubscriptionList(),
-                                  );
-                                }
-
-                                final item = dataToShow[index];
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: kGap),
-                                  child: SubscriptionCardList(
-                                    data: item,
-                                    onTap: onTap,
-                                    lController: lController,
-                                  ),
+                        ? NoDataCoffeeMug() 
+                        : ListView.builder(
+                            padding: const EdgeInsets.symmetric(horizontal: kGap, vertical: kGap),
+                            itemCount: dataToShow.length + 1,
+                            itemBuilder: (context, index) {
+                              if (index == dataToShow.length) {
+                                return controller.isEnded
+                                  ? const SizedBox.shrink()
+                                  : VisibilityDetector(
+                                      key: const Key('loader-widget'),
+                                      onVisibilityChanged: controller.onLoadMore,
+                                      child: const ShimmerPartnerSubscriptionList(),
                                 );
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
+                              }
+
+                              final item = dataToShow[index];
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: kGap),
+                                child: SubscriptionCardList(
+                                  data: item,
+                                  onTap: onTap,
+                                  lController: lController,
+                                ),
+                              );
+                            },
+                          ),
+                    );
+                  }
+                ),
+              ),
+            ],
           );
         }
+      ),
+    );
+  }
 
-      onTap(String id) => Get.to(() => PartnerProductSubscriptionScreen(id: id, lController: lController));
-    }
+  onTap(String id) => Get.to(() => PartnerProductSubscriptionScreen(id: id, lController: lController));
+}

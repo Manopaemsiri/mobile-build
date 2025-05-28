@@ -35,7 +35,7 @@ class _PinOnMapsState extends State<PinOnMaps> {
   late GoogleMapController _mapController;
   late LatLng _mapCenter = widget.latLng 
     ?? const LatLng(13.793125766310437, 100.71096012637591);
-  late Set<Marker> _mapMarkers = {};
+  final Set<Marker> _mapMarkers = {};
   late Uint8List? _mapMarkerIcon;
   late String address;
 

@@ -39,7 +39,7 @@ class ThankYouScreen extends StatefulWidget {
 
 class _ThankYouScreenState extends State<ThankYouScreen> {
   final LanguageController lController = Get.find<LanguageController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
   final InAppReview _inAppReview = InAppReview.instance;
 
   List<PartnerProductCouponLogModel> receivedCoupons = [];
@@ -88,27 +88,27 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
     String? strReview = prefs.getString(prefCustomerReview);
     if(strReview == null || strReview != "1"){
       try{
-        bool _isAvailable = await _inAppReview.isAvailable();
-        if(_isAvailable) _inAppReview.requestReview();
+        bool isAvailable = await _inAppReview.isAvailable();
+        if(isAvailable) _inAppReview.requestReview();
       }catch(_){}
       await prefs.setString(prefCustomerReview, "`");
     }
-    AppHelpers.updatePartnerShop(_customerController);
+    AppHelpers.updatePartnerShop(controllerCustomer);
 
     // Update coupons
     _updateCoupons();
   }
 
   _updateCoupons() async {
-    final String cusId = _customerController.customerModel?.id ?? '';
+    final String cusId = controllerCustomer.customerModel?.id ?? '';
     if(widget.orderTemp?["cashCoupon"]?["_id"]?.isNotEmpty == true){
-      final id = widget?.orderTemp["cashCoupon"]?["_id"];
+      final id = widget.orderTemp["cashCoupon"]?["_id"];
       String prefKey = "$cusId$prefCustomerCashCoupon";
       AppHelpers.reduceCoupon(prefKey, id);
     }
     
     if(widget.orderTemp?["coupon"]?["_id"]?.isNotEmpty == true){
-      final id = widget?.orderTemp["coupon"]?["_id"];
+      final id = widget.orderTemp["coupon"]?["_id"];
       String prefKey = "$cusId$prefCustomerDiscountProduct";
       AppHelpers.reduceCoupon(prefKey, id);
     }
@@ -121,12 +121,12 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
   }
 
   _setGiveawayCoupon() async {
-    if(_customerController.isCustomer()) {
+    if(controllerCustomer.isCustomer()) {
       try {
         if(widget.orderTemp?['receivedCoupons'] != null) {
-          final List<dynamic> _temp = widget.orderTemp?['receivedCoupons'];
-          for (var i = 0; i < _temp.length; i++) {
-            receivedCoupons.add(PartnerProductCouponLogModel.fromJson(_temp[i]));
+          final List<dynamic> temp = widget.orderTemp?['receivedCoupons'];
+          for (var i = 0; i < temp.length; i++) {
+            receivedCoupons.add(PartnerProductCouponLogModel.fromJson(temp[i]));
           }
           
           if(mounted) {
@@ -142,10 +142,10 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final dynamic _orderTemp = widget.orderTemp;
+    final dynamic orderTemp = widget.orderTemp;
 
-    final CustomerController _customerController = Get.find<CustomerController>();
-    String _email = _customerController.customerModel?.email ?? '';
+    final CustomerController controllerCustomer = Get.find<CustomerController>();
+    String dataEmail = controllerCustomer.customerModel?.email ?? '';
 
     return WillPopScope(
       onWillPop: () async => false,
@@ -189,13 +189,13 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                         child: Column(
                           children: [
 
-                            if(_email != '') ...[
+                            if(dataEmail != '') ...[
                               Text(
                                 lController.getLang("text_thank_you_2"),
                                 style: subtitle1
                               ),
                               Text(
-                                _email,
+                                dataEmail,
                                 style: title.copyWith(
                                   fontWeight: FontWeight.w500
                                 ),
@@ -212,7 +212,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                   style: subtitle1.copyWith(color: kDarkLightColor),
                                 ),
                                 Text(
-                                  _orderTemp['orderId'] ?? '',
+                                  orderTemp['orderId'] ?? '',
                                   style: subtitle1.copyWith(
                                     color: kAppColor,
                                     fontWeight: FontWeight.w600,
@@ -231,9 +231,9 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                 ),
                                 Text(
                                   dateFormat(
-                                    _orderTemp['createdAt'] == null
+                                    orderTemp['createdAt'] == null
                                       ? DateTime.now()
-                                      : DateTime.parse(_orderTemp['createdAt']),
+                                      : DateTime.parse(orderTemp['createdAt']),
                                     format: 'dd/MM/y kk:mm'
                                   ),
                                   style: subtitle1.copyWith(
@@ -253,8 +253,8 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                 ),
                                 Text(
                                   priceFormat(
-                                    _orderTemp['grandTotal'] == null
-                                      ? 0: double.parse(_orderTemp['grandTotal'].toString()),
+                                    orderTemp['grandTotal'] == null
+                                      ? 0: double.parse(orderTemp['grandTotal'].toString()),
                                     lController
                                   ),
                                   style: title.copyWith(
@@ -264,7 +264,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                 ),
                               ],
                             ),
-                            if(_orderTemp?['hasDownPayment'] == 1 && (_orderTemp?['missingPayment'] ?? 0) > 0)...[
+                            if(orderTemp?['hasDownPayment'] == 1 && (orderTemp?['missingPayment'] ?? 0) > 0)...[
                               const SizedBox(height: 3),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -275,8 +275,8 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                   ),
                                   Text(
                                     priceFormat(
-                                      _orderTemp['missingPayment'] == null
-                                        ? 0: double.parse(_orderTemp['missingPayment'].toString()),
+                                      orderTemp['missingPayment'] == null
+                                        ? 0: double.parse(orderTemp['missingPayment'].toString()),
                                       lController
                                     ),
                                     style: title.copyWith(
@@ -294,7 +294,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                 data: receivedCoupons,
                                 onTap: _onTapCoupon,
                                 lController: lController,
-                                isCOD: (_orderTemp?['paymentStatus'] ?? 0) == 1,
+                                isCOD: (orderTemp?['paymentStatus'] ?? 0) == 1,
                               )
                             ]
                           ],

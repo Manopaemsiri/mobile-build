@@ -155,12 +155,12 @@ class PartnerShopModel {
     "description": description,
     "type": type,
     "url": url,
-    "image": image == null ? null : image!.toJson(),
+    "image": image?.toJson(),
     "gallery": gallery == null? null
       : List<Map<String, dynamic>>
         .from(gallery!.map((x) => x.toJson())),
     "email": email,
-    "address": address == null ? null : address!.toJson(),
+    "address": address?.toJson(),
     "telephones": telephones == null
       ? null: List<String>.from(telephones!.map((e) => e)),
     "line": line,
@@ -184,8 +184,8 @@ class PartnerShopModel {
     if (workingHours == null || workingHours!.isEmpty) {
       return false;
     } else {
-      DateTime _now = DateTime.now();
-      int index = workingHours!.indexWhere((x) => x.dayIndex == _now.weekday % 7 && x.isOpened == 1);
+      DateTime dataNow = DateTime.now();
+      int index = workingHours!.indexWhere((x) => x.dayIndex == dataNow.weekday % 7 && x.isOpened == 1);
       if (index < 0) {
         return false;
       } else {
@@ -198,11 +198,11 @@ class PartnerShopModel {
         TimeOfDay startTime = TimeOfDay(hour: int.parse(startH), minute: int.parse(startM));
         TimeOfDay endTime = TimeOfDay(hour: int.parse(endH), minute: int.parse(endM));
 
-        return ((_now.hour > startTime.hour) ||
-                (_now.hour == startTime.hour &&
-                  _now.minute >= startTime.minute)) &&
-            ((_now.hour < endTime.hour) ||
-              (_now.hour == endTime.hour && _now.minute <= endTime.minute));
+        return ((dataNow.hour > startTime.hour) ||
+                (dataNow.hour == startTime.hour &&
+                  dataNow.minute >= startTime.minute)) &&
+            ((dataNow.hour < endTime.hour) ||
+              (dataNow.hour == endTime.hour && dataNow.minute <= endTime.minute));
       }
     }
   }
@@ -211,8 +211,8 @@ class PartnerShopModel {
     if (workingHours == null || workingHours!.isEmpty) {
       return '';
     } else {
-      DateTime _now = DateTime.now();
-      int index = workingHours!.indexWhere((x) => x.dayIndex == _now.weekday % 7 && x.isOpened == 1);
+      DateTime dataNow = DateTime.now();
+      int index = workingHours!.indexWhere((x) => x.dayIndex == dataNow.weekday % 7 && x.isOpened == 1);
       if (index < 0) {
         return '';
       } else {

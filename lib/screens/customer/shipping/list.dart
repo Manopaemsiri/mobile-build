@@ -30,7 +30,7 @@ class ShippingMethodsScreen extends StatefulWidget {
 
 class _ShippingMethodsScreenState extends State<ShippingMethodsScreen> {
   final LanguageController lController = Get.find<LanguageController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
 
   List<Map<String, dynamic>> dataModel = [];
 
@@ -59,7 +59,7 @@ class _ShippingMethodsScreenState extends State<ShippingMethodsScreen> {
         }
         print(">>> Hello Data: $res");
 
-        isClearance = _customerController.cart.products.indexWhere((e) => e.status == 3) > -1? true: false;
+        isClearance = controllerCustomer.cart.products.indexWhere((e) => e.status == 3) > -1? true: false;
         if(mounted){
           setState(() {
             dataModel;
@@ -84,8 +84,8 @@ class _ShippingMethodsScreenState extends State<ShippingMethodsScreen> {
         for (var i = 0; i < len; i++) {
           dataModel.add({'shipping': PartnerShippingFrontendModel.fromJson(res?['result'][i]) });
         }
-        if(_customerController.isCustomer()) checkCoupons();
-        isClearance = _customerController.cart.products.indexWhere((e) => e.status == 3) > -1? true: false;
+        if(controllerCustomer.isCustomer()) checkCoupons();
+        isClearance = controllerCustomer.cart.products.indexWhere((e) => e.status == 3) > -1? true: false;
         if(mounted){
           setState(() {
             dataModel;
@@ -191,7 +191,7 @@ class _ShippingMethodsScreenState extends State<ShippingMethodsScreen> {
       onClick = true;
       ShowDialog.showLoadingDialog();
       // Click and Collect
-      _customerController.setDiscountShipping(null, needUpdate: true);
+      controllerCustomer.setDiscountShipping(null, needUpdate: true);
       if(value.type == 2) {
         Get.back();
         onClick = false;
@@ -200,9 +200,9 @@ class _ShippingMethodsScreenState extends State<ShippingMethodsScreen> {
         return;
       }
       if(subscription == null){
-        _customerController.setShippingMethod(value);
-        await AppHelpers.updatePartnerShop(_customerController);
-        if(coupon != null) _customerController.setDiscountShipping(coupon);
+        controllerCustomer.setShippingMethod(value);
+        await AppHelpers.updatePartnerShop(controllerCustomer);
+        if(coupon != null) controllerCustomer.setDiscountShipping(coupon);
         Get.back();
         Get.back();
         return;

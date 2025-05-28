@@ -15,7 +15,7 @@ class OrderShipping extends StatelessWidget {
 
   final CustomerOrderModel model;
   final LanguageController lController;
-  final AppController _appController = Get.find<AppController>();
+  final AppController controllerApp = Get.find<AppController>();
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +82,7 @@ class OrderShipping extends StatelessWidget {
               ],
             ),
           ),
-          if(_appController.enabledMultiPartnerShops) ...[
+          if(controllerApp.enabledMultiPartnerShops) ...[
             const Divider(height: 0.75, thickness: 0.75),
             Container(
               padding: kPadding,

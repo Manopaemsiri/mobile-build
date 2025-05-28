@@ -139,7 +139,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void localLogWriter(String text, {bool isError = false}) {
-    debugPrint("Log : " + text);
+    debugPrint('Log : $text');
   }
 }
 

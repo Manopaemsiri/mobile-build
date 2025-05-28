@@ -18,8 +18,8 @@ class MessagesScreen extends StatefulWidget {
 
 class _MessagesScreenState extends State<MessagesScreen> {
   final LanguageController lController = Get.find<LanguageController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
-  final FirebaseController _firebaseController = Get.find<FirebaseController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
+  final FirebaseController controllerFirebase = Get.find<FirebaseController>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +29,10 @@ class _MessagesScreenState extends State<MessagesScreen> {
         appBar: AppBar(
           title: Text(lController.getLang("Messages")),
         ),
-        body: !_customerController.isCustomer() || _firebaseController.streamChatrooms == null
+        body: !controllerCustomer.isCustomer() || controllerFirebase.streamChatrooms == null
           ? NoDataCoffeeMug()
           : StreamBuilder<QuerySnapshot>(
-            stream: _firebaseController.streamChatrooms,
+            stream: controllerFirebase.streamChatrooms,
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                 return NoDataCoffeeMug();

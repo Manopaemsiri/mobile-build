@@ -243,7 +243,7 @@ class CustomerModel {
           temp += firstname.toString();
         }
         if (lastname != null && lastname != '') {
-          temp += ' ' + lastname.toString();
+          temp += ' ${lastname.toString()}';
         }
         if (temp == '' && username != null && username != '') {
           temp = username.toString();

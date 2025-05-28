@@ -71,7 +71,7 @@ class CustomerTierModel {
     "name": name,
     "description": description,
     "url": url,
-    "icon": icon == null? null: icon!.toJson(),
+    "icon": icon?.toJson(),
     "pointBurnStep": pointBurnStep,
     "pointEarnRate": pointEarnRate,
     "pointBurnRate": pointBurnRate,

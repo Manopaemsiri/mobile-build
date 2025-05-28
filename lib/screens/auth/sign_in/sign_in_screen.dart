@@ -215,11 +215,11 @@ class _SignInScreenState extends State<SignInScreen> {
                             height: 20,
                             child: TextButton(
                               onPressed: () => Get.to(() => const ForgotPasswordScreen()),
-                              child: Text(
-                                lController.getLang("Forgot Password")
-                              ),
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,
+                              ),
+                              child: Text(
+                                lController.getLang("Forgot Password")
                               ),
                             ),
                           ),
@@ -239,8 +239,8 @@ class _SignInScreenState extends State<SignInScreen> {
   Future<void> _onPressSignIn() async {
     if (_formKey.currentState!.validate()) {
       FocusManager.instance.primaryFocus?.unfocus();
-      CustomerController _customerController = Get.find<CustomerController>();
-      final guestId = _customerController.customerModel?.id;
+      CustomerController controllerCustomer = Get.find<CustomerController>();
+      final guestId = controllerCustomer.customerModel?.id;
       await ApiService.authSignin(input: {
         "guestId": guestId,
         "username": _cEmail.text,

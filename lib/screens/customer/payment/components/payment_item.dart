@@ -64,7 +64,8 @@ class PaymentItem extends StatelessWidget {
                   children: [
                     TextSpan(
                       text: priceFormat(
-                        model.payNow - (false? model.diffInstallment: 0),
+                        // model.payNow - model.diffInstallment,
+                        model.payNow,
                         lController
                       ),
                       style: subtitle1.copyWith(
@@ -76,31 +77,31 @@ class PaymentItem extends StatelessWidget {
                   ],
                 ),
               ),
-              if(false && model.diffInstallment > 0) ...[
-                RichText(
-                  textAlign: TextAlign.right,
-                  text: TextSpan(
-                    text: "+ ค่าบริการผ่อนชำระ ",
-                    style: subtitle1.copyWith(
-                      fontFamily: 'Kanit',
-                      color: kDarkGrayColor,
-                      fontWeight: FontWeight.w500,
-                      height: 1.25,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: priceFormat(model.diffInstallment, lController),
-                        style: subtitle1.copyWith(
-                          fontFamily: 'Kanit',
-                          color: kAppColor,
-                          fontWeight: FontWeight.w600,
-                          height: 1.25,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+              // if(false && model.diffInstallment > 0) ...[
+              //   RichText(
+              //     textAlign: TextAlign.right,
+              //     text: TextSpan(
+              //       text: "+ ค่าบริการผ่อนชำระ ",
+              //       style: subtitle1.copyWith(
+              //         fontFamily: 'Kanit',
+              //         color: kDarkGrayColor,
+              //         fontWeight: FontWeight.w500,
+              //         height: 1.25,
+              //       ),
+              //       children: [
+              //         TextSpan(
+              //           text: priceFormat(model.diffInstallment, lController),
+              //           style: subtitle1.copyWith(
+              //             fontFamily: 'Kanit',
+              //             color: kAppColor,
+              //             fontWeight: FontWeight.w600,
+              //             height: 1.25,
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ],
             ],
           ),
         ),

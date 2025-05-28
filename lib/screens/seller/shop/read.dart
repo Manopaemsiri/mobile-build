@@ -69,16 +69,16 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
   Widget build(BuildContext context) {
     double appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
     
-    List<FileModel> _gallery = [];
+    List<FileModel> gallery = [];
     if(model?.image != null && model?.image?.path != null){
-      _gallery.add(model?.image as FileModel);
+      gallery.add(model?.image as FileModel);
     }
     if(model?.logo != null && model?.logo?.path != null){
-      _gallery.add(model?.logo as FileModel);
+      gallery.add(model?.logo as FileModel);
     }
     if(model?.gallery != null){
       model?.gallery?.forEach((f){
-        if(f.path != null) _gallery.add(f);
+        if(f.path.isNotEmpty) gallery.add(f);
       });
     }
 
@@ -124,7 +124,7 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
                               Padding(
                                 padding: const EdgeInsets.only(left: kOtGap, right: kOtGap),
                                 child: Carousel(
-                                  images: _gallery,
+                                  images: gallery,
                                   aspectRatio: 16 / 8,
                                   viewportFraction: 1,
                                   margin: kQuarterGap,

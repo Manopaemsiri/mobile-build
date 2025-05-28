@@ -654,7 +654,7 @@ class OrderProduct extends StatelessWidget {
               const SizedBox(height: 2),
             ],
 
-            // if(model.receivedCoupons.isNotEmpty && _customerController.isCustomer())...[
+            // if(model.receivedCoupons.isNotEmpty && controllerCustomer.isCustomer())...[
             if(model.receivedCoupons.isNotEmpty)...[
               const Divider(height: 0.8, thickness: 0.8),
               const Gap(gap: kHalfGap),

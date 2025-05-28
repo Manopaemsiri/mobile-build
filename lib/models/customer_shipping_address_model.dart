@@ -206,22 +206,22 @@ class CustomerShippingAddressModel {
 
 
   Future<List<ProvinceModel>> loadProvinces() async {
-    String _dataStr = await DefaultAssetBundle.of(context).loadString("assets/data/thai-provinces.json");
-    var dataModel = List<Map<String, dynamic>>.from(jsonDecode(_dataStr));
+    String dataStr = await DefaultAssetBundle.of(context).loadString("assets/data/thai-provinces.json");
+    var dataModel = List<Map<String, dynamic>>.from(jsonDecode(dataStr));
     return List<ProvinceModel>
-      .from(dataModel.map((tempData) => ProvinceModel.fromJson(tempData)));
+      .from(dataModel.map((d) => ProvinceModel.fromJson(d)));
   }
   Future<List<DistrictModel>> loadDistricts() async {
-    String _dataStr = await DefaultAssetBundle.of(context).loadString("assets/data/thai-districts.json");
-    var dataModel = List<Map<String, dynamic>>.from(jsonDecode(_dataStr));
+    String dataStr = await DefaultAssetBundle.of(context).loadString("assets/data/thai-districts.json");
+    var dataModel = List<Map<String, dynamic>>.from(jsonDecode(dataStr));
     return List<DistrictModel>
-      .from(dataModel.map((tempData) => DistrictModel.fromJson(tempData)));
+      .from(dataModel.map((d) => DistrictModel.fromJson(d)));
   }
   Future<List<SubdistrictModel>> loadSubdistricts() async {
-    String _dataStr = await DefaultAssetBundle.of(context).loadString("assets/data/thai-subdistricts.json");
-    var dataModel = List<Map<String, dynamic>>.from(jsonDecode(_dataStr));
+    String dataStr = await DefaultAssetBundle.of(context).loadString("assets/data/thai-subdistricts.json");
+    var dataModel = List<Map<String, dynamic>>.from(jsonDecode(dataStr));
     return List<SubdistrictModel>
-      .from(dataModel.map((tempData) => SubdistrictModel.fromJson(tempData)));
+      .from(dataModel.map((d) => SubdistrictModel.fromJson(d)));
   }
 
   

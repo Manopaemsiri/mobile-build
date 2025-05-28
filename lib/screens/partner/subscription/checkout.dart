@@ -200,8 +200,8 @@ class PartnerProductSubscriptionCheckoutScreen extends StatelessWidget {
     );
   }
 
-  void onTapShippingMethod(SubscriptionCheckoutController _controller) {
-    if (_controller.data?.shippingAddress == null || _controller.data?.shippingAddress?.isValid() != true) {
+  void onTapShippingMethod(SubscriptionCheckoutController controllerWidget) {
+    if (controllerWidget.data?.shippingAddress == null || controllerWidget.data?.shippingAddress?.isValid() != true) {
       ShowDialog.showForceDialog(
         lController.getLang("Missing shipping address"),
         lController.getLang("Please choose a shipping address"), 

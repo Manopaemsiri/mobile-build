@@ -33,7 +33,7 @@ class BannerCarousel extends StatefulWidget {
 
 class _BannerCarouselState extends State<BannerCarousel> {
   int _current = 0;
-  final CarouselSliderController _controller = CarouselSliderController();
+  final CarouselSliderController controllerWidget = CarouselSliderController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
       children: [
         // Carousel
         CarouselSlider.builder(
-          carouselController: _controller,
+          carouselController: controllerWidget,
           itemBuilder: (BuildContext context, int index, int realIndex) {
             return carouselCard(
               widget.margin,
@@ -69,7 +69,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
         //     mainAxisAlignment: MainAxisAlignment.center,
         //     children: widget.cmsBannerModel.asMap().entries.map((entry) {
         //       return GestureDetector(
-        //         onTap: () => _controller.animateToPage(entry.key),
+        //         onTap: () => controllerWidget.animateToPage(entry.key),
         //         child: Container(
         //           width: 6.4,
         //           height: 6.4,
@@ -91,7 +91,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: widget.cmsBannerModel.asMap().entries.map((entry) {
               return GestureDetector(
-                onTap: () => _controller.animateToPage(entry.key),
+                onTap: () => controllerWidget.animateToPage(entry.key),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 450),
                   width: _current == entry.key? 29: 15,

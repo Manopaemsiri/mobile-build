@@ -22,7 +22,7 @@ class CardShop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CustomerController _customerController = Get.find<CustomerController>();
+    final CustomerController controllerCustomer = Get.find<CustomerController>();
 
     String widgetImage = model.image?.path ?? "";
     String widgetName = model.name ?? "";
@@ -79,7 +79,7 @@ class CardShop extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         // model.displayIsOpen(bodyText2),
-                        if (showDistance && _customerController.shippingAddress != null) ...[
+                        if (showDistance && controllerCustomer.shippingAddress != null) ...[
                           Row(
                             children: [
                               const Icon(

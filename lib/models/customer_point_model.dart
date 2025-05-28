@@ -98,10 +98,8 @@ class CustomerPointModel {
     "channel": channel,
     "description": description,
     "status": status,
-    "createdAt": createdAt == null
-      ? null: createdAt!.toIso8601String(),
-    "updatedAt": updatedAt == null
-      ? null: updatedAt!.toIso8601String(),
+    "createdAt": createdAt?.toIso8601String(),
+    "updatedAt": updatedAt?.toIso8601String(),
   };
 
   bool isValid() {
@@ -143,31 +141,31 @@ class CustomerPointModel {
   }
   Widget displayPoints() {
     if(isValid()){
-      String _temp = numberFormat(double.parse(points.toString()), digits: 0);
+      String temp = numberFormat(double.parse(points.toString()), digits: 0);
       if([-1].contains(status)){
-        return _widgetPoint(_temp, kRedColor);
+        return _widgetPoint(temp, kRedColor);
       }else if([1, 3, 5].contains(status)){
-        return _widgetPoint(_temp, kRedColor);
+        return _widgetPoint(temp, kRedColor);
       }else if([2, 4, 6].contains(status)){
-        return _widgetPoint('+$_temp', kGreenColor);
+        return _widgetPoint('+$temp', kGreenColor);
       }else if([0].contains(status)){
-        return _widgetPoint(_temp, kAppColor);
+        return _widgetPoint(temp, kAppColor);
       }else if([80, 90].contains(status)){
-        return _widgetPoint(_temp, kBlueColor);
+        return _widgetPoint(temp, kBlueColor);
       }else if([81].contains(status)){
         if(points > 0){
-          return _widgetPoint('+$_temp', kGreenColor);
+          return _widgetPoint('+$temp', kGreenColor);
         }else{
-          return _widgetPoint(_temp, kYellowColor);
+          return _widgetPoint(temp, kYellowColor);
         }
       }else if([91].contains(status)){
         if(points > 0){
-          return _widgetPoint('+$_temp', kGreenColor);
+          return _widgetPoint('+$temp', kGreenColor);
         }else{
-          return _widgetPoint(_temp, kYellowColor);
+          return _widgetPoint(temp, kYellowColor);
         }
       }else if([100].contains(status)){
-        return _widgetPoint(_temp, kBlueColor);
+        return _widgetPoint(temp, kBlueColor);
       }else{
         return const SizedBox.shrink();
       }

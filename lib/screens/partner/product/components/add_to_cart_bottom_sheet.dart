@@ -37,7 +37,7 @@ class AddToCartBottomSheet extends StatefulWidget {
 
 class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
   final LanguageController lController = Get.find<LanguageController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
 
   String _img = '';
   String widgetName = '';
@@ -268,7 +268,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                                 ),
 
                                 const SizedBox(height: 8),
-                                if(_customerController.isCustomer()) ...[
+                                if(controllerCustomer.isCustomer()) ...[
                                   RichText(
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,

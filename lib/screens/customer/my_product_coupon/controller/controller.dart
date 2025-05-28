@@ -1,7 +1,7 @@
 import 'package:coffee2u/apis/api_service.dart';
 import 'package:coffee2u/models/index.dart';
 import 'package:coffee2u/utils/index.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class MyProductCouponController extends GetxController {

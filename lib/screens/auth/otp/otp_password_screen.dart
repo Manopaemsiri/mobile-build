@@ -46,7 +46,7 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
   final LanguageController lController = Get.find<LanguageController>();
   final int _otpLength = 6;
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController controllerWidget = TextEditingController();
   var errorController = StreamController<ErrorAnimationType>();
 
   late Timer? _timer;
@@ -73,7 +73,7 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
   }
 
   void _onResendOTP() async {
-    _controller.clear();
+    controllerWidget.clear();
     if(widget.enabledCustomerSignupOTP == 1){
       await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: widget.telephone,
@@ -225,7 +225,7 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
                       ),
                       const Gap(),
                       PinCodeTextField(
-                        controller: _controller,
+                        controller: controllerWidget,
                         appContext: context,
                         length: _otpLength,
                         autoFocus: true,
@@ -316,7 +316,7 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
   }
 
   void onTap() async {
-    if(_controller.text.length != _otpLength){
+    if(controllerWidget.text.length != _otpLength){
       errorController.add(ErrorAnimationType.shake);
       return;
     }
@@ -326,18 +326,18 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
       try {
         PhoneAuthCredential credential = PhoneAuthProvider.credential(
           verificationId: widget.verificationID!,
-          smsCode: _controller.text,
+          smsCode: controllerWidget.text,
         );
 
         await FirebaseAuth.instance.signInWithCredential(credential)
           .then((userCredential) async {
             Get.back();
-            User? _user = userCredential.user;
-            final phone = _user?.phoneNumber;
+            User? userModel = userCredential.user;
+            final phone = userModel?.phoneNumber;
 
             if(phone != null){
               if (kDebugMode) {
-                print(_user);
+                print(userModel);
                 print(phone);
               }
               //+66 Format
@@ -360,14 +360,14 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
       if(widget.response == null) return;
       try {
         Map<String, dynamic> input = widget.response!;
-        input['code'] = _controller.text;
+        input['code'] = controllerWidget.text;
         Map<String, dynamic>? res = await ApiService.verifyOTP(input: input);
         if(res != null){
           if(res['requestId']?.isNotEmpty == true && res['refCode']?.isNotEmpty == true){
             Get.to(() => ForgotScreen(resetToken: widget.resetToken!));
           }
         }else{
-          if(mounted) setState(() => _controller.clear());
+          if(mounted) setState(() => controllerWidget.clear());
         }
       } catch (_) {}
     }

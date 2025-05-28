@@ -16,8 +16,8 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  final CustomerController _customerController = Get.find<CustomerController>();
-  final FirebaseController _firebaseController = Get.find<FirebaseController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
+  final FirebaseController controllerFirebase = Get.find<FirebaseController>();
   final LanguageController lController = Get.find<LanguageController>();
 
   @override
@@ -27,10 +27,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
         title: Text(lController.getLang("Notification")),
         bottom: const AppBarDivider(),
       ),
-            body: !_customerController.isCustomer() || _firebaseController.streamOrderStatuses == null
+            body: !controllerCustomer.isCustomer() || controllerFirebase.streamOrderStatuses == null
         ? NoDataCoffeeMug()
         : StreamBuilder<QuerySnapshot>(
-          stream: _firebaseController.streamOrderStatuses,
+          stream: controllerFirebase.streamOrderStatuses,
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
               return NoDataCoffeeMug();

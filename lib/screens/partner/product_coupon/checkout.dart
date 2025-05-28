@@ -26,7 +26,7 @@ class CheckoutPartnerProductCouponsScreen extends StatefulWidget {
 class _CheckoutPartnerProductCouponsScreenState extends State<CheckoutPartnerProductCouponsScreen> {
   final LanguageController lController = Get.find<LanguageController>();
   bool isLoading = true;
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
   List<PartnerProductCouponModel> dataModel = [];
 
   Map<String, dynamic> _settings = {};
@@ -39,7 +39,7 @@ class _CheckoutPartnerProductCouponsScreenState extends State<CheckoutPartnerPro
     var resSettings = await ApiService.processRead('settings');
     _settings = resSettings?['result'];
 
-    String prefKey = "${_customerController.customerModel?.id}";
+    String prefKey = "${controllerCustomer.customerModel?.id}";
     dynamic res;
     if(widget.isCashCoupon == 1) {
       prefKey += prefCustomerCashCoupon;
@@ -237,15 +237,15 @@ class _CheckoutPartnerProductCouponsScreenState extends State<CheckoutPartnerPro
   void _updateCoupon(PartnerProductCouponModel value, {bool isSaveCoupon = false}) async {
     if(isSaveCoupon) _saveCouponToLocal(value.id!);
     if(widget.isCashCoupon == 1){
-      _customerController.setDiscountCash(value, needUpdate: true);
+      controllerCustomer.setDiscountCash(value, needUpdate: true);
     }else {
-      _customerController.setDiscountProduct(value, needUpdate: true);
+      controllerCustomer.setDiscountProduct(value, needUpdate: true);
     }
     Get.back();
   }
 
   void _saveCouponToLocal(String id) {
-    String prefKey = "${_customerController.customerModel?.id}";
+    String prefKey = "${controllerCustomer.customerModel?.id}";
     if(widget.isCashCoupon == 1){
       prefKey += prefCustomerCashCoupon;
       AppHelpers.saveCoupon(prefKey, id);

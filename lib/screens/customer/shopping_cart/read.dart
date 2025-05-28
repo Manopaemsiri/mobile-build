@@ -25,8 +25,8 @@ class ShoppingCartScreen extends StatefulWidget {
 
 class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
   final LanguageController _lController = Get.find<LanguageController>();
-  final AppController _appController = Get.find<AppController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final AppController controllerApp = Get.find<AppController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
   bool isValidCart = false;
   
   List<PartnerEventModel> events = [];
@@ -42,7 +42,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
 
   _initState() async {
     try {
-      if(_customerController.cart.products.isNotEmpty){
+      if(controllerCustomer.cart.products.isNotEmpty){
         events = [];
         final res1 = await ApiService.processList('partner-events');
         final length1 = res1?["result"].length ?? 0;
@@ -85,7 +85,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
             ),
             titleSpacing: 0,
             actions: const [
-              // if(_appController.enabledMultiPartnerShops) ...[
+              // if(controllerApp.enabledMultiPartnerShops) ...[
               //   IconButton(
               //     icon: Image.asset(
               //       "assets/images/shop-01.png",
@@ -145,9 +145,9 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                     }
 
                     PartnerProductStatusModel? widgetStatus;
-                    if(_appController.productStatuses.isNotEmpty && item.stock > 0){
-                      final int index = _appController.productStatuses.indexWhere((d) => d.productStatus == item.status && d.type != 1);
-                      if(index > -1) widgetStatus = _appController.productStatuses[index];
+                    if(controllerApp.productStatuses.isNotEmpty && item.stock > 0){
+                      final int index = controllerApp.productStatuses.indexWhere((d) => d.productStatus == item.status && d.type != 1);
+                      if(index > -1) widgetStatus = controllerApp.productStatuses[index];
                     }
                     widgetStatus ??= item.productBadge(_lController, showSelectedUnit: item.selectedUnit?.isDiscounted() == true, isCart: true, showDiscounted: controller.isCustomer());
 
@@ -440,8 +440,8 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                                             QuantityBig(
                                               qty: item.inCart,
                                               available: item.getMaxStock() > 0,
-                                              onChange: (int q, bool _limit) {
-                                                _onChangeQuantity(index, q, controller, _limit);
+                                              onChange: (int q, bool widgetLimit) {
+                                                _onChangeQuantity(index, q, controller, widgetLimit);
                                               },
                                             ),
                                           ],
@@ -641,7 +641,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                 const Divider(height: 1),
                 if(_settings?['APP_ENABLE_FEATURE_PARTNER_PRODUCT_COUPON'] == '1' 
                 && _settings?['APP_ENABLE_FEATURE_PARTNER_COUPON_REWARD'] == '1' 
-                && _customerController.isCustomer())...[
+                && controllerCustomer.isCustomer())...[
                   if(controller.cart.receivedCoupons.isNotEmpty)...[
                     const Gap(),
                     WillReceivedCoupons(
@@ -675,17 +675,17 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
 
   void onTapCheckOut() async {
     Get.to(() => const CheckOutScreen())?.then((value) {
-      if(_customerController.cart.products.isEmpty) Get.back();
+      if(controllerCustomer.cart.products.isEmpty) Get.back();
     });
   }
 
-  void _onChangeShop(PartnerShopModel shop, CustomerController controller) async {
-    await controller.updateCartShop(shop.id ?? '');
-    Get.back();
-    if(controller.cart.products.isEmpty){
-      Get.back();
-    }
-  }
+  // void _onChangeShop(PartnerShopModel shop, CustomerController controller) async {
+  //   await controller.updateCartShop(shop.id ?? '');
+  //   Get.back();
+  //   if(controller.cart.products.isEmpty){
+  //     Get.back();
+  //   }
+  // }
 
   void _onTapDelete(int index, CustomerController controller) {
     ShowDialog.showOptionDialog(
@@ -697,18 +697,18 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
         if(controller.cart.products.isEmpty){
           Get.back();
         }
-        final clearance = AppHelpers.checkProductClearance(_customerController.cart);
-        if(!clearance && _customerController.cart.shop?.id != _customerController.partnerShop?.id
-          && _customerController.partnerShop != null
+        final clearance = AppHelpers.checkProductClearance(controllerCustomer.cart);
+        if(!clearance && controllerCustomer.cart.shop?.id != controllerCustomer.partnerShop?.id
+          && controllerCustomer.partnerShop != null
         ){
-          await controller.updateCartShop(_customerController.partnerShop?.id ?? '');
+          await controller.updateCartShop(controllerCustomer.partnerShop?.id ?? '');
         }
       },
     );
   }
 
-  void _onChangeQuantity(int index, int qty, CustomerController controller, bool _limit) {
-    if(_limit) {
+  void _onChangeQuantity(int index, int qty, CustomerController controller, bool widgetLimit) {
+    if(widgetLimit) {
       ShowDialog.showForceDialog(
         _lController.getLang("Warning"),
         _lController.getLang("Not enough products in the store"),

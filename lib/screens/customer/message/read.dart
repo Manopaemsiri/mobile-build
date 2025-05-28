@@ -26,7 +26,7 @@ class MessageScreen extends StatefulWidget {
 
 class _MessageScreenState extends State<MessageScreen> {
   final LanguageController lController = Get.find<LanguageController>();
-  final FirebaseController _firebaseController = Get.find<FirebaseController>();
+  final FirebaseController controllerFirebase = Get.find<FirebaseController>();
 
   final TextEditingController _textController = TextEditingController();
   FocusNode focusNode = FocusNode();
@@ -39,7 +39,7 @@ class _MessageScreenState extends State<MessageScreen> {
   @override
   void initState() {
     super.initState();
-    _firebaseController.readMessage(widget.model);
+    controllerFirebase.readMessage(widget.model);
   }
 
   @override
@@ -62,7 +62,7 @@ class _MessageScreenState extends State<MessageScreen> {
           children: [
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: _firebaseController.subscribeChatroom(
+                stream: controllerFirebase.subscribeChatroom(
                   widget.model.firebaseChatroomId
                 ),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -99,26 +99,26 @@ class _MessageScreenState extends State<MessageScreen> {
                         physics: const BouncingScrollPhysics(),
                         itemBuilder: (context, index) {
                           Map<String, dynamic> d = dataModel[index];
-                          bool _showAvatar = true;
-                          bool _showPaddingTop = false;
+                          bool showAvatar = true;
+                          bool showPaddingTop = false;
                           if(index > 0){
                             Map<String, dynamic> n = dataModel[index-1];
                             if((d["fromCustomer"] == true && n['fromCustomer'] == false) 
                             || d["fromCustomer"] == true 
                             || (d["fromCustomer"] == false && n['fromCustomer'] == false)){
-                              _showAvatar = false;
+                              showAvatar = false;
                             }
                             if(d["fromCustomer"] != n['fromCustomer']){
-                              _showPaddingTop = true;
+                              showPaddingTop = true;
                               
                             }
                           }
 
                           return MessageChat(
                             model: d,
-                            showAvatar: _showAvatar,
+                            showAvatar: showAvatar,
                             partnerShop: widget.model.partnerShop,
-                            showPaddingTop: _showPaddingTop,
+                            showPaddingTop: showPaddingTop,
                           );
                         },
                       ),
@@ -182,7 +182,7 @@ class _MessageScreenState extends State<MessageScreen> {
                                 controller: _textController,
                                 focusNode: focusNode,
                                 decoration: InputDecoration(
-                                  hintText: lController.getLang("Type message")+'...',
+                                  hintText: '${lController.getLang("Type message")}...',
                                   border: InputBorder.none,
                                 ),
                                 enabled: !isSending,
@@ -231,7 +231,7 @@ class _MessageScreenState extends State<MessageScreen> {
       setState((){
         isSending = true;
       });
-      await _firebaseController.sendMessage(
+      await controllerFirebase.sendMessage(
         widget.model,
         text: _textController.text
       );
@@ -248,7 +248,7 @@ class _MessageScreenState extends State<MessageScreen> {
       setState(() => isSending = true);
       final  images = await uploadImages([temp]);
       if(images != null){
-        await _firebaseController.sendMessage(
+        await controllerFirebase.sendMessage(
           widget.model,
           images: images
         );
@@ -259,11 +259,11 @@ class _MessageScreenState extends State<MessageScreen> {
 
   Future<void> onPickImage() async {
     final temp = await imagePicker.pickMultiImage();
-    if(temp != null && !isSending && mounted){
+    if(temp.isNotEmpty && !isSending && mounted){
       setState(() => isSending = true);
       final images = await uploadImages(temp);
       if(images != null){
-        await _firebaseController.sendMessage(
+        await controllerFirebase.sendMessage(
           widget.model,
           images: images
         );

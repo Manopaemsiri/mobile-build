@@ -92,11 +92,11 @@ class PartnerShippingCouponLogModel {
     "points": points,
 
     "isUsed": isUsed,
-    "updausedAttedAt": usedAt == null? null: usedAt!.toIso8601String(),
-    "expiredAt": expiredAt == null? null: expiredAt!.toIso8601String(),
+    "updausedAttedAt": usedAt?.toIso8601String(),
+    "expiredAt": expiredAt?.toIso8601String(),
     
-    "updatedAt": updatedAt == null? null: updatedAt!.toIso8601String(),
-    "createdAt": createdAt == null? null: createdAt!.toIso8601String(),
+    "updatedAt": updatedAt?.toIso8601String(),
+    "createdAt": createdAt?.toIso8601String(),
   };
 
   bool isValid() {

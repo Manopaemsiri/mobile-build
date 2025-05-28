@@ -292,8 +292,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: _cFirstname,
                         decoration: InputDecoration(
                           border: const OutlineInputBorder(),
-                          labelText: lController.getLang("First Name")
-                            +' *',
+                          labelText: '${lController.getLang("First Name")} *',
                           prefixIcon: const Icon(Icons.person),
                         ),
                         textInputAction: TextInputAction.next,
@@ -306,8 +305,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: _cLastname,
                         decoration: InputDecoration(
                           border: const OutlineInputBorder(),
-                          labelText: lController.getLang("Last Name")
-                            +' *',
+                          labelText: '${lController.getLang("Last Name")} *',
                           prefixIcon: const Icon(Icons.person),
                         ),
                         textInputAction: TextInputAction.next,
@@ -322,8 +320,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         decoration: InputDecoration(
                           counterText: '',
                           border: const OutlineInputBorder(),
-                          labelText: lController.getLang("Telephone Number")
-                            +' *',
+                          labelText: '${lController.getLang("Telephone Number")} *',
                           prefixIcon: const Icon(Icons.phone_rounded),
                         ),
                         keyboardType: TextInputType.phone,
@@ -359,7 +356,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: _cPassword,
                         decoration: InputDecoration(
                           border: const OutlineInputBorder(),
-                          labelText: lController.getLang("Password")+' *',
+                          labelText: '${lController.getLang("Password")} *',
                           prefixIcon: const Icon(Icons.lock),
                           suffixIcon: IconButton(
                             onPressed: () {
@@ -402,8 +399,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: _cConfirmPassword,
                         decoration: InputDecoration(
                           border: const OutlineInputBorder(),
-                          labelText: lController.getLang("Confirm Password")
-                            +' *',
+                          labelText: '${lController.getLang("Confirm Password")} *',
                           prefixIcon: const Icon(Icons.lock),
                           suffixIcon: IconButton(
                             onPressed: () {
@@ -522,11 +518,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               onPressed: () => Get.off(() => SignInScreen(
                                 isFirstState: widget.isFirstState,
                               )),
-                              child: Text(
-                                lController.getLang("Sign In")
-                              ),
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,
+                              ),
+                              child: Text(
+                                lController.getLang("Sign In")
                               ),
                             ),
                           ],
@@ -537,9 +533,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Wrap(
                           runSpacing: kGap,
                           children: customerGroups.map((e) {
-
                             return ButtonCustom(
-                              title: lController.getLang("Register for") + " " + (e.name ?? ''),
+                              title: '${lController.getLang("Register for")} ${e.name ?? ''}',
                               onPressed: () => _tabGroup(e),
                               isOutline: true,
                               textStyle: headline6,
@@ -574,8 +569,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
           "text_privacy_1", () => Get.back()
         );
       }else{
-        CustomerController _customerController = Get.find<CustomerController>();
-        String? guestId = _customerController.customerModel?.id;
+        CustomerController controllerCustomer = Get.find<CustomerController>();
+        String? guestId = controllerCustomer.customerModel?.id;
         String widgetTelephone = _cTelephone.text.replaceFirst(RegExp(r'0'), '+66').trim();
         widgetTelephone = widgetTelephone.replaceAll('-', '');
         widgetTelephone = widgetTelephone.replaceAll(' ', '');
@@ -766,7 +761,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: ListView(
                 children: [
                   tableRow("Social ID Number", cardNumber),
-                  tableRow("Full Name", _cFirstname.text + " " + _cLastname.text),
+                  tableRow("Full Name", '${_cFirstname.text} ${_cLastname.text}'),
                   tableRow("Address", "$address $subdistrict $district $province $zipcode"),
                   tableRow("Date of Birth", birthDate),
                 ],

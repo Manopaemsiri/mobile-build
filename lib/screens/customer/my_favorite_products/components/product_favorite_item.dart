@@ -29,7 +29,7 @@ class ProductFavoriteItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CustomerController _customerController = Get.find<CustomerController>();
+    final CustomerController controllerCustomer = Get.find<CustomerController>();
 
     String widgetImage = model.image?.path ?? '';
     String widgetName = model.name;
@@ -182,7 +182,7 @@ class ProductFavoriteItem extends StatelessWidget {
                                 iconSize: 1.5*kGap,
                                 splashRadius: 1.25*kGap,
                                 onPressed: () async {
-                                  await _customerController.toggleFavoriteProduct(model.id ?? '');
+                                  await controllerCustomer.toggleFavoriteProduct(model.id ?? '');
                                 },
                               ),
                             ],

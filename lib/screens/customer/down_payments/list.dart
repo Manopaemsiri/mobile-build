@@ -18,7 +18,7 @@ class DownPaymentsScreen extends StatefulWidget {
 
 class _DownPaymentsScreenState extends State<DownPaymentsScreen> {
   final LanguageController lController = Get.find<LanguageController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
   List<double> customDownPayments = [];
   double? selectedPercent;
   late double defaultPercent;
@@ -26,53 +26,53 @@ class _DownPaymentsScreenState extends State<DownPaymentsScreen> {
   @override
   void initState() {
     super.initState();
-    _customerController.discountProduct!.customDownPayments.sort();
+    controllerCustomer.discountProduct!.customDownPayments.sort();
     if(mounted){
       setState(() {
         defaultPercent = grandTotal(withShipping: false) /overallTotal(withShipping: false) *100;
-        customDownPayments = _customerController.discountProduct!.customDownPayments;
+        customDownPayments = controllerCustomer.discountProduct!.customDownPayments;
         selectedPercent = defaultPercent;
       });
     }
   }
 
   double grandTotal({bool withShipping = true}) {
-    if(_customerController.cart.products.isNotEmpty){
+    if(controllerCustomer.cart.products.isNotEmpty){
       return max(
-        _customerController.cart.total 
-        - (_customerController.discountProduct?.isValid() == true? (_customerController.discountProduct?.actualDiscount ?? 0): 0) 
-        + (withShipping && _customerController.shippingMethod?.isValid() == true? (_customerController.shippingMethod?.price ?? 0): 0) 
-        - (withShipping && _customerController.discountShipping?.isValid() == true? (_customerController.discountShipping?.actualDiscount ?? 0): 0) 
-        - (_customerController.discountCash?.isValid() == true? (_customerController.discountCash?.actualDiscount ?? 0): 0) 
-        - (_customerController.discountPoint?.discount ?? 0) 
+        controllerCustomer.cart.total 
+        - (controllerCustomer.discountProduct?.isValid() == true? (controllerCustomer.discountProduct?.actualDiscount ?? 0): 0) 
+        + (withShipping && controllerCustomer.shippingMethod?.isValid() == true? (controllerCustomer.shippingMethod?.price ?? 0): 0) 
+        - (withShipping && controllerCustomer.discountShipping?.isValid() == true? (controllerCustomer.discountShipping?.actualDiscount ?? 0): 0) 
+        - (controllerCustomer.discountCash?.isValid() == true? (controllerCustomer.discountCash?.actualDiscount ?? 0): 0) 
+        - (controllerCustomer.discountPoint?.discount ?? 0) 
       , 0);
     }else{
       return 0;
     }
   }
   double shippingTotal() {
-    if(_customerController.cart.products.isNotEmpty){
+    if(controllerCustomer.cart.products.isNotEmpty){
       return max(
-        (_customerController.shippingMethod?.isValid() == true? (_customerController.shippingMethod?.price ?? 0): 0) 
-        - (_customerController.discountShipping?.isValid() == true? (_customerController.discountShipping?.actualDiscount ?? 0): 0) 
+        (controllerCustomer.shippingMethod?.isValid() == true? (controllerCustomer.shippingMethod?.price ?? 0): 0) 
+        - (controllerCustomer.discountShipping?.isValid() == true? (controllerCustomer.discountShipping?.actualDiscount ?? 0): 0) 
       , 0);
     }else{
       return 0;
     }
   }
   double overallTotal({bool withShipping = false}) {
-    if(_customerController.cart.products.isNotEmpty){
+    if(controllerCustomer.cart.products.isNotEmpty){
       return max(
-        _customerController.cart.total 
-        - (_customerController.discountProduct?.isValid() == true? (_customerController.discountProduct?.actualDiscount ?? 0): 0) 
-        + (withShipping && _customerController.shippingMethod?.isValid() == true? (_customerController.shippingMethod?.price ?? 0): 0) 
-        - (withShipping && _customerController.discountShipping?.isValid() == true? (_customerController.discountShipping?.actualDiscount ?? 0): 0) 
-        - (_customerController.discountCash?.isValid() == true? (_customerController.discountCash?.actualDiscount ?? 0): 0) 
-        - (_customerController.discountPoint?.discount ?? 0) 
-        + (_customerController.cart.hasDownPayment == 1? (
-          _customerController.cart.missingPayment 
-          - (_customerController.discountProduct?.hasMissingPaymentDiscount() == true? (_customerController.discountProduct?.missingPaymentDiscount ?? 0): 0) 
-          - (_customerController.discountCash?.hasMissingPaymentDiscount() == true? (_customerController.discountCash?.missingPaymentDiscount ?? 0): 0) 
+        controllerCustomer.cart.total 
+        - (controllerCustomer.discountProduct?.isValid() == true? (controllerCustomer.discountProduct?.actualDiscount ?? 0): 0) 
+        + (withShipping && controllerCustomer.shippingMethod?.isValid() == true? (controllerCustomer.shippingMethod?.price ?? 0): 0) 
+        - (withShipping && controllerCustomer.discountShipping?.isValid() == true? (controllerCustomer.discountShipping?.actualDiscount ?? 0): 0) 
+        - (controllerCustomer.discountCash?.isValid() == true? (controllerCustomer.discountCash?.actualDiscount ?? 0): 0) 
+        - (controllerCustomer.discountPoint?.discount ?? 0) 
+        + (controllerCustomer.cart.hasDownPayment == 1? (
+          controllerCustomer.cart.missingPayment 
+          - (controllerCustomer.discountProduct?.hasMissingPaymentDiscount() == true? (controllerCustomer.discountProduct?.missingPaymentDiscount ?? 0): 0) 
+          - (controllerCustomer.discountCash?.hasMissingPaymentDiscount() == true? (controllerCustomer.discountCash?.missingPaymentDiscount ?? 0): 0) 
         ): 0) 
       , 0);
     }else{
@@ -80,11 +80,11 @@ class _DownPaymentsScreenState extends State<DownPaymentsScreen> {
     }
   }
   double missingTotal() {
-    if(_customerController.cart.products.isNotEmpty && _customerController.cart.hasDownPayment == 1){
+    if(controllerCustomer.cart.products.isNotEmpty && controllerCustomer.cart.hasDownPayment == 1){
       return max(
-        _customerController.cart.missingPayment 
-        - (_customerController.discountProduct?.hasMissingPaymentDiscount() == true? (_customerController.discountProduct?.missingPaymentDiscount ?? 0): 0) 
-        - (_customerController.discountCash?.hasMissingPaymentDiscount() == true? (_customerController.discountCash?.missingPaymentDiscount ?? 0): 0) 
+        controllerCustomer.cart.missingPayment 
+        - (controllerCustomer.discountProduct?.hasMissingPaymentDiscount() == true? (controllerCustomer.discountProduct?.missingPaymentDiscount ?? 0): 0) 
+        - (controllerCustomer.discountCash?.hasMissingPaymentDiscount() == true? (controllerCustomer.discountCash?.missingPaymentDiscount ?? 0): 0) 
       , 0);
     }else{
       return 0;
@@ -175,7 +175,7 @@ class _DownPaymentsScreenState extends State<DownPaymentsScreen> {
                       ]
                     )
                   ),
-                  if(_customerController.cart.hasDownPayment == 1)...[
+                  if(controllerCustomer.cart.hasDownPayment == 1)...[
                     RichText(
                       text: TextSpan(
                         text: '${lController.getLang('Pay Later')} ',
@@ -300,7 +300,7 @@ class _DownPaymentsScreenState extends State<DownPaymentsScreen> {
                 ]
               )
             ),
-            if(_customerController.cart.hasDownPayment == 1)...[
+            if(controllerCustomer.cart.hasDownPayment == 1)...[
               RichText(
                 text: TextSpan(
                   text: '${lController.getLang('Pay Later')} ',

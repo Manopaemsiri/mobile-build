@@ -31,7 +31,7 @@
 
 // class _PartnerShopsScreenState extends State<PartnerShopsScreen> {
 //   final LanguageController lController = Get.find<LanguageController>();
-//   final CustomerController _customerController = Get.find<CustomerController>();
+//   final CustomerController controllerCustomer = Get.find<CustomerController>();
 
 //   List<PartnerShopModel> dataModel = [];
 
@@ -66,8 +66,8 @@
 //         ApiService.processList("partner-shops", input: {
 //           "paginate": {"page": page, "pp": 10},
 //           "dataFilter": {
-//             "lat": _customerController.shippingAddress?.lat,
-//             "lng": _customerController.shippingAddress?.lng,
+//             "lat": controllerCustomer.shippingAddress?.lat,
+//             "lng": controllerCustomer.shippingAddress?.lng,
 //           }
 //         }).then((value) {
 //           PaginateModel paginateModel =

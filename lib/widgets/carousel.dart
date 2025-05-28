@@ -41,7 +41,7 @@ class Carousel extends StatefulWidget {
 
 class _CarouselState extends State<Carousel> {
   int _current = 0;
-  final CarouselSliderController _controller = CarouselSliderController();
+  final CarouselSliderController controllerWidget = CarouselSliderController();
   
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class _CarouselState extends State<Carousel> {
             borderRadius: widget.radius,
             child: CarouselSlider(
               items: _buildItem(widget.images, widget.margin),
-              carouselController: _controller,
+              carouselController: controllerWidget,
               options: CarouselOptions(
                 aspectRatio: widget.aspectRatio,
                 viewportFraction: widget.viewportFraction,
@@ -84,7 +84,7 @@ class _CarouselState extends State<Carousel> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: widget.images!.asMap().entries.map((entry) {
               return GestureDetector(
-                onTap: () => _controller.animateToPage(entry.key),
+                onTap: () => controllerWidget.animateToPage(entry.key),
                 child: Container(
                   width: 6.4,
                   height: 6.4,

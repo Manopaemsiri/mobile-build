@@ -22,7 +22,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final LanguageController lController = Get.find<LanguageController>();
-  final AppController _appController = Get.find<AppController>();
+  final AppController controllerApp = Get.find<AppController>();
   late final CustomerController customerController = Get.find<CustomerController>();
   
   // Form Key
@@ -50,7 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
   }
   Future<void> _initState() async {
-    await _appController.getSetting();
+    await controllerApp.getSetting();
     path = customerController.customerModel?.avatar?.path ?? '';
     _cFirstname.text = customerController.customerModel?.firstname ?? '';
     _cLastname.text = customerController.customerModel?.lastname ?? '';
@@ -251,7 +251,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     enabled: false,
                   ),
 
-                  if(_appController.enabledCustomerGroup && _cCustomerType.text.isNotEmpty)...[
+                  if(controllerApp.enabledCustomerGroup && _cCustomerType.text.isNotEmpty)...[
                     const SizedBox(height: kGap),
                     LabelText(
                       text: lController.getLang("Customer Type"),
@@ -304,7 +304,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void _onSubmit(CustomerController _controller) async {
+  void _onSubmit(CustomerController controllerWidget) async {
     FileModel? widgetAvatar;
     if(isPicked){
       FileModel dataFile = await ApiService.uploadFile(
@@ -328,7 +328,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       needLoading: true,
     );
     if(res){
-      _controller.updateCustomerAccount(
+      controllerWidget.updateCustomerAccount(
         firstname: _cFirstname.text,
         lastname: _cLastname.text,
         email: _cEmail.text,

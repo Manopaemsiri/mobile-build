@@ -31,7 +31,7 @@
 
 // class _PaymentTrueMoneyWalletScreenState extends State<PaymentTrueMoneyWalletScreen> {
 //   final LanguageController lController = Get.find<LanguageController>();
-//   final CustomerController _customerController = Get.find<CustomerController>();
+//   final CustomerController controllerCustomer = Get.find<CustomerController>();
 //   Widget? _cardIcon;
 
 //   // Form Key
@@ -46,8 +46,8 @@
 //   final FocusNode _fPhone = FocusNode();
 
 //   bool _isValid() {
-//     return _customerController.paymentMethod != null 
-//       && _customerController.paymentMethod!.isValid() 
+//     return controllerCustomer.paymentMethod != null 
+//       && controllerCustomer.paymentMethod!.isValid() 
 //       && _cName.text != '' && _cPhone.text != '';
 //   }
 
@@ -56,7 +56,7 @@
 //     return Scaffold(
 //       backgroundColor: kWhiteColor,
 //       appBar: AppBar(
-//         title: Text(_customerController.paymentMethod?.name ?? ''),
+//         title: Text(controllerCustomer.paymentMethod?.name ?? ''),
 //       ),
 //       body: !widget.model.isValid() 
 //         ? Center(child: NoDataCoffeeMug())

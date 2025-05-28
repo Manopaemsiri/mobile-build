@@ -24,7 +24,7 @@ class CustomerSubscriptionScreen extends StatelessWidget {
 
   final String id;
   final lController = Get.find<LanguageController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
   final bool trimDigits = false;
 
   @override
@@ -63,7 +63,7 @@ class CustomerSubscriptionScreen extends StatelessWidget {
     final String subscriptionId = item.subscription?.id ?? '';
     final String customerSubscriptionId = item.id ?? '';
 
-    final CustomerShippingAddressModel? shippingAddress = _customerController.shippingAddress;
+    final CustomerShippingAddressModel? shippingAddress = controllerCustomer.shippingAddress;
     final CustomerBillingAddressModel? billingAddress = item.billingAddress;
     final List<PartnerProductModel> relatedProducts = controller.relatedProducts;
     final List<PartnerProductModel> products = controller.products;
@@ -167,7 +167,7 @@ class CustomerSubscriptionScreen extends StatelessWidget {
                               '_id': customerSubscriptionId,
                               'shippingAddressId': updatedAddress.id,
                             });
-                            await _customerController.updateShippingAddress(updatedAddress);
+                            await controllerCustomer.updateShippingAddress(updatedAddress);
                             Get.find<CustomerSubscriptionController>().update();
                           }
                         });

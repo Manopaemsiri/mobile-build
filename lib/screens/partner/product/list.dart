@@ -4,7 +4,7 @@ import 'package:coffee2u/controller/customer_controller.dart';
 import 'package:coffee2u/controller/language_controller.dart';
 import 'package:coffee2u/models/index.dart';
 import 'package:coffee2u/screens/customer/shopping_cart/read.dart';
-import 'package:coffee2u/screens/partner/shop/components/product_item.dart';
+// import 'package:coffee2u/screens/partner/shop/components/product_item.dart';
 import 'package:coffee2u/widgets/index.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +30,7 @@ class PartnerProductsScreen extends StatefulWidget {
 class _PartnerProductsScreenState extends State<PartnerProductsScreen> {
   final LanguageController lController = Get.find<LanguageController>();
   final AppController aController = Get.find<AppController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
   List<PartnerProductModel> dataModel = [];
 
   PartnerShopModel? _partnerShop;
@@ -47,8 +47,8 @@ class _PartnerProductsScreenState extends State<PartnerProductsScreen> {
 
   Future<void> _initState() async {
     try {
-      if(_customerController.partnerShop != null && _customerController.partnerShop?.type != 9){
-        final res = await ApiService.processRead("partner-shop", input: { "_id": _customerController.partnerShop?.id });
+      if(controllerCustomer.partnerShop != null && controllerCustomer.partnerShop?.type != 9){
+        final res = await ApiService.processRead("partner-shop", input: { "_id": controllerCustomer.partnerShop?.id });
         _partnerShop = PartnerShopModel.fromJson(res?["result"]);
       }else {
         final res = await ApiService.processRead("partner-shop-center");
@@ -78,12 +78,12 @@ class _PartnerProductsScreenState extends State<PartnerProductsScreen> {
         page += 1;
         if(mounted) setState(() => isLoading = true);
         
-        Map<String, dynamic> _dataFilterInput = widget.dataFilter ?? {};
-        _dataFilterInput = Map.from(_dataFilterInput);
-        _dataFilterInput["partnerShopId"] = _partnerShop?.id;
+        Map<String, dynamic> dataFilterInput = widget.dataFilter ?? {};
+        dataFilterInput = Map.from(dataFilterInput);
+        dataFilterInput["partnerShopId"] = _partnerShop?.id;
         
         final res = await ApiService.processList("partner-products", input: {
-          "dataFilter": _dataFilterInput,
+          "dataFilter": dataFilterInput,
           "paginate": {
             "page": page,
             "pp": 26,
@@ -149,11 +149,11 @@ class _PartnerProductsScreenState extends State<PartnerProductsScreen> {
                 key: const ValueKey<String>("partner-products"),
                 padding: const EdgeInsets.fromLTRB(kGap, 0, kGap, kHalfGap),
                 data: dataModel,
-                customerController: _customerController,
+                customerController: controllerCustomer,
                 lController: lController,
                 aController: aController,
                 onTap: (d) => onTap(d.id!),
-                showStock: _customerController.isShowStock(),
+                showStock: controllerCustomer.isShowStock(),
                 trimDigits: true,
               ),
               if (isEnded && dataModel.isNotEmpty) ...[
@@ -176,7 +176,7 @@ class _PartnerProductsScreenState extends State<PartnerProductsScreen> {
                   key: const Key('loader-widget'),
                   onVisibilityChanged: onLoadMore,
                   child: ProductGridLoader(
-                    showStock: _customerController.isShowStock(),
+                    showStock: controllerCustomer.isShowStock(),
                     padding: const EdgeInsets.fromLTRB(kGap, 0, kGap, kGap),
                   )
                 ),

@@ -33,8 +33,8 @@ class BottomNav extends StatefulWidget {
 
 class _BottomNavState extends State<BottomNav> with WidgetsBindingObserver {
   int _selectedIndex = 0;
-  final FirebaseController _firebaseController = Get.find<FirebaseController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final FirebaseController controllerFirebase = Get.find<FirebaseController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
 
   late final List<Widget> _widgetOptions = <Widget>[
     HomeScreen(showPopup: widget.showPopup),
@@ -89,18 +89,18 @@ class _BottomNavState extends State<BottomNav> with WidgetsBindingObserver {
     if(_selectedIndex == 0){
       // _frontendController.refreshHomepage();
       // _frontendController.refreshPartnerShops(
-      //   lat: _customerController.shippingAddress?.lat,
-      //   lng: _customerController.shippingAddress?.lng,
-      //   customerId: _customerController.customerModel?.id
+      //   lat: controllerCustomer.shippingAddress?.lat,
+      //   lng: controllerCustomer.shippingAddress?.lng,
+      //   customerId: controllerCustomer.customerModel?.id
       // );
     }else if(_selectedIndex == 2){
-      if(!_customerController.isCustomer()){
+      if(!controllerCustomer.isCustomer()){
         Get.to(() => const SignInMenuScreen());
       }else{
-        _customerController.updateFrequentlyProducts();
+        controllerCustomer.updateFrequentlyProducts();
       }
     }else if(_selectedIndex == 3){
-      if(!_customerController.isCustomer()){
+      if(!controllerCustomer.isCustomer()){
         Get.to(() => const SignInMenuScreen());
       }
     }
@@ -109,22 +109,22 @@ class _BottomNavState extends State<BottomNav> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _firebaseController.streamNewOrderStatuses,
+      stream: controllerFirebase.streamNewOrderStatuses,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot1) {
         return StreamBuilder<QuerySnapshot>(
-          stream: _firebaseController.streamNewMessages,
+          stream: controllerFirebase.streamNewMessages,
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
             
             
             int countNotifications = 0;
-            if(_customerController.isCustomer()){
+            if(controllerCustomer.isCustomer()){
               if(snapshot1.hasData && snapshot1.data!.docs.isNotEmpty){
                 countNotifications = snapshot1.data!.docs.length;
               }
             }
             
             int countNewMessages = 0;
-            if(_customerController.isCustomer()){
+            if(controllerCustomer.isCustomer()){
               if(snapshot2.hasData && snapshot2.data!.docs.isNotEmpty){
                 countNewMessages = snapshot2.data!.docs.length;
               }

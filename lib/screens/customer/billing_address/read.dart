@@ -39,7 +39,7 @@ class BillingAddressScreen extends StatefulWidget {
 
 class _BillingAddressScreenState extends State<BillingAddressScreen> {
   final LanguageController lController = Get.find<LanguageController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
   late CustomerShippingAddressModel? shippingAddress;
 
   bool isLoading = true;
@@ -87,8 +87,8 @@ class _BillingAddressScreenState extends State<BillingAddressScreen> {
   SubdistrictModel? subdistrictModel;
   
   _initState() async {
-    CustomerModel? customer = _customerController.customerModel;
-    CustomerShippingAddressModel? shAddress = _customerController.shippingAddress;
+    CustomerModel? customer = controllerCustomer.customerModel;
+    CustomerShippingAddressModel? shAddress = controllerCustomer.shippingAddress;
 
     CustomerBillingAddressModel dataModel = widget.addressModel 
       ?? CustomerBillingAddressModel(
@@ -517,7 +517,7 @@ class _BillingAddressScreenState extends State<BillingAddressScreen> {
         shippingAddress = CustomerBillingAddressModel.fromJson(value?['result']);
       }
     });
-    await _customerController.updateBillingAddress(shippingAddress);
+    await controllerCustomer.updateBillingAddress(shippingAddress);
   }
 
   void _onTapSave() async {
@@ -546,7 +546,7 @@ class _BillingAddressScreenState extends State<BillingAddressScreen> {
         }
       }
       if (widget.isEditMode) {
-        // temp.id = _customerController.billingAddress?.id;
+        // temp.id = controllerCustomer.billingAddress?.id;
         temp.id = model.id;
         var res = await ApiService.processUpdate('billing-address',
             input: {"address": temp}, needLoading: true);

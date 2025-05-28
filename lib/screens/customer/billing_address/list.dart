@@ -27,7 +27,7 @@ class BillingAddressesScreen extends StatefulWidget {
 
 class _BillingAddressesScreenState extends State<BillingAddressesScreen> {
   final LanguageController lController = Get.find<LanguageController>();
-  final AppController _appController = Get.find<AppController>();
+  final AppController controllerApp = Get.find<AppController>();
   
   List<CustomerBillingAddressModel> dataModel = [];
 
@@ -64,9 +64,9 @@ class _BillingAddressesScreenState extends State<BillingAddressesScreen> {
   void _initState() async {
     await Future.wait([
       billingAddressList(),
-      _appController.getSetting(),
+      controllerApp.getSetting(),
     ]);
-    if(_appController.enabledCustomerGroup) await readCustomerGroup();
+    if(controllerApp.enabledCustomerGroup) await readCustomerGroup();
     if(mounted) setState(() => loading = false);
   }
 
@@ -192,9 +192,9 @@ class _BillingAddressesScreenState extends State<BillingAddressesScreen> {
                                                     ),
                                                   ],
                                                 ),
-                                                if((_customerGroup?.enableAddressCorrection() == true && _appController.enabledCustomerGroup) 
+                                                if((_customerGroup?.enableAddressCorrection() == true && controllerApp.enabledCustomerGroup) 
                                                 || _customerGroup == null 
-                                                || !_appController.enabledCustomerGroup)...[
+                                                || !controllerApp.enabledCustomerGroup)...[
                                                   IconButton(
                                                     icon: const Icon(
                                                       Icons.border_color_outlined
@@ -233,7 +233,7 @@ class _BillingAddressesScreenState extends State<BillingAddressesScreen> {
                       dataModel.length < 3
                         ? const SizedBox(height: kGap)
                         : const SizedBox(height: 0),
-                      dataModel.length < 3 && (_customerGroup == null || !_appController.enabledCustomerGroup)
+                      dataModel.length < 3 && (_customerGroup == null || !controllerApp.enabledCustomerGroup)
                         ? Card(
                           margin: EdgeInsets.zero,
                           child: ListTile(

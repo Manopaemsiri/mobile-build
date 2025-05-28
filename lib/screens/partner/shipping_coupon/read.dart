@@ -1,6 +1,5 @@
-import 'dart:math';
-import 'dart:developer' as log1;
-
+// import 'dart:math';
+// import 'dart:developer' as log1;
 import 'package:coffee2u/apis/api_service.dart';
 import 'package:coffee2u/config/index.dart';
 import 'package:coffee2u/controller/app_controller.dart';
@@ -37,49 +36,49 @@ class _PartnerShippingCouponScreenState extends State<PartnerShippingCouponScree
   final LanguageController lController = Get.find<LanguageController>();
   bool isLoading = true;
   PartnerShippingCouponModel _model = PartnerShippingCouponModel();
-  final AppController _appController = Get.find<AppController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final AppController controllerApp = Get.find<AppController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
   int _points = 0;
 
-  List<PartnerShopModel> _partnerShops = [];
-  List<CustomerTierModel> _customerTiers = [];
+  List<PartnerShopModel> partnerShops = [];
+  List<CustomerTierModel> customerTiers = [];
 
   _initState() async {
     PartnerShippingCouponModel item = PartnerShippingCouponModel();
-    Map<String, dynamic> _input = {
+    Map<String, dynamic> dataInput = {
       "_id": widget.id,
     };
-    if(widget.queryParams?.isNotEmpty == true) _input.addAll(widget.queryParams ?? {});
+    if(widget.queryParams?.isNotEmpty == true) dataInput.addAll(widget.queryParams ?? {});
     var res1 = await ApiService.processRead(
       "partner-shipping-coupon",
-      input: _input,
+      input: dataInput,
     );
     if(res1!["result"] != null && res1["result"]!["_id"] != null){
       item = PartnerShippingCouponModel.fromJson(res1["result"]);
     }
     if(item.isValid()){
       if(mounted) setState(() => _model = item);
-      if(_appController.enabledMultiPartnerShops && item.forAllPartnerShops == 1 && false){
-        var res2 = await ApiService.processList('partner-shops', input: {
-          "dataFilter": {
-            "lat": _customerController.shippingAddress?.lat,
-            "lng": _customerController.shippingAddress?.lng,
-          }
-        });
-        if(res2!["result"] != null){
-          List<PartnerShopModel> temp = [];
-          var len = res2['result'].length;
-          for (var i = 0; i < len; i++) {
-            PartnerShopModel model = PartnerShopModel.fromJson(res2["result"][i]);
-            temp.add(model);
-          }
-          if(mounted){
-            setState(() {
-              _partnerShops = temp;
-            });
-          }
-        }
-      }
+      // if(controllerApp.enabledMultiPartnerShops && item.forAllPartnerShops == 1 && false){
+      //   var res2 = await ApiService.processList('partner-shops', input: {
+      //     "dataFilter": {
+      //       "lat": controllerCustomer.shippingAddress?.lat,
+      //       "lng": controllerCustomer.shippingAddress?.lng,
+      //     }
+      //   });
+      //   if(res2!["result"] != null){
+      //     List<PartnerShopModel> temp = [];
+      //     var len = res2['result'].length;
+      //     for (var i = 0; i < len; i++) {
+      //       PartnerShopModel model = PartnerShopModel.fromJson(res2["result"][i]);
+      //       temp.add(model);
+      //     }
+      //     if(mounted){
+      //       setState(() {
+      //         partnerShops = temp;
+      //       });
+      //     }
+      //   }
+      // }
       if(item.forAllCustomerTiers == 1){
         var res2 = await ApiService.processList('customer-tiers');
         if(res2!["result"] != null){
@@ -89,7 +88,7 @@ class _PartnerShippingCouponScreenState extends State<PartnerShippingCouponScree
             CustomerTierModel model = CustomerTierModel.fromJson(res2["result"][i]);
             temp.add(model);
           }
-          if(mounted) setState(() => _customerTiers = temp);
+          if(mounted) setState(() => customerTiers = temp);
         }
       }
     }
@@ -112,7 +111,7 @@ class _PartnerShippingCouponScreenState extends State<PartnerShippingCouponScree
   Widget build(BuildContext context) {
     if(!isLoading && _model.isValid()){
       List<FileModel>? gallery = [];
-      if (_model.image != null && _model.image!.path != null) {
+      if (_model.image != null && _model.image!.path.isNotEmpty) {
         gallery.add(_model.image as FileModel);
       }
       return Scaffold(
@@ -124,7 +123,7 @@ class _PartnerShippingCouponScreenState extends State<PartnerShippingCouponScree
           ),
         ),
         body: body1(_model, gallery),
-        bottomNavigationBar: _customerController.isCustomer() && widget.canRedeem
+        bottomNavigationBar: controllerCustomer.isCustomer() && widget.canRedeem
           ? Padding(
             padding: kPaddingSafeButton,
             child: IgnorePointer(
@@ -158,8 +157,8 @@ class _PartnerShippingCouponScreenState extends State<PartnerShippingCouponScree
     String widgetContent = item.description == ''
       ? item.shortDescription: item.description;
 
-    List<PartnerShopModel> _forPartnerShops = item.forPartnerShops;
-    List<CustomerTierModel> _forCustomerTiers = item.forCustomerTiers;
+    // List<PartnerShopModel> forPartnerShops = item.forPartnerShops;
+    List<CustomerTierModel> forCustomerTiers = item.forCustomerTiers;
 
     return SingleChildScrollView(
       child: Column(
@@ -223,82 +222,83 @@ class _PartnerShippingCouponScreenState extends State<PartnerShippingCouponScree
             )
           ),
     
-          if(_appController.enabledMultiPartnerShops && false) ...[
-            if (item.forAllPartnerShops == 0 && _forPartnerShops.isNotEmpty) ...[
-              const Gap(gap: kHalfGap),
-              SectionTitle(
-                titleText: lController.getLang("Promotional Shops"),
-              ),
-              SizedBox(
-                height: 194.0,
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemCount: _forPartnerShops.length,
-                    itemBuilder: (context, index) {
-                      PartnerShopModel shop = _forPartnerShops[index];
-                      if (shop.status == 0) {
-                        return const SizedBox.shrink();
-                      } else {
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            left: index == 0 ? kGap - 2 : 0,
-                            right: index == _forPartnerShops.length - 1? kGap - 2: 0
-                          ),
-                          child: CardShop(
-                            width: cardWidth,
-                            model: shop,
-                            showDistance: false,
-                            onPressed: () => _onTapShop(shop.id ?? '')
-                          ),
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ),
-              const Gap(gap: kGap),
-            ],
-            if (item.forAllPartnerShops == 1 && _partnerShops.isNotEmpty) ...[
-            const Gap(gap: kHalfGap),
-            SectionTitle(
-              titleText: lController.getLang("Promotional Shops"),
-            ),
-            SizedBox(
-              height: 194.0,
-              child: Container(
-                alignment: Alignment.centerLeft,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemCount: _partnerShops.length,
-                  itemBuilder: (context, index) {
-                    PartnerShopModel shop = _partnerShops[index];
-                    if (shop.status == 0) {
-                      return const SizedBox.shrink();
-                    } else {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          left: index == 0 ? kGap - 2 : 0,
-                          right: index == _partnerShops.length - 1? kGap - 2: 0
-                        ),
-                        child: CardShop(
-                          width: cardWidth,
-                          model: shop,
-                          showDistance: true,
-                          onPressed: () => _onTapShop(shop.id ?? '')
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ),
-            ),
-            const Gap(gap: kGap),
-          ],
-          ],
+          // if(controllerApp.enabledMultiPartnerShops && false) ...[
+          //   if (item.forAllPartnerShops == 0 && forPartnerShops.isNotEmpty) ...[
+          //     const Gap(gap: kHalfGap),
+          //     SectionTitle(
+          //       titleText: lController.getLang("Promotional Shops"),
+          //     ),
+          //     SizedBox(
+          //       height: 194.0,
+          //       child: Container(
+          //         alignment: Alignment.centerLeft,
+          //         child: ListView.builder(
+          //           scrollDirection: Axis.horizontal,
+          //           shrinkWrap: true,
+          //           itemCount: forPartnerShops.length,
+          //           itemBuilder: (context, index) {
+          //             PartnerShopModel shop = forPartnerShops[index];
+          //             if (shop.status == 0) {
+          //               return const SizedBox.shrink();
+          //             } else {
+          //               return Padding(
+          //                 padding: EdgeInsets.only(
+          //                   left: index == 0 ? kGap - 2 : 0,
+          //                   right: index == forPartnerShops.length - 1? kGap - 2: 0
+          //                 ),
+          //                 child: CardShop(
+          //                   width: cardWidth,
+          //                   model: shop,
+          //                   showDistance: false,
+          //                   onPressed: () => _onTapShop(shop.id ?? '')
+          //                 ),
+          //               );
+          //             }
+          //           },
+          //         ),
+          //       ),
+          //     ),
+          //     const Gap(gap: kGap),
+          //   ],
+          //   if (item.forAllPartnerShops == 1 && partnerShops.isNotEmpty) ...[
+          //     const Gap(gap: kHalfGap),
+          //     SectionTitle(
+          //       titleText: lController.getLang("Promotional Shops"),
+          //     ),
+          //     SizedBox(
+          //       height: 194.0,
+          //       child: Container(
+          //         alignment: Alignment.centerLeft,
+          //         child: ListView.builder(
+          //           scrollDirection: Axis.horizontal,
+          //           shrinkWrap: true,
+          //           itemCount: partnerShops.length,
+          //           itemBuilder: (context, index) {
+          //             PartnerShopModel shop = partnerShops[index];
+          //             if (shop.status == 0) {
+          //               return const SizedBox.shrink();
+          //             } else {
+          //               return Padding(
+          //                 padding: EdgeInsets.only(
+          //                   left: index == 0 ? kGap - 2 : 0,
+          //                   right: index == partnerShops.length - 1? kGap - 2: 0
+          //                 ),
+          //                 child: CardShop(
+          //                   width: cardWidth,
+          //                   model: shop,
+          //                   showDistance: true,
+          //                   onPressed: () => _onTapShop(shop.id ?? '')
+          //                 ),
+          //               );
+          //             }
+          //           },
+          //         ),
+          //       ),
+          //     ),
+          //     const Gap(gap: kGap),
+          //   ],
+          // ],
+          
           if(item.shippings.isNotEmpty) ...[
             const Gap(gap: kHalfGap),
             SectionTitle(
@@ -321,7 +321,7 @@ class _PartnerShippingCouponScreenState extends State<PartnerShippingCouponScree
                       return Padding(
                         padding: EdgeInsets.only(
                           left: index == 0 ? kGap - 2 : 0,
-                          right: index == _forCustomerTiers.length - 1? kGap - 2: 0
+                          right: index == forCustomerTiers.length - 1? kGap - 2: 0
                         ),
                         child: CardGeneral(
                           width: cardWidth,
@@ -339,7 +339,7 @@ class _PartnerShippingCouponScreenState extends State<PartnerShippingCouponScree
             ),
             const Gap(gap: kGap),
           ],
-          if(item.forAllCustomerTiers == 0 && _forCustomerTiers.isNotEmpty) ...[
+          if(item.forAllCustomerTiers == 0 && forCustomerTiers.isNotEmpty) ...[
             const Gap(gap: kHalfGap),
             SectionTitle(
               titleText: lController.getLang("Promotional Customer Tiers"),
@@ -351,9 +351,9 @@ class _PartnerShippingCouponScreenState extends State<PartnerShippingCouponScree
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
-                  itemCount: _forCustomerTiers.length,
+                  itemCount: forCustomerTiers.length,
                   itemBuilder: (context, index) {
-                    CustomerTierModel d = _forCustomerTiers[index];
+                    CustomerTierModel d = forCustomerTiers[index];
                   
                     if (d.status == 0) {
                       return const SizedBox.shrink();
@@ -361,7 +361,7 @@ class _PartnerShippingCouponScreenState extends State<PartnerShippingCouponScree
                       return Padding(
                         padding: EdgeInsets.only(
                           left: index == 0 ? kGap - 2 : 0,
-                          right: index == _forCustomerTiers.length - 1? kGap - 2: 0
+                          right: index == forCustomerTiers.length - 1? kGap - 2: 0
                         ),
                         child: CardGeneral(
                           width: cardWidth,
@@ -377,7 +377,7 @@ class _PartnerShippingCouponScreenState extends State<PartnerShippingCouponScree
             ),
             const Gap(gap: kGap),
           ],
-          if(item.forAllCustomerTiers == 1 && _customerTiers.isNotEmpty) ...[
+          if(item.forAllCustomerTiers == 1 && customerTiers.isNotEmpty) ...[
             const Gap(gap: kHalfGap),
             SectionTitle(
               titleText: lController.getLang("Promotional Customer Tiers"),
@@ -389,9 +389,9 @@ class _PartnerShippingCouponScreenState extends State<PartnerShippingCouponScree
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
-                  itemCount: _customerTiers.length,
+                  itemCount: customerTiers.length,
                   itemBuilder: (context, index) {
-                    CustomerTierModel d = _customerTiers[index];
+                    CustomerTierModel d = customerTiers[index];
                   
                     if (d.status == 0) {
                       return const SizedBox.shrink();
@@ -399,7 +399,7 @@ class _PartnerShippingCouponScreenState extends State<PartnerShippingCouponScree
                       return Padding(
                         padding: EdgeInsets.only(
                           left: index == 0 ? kGap - 2 : 0,
-                          right: index == _customerTiers.length - 1? kGap - 2: 0
+                          right: index == customerTiers.length - 1? kGap - 2: 0
                         ),
                         child: CardGeneral(
                           width: cardWidth,
@@ -451,9 +451,9 @@ class _PartnerShippingCouponScreenState extends State<PartnerShippingCouponScree
     }
   }
 
-  _onTapShop(String shopId) {
-    // Get.to(
-    //   () => PartnerShopScreen(shopId: shopId),
-    // );
-  }
+  // _onTapShop(String shopId) {
+  //   Get.to(
+  //     () => PartnerShopScreen(shopId: shopId),
+  //   );
+  // }
 }

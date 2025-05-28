@@ -11,7 +11,6 @@ import 'package:coffee2u/controller/firebase_controller.dart';
 import 'package:coffee2u/data/local_storage/local_storage.dart';
 import 'package:coffee2u/models/index.dart';
 import 'package:coffee2u/screens/auth/sign_in/sign_in_menu_screen.dart';
-import 'package:coffee2u/services/notification_service.dart';
 import 'package:coffee2u/utils/index.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -92,27 +91,27 @@ class ApiService {
         final res1 = ResApiAuth.fromJson(jsonDecode(data1.body));
 
         if (res1.data?.user != null) {
-          final CustomerController _customerController = Get.find<CustomerController>();
-          await _customerController.clear();
+          final CustomerController controllerCustomer = Get.find<CustomerController>();
+          await controllerCustomer.clear();
 
           await LocalStorage.saveAccessToken(res1.data?.accessToken); 
           await LocalStorage.saveRefreshToken(res1.data?.refreshToken);
           
-          final _shopId = res1.data?.user?.partnerShop?.id;
-          await _customerController.updateCustomer(res1.data?.user);
-          if (_customerController.isCustomer()) {
-            final FirebaseController _firebaseController = Get.find<FirebaseController>();
-            _firebaseController.updateChatrooms(res1.data?.user?.id ?? '');
-            _firebaseController.updateOrderStatuses(res1.data?.user?.id ?? '');
+          final dataShopId = res1.data?.user?.partnerShop?.id;
+          await controllerCustomer.updateCustomer(res1.data?.user);
+          if (controllerCustomer.isCustomer()) {
+            final FirebaseController controllerFirebase = Get.find<FirebaseController>();
+            controllerFirebase.updateChatrooms(res1.data?.user?.id ?? '');
+            controllerFirebase.updateOrderStatuses(res1.data?.user?.id ?? '');
             
-            final resPartnerShop = await processRead('partner-shop', input: { '_id': _shopId });
+            final resPartnerShop = await processRead('partner-shop', input: { '_id': dataShopId });
             PartnerShopModel? partnerShop = resPartnerShop?['result'].isNotEmpty == true? PartnerShopModel.fromJson(resPartnerShop?['result']): null;
 
             //String fcmToken = await NotificationService.getFcmToken();
             //res1.data?.user?.fcmToken = fcmToken;
             //await processUpdate('fcm-token', input: { "fcmToken": fcmToken });
-            await _customerController.updateCustomer(res1.data?.user, value: partnerShop);
-            await _customerController.updateFavoriteProducts();
+            await controllerCustomer.updateCustomer(res1.data?.user, value: partnerShop);
+            await controllerCustomer.updateFavoriteProducts();
           }
 
           CustomerShippingAddressModel? address;
@@ -131,7 +130,7 @@ class ApiService {
                   CustomerShippingAddressModel.fromJson(res2['data']['result']);
             }
           }
-          await _customerController.updateShippingAddress(address);
+          await controllerCustomer.updateShippingAddress(address);
 
           CustomerCartModel? cart;
           var data3 = await http.get(
@@ -148,7 +147,7 @@ class ApiService {
               cart = CustomerCartModel.fromJson(res3['data']['result']);
             }
           }
-          await _customerController.updateCart(cart);
+          await controllerCustomer.updateCart(cart);
 
           CustomerBillingAddressModel? billingAddress;
           var data4 = await http.get(
@@ -166,7 +165,7 @@ class ApiService {
                   CustomerBillingAddressModel.fromJson(res4['data']['result']);
             }
           }
-          await _customerController.updateBillingAddress(billingAddress);
+          await controllerCustomer.updateBillingAddress(billingAddress);
 
           Get.back();
           await Future.delayed(const Duration(milliseconds: 100));
@@ -257,11 +256,11 @@ class ApiService {
     ShowDialog.showLoadingDialog();
 
     try {
-      Map<String, dynamic> _input = input;
-      _input['lang'] = systemLanguages.length > 1? lCode.toUpperCase(): systemLanguages[0].toUpperCase();
+      Map<String, dynamic> dataInput = input;
+      dataInput['lang'] = systemLanguages.length > 1? lCode.toUpperCase(): systemLanguages[0].toUpperCase();
 
       var data1 = await http.post(Uri.parse('$apiUrl$endpoint'),
-          headers: apiHeader, body: jsonEncode(_input));
+          headers: apiHeader, body: jsonEncode(dataInput));
       Map<String, dynamic> res = json.decode(data1.body);
       Get.back();
       if(res['error']?.isNotEmpty == true){
@@ -357,9 +356,9 @@ class ApiService {
   static authSignout() async {
     log("API CALL: Auth Signout");
     try {
-      final FirebaseController _firebaseController = Get.find<FirebaseController>();
-      _firebaseController.updateChatrooms(null);
-      _firebaseController.updateOrderStatuses(null);
+      final FirebaseController controllerFirebase = Get.find<FirebaseController>();
+      controllerFirebase.updateChatrooms(null);
+      controllerFirebase.updateOrderStatuses(null);
       // Sign Out Social
       // await FacebookAuth.instance.logOut();
       // Sign Out Firebase
@@ -371,10 +370,10 @@ class ApiService {
       throw Exception(e);
     }
 
-    final CustomerController _customerController = Get.find<CustomerController>();
-    await AppHelpers.clearAllCoupons(_customerController.customerModel?.id ?? '');
-    await _customerController.clear();
-    await _customerController.syncData();
+    final CustomerController controllerCustomer = Get.find<CustomerController>();
+    await AppHelpers.clearAllCoupons(controllerCustomer.customerModel?.id ?? '');
+    await controllerCustomer.clear();
+    await controllerCustomer.syncData();
     Get.offAll(() => const SignInMenuScreen(
       isFirstState: true,
     ));
@@ -419,23 +418,23 @@ class ApiService {
       if ([200, 201, 204].contains(data1.statusCode)) {
         final res1 = ResApiAuth.fromJson(jsonDecode(data1.body));
 
-        final CustomerController _customerController = Get.find<CustomerController>();
-        await _customerController.clear();
+        final CustomerController controllerCustomer = Get.find<CustomerController>();
+        await controllerCustomer.clear();
 
-        final _shopId = res1.data?.user?.partnerShop?.id;
+        final dataShopId = res1.data?.user?.partnerShop?.id;
         await Future.wait([
           LocalStorage.saveAccessToken(res1.data?.accessToken),
           LocalStorage.saveRefreshToken(res1.data?.refreshToken),
-          _customerController.updateCustomer(res1.data?.user),
+          controllerCustomer.updateCustomer(res1.data?.user),
         ]);
 
-        if (_customerController.isCustomer()) {
-          final FirebaseController _firebaseController = Get.find<FirebaseController>();
+        if (controllerCustomer.isCustomer()) {
+          final FirebaseController controllerFirebase = Get.find<FirebaseController>();
 
           final List<dynamic> resWait1 = await Future.wait([
-            _firebaseController.updateChatrooms(res1.data?.user?.id ?? ''),
-            _firebaseController.updateOrderStatuses(res1.data?.user?.id ?? ''),
-            processRead('partner-shop', input: { '_id': _shopId }),
+            controllerFirebase.updateChatrooms(res1.data?.user?.id ?? ''),
+            controllerFirebase.updateOrderStatuses(res1.data?.user?.id ?? ''),
+            processRead('partner-shop', input: { '_id': dataShopId }),
           ]);
           final Map<String, dynamic> resPartnerShop = resWait1[2];
           PartnerShopModel? partnerShop = resPartnerShop['result'].isNotEmpty == true? PartnerShopModel.fromJson(resPartnerShop['result']): null;
@@ -445,9 +444,9 @@ class ApiService {
           
           await Future.wait([
             //processUpdate('fcm-token', input: { "fcmToken": fcmToken }),
-            _customerController.updateCustomer(res1.data?.user, value: partnerShop),
+            controllerCustomer.updateCustomer(res1.data?.user, value: partnerShop),
           ]);
-          await _customerController.updateFavoriteProducts();
+          await controllerCustomer.updateFavoriteProducts();
         }
 
         final List<dynamic> resWait2 = await Future.wait([
@@ -459,9 +458,9 @@ class ApiService {
         CustomerCartModel? cart = resWait2[1];
         CustomerBillingAddressModel? billingAddress = resWait2[2];
          await Future.wait([
-          _customerController.updateShippingAddress(address),
-          _customerController.updateCart(cart),
-          _customerController.updateBillingAddress(billingAddress),
+          controllerCustomer.updateShippingAddress(address),
+          controllerCustomer.updateCart(cart),
+          controllerCustomer.updateBillingAddress(billingAddress),
         ]);
       }
     } catch (e) {
@@ -580,9 +579,9 @@ class ApiService {
         final res1 = jsonDecode(data1.body);
         CustomerCartModel? cart =
           CustomerCartModel.fromJson(res1['data']['result']);
-        final CustomerController _customerController =
+        final CustomerController controllerCustomer =
           Get.find<CustomerController>();
-        await _customerController.updateCart(cart);
+        await controllerCustomer.updateCart(cart);
         return true;
       } else {
         return false;
@@ -615,9 +614,9 @@ class ApiService {
         final res1 = jsonDecode(data1.body);
         CustomerCartModel? cart =
           CustomerCartModel.fromJson(res1['data']['result']);
-        final CustomerController _customerController =
+        final CustomerController controllerCustomer =
           Get.find<CustomerController>();
-        await _customerController.updateCart(cart);
+        await controllerCustomer.updateCart(cart);
         return true;
       } else {
         return false;
@@ -707,14 +706,14 @@ class ApiService {
     log("CALL API: Customer Subscription Checkout Payment 2C2P");
     ShowDialog.showLoadingDialog();
     try {
-      Map<String, dynamic> _input = {
+      Map<String, dynamic> dataInput = {
         "amount": amount,
         "signature": signature,
         "shippingAddressId": shippingAddressId,
         "shippingFrontend": shippingFrontend.toJson(),
       };
-      if(billingAddressId?.isNotEmpty == true) _input['billingAddressId'] = billingAddressId;
-      if(salesManagerId?.isNotEmpty == true) _input['salesManagerId'] = salesManagerId;
+      if(billingAddressId?.isNotEmpty == true) dataInput['billingAddressId'] = billingAddressId;
+      if(salesManagerId?.isNotEmpty == true) dataInput['salesManagerId'] = salesManagerId;
 
       final accessToken = await storage.read(key: localAccessToken);
       var data1 = await http.post(Uri.parse('${apiUrl}customer/subscription-payment-2c2p'),
@@ -722,7 +721,7 @@ class ApiService {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $accessToken'
         },
-        body: jsonEncode(_input)
+        body: jsonEncode(dataInput)
       );
       Get.back();
       if ([200, 201, 204].contains(data1.statusCode)) {
@@ -761,16 +760,16 @@ class ApiService {
       // Get.back();
       if ([200, 201, 204].contains(data1.statusCode)) {
         final res1 = jsonDecode(data1.body);
-        final CustomerController _customerController = Get.find<CustomerController>();
+        final CustomerController controllerCustomer = Get.find<CustomerController>();
 
-        await _customerController.updateCart(null);
-        await _customerController.updateBillingAddress(null);
-        await _customerController.setShippingMethod(null);
-        await _customerController.setPaymentMethod(null);
-        _customerController.setDiscountShipping(null);
-        _customerController.setDiscountProduct(null);
-        _customerController.setDiscountCash(null);
-        _customerController.setDiscountPoint(null);
+        await controllerCustomer.updateCart(null);
+        await controllerCustomer.updateBillingAddress(null);
+        await controllerCustomer.setShippingMethod(null);
+        await controllerCustomer.setPaymentMethod(null);
+        controllerCustomer.setDiscountShipping(null);
+        controllerCustomer.setDiscountProduct(null);
+        controllerCustomer.setDiscountCash(null);
+        controllerCustomer.setDiscountPoint(null);
 
         return res1['data']['result'];
       }else{
@@ -880,16 +879,16 @@ class ApiService {
       Get.back();
       if ([200, 201, 204].contains(data1.statusCode)) {
         final res1 = jsonDecode(data1.body);
-        final CustomerController _customerController = Get.find<CustomerController>();
+        final CustomerController controllerCustomer = Get.find<CustomerController>();
 
-        await _customerController.updateCart(null);
-        await _customerController.updateBillingAddress(null);
-        await _customerController.setShippingMethod(null);
-        await _customerController.setPaymentMethod(null);
-        _customerController.setDiscountShipping(null);
-        _customerController.setDiscountProduct(null);
-        _customerController.setDiscountCash(null);
-        _customerController.setDiscountPoint(null);
+        await controllerCustomer.updateCart(null);
+        await controllerCustomer.updateBillingAddress(null);
+        await controllerCustomer.setShippingMethod(null);
+        await controllerCustomer.setPaymentMethod(null);
+        controllerCustomer.setDiscountShipping(null);
+        controllerCustomer.setDiscountProduct(null);
+        controllerCustomer.setDiscountCash(null);
+        controllerCustomer.setDiscountPoint(null);
 
         return res1['data']['result'];
       } else {
@@ -952,16 +951,16 @@ class ApiService {
       Get.back();
       if ([200, 201, 204].contains(data1.statusCode)) {
         final res1 = jsonDecode(data1.body);
-        final CustomerController _customerController = Get.find<CustomerController>();
+        final CustomerController controllerCustomer = Get.find<CustomerController>();
 
-        await _customerController.updateCart(null);
-        await _customerController.updateBillingAddress(null);
-        await _customerController.setShippingMethod(null);
-        await _customerController.setPaymentMethod(null);
-        _customerController.setDiscountShipping(null);
-        _customerController.setDiscountProduct(null);
-        _customerController.setDiscountCash(null);
-        _customerController.setDiscountPoint(null);
+        await controllerCustomer.updateCart(null);
+        await controllerCustomer.updateBillingAddress(null);
+        await controllerCustomer.setShippingMethod(null);
+        await controllerCustomer.setPaymentMethod(null);
+        controllerCustomer.setDiscountShipping(null);
+        controllerCustomer.setDiscountProduct(null);
+        controllerCustomer.setDiscountCash(null);
+        controllerCustomer.setDiscountPoint(null);
 
         return res1['data']['result'];
       } else {

@@ -29,7 +29,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final LanguageController lController = Get.find<LanguageController>();
   final AppController aController = Get.find<AppController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
   List<PartnerProductModel> dataModel = [];
 
   FocusNode fSearch = FocusNode();
@@ -124,7 +124,7 @@ class _SearchScreenState extends State<SearchScreen> {
         await ApiService.processList("partner-products", input: {
           "dataFilter": {
             "keywords": search,
-            "partnerShopId": _customerController.partnerShop?.id,
+            "partnerShopId": controllerCustomer.partnerShop?.id,
           },
           "paginate": {
             "page": page,
@@ -260,7 +260,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     padding: const EdgeInsets.fromLTRB(kGap, 0, kGap, kHalfGap),
                     key: const ValueKey<String>("search-products"),
                     data: dataModel,
-                    customerController: _customerController,
+                    customerController: controllerCustomer,
                     lController: lController,
                     aController: aController,
                     onTap: (d) => Get.to(() => ProductScreen(
@@ -268,7 +268,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       eventId: selectedEventId,
                       backTo: widget.backTo,
                     )),
-                    showStock: _customerController.isShowStock(),
+                    showStock: controllerCustomer.isShowStock(),
                     trimDigits: trimDigits,
                   ),
                   if (isEnded && dataModel.isNotEmpty) ...[
@@ -291,7 +291,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       key: const Key('loader-widget'),
                       onVisibilityChanged: onLoadMore,
                       child: ProductGridLoader(
-                        showStock: _customerController.isShowStock(),
+                        showStock: controllerCustomer.isShowStock(),
                         padding: const EdgeInsets.fromLTRB(kGap, 0, kGap, kGap),
                       )
                     ),

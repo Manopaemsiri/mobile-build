@@ -108,9 +108,9 @@ mixin DeepLinkService {
 
           case 'app/customer/order':
           // [ orderId ]
-            String _orderId = params['orderId'] ?? '';
-            if(_orderId.isNotEmpty){
-              Get.to(() => CustomerOrderScreen(orderId: _orderId));
+            String orderId = params['orderId'] ?? '';
+            if(orderId.isNotEmpty){
+              Get.to(() => CustomerOrderScreen(orderId: orderId));
             }
             break;
 
@@ -130,8 +130,8 @@ mixin DeepLinkService {
             if(thisUrl.isNotEmpty){
               var res = await ApiService.processRead('partner-product', input: { 'url': thisUrl });
               if(res != null && res['result'] != null){
-                PartnerProductModel _product = PartnerProductModel.fromJson(res['result']);
-                Get.to(() => ProductScreen(productId: _product.id));
+                PartnerProductModel dataProduct = PartnerProductModel.fromJson(res['result']);
+                Get.to(() => ProductScreen(productId: dataProduct.id));
               }
             }
             break;
@@ -142,8 +142,8 @@ mixin DeepLinkService {
               try {
                 var res = await ApiService.processRead('partner-product-category', input: { 'url': thisUrl });
                 if(res != null && res['result'] != null){
-                  PartnerProductCategoryModel _cate = PartnerProductCategoryModel.fromJson(res['result']);
-                  Get.to(() => PartnerProductsScreen(appTitle: _cate.name, dataFilter: { "categoryId": _cate.id } ));
+                  PartnerProductCategoryModel dataCate = PartnerProductCategoryModel.fromJson(res['result']);
+                  Get.to(() => PartnerProductsScreen(appTitle: dataCate.name, dataFilter: { "categoryId": dataCate.id } ));
                 }
               } catch (e) {
                 break;
@@ -152,27 +152,27 @@ mixin DeepLinkService {
             break;
           case 'app/partner/product-search':
           // [ keyword, isBrand, isCategory ]
-            String _keyword = params['keyword'] ?? '';
-            bool _isBrand = (params['isBrand'] ?? '') == '1';
-            bool _isCategory = (params['isCategory'] ?? '') == '1';
-            if(_keyword.isNotEmpty){
-              if(_isBrand){
-                _keyword = '@$_keyword';
-              }else if(_isCategory){
-                _keyword = '#$_keyword';
+            String dataKeyword = params['keyword'] ?? '';
+            bool isBrand = (params['isBrand'] ?? '') == '1';
+            bool isCategory = (params['isCategory'] ?? '') == '1';
+            if(dataKeyword.isNotEmpty){
+              if(isBrand){
+                dataKeyword = '@$dataKeyword';
+              }else if(isCategory){
+                dataKeyword = '#$dataKeyword';
               }
-              Get.to(() => SearchScreen(initSearch: _keyword));
+              Get.to(() => SearchScreen(initSearch: dataKeyword));
             }
             break;
 
           case 'app/partner/shop':
           // [ code ]
-            String _code = params['code'] ?? '';
-            if(_code.isNotEmpty){
-              var res = await ApiService.processRead('partner-shop', input: { 'code': _code });
+            String dataCode = params['code'] ?? '';
+            if(dataCode.isNotEmpty){
+              var res = await ApiService.processRead('partner-shop', input: { 'code': dataCode });
               if(res != null && res['result'] != null){
-                PartnerShopModel _shop = PartnerShopModel.fromJson(res['result']);
-                // Get.to(() => PartnerShopScreen(shopId: _shop.id));
+                // PartnerShopModel dataShop = PartnerShopModel.fromJson(res['result']);
+                // Get.to(() => PartnerShopScreen(shopId: dataShop.id));
               }
             }
             break;
@@ -180,14 +180,14 @@ mixin DeepLinkService {
           case 'app/cms/contents':
           // [ categoryUrl ]
             String thisUrl = params['categoryUrl'] ?? '';
-            CmsCategoryModel? _cate;
+            CmsCategoryModel? dataCate;
             if(thisUrl.isNotEmpty){
               var res = await ApiService.processRead('cms-content-category', input: { 'url': thisUrl });
               if(res != null && res['result'] != null){
-                _cate = CmsCategoryModel.fromJson(res['result']);
+                dataCate = CmsCategoryModel.fromJson(res['result']);
               }
             }
-            Get.to(() => CmsContentsScreen(category: _cate));
+            Get.to(() => CmsContentsScreen(category: dataCate));
             break;
 
           case 'app/cms/content':
@@ -208,14 +208,14 @@ mixin DeepLinkService {
             break;
 
           case 'app/partner/product-subscription':
-          // [ _id ]
-            String _id = params['_id'] ?? '';
-            if(_id.isNotEmpty){
+          // [ dataId ]
+            String dataId = params['dataId'] ?? '';
+            if(dataId.isNotEmpty){
               try {
-                var res = await ApiService.processRead('partner-product-subscription', input: { '_id': _id });
+                var res = await ApiService.processRead('partner-product-subscription', input: { 'dataId': dataId });
                 if(res != null && res['result'] != null){
-                  PartnerProductSubscriptionModel _subscription = PartnerProductSubscriptionModel.fromJson(res['result']);
-                  Get.to(() => PartnerProductSubscriptionScreen(id: _subscription.id, lController: Get.find<LanguageController>()));
+                  PartnerProductSubscriptionModel subscription = PartnerProductSubscriptionModel.fromJson(res['result']);
+                  Get.to(() => PartnerProductSubscriptionScreen(id: subscription.id, lController: Get.find<LanguageController>()));
                 }
               } catch (_) {}
             }

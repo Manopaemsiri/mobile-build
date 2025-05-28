@@ -36,7 +36,7 @@ class PartnerProductCategoriesScreen extends StatefulWidget {
 class _PartnerProductCategoriesScreenState extends State<PartnerProductCategoriesScreen> with TickerProviderStateMixin {
   final LanguageController _lController = Get.find<LanguageController>();
   final AppController aController = Get.find<AppController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
   bool isPageLoading = true;
 
   // Main Tab
@@ -99,8 +99,8 @@ class _PartnerProductCategoriesScreenState extends State<PartnerProductCategorie
   _initState() async {
     // Read Partner Shop
     try {
-      if(_customerController.partnerShop != null && _customerController.partnerShop?.type != 9){
-        final res = await ApiService.processRead("partner-shop", input: { "_id": _customerController.partnerShop?.id });
+      if(controllerCustomer.partnerShop != null && controllerCustomer.partnerShop?.type != 9){
+        final res = await ApiService.processRead("partner-shop", input: { "_id": controllerCustomer.partnerShop?.id });
         _partnerShop = PartnerShopModel.fromJson(res?["result"]);
       }else {
         final res = await ApiService.processRead("partner-shop-center");
@@ -253,7 +253,7 @@ class _PartnerProductCategoriesScreenState extends State<PartnerProductCategorie
           "name": _lController.getLang("All Products"),
           "icon": { "path": "assets/icons/category-all.png" },
         }),
-        ...subCate2.where((d) => d.category?.id == catId).toList(),
+        ...subCate2.where((d) => d.category?.id == catId),
       ];
       _subCatTabController.add(TabController(length: values[i].subCategories?.length ?? 0, vsync: this));
       _subCatTabController[i].addListener(_handleTabSelectionSubCat);
@@ -345,19 +345,19 @@ class _PartnerProductCategoriesScreenState extends State<PartnerProductCategorie
         if(filterKeywords != ''){
           dataFilter['keywords'] = filterKeywords;
         }
-        if(filterSort.isNotEmpty && filterSort?['value'] != null){
+        if(filterSort.isNotEmpty && filterSort['value'] != null){
           dataFilter['sort'] = filterSort['value'];
         }
 
         if(filterCategories.isNotEmpty){
-          List<String> _filterCategories = filterCategories.expand((item) {
+          List<String> dataFilterCategories = filterCategories.expand((item) {
             if (item.containsKey('categories') && item['categories']?.isNotEmpty == true) {
               return item['categories'];
             } else {
               return [item['id']];
             }
           }).map((e) => e.toString()).toList();
-          dataFilter['categoryIds'] = _filterCategories;
+          dataFilter['categoryIds'] = dataFilterCategories;
         }
         if(filterSubCategories.isNotEmpty){
           dataFilter['subCategoryIds'] = filterSubCategories;
@@ -442,7 +442,7 @@ class _PartnerProductCategoriesScreenState extends State<PartnerProductCategorie
                 child: TextFormField(
                   controller: _cKeywords,
                   decoration: InputDecoration(
-                    hintText: _lController.getLang("Search") + '...',
+                    hintText: '${_lController.getLang("Search")}...',
                     filled: true,
                     fillColor: Colors.white,
                     contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: kGap),
@@ -831,7 +831,7 @@ class _PartnerProductCategoriesScreenState extends State<PartnerProductCategorie
                                             ),
                                             children: [
                                               TextSpan(
-                                                text: filterSort?['name'] != null
+                                                text: filterSort['name'] != null
                                                 ? _lController.getLang(filterSort['name'] ?? '')
                                                 : '-',
                                                 style: subtitle1.copyWith(
@@ -874,7 +874,7 @@ class _PartnerProductCategoriesScreenState extends State<PartnerProductCategorie
                               CardProductGrid(
                                 key: ValueKey<String>(tabList[_selectedIndex].titleText),
                                 data: dataModel,
-                                customerController: _customerController,
+                                customerController: controllerCustomer,
                                 lController: _lController,
                                 aController: aController,
                                 onTap: (item) => _onTap(
@@ -884,7 +884,7 @@ class _PartnerProductCategoriesScreenState extends State<PartnerProductCategorie
                                   eventName: tabList[_selectedIndex].isEvent 
                                     ? tabList[_selectedIndex].titleText: '',
                                 ),
-                                showStock: _customerController.isShowStock(),
+                                showStock: controllerCustomer.isShowStock(),
                                 trimDigits: true,
                               ),
                             ]
@@ -910,7 +910,7 @@ class _PartnerProductCategoriesScreenState extends State<PartnerProductCategorie
                             key: const Key('loader-widget'),
                             onVisibilityChanged: onLoadMore,
                             child: ProductGridLoader(
-                              showStock: _customerController.isShowStock(),
+                              showStock: controllerCustomer.isShowStock(),
                             )
                           ),
                         ],

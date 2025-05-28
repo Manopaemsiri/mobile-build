@@ -25,7 +25,7 @@ class CheckoutPartnerShippingCouponsScreen extends StatefulWidget {
 class _CheckoutPartnerShippingCouponsScreenState extends State<CheckoutPartnerShippingCouponsScreen> {
   final LanguageController lController = Get.find<LanguageController>();
   bool isLoading = true;
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
   List<PartnerShippingCouponModel> dataModel = [];
   
   Map<String, dynamic> _settings = {};
@@ -42,14 +42,14 @@ class _CheckoutPartnerShippingCouponsScreenState extends State<CheckoutPartnerSh
     _settings = resSettings?['result'];
     allowCode = _settings["APP_ENABLE_FEATURE_PARTNER_SHIPPING_COUPON"] == '1' && _settings["APP_ENABLE_FEATURE_PARTNER_SHIPPING_COUPON_CODE"] == '1';
 
-    String prefKey = "${_customerController.customerModel?.id}";
+    String prefKey = "${controllerCustomer.customerModel?.id}";
     prefKey += prefCustomerShippingCoupon;
     List<String> couponIds = await AppHelpers.getAllCoupons(prefKey);
 
     var res = await ApiService.processList(
       'checkout-partner-shipping-coupons',
       input: {
-        "shippingFrontend": _customerController.shippingMethod!.toJson(),
+        "shippingFrontend": controllerCustomer.shippingMethod!.toJson(),
         "dataFilter": couponIds.isNotEmpty? {'localCodeIds': couponIds}: {}
       },
     );
@@ -237,12 +237,12 @@ class _CheckoutPartnerShippingCouponsScreenState extends State<CheckoutPartnerSh
 
   void _updateCoupon(PartnerShippingCouponModel value, {bool isSaveCoupon = false}) {
     if(isSaveCoupon) _saveCouponToLocal(value.id!);
-    _customerController.setDiscountShipping(value, needUpdate: true);
+    controllerCustomer.setDiscountShipping(value, needUpdate: true);
     Get.back();
   }
 
   void _saveCouponToLocal(String id) {
-    String prefKey = "${_customerController.customerModel?.id}";
+    String prefKey = "${controllerCustomer.customerModel?.id}";
     prefKey += prefCustomerShippingCoupon;
     AppHelpers.saveCoupon(prefKey, id);
   }
@@ -252,7 +252,7 @@ class _CheckoutPartnerShippingCouponsScreenState extends State<CheckoutPartnerSh
     try {
       Map<String, dynamic> input = {
         "couponCode": cCode.text.trim(),
-        "shippingFrontend": Uri.encodeQueryComponent(jsonEncode(_customerController.shippingMethod!.toJson())),
+        "shippingFrontend": Uri.encodeQueryComponent(jsonEncode(controllerCustomer.shippingMethod!.toJson())),
       };
       
       Map<String, dynamic>? res = await ApiService.processRead('checkout-partner-shipping-coupon', input: input);

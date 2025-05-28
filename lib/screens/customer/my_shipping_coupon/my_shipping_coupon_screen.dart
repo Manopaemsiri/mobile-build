@@ -17,6 +17,7 @@ class MyShippingCouponScreen extends StatelessWidget {
     super.key,
     required this.id
   });
+  
   final String id;
   LanguageController lController = Get.find<LanguageController>();
 
@@ -66,7 +67,7 @@ class MyShippingCouponScreen extends StatelessWidget {
     String widgetContent = data.description == ''
       ? data.shortDescription: data.description;
 
-    List<CustomerTierModel> _forCustomerTiers = data.forCustomerTiers;
+    List<CustomerTierModel> forCustomerTiers = data.forCustomerTiers;
 
     const double widgetFlex = 2.5;
     final double screenwidth = DeviceUtils.getDeviceWidth();
@@ -165,7 +166,7 @@ class MyShippingCouponScreen extends StatelessWidget {
             ),
             const Gap(gap: kGap),
           ],
-          if(data.forAllCustomerTiers == 0 && _forCustomerTiers.isNotEmpty) ...[
+          if(data.forAllCustomerTiers == 0 && forCustomerTiers.isNotEmpty) ...[
             const Gap(gap: kHalfGap),
             SectionTitle(
               titleText: lController.getLang("Promotional Customer Tiers"),
@@ -179,7 +180,7 @@ class MyShippingCouponScreen extends StatelessWidget {
                 spacing: 0,
                 alignment: WrapAlignment.start,
                 runAlignment: WrapAlignment.start,
-                children: _forCustomerTiers.map((d) {
+                children: forCustomerTiers.map((d) {
 
                   if (d.status == 0) {
                     return const SizedBox.shrink();

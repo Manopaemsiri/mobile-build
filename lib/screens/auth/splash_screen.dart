@@ -23,7 +23,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> with DeepLinkService {
   final LanguageController lController = Get.find<LanguageController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
 
   final List<String> allowVersions = [];
   Map<String, dynamic>? res;
@@ -42,8 +42,8 @@ class _SplashScreenState extends State<SplashScreen> with DeepLinkService {
     if(!allowVersions.contains(appVersion)) {
       Get.to(() => UpdateVersionScreen(res: res ?? {}));
     }else {
-      await _customerController.syncData();
-      if(_customerController.isCustomer()){
+      await controllerCustomer.syncData();
+      if(controllerCustomer.isCustomer()){
         Get.offAll(() => const BottomNav());
       }else {
         final skipIntro = await LocalStorage.getSkipIntro();

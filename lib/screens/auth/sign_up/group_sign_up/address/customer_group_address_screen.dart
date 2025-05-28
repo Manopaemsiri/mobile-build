@@ -220,11 +220,11 @@ class CustomerGroupAddressScreen extends StatelessWidget {
                                                     //     "shipping-address-set-selected",
                                                     //     input: { "_id": item.id }
                                                     //   );
-                                                    //   await _customerController.readCart(needLoading: false);
+                                                    //   await controllerCustomer.readCart(needLoading: false);
                                                     //   await Future.wait([
                                                     //     controller.updateShippingAddress(item),
-                                                    //     _customerController.clearStateToNull(),
-                                                    //     AppHelpers.updatePartnerShop(_customerController),
+                                                    //     controllerCustomer.clearStateToNull(),
+                                                    //     AppHelpers.updatePartnerShop(controllerCustomer),
                                                     //   ]);
                                                     //   Get.back();
                                                     // }
@@ -248,8 +248,8 @@ class CustomerGroupAddressScreen extends StatelessWidget {
                                                 //     ),
                                                 // )).then((value) async {
                                                 //   if(value != null && value?['refresh'] == true) {
-                                                //     await _customerController.clearStateToNull();
-                                                //     await AppHelpers.updatePartnerShop(_customerController);
+                                                //     await controllerCustomer.clearStateToNull();
+                                                //     await AppHelpers.updatePartnerShop(controllerCustomer);
                                                 //     shippingAddressList(updateState: true);
                                                 //   }
                                                 // });

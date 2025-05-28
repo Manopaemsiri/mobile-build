@@ -8,7 +8,7 @@ import 'package:coffee2u/screens/partner/product/components/youtube_view.dart';
 import 'package:coffee2u/screens/partner/product/read.dart';
 import 'package:coffee2u/screens/partner/product_coupon/read.dart';
 import 'package:coffee2u/screens/partner/search/read.dart';
-import 'package:coffee2u/screens/partner/shop/components/product_item.dart';
+// import 'package:coffee2u/screens/partner/shop/components/product_item.dart';
 import 'package:coffee2u/utils/index.dart';
 import 'package:coffee2u/widgets/index.dart';
 import 'package:flutter/material.dart';
@@ -102,16 +102,14 @@ class _CmsContentScreenState extends State<CmsContentScreen> {
   Widget body1(CmsContentModel item, List<FileModel>? gallery, bool showTag, CmsContentController cmsController) {
     String dataDate = dateFormat(item.createdAt ?? DateTime.now(), format: 'dd/MM/y kk:mm');
     String widgetTitle = item.title;
-    String _category = item.category?.title ?? '';
-    String _youtubeId = item.youtubeVideoId;
+    String widgetCategory = item.category?.title ?? '';
+    String widgetYoutubeId = item.youtubeVideoId;
     String widgetContent = item.content;
 
-    List<PartnerShopModel> _relatedPartnerShops = item.relatedPartnerShops;
-    List<PartnerProductCategoryModel> _relatedProductCategories =
-      item.relatedPartnerProductCategories;
-    List<PartnerProductModel> _relatedProducts = item.relatedPartnerProducts;
-    List<PartnerProductCouponModel> _relatedProductCoupons =
-      item.relatedPartnerProductCoupons;
+    // List<PartnerShopModel> relatedPartnerShops = item.relatedPartnerShops;
+    List<PartnerProductCategoryModel> relatedProductCategories = item.relatedPartnerProductCategories;
+    List<PartnerProductModel> relatedProducts = item.relatedPartnerProducts;
+    List<PartnerProductCouponModel> relatedProductCoupons = item.relatedPartnerProductCoupons;
 
     return SingleChildScrollView(
       child: Column(
@@ -148,7 +146,7 @@ class _CmsContentScreenState extends State<CmsContentScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ButtonTextBackground(
-                        title: _category,
+                        title: widgetCategory,
                         size: 'small',
                         onTap: () {}
                       ),
@@ -166,10 +164,10 @@ class _CmsContentScreenState extends State<CmsContentScreen> {
                   const Gap(gap: kHalfGap),
                   HtmlContent(content: widgetContent)
                 ],
-                if(_youtubeId != '') ...[
+                if(widgetYoutubeId != '') ...[
                   const Gap(gap: kGap + kHalfGap),
                   YoutubeView(
-                    youtubeId: _youtubeId,
+                    youtubeId: widgetYoutubeId,
                     backTo: Get.currentRoute,
                   ),
                   const Gap(gap: kHalfGap),
@@ -178,48 +176,48 @@ class _CmsContentScreenState extends State<CmsContentScreen> {
             )
           ),
 
-          if(cmsController.appController.enabledMultiPartnerShops && false) ...[
-            if(_relatedPartnerShops.isNotEmpty) ...[
-              const Gap(gap: kHalfGap),
-              SectionTitle(
-                titleText: cmsController.lController.getLang("Related Shops"),
-              ),
-              SizedBox(
-                height: 194.0,
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemCount: _relatedPartnerShops.length,
-                    itemBuilder: (context, index) {
-                      final d = _relatedPartnerShops[index];
+          // if(cmsController.appController.enabledMultiPartnerShops && false) ...[
+          //   if(relatedPartnerShops.isNotEmpty) ...[
+          //     const Gap(gap: kHalfGap),
+          //     SectionTitle(
+          //       titleText: cmsController.lController.getLang("Related Shops"),
+          //     ),
+          //     SizedBox(
+          //       height: 194.0,
+          //       child: Container(
+          //         alignment: Alignment.centerLeft,
+          //         child: ListView.builder(
+          //           scrollDirection: Axis.horizontal,
+          //           shrinkWrap: true,
+          //           itemCount: relatedPartnerShops.length,
+          //           itemBuilder: (context, index) {
+          //             final d = relatedPartnerShops[index];
                     
-                      if (d.status == 0) {
-                        return const SizedBox.shrink();
-                      } else {
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            left: index == 0 ? kGap - 2 : 0,
-                            right: index == _relatedPartnerShops.length - 1? kGap - 2: 0
-                          ),
-                          child: CardShop(
-                            width: cardWidth,
-                            model: d,
-                            showDistance: false,
-                            onPressed: () => _onTapShop(d.id ?? ''),
-                          ),
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ),
-              const Gap(gap: kGap),
-            ],
-          ],
+          //             if (d.status == 0) {
+          //               return const SizedBox.shrink();
+          //             } else {
+          //               return Padding(
+          //                 padding: EdgeInsets.only(
+          //                   left: index == 0 ? kGap - 2 : 0,
+          //                   right: index == relatedPartnerShops.length - 1? kGap - 2: 0
+          //                 ),
+          //                 child: CardShop(
+          //                   width: cardWidth,
+          //                   model: d,
+          //                   showDistance: false,
+          //                   onPressed: () => _onTapShop(d.id ?? ''),
+          //                 ),
+          //               );
+          //             }
+          //           },
+          //         ),
+          //       ),
+          //     ),
+          //     const Gap(gap: kGap),
+          //   ],
+          // ],
 
-          if(_relatedProductCategories.isNotEmpty) ...[
+          if(relatedProductCategories.isNotEmpty) ...[
             const Gap(gap: kHalfGap),
             SectionTitle(
               titleText: cmsController.lController.getLang("Related Product Categories"),
@@ -231,9 +229,9 @@ class _CmsContentScreenState extends State<CmsContentScreen> {
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
-                  itemCount: _relatedProductCategories.length,
+                  itemCount: relatedProductCategories.length,
                   itemBuilder: (context, index) {
-                    final d = _relatedProductCategories[index];
+                    final d = relatedProductCategories[index];
                   
                     if (d.status == 0) {
                       return const SizedBox.shrink();
@@ -241,7 +239,7 @@ class _CmsContentScreenState extends State<CmsContentScreen> {
                       return Padding(
                         padding: EdgeInsets.only(
                             left: index == 0 ? kGap - 2 : 0,
-                            right: index == _relatedProductCategories.length - 1
+                            right: index == relatedProductCategories.length - 1
                                 ? kGap - 2
                                 : 0),
                         child: CardProductCategory(
@@ -260,7 +258,7 @@ class _CmsContentScreenState extends State<CmsContentScreen> {
             ),
             const Gap(gap: kGap),
           ],
-          if(_relatedProducts.isNotEmpty) ...[
+          if(relatedProducts.isNotEmpty) ...[
             const Gap(gap: kHalfGap),
             SectionTitle(
               titleText: cmsController.lController.getLang("Related Products"),
@@ -268,7 +266,7 @@ class _CmsContentScreenState extends State<CmsContentScreen> {
             CardProductGrid(
               key: const ValueKey<String>("partner-products"),
               padding: const EdgeInsets.fromLTRB(kGap, 0, kGap, 0),
-              data: _relatedProducts,
+              data: relatedProducts,
               customerController: cmsController.customerController,
               lController: cmsController.lController,
               aController: cmsController.appController,
@@ -279,7 +277,7 @@ class _CmsContentScreenState extends State<CmsContentScreen> {
             const Gap(gap: kGap),
           ],
           
-          if(_relatedProductCoupons.isNotEmpty) ...[
+          if(relatedProductCoupons.isNotEmpty) ...[
             const Gap(gap: kHalfGap),
             SectionTitle(
               titleText: cmsController.lController.getLang("Related Product Coupons"),
@@ -294,7 +292,7 @@ class _CmsContentScreenState extends State<CmsContentScreen> {
                 spacing: kHalfGap,
                 alignment: WrapAlignment.start,
                 runAlignment: WrapAlignment.start,
-                children: _relatedProductCoupons.map((item) {
+                children: relatedProductCoupons.map((item) {
 
                   return CardProductCoupon(
                     width: cardWidth,
@@ -311,9 +309,9 @@ class _CmsContentScreenState extends State<CmsContentScreen> {
     );
   }
 
-  _onTapShop(String shopId) {
-    // Get.to(
-    //   () => PartnerShopScreen(shopId:shopId),
-    // );
-  }
+  // _onTapShop(String shopId) {
+  //   Get.to(
+  //     () => PartnerShopScreen(shopId:shopId),
+  //   );
+  // }
 }

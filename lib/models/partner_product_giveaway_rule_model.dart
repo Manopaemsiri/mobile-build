@@ -182,8 +182,8 @@ class PartnerProductGiveawayRuleModel {
 
     "image": image?.toJson(),
     
-    "startAt": startAt == null? null: startAt!.toIso8601String(),
-    "endAt": endAt == null? null: endAt!.toIso8601String(),
+    "startAt": startAt?.toIso8601String(),
+    "endAt": endAt?.toIso8601String(),
 
     "status": status,
     "minimumOrder": minimumOrder,
@@ -209,8 +209,8 @@ class PartnerProductGiveawayRuleModel {
     'forProvinces': forProvinces.isEmpty? []
       : forProvinces.map((e) => e.toJson()).toList(),
 
-    "updatedAt": updatedAt == null? null: updatedAt!.toIso8601String(),
-    "createdAt": createdAt == null? null: createdAt!.toIso8601String(),
+    "updatedAt": updatedAt?.toIso8601String(),
+    "createdAt": createdAt?.toIso8601String(),
   };
 
   bool isValid() {

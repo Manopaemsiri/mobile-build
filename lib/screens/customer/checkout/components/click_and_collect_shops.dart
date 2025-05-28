@@ -28,7 +28,7 @@ class ClickAndCollectShops extends StatefulWidget {
 
 class _ClickAndCollectShopsState extends State<ClickAndCollectShops> {
   final LanguageController lController = Get.find<LanguageController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
 
   List<PartnerShippingFrontendModel> dataModel = [];
 
@@ -172,86 +172,86 @@ class _ClickAndCollectShopsState extends State<ClickAndCollectShops> {
   }
 
   _onSelect(PartnerShippingFrontendModel value) async {
-    List<WorkingHourModel> _whs = value.shop?.workingHours ?? [];
-    Map<String, Map<String, int>> _cwhs = {};
+    List<WorkingHourModel> dataWhs = value.shop?.workingHours ?? [];
+    Map<String, Map<String, int>> dataCwhs = {};
     for(int j=0; j<7; j++){
-      int _j = _whs.indexWhere((x) => x.dayIndex == j && x.isOpened == 1);
-      if(_j >= 0){
-        WorkingHourModel _wh = _whs[_j];
-        _cwhs["$j"] = {
-          "startH": int.parse(_wh.startTime!.substring(0, 2)),
-          "startM": int.parse(_wh.startTime!.substring(3, 5)),
-          "endH": int.parse(_wh.endTime!.substring(0, 2)),
-          "endM": int.parse(_wh.endTime!.substring(3, 5)),
+      int dataJ = dataWhs.indexWhere((x) => x.dayIndex == j && x.isOpened == 1);
+      if(dataJ >= 0){
+        WorkingHourModel dataWh = dataWhs[dataJ];
+        dataCwhs["$j"] = {
+          "startH": int.parse(dataWh.startTime!.substring(0, 2)),
+          "startM": int.parse(dataWh.startTime!.substring(3, 5)),
+          "endH": int.parse(dataWh.endTime!.substring(0, 2)),
+          "endM": int.parse(dataWh.endTime!.substring(3, 5)),
         };
       }
     }
     
-    DateTime _now = DateTime.now();
-    DateTime _today = DateTime(_now.year, _now.month, _now.day);
-    List<DateTime> _dates = [];
+    DateTime dataNow = DateTime.now();
+    DateTime dataToday = DateTime(dataNow.year, dataNow.month, dataNow.day);
+    List<DateTime> dataDates = [];
     for(int i=0; i<31; i++){
-      DateTime tempData = DateTime(_now.year, _now.month, _now.day+i);
-      Map<String, int>? _t = _cwhs["${tempData.weekday % 7}"];
-      if(_t != null){
+      DateTime tempData = DateTime(dataNow.year, dataNow.month, dataNow.day+i);
+      Map<String, int>? dataT = dataCwhs["${tempData.weekday % 7}"];
+      if(dataT != null){
         if(i != 0){
-          _dates.add(tempData);
+          dataDates.add(tempData);
         }else{
-          int _nh = _now.hour + 1;
-          if(_nh < _t["endH"]! || (_nh == _t["endH"] && _now.minute < _t["endM"]!)){
-            _dates.add(tempData);
+          int dataNh = dataNow.hour + 1;
+          if(dataNh < dataT["endH"]! || (dataNh == dataT["endH"] && dataNow.minute < dataT["endM"]!)){
+            dataDates.add(tempData);
           }
         }
       }
     }
 
-    DateTime? _selectedDate = await showDatePicker(
+    DateTime? selectedDate = await showDatePicker(
       context: context, 
-      initialDate: _dates.first, 
-      firstDate: _dates.first, 
-      lastDate: _dates.last,
+      initialDate: dataDates.first, 
+      firstDate: dataDates.first, 
+      lastDate: dataDates.last,
       initialEntryMode: DatePickerEntryMode.calendarOnly,
       selectableDayPredicate: (DateTime tempData){
-        return _dates.contains(tempData);
+        return dataDates.contains(tempData);
       }
     );
-    if(_selectedDate != null){
-      bool _isSameDay = _today == _selectedDate;
+    if(selectedDate != null){
+      bool isSameDay = dataToday == selectedDate;
 
-      Map<String, int>? _t = _cwhs["${_selectedDate.weekday % 7}"];
-      int _startH = _t?["startH"] ?? 0;
-      int _startM = _t?["startM"] ?? 0;
-      int _endH = _t?["endH"] ?? 0;
-      int _endM = _t?["endM"] ?? 0;
+      Map<String, int>? dataT = dataCwhs["${selectedDate.weekday % 7}"];
+      int startH = dataT?["startH"] ?? 0;
+      int startM = dataT?["startM"] ?? 0;
+      int endH = dataT?["endH"] ?? 0;
+      int endM = dataT?["endM"] ?? 0;
 
-      int _initH = _startH;
-      int _initM = _startM;
-      if(_isSameDay){
-        _initH = _now.hour + 1;
-        _initM = (_now.minute / 5).ceil() * 5;
-        _startH = _initH;
-        _startM = _initM;
-        if(_startM >= 60){
-          _initH += 1;
-          _initM = 0;
-          _startH += 1;
-          _startM = 0;
+      int initH = startH;
+      int initM = startM;
+      if(isSameDay){
+        initH = dataNow.hour + 1;
+        initM = (dataNow.minute / 5).ceil() * 5;
+        startH = initH;
+        startM = initM;
+        if(startM >= 60){
+          initH += 1;
+          initM = 0;
+          startH += 1;
+          startM = 0;
         }
       }
 
-      TimeOfDay? _selectedTime = await _showCustomTimePicker(
-        _initH, _initM, _startH, _startM, _endH, _endM
+      TimeOfDay? selectedTime = await _showCustomTimePicker(
+        initH, initM, startH, startM, endH, endM
       );
-      if(_selectedTime != null) {
+      if(selectedTime != null) {
         ShowDialog.showLoadingDialog();
-        value.pickupDate = _selectedDate;
-        value.pickupTime = _selectedTime.hour.toString().padLeft(2, '0')
-          +':'+_selectedTime.minute.toString().padLeft(2, '0');
+        value.pickupDate = selectedDate;
+        value.pickupTime = selectedTime.hour.toString().padLeft(2, '0')
+          +':'+selectedTime.minute.toString().padLeft(2, '0');
 
         if(subscription == null){
-          _customerController.setDiscountShipping(null, needUpdate: true);
-          await _customerController.updateCartShop(value.shop?.id ?? '', needLoading: false);
-          await _customerController.setShippingMethod(value);
+          controllerCustomer.setDiscountShipping(null, needUpdate: true);
+          await controllerCustomer.updateCartShop(value.shop?.id ?? '', needLoading: false);
+          await controllerCustomer.setShippingMethod(value);
           if(Get.isDialogOpen == true) Get.back();
           Get.until((route) => route.settings.name == '/CheckOutScreen');
         }else{
@@ -271,18 +271,18 @@ class _ClickAndCollectShopsState extends State<ClickAndCollectShops> {
   }
 
   Future<TimeOfDay?> _showCustomTimePicker(
-    int _initH, int _initM,
-    int _startH, int _startM, int _endH, int _endM
+    int initH, int initM,
+    int startH, int startM, int endH, int endM
   ) async {
     TimeOfDay? time = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay(hour: _initH, minute: _initM),
+      initialTime: TimeOfDay(hour: initH, minute: initM),
       // anchorPoint: ,
       // selectableTimePredicate: (TimeOfDay? tempData){
       //   if(tempData == null){
       //     return false;
       //   }else{
-      //     if(tempData.hour < _startH || tempData.hour > _endH){
+      //     if(tempData.hour < startH || tempData.hour > endH){
       //       return false;
       //     }else{
       //       return tempData.minute % 5 == 0;
@@ -300,11 +300,11 @@ class _ClickAndCollectShopsState extends State<ClickAndCollectShops> {
       return null;
     }else {
       bool res = true;
-      if(time.hour < _startH || time.hour > _endH){
+      if(time.hour < startH || time.hour > endH){
         res = false;
-      }else if(time.hour == _startH && time.minute < _startM){
+      }else if(time.hour == startH && time.minute < startM){
         res = false;
-      }else if(time.hour == _endH && time.minute > _endM){
+      }else if(time.hour == endH && time.minute > endM){
         res = false;
       }
       if(res){
@@ -313,15 +313,15 @@ class _ClickAndCollectShopsState extends State<ClickAndCollectShops> {
         await ShowDialog.showForceDialog(
           lController.getLang('Wrong Time'),
           '${lController.getLang("text_pick_up_1")}\n'
-            +_startH.toString().padLeft(2, '0')
-            +':'+_startM.toString().padLeft(2, '0')
+            +startH.toString().padLeft(2, '0')
+            +':'+startM.toString().padLeft(2, '0')
             +' - '
-            +_endH.toString().padLeft(2, '0')
-            +':'+_endM.toString().padLeft(2, '0'),
+            +endH.toString().padLeft(2, '0')
+            +':'+endM.toString().padLeft(2, '0'),
           (){
             Get.back();
             return _showCustomTimePicker(
-              _initH, _initM, _startH, _startM, _endH, _endM
+              initH, initM, startH, startM, endH, endM
             );
           }
         );

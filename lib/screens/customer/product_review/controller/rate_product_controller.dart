@@ -109,12 +109,12 @@ class RateProductController extends GetxController {
   imagePicker({ ImageSource source = ImageSource.gallery }) async {
     Get.back();
     if(source == ImageSource.gallery){
-      List<XFile>? _images = await picker.pickMultiImage();
-      if(_images?.isNotEmpty == true){
-        _images = _images!.sublist(0, maxImage-images.length > _images.length? _images.length: maxImage-images.length);
+      List<XFile>? dataImages = await picker.pickMultiImage();
+      if(dataImages.isNotEmpty == true){
+        dataImages = dataImages.sublist(0, maxImage-images.length > dataImages.length? dataImages.length: maxImage-images.length);
         images = [
           ...images,
-          ..._images.map((e) => { 'type': 'XFile', 'value': e })
+          ...dataImages.map((e) => { 'type': 'XFile', 'value': e })
         ];
       }
     }else{
@@ -138,8 +138,8 @@ class RateProductController extends GetxController {
 
   Future<bool> onSubmit() async {
     if(selectedRating != null){
-      List<String> _productIds = selectedProducts.map((d) => d.id ?? '').where((e) => e.isNotEmpty).toList();
-      if(_productIds.isEmpty){
+      List<String> productIds = selectedProducts.map((d) => d.id ?? '').where((e) => e.isNotEmpty).toList();
+      if(productIds.isEmpty){
         List<PartnerProductModel> uniqueProducts = [];
         Set<String> seenIds = {};
         for (var p in customerOrder.products) {
@@ -148,40 +148,40 @@ class RateProductController extends GetxController {
             seenIds.add(p.id!);
           }
         }
-        _productIds = uniqueProducts.map((d) => d.id ?? '').where((e) => e.isNotEmpty).toList();
+        productIds = uniqueProducts.map((d) => d.id ?? '').where((e) => e.isNotEmpty).toList();
       }
-      List<FileModel>? _images = [];
+      List<FileModel>? dataImages = [];
       if(images.isNotEmpty){
         List<XFile> tempImages = images.map((e) => e['type'] == 'XFile'? e['value'] as XFile: null).where((e) => e != null).cast<XFile>().toList();
         if(tempImages.isNotEmpty){
-          List<FileModel>? _files = await ApiService.uploadMultipleFile(
+          List<FileModel>? dataFiles = await ApiService.uploadMultipleFile(
             tempImages,
             needLoading: true,
             folder: 'partner-product-ratings',
             resize: 950,
           );
-          if(_files?.isNotEmpty == true){
-            for (var d in _files!) {
-              if(d.isValid()) _images.add(d);
+          if(dataFiles?.isNotEmpty == true){
+            for (var d in dataFiles!) {
+              if(d.isValid()) dataImages.add(d);
             }
           }
         }
         List<FileModel> tempImagesFileModel = images.map((e) => e['type'] == 'FileModel'? e['value'] as FileModel: null).where((e) => e != null).cast<FileModel>().toList();
         if(tempImagesFileModel.isNotEmpty){
-          _images = [
+          dataImages = [
             ...tempImagesFileModel,
-            ..._images,
+            ...dataImages,
           ];
         }
       }
       Map<String, dynamic> input = {
         'orderId': customerOrder.id,
-        'productIds': _productIds,
+        'productIds': productIds,
         'rating': selectedRating?['value']
       };
       if(hideUsername || Get.find<CustomerController>().isCustomer() == false) input['isAnonymous'] = 1;
       if(comment.text.isNotEmpty) input['comment'] = comment.text.trim();
-      if(images.isNotEmpty) input['images'] = _images;
+      if(images.isNotEmpty) input['images'] = dataImages;
 
       return await ApiService.processUpdate('partner-product-rating', input: input, needLoading: true);
     }else {

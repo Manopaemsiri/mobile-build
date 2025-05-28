@@ -28,7 +28,7 @@ class CheckoutOrderItem extends StatelessWidget {
       ? const SizedBox.shrink()
       : Column(
         children: [
-          // if(_appController.enabledMultiPartnerShops) ...[
+          // if(controllerApp.enabledMultiPartnerShops) ...[
           //   const Divider(height: 1),
           //   Container(
           //     padding: kPadding,
@@ -187,7 +187,7 @@ class CheckoutOrderItem extends StatelessWidget {
               );
             }).toList(),
           ),
-          if(settings?['APP_ENABLE_FEATURE_PARTNER_PRODUCT_REWARD'] == '1' 
+          if(settings['APP_ENABLE_FEATURE_PARTNER_PRODUCT_REWARD'] == '1' 
           && freeProducts.isNotEmpty)...[
             Container(
               decoration: BoxDecoration(

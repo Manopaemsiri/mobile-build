@@ -4,7 +4,6 @@ import 'package:coffee2u/screens/partner/subscription/widgets/card_product.dart'
 import 'package:coffee2u/utils/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:coffee2u/apis/api_service.dart';
 
 import '../../../controller/app_controller.dart';
 import '../../../controller/customer_controller.dart';
@@ -121,8 +120,6 @@ class PartnerProductSubscriptionCreateScreen extends StatelessWidget {
       .where((d) => d.quantity > 0)
       .fold(0, (sum, item) => sum + (item.credit*item.quantity));
 
-    final double remainingCredit = (value.credit - sumCredit);
-    
     return ListView(
       key: ValueKey<String>('${key}_$i'),
       children: [

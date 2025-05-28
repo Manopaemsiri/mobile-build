@@ -9,7 +9,7 @@ class CustomerGroupAddressController extends GetxController {
   final CustomerGroupModel group;
   CustomerGroupAddressController(this.group);
 
-  final AppController _appController = Get.find<AppController>();
+  final AppController controllerApp = Get.find<AppController>();
   bool _enabledCustomerGroup = false;
   bool get enabledCustomerGroup => _enabledCustomerGroup;
   
@@ -40,9 +40,9 @@ class CustomerGroupAddressController extends GetxController {
     await Future.wait([
       _getShippingAddresses(),
       _getBillingAddresses(),
-      _appController.getSetting(),
+      controllerApp.getSetting(),
     ]);
-    _enabledCustomerGroup = _appController.enabledCustomerGroup;
+    _enabledCustomerGroup = controllerApp.enabledCustomerGroup;
     isReday = true;
     update();
   }
