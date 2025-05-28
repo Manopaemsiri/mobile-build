@@ -59,6 +59,8 @@ android {
             "META-INF/LGPL2.1",
             "META-INF/*.kotlin_module",
             "META-INF/versions/9/previous-compilation-data.bin",
+            "*/values/values.xml",
+            "/META-INF/flutter_app_badger_release.kotlin_module"
         )
 
         pickFirsts += listOf("**/*.txt", "**/*.version")

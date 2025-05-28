@@ -108,9 +108,9 @@ class ApiService {
             final resPartnerShop = await processRead('partner-shop', input: { '_id': _shopId });
             PartnerShopModel? partnerShop = resPartnerShop?['result'].isNotEmpty == true? PartnerShopModel.fromJson(resPartnerShop?['result']): null;
 
-            String fcmToken = await NotificationService.getFcmToken();
-            res1.data?.user?.fcmToken = fcmToken;
-            await processUpdate('fcm-token', input: { "fcmToken": fcmToken });
+            //String fcmToken = await NotificationService.getFcmToken();
+            //res1.data?.user?.fcmToken = fcmToken;
+            //await processUpdate('fcm-token', input: { "fcmToken": fcmToken });
             await _customerController.updateCustomer(res1.data?.user, value: partnerShop);
             await _customerController.updateFavoriteProducts();
           }
@@ -440,11 +440,11 @@ class ApiService {
           final Map<String, dynamic> resPartnerShop = resWait1[2];
           PartnerShopModel? partnerShop = resPartnerShop['result'].isNotEmpty == true? PartnerShopModel.fromJson(resPartnerShop['result']): null;
 
-          String fcmToken = await NotificationService.getFcmToken();
-          res1.data?.user?.fcmToken = fcmToken;
+         // String fcmToken = await NotificationService.getFcmToken();
+          //res1.data?.user?.fcmToken = fcmToken;
           
           await Future.wait([
-            processUpdate('fcm-token', input: { "fcmToken": fcmToken }),
+            //processUpdate('fcm-token', input: { "fcmToken": fcmToken }),
             _customerController.updateCustomer(res1.data?.user, value: partnerShop),
           ]);
           await _customerController.updateFavoriteProducts();
