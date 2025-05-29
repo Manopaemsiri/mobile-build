@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 class Quantity extends StatefulWidget {
   const Quantity({
-    Key? key,
+    super.key,
     required this.onChange,
     this.qty = 1,
-  }) : super(key: key);
+  });
 
   final Function(int) onChange;
   final int qty;
@@ -16,27 +16,27 @@ class Quantity extends StatefulWidget {
 }
 
 class _QuantityState extends State<Quantity> {
-  int _qty = 1;
+  int widgetQty = 1;
 
   void _add() {
     setState(() {
-      _qty++;
+      widgetQty++;
     });
-    widget.onChange(_qty);
+    widget.onChange(widgetQty);
   }
   void _minus() {
-    if (_qty != 1) {
+    if (widgetQty != 1) {
       setState(() {
-        _qty--;
+        widgetQty--;
       });
-      widget.onChange(_qty);
+      widget.onChange(widgetQty);
     }
   }
 
   @override
   void initState() {
     setState(() {
-      _qty = widget.qty;
+      widgetQty = widget.qty;
     });
     super.initState();
   }
@@ -72,7 +72,7 @@ class _QuantityState extends State<Quantity> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("$_qty", style: subtitle1),
+              Text("$widgetQty", style: subtitle1),
             ],
           ),
         ),

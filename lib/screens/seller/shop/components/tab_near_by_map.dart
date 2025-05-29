@@ -15,10 +15,10 @@ import 'dart:ui' as ui;
 
 class TabNearByMap extends StatefulWidget {
   const TabNearByMap({
-    Key? key,
+    super.key,
     this.lat,
     this.lng,
-  }): super(key: key);
+  });
 
   final double? lat;
   final double? lng;
@@ -34,7 +34,7 @@ class _TabFavoritesState extends State<TabNearByMap> {
 
   late GoogleMapController _mapController;
   Set<Marker> _mapMarkers = {};
-  List<String> _markerIds = [];
+  final List<String> _markerIds = [];
   late Uint8List? _mapMarkerIcon;
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
@@ -45,9 +45,9 @@ class _TabFavoritesState extends State<TabNearByMap> {
       .buffer.asUint8List();
   }
 
-  _onMapCreated(GoogleMapController _controller) {
+  _onMapCreated(GoogleMapController controller) {
     setState(() {
-      _mapController = _controller;
+      _mapController = controller;
     });
   }
   _onCameraIdle() async {
@@ -74,23 +74,23 @@ class _TabFavoritesState extends State<TabNearByMap> {
       });
 
       if(res!["result"] != null){
-        Set<Marker> _temp = _mapMarkers;
+        Set<Marker> temp = _mapMarkers;
         int len = res["result"].length;
         for(int i=0; i<len; i++){
-          SellerShopModel _d = SellerShopModel.fromJson(res["result"][i]);
-          setState(() => _markerIds.add(_d.id ?? ''));
-          _temp.add(Marker(
+          SellerShopModel dataModel = SellerShopModel.fromJson(res["result"][i]);
+          setState(() => _markerIds.add(dataModel.id ?? ''));
+          temp.add(Marker(
             position: LatLng(
-              _d.address?.lat ?? 0,
-              _d.address?.lng ?? 0
+              dataModel.address?.lat ?? 0,
+              dataModel.address?.lng ?? 0
             ),
-            markerId: MarkerId(_d.id ?? ''),
-            icon: BitmapDescriptor.fromBytes(_mapMarkerIcon!),
+            markerId: MarkerId(dataModel.id ?? ''),
+            icon: BitmapDescriptor.bytes(_mapMarkerIcon!),
             anchor: const Offset(0.5, 0.5),
-            onTap: () => _onTabMarker(_d),
+            onTap: () => _onTabMarker(dataModel),
           ));
         }
-        setState(() => _mapMarkers = _temp);
+        setState(() => _mapMarkers = temp);
       }
       setState(() => isReady = true);
     }
@@ -138,9 +138,9 @@ class _TabFavoritesState extends State<TabNearByMap> {
     if(isTabReady){
       setState(() => isTabReady = false);
 
-      String _image = model.logo != null? model.logo!.path
+      String widgetImage = model.logo != null? model.logo!.path
         : model.image != null? model.image!.path: '';
-      String? _distance = model.distance == null ? "" : "${model.distance} km.";
+      String? widgetDistance = model.distance == null ? "" : "${model.distance} km.";
 
       showDialog(
         context: context,
@@ -185,7 +185,7 @@ class _TabFavoritesState extends State<TabNearByMap> {
                         ),
                         const Gap(gap: kQuarterGap),
                         Text(
-                          _distance,
+                          widgetDistance,
                           style: caption.copyWith(
                             color: kGrayColor,
                             fontWeight: FontWeight.w500,
@@ -224,7 +224,7 @@ class _TabFavoritesState extends State<TabNearByMap> {
                       ),
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width,
-                        child: ImageUrl(imageUrl: _image),
+                        child: ImageUrl(imageUrl: widgetImage),
                       ),
                     ),
                   ),

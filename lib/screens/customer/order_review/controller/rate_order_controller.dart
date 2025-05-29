@@ -67,20 +67,20 @@ class RateOrderController extends GetxController {
   imagePicker({ ImageSource source = ImageSource.gallery }) async {
     Get.back();
     if(source == ImageSource.gallery){
-      List<XFile>? _images = await picker.pickMultiImage();
-      if(_images?.isNotEmpty == true){
-        _images = _images!.sublist(0, maxImage-images.length > _images.length? _images.length: maxImage-images.length);
+      List<XFile>? dataImages = await picker.pickMultiImage();
+      if(dataImages.isNotEmpty){
+        dataImages = dataImages.sublist(0, maxImage-images.length > dataImages.length? dataImages.length: maxImage-images.length);
         images = [
           ...images,
-          ..._images.map((e) => { 'type': 'XFile', 'value': e })
+          ...dataImages.map((e) => { 'type': 'XFile', 'value': e })
         ];
       }
     }else{
-      XFile? _image = await picker.pickImage(source: source);
-      if(_image != null){
+      XFile? widgetImage = await picker.pickImage(source: source);
+      if(widgetImage != null){
         images = [
           ...images,
-          { 'type': 'XFile', 'value': _image }
+          { 'type': 'XFile', 'value': widgetImage }
         ];
       }
     }
@@ -88,35 +88,35 @@ class RateOrderController extends GetxController {
   } 
   onDeleteImage(int index) async {
     try {
-      dynamic _image = images[index];
-      if(_image != null && images.isNotEmpty) images.removeAt(index);
+      dynamic widgetImage = images[index];
+      if(widgetImage != null && images.isNotEmpty) images.removeAt(index);
     } catch (_) {}
     update();
   }
 
   Future<bool> onSubmit() async {
     if(selectedRating != null){
-      List<FileModel>? _images = [];
+      List<FileModel>? dataImages = [];
       if(images.isNotEmpty){
         List<XFile> tempImages = images.map((e) => e['type'] == 'XFile'? e['value'] as XFile: null).where((e) => e != null).cast<XFile>().toList();
         if(tempImages.isNotEmpty){
-          List<FileModel>? _files = await ApiService.uploadMultipleFile(
+          List<FileModel>? dataFiles = await ApiService.uploadMultipleFile(
             tempImages,
             needLoading: true,
             folder: 'customer-order-ratings',
             resize: 950,
           );
-          if(_files?.isNotEmpty == true){
-            for (var d in _files!) {
-              if(d.isValid()) _images.add(d);
+          if(dataFiles?.isNotEmpty == true){
+            for (var d in dataFiles!) {
+              if(d.isValid()) dataImages.add(d);
             }
           }
         }
         List<FileModel> tempImagesFileModel = images.map((e) => e['type'] == 'FileModel'? e['value'] as FileModel: null).where((e) => e != null).cast<FileModel>().toList();
         if(tempImagesFileModel.isNotEmpty){
-          _images = [
+          dataImages = [
             ...tempImagesFileModel,
-            ..._images,
+            ...dataImages,
           ];
         }
       }
@@ -126,7 +126,7 @@ class RateOrderController extends GetxController {
       };
       if(hideUsername || Get.find<CustomerController>().isCustomer() == false) input['isAnonymous'] = 1;
       if(comment.text.isNotEmpty) input['comment'] = comment.text.trim();
-      if(images.isNotEmpty) input['images'] = _images;
+      if(images.isNotEmpty) input['images'] = dataImages;
 
       return await ApiService.processUpdate('order-rating', input: input, needLoading: true);
     }else {

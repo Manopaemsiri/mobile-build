@@ -10,22 +10,22 @@ class CmsContentController extends GetxController {
   final String? url;
 
   // final LanguageController lController = Get.find<LanguageController>();
-  CmsContentModel? _data;
-  List<FileModel> _gallery = [];
+  CmsContentModel? dataModel;
+  final List<FileModel> _gallery = [];
 
 
   bool _isReady = false;
-  bool _trimDigits = true;
-  final AppController _appController = Get.find<AppController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final bool _trimDigits = true;
+  final AppController controllerApp = Get.find<AppController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
   final LanguageController _lController = Get.find<LanguageController>();
 
-  CmsContentModel? get data => _data;
+  CmsContentModel? get data => dataModel;
   List<FileModel>? get gallery => _gallery;
   bool get isReady => _isReady;
   bool get trimDigits => _trimDigits;
-  AppController get appController => _appController;
-  CustomerController get customerController => _customerController;
+  AppController get appController => controllerApp;
+  CustomerController get customerController => controllerCustomer;
   LanguageController get lController => _lController;
 
 
@@ -39,8 +39,8 @@ class CmsContentController extends GetxController {
     CmsContentModel? item;
     if(url?.isNotEmpty == true){
       final input = { "url": url };
-      if(_customerController.partnerShop != null && _customerController.partnerShop?.type != 9) {
-        if(_customerController.partnerShop?.isValid() == true) input['partnerShopId'] = _customerController.partnerShop!.id!;
+      if(controllerCustomer.partnerShop != null && controllerCustomer.partnerShop?.type != 9) {
+        if(controllerCustomer.partnerShop?.isValid() == true) input['partnerShopId'] = controllerCustomer.partnerShop!.id!;
       }else {
         input['partnerShopCode'] = "CENTER";
       }
@@ -53,18 +53,18 @@ class CmsContentController extends GetxController {
       }
     }
     if(item?.isValid() == true){
-      _data = item;
+      dataModel = item;
 
-      if (_data?.image != null && _data?.image!.path != null) {
-        _gallery.add(_data!.image!);
+      if (dataModel?.image != null && dataModel?.image!.path != null) {
+        _gallery.add(dataModel!.image!);
       }
-      if (_data?.gallery != null) {
-        _data?.gallery?.forEach((d) {
+      if (dataModel?.gallery != null) {
+        dataModel?.gallery?.forEach((d) {
           if(d.path.isNotEmpty) _gallery.add(d);
         });
       }
     }else {
-      _data = null;
+      dataModel = null;
     }
     _isReady = true;
     update();

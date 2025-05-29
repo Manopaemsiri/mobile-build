@@ -19,12 +19,12 @@ import 'package:get/get.dart';
 
 class DropdownType extends StatefulWidget {
   const DropdownType({
-    Key? key,
+    super.key,
     required this.onChange,
     this.initTaxpayerType = 0,
     this.initBranchType = 1,
     this.initBranchId = '',
-  }) : super(key: key);
+  });
   
   final Function(Map<String, dynamic>, Map<String, dynamic>) onChange;
   final int initBranchType;

@@ -10,9 +10,9 @@ import 'package:get/get.dart';
 
 class RedeemProductCouponTab extends StatefulWidget {
   const RedeemProductCouponTab({
-    Key? key,
+    super.key,
     this.isCashCoupon = false,
-  }): super(key: key);
+  });
 
   final bool isCashCoupon;
 
@@ -22,7 +22,7 @@ class RedeemProductCouponTab extends StatefulWidget {
 
 class _RedeemProductCouponTabState extends State<RedeemProductCouponTab> {
   final LanguageController lController = Get.find<LanguageController>();
-  List<PartnerProductCouponModel> _data = [];
+  List<PartnerProductCouponModel> dataModel = [];
 
   int page = 0;
   bool isLoading = false;
@@ -39,7 +39,7 @@ class _RedeemProductCouponTabState extends State<RedeemProductCouponTab> {
       page = 0;
       isLoading = false;
       isEnded = false;
-      _data = [];
+      dataModel = [];
     });
     loadData();
   }
@@ -67,12 +67,12 @@ class _RedeemProductCouponTabState extends State<RedeemProductCouponTab> {
           for (var i = 0; i < len; i++) {
             PartnerProductCouponModel model = 
               PartnerProductCouponModel.fromJson(value!["result"][i]);
-            _data.add(model);
+            dataModel.add(model);
           }
 
           setState(() {
-            _data;
-            if (_data.length >= paginateModel.total!) {
+            dataModel;
+            if (dataModel.length >= paginateModel.total!) {
               isEnded = true;
               isLoading = false;
             } else if (value != null) {
@@ -80,7 +80,7 @@ class _RedeemProductCouponTabState extends State<RedeemProductCouponTab> {
             }
           });
         });
-      } catch (e) {}
+      } catch(_) {}
     }
   }
 
@@ -106,7 +106,7 @@ class _RedeemProductCouponTabState extends State<RedeemProductCouponTab> {
       color: kAppColor,
       child: SingleChildScrollView(
         padding: kPadding,
-        child: isEnded && _data.isEmpty
+        child: isEnded && dataModel.isEmpty
           ? SizedBox(
             height: MediaQuery.of(context).size.height * 0.6,
             child: Center (
@@ -117,14 +117,14 @@ class _RedeemProductCouponTabState extends State<RedeemProductCouponTab> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _data.isEmpty
+              dataModel.isEmpty
                 ? const SizedBox(height: 0)
                 : ListView.builder(
                     shrinkWrap: true,
-                    itemCount: _data.length,
+                    itemCount: dataModel.length,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) {
-                      PartnerProductCouponModel item = _data[index];
+                      PartnerProductCouponModel item = dataModel[index];
                       return CardProductCoupon2(
                         model: item,
                         onPressed: () => Get.to(() => PartnerProductCouponScreen(

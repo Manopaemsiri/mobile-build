@@ -9,11 +9,11 @@ import 'package:get/get.dart';
 
 class CheckoutOrderItem extends StatelessWidget {
   const CheckoutOrderItem({
-    Key? key,
+    super.key,
     required this.model,
     required this.lController,
     required this.settings
-  }) : super(key: key);
+  });
 
   final CustomerCartModel model;
   final LanguageController lController;
@@ -28,7 +28,7 @@ class CheckoutOrderItem extends StatelessWidget {
       ? const SizedBox.shrink()
       : Column(
         children: [
-          // if(_appController.enabledMultiPartnerShops) ...[
+          // if(controllerApp.enabledMultiPartnerShops) ...[
           //   const Divider(height: 1),
           //   Container(
           //     padding: kPadding,
@@ -187,11 +187,11 @@ class CheckoutOrderItem extends StatelessWidget {
               );
             }).toList(),
           ),
-          if(settings?['APP_ENABLE_FEATURE_PARTNER_PRODUCT_REWARD'] == '1' 
+          if(settings['APP_ENABLE_FEATURE_PARTNER_PRODUCT_REWARD'] == '1' 
           && freeProducts.isNotEmpty)...[
             Container(
               decoration: BoxDecoration(
-                color: kYellowColor.withOpacity(0.05)
+                color: kYellowColor.withValues(alpha: 0.05)
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -211,11 +211,11 @@ class CheckoutOrderItem extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(vertical: kQuarterGap, horizontal: kQuarterGap),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(kRadius),
-                                    color: kAppColor.withOpacity(0.1)
+                                    color: kAppColor.withValues(alpha: 0.1)
                                   ),
                                   child: Icon(
                                     Icons.redeem_rounded,
-                                    color: kAppColor.withOpacity(0.8)
+                                    color: kAppColor.withValues(alpha: 0.8)
                                   ),
                                 )
                               ),
@@ -246,7 +246,7 @@ class CheckoutOrderItem extends StatelessWidget {
                     itemBuilder: (_, index) {
                       PartnerProductModel item = freeProducts[index];
 
-                      String _image = item.image?.path ?? '';
+                      String widgetImage = item.image?.path ?? '';
                       String name = item.name;
                       String inCart = "x ${item.inCart} ${item.selectedUnit != null? item.selectedUnit?.unit: item.unit}";
 
@@ -259,7 +259,7 @@ class CheckoutOrderItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             ImageProduct(
-                              imageUrl: _image,
+                              imageUrl: widgetImage,
                               width: 40,
                               height: 40,
                             ),

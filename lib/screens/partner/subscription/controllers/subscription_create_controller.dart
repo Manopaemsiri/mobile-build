@@ -1,6 +1,6 @@
 import 'package:coffee2u/apis/api_service.dart';
 import 'package:coffee2u/models/index.dart';
-import 'package:coffee2u/screens/partner/subscription/checkout.dart';
+// import 'package:coffee2u/screens/partner/subscription/checkout.dart';
 import 'package:coffee2u/utils/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -36,6 +36,8 @@ class SubscriptionCreateController extends GetxController {
 
   int _currentPage = 0;
   int get currentPage => _currentPage;
+
+  bool isOneTimeChange = false;
 
   @override
   void onInit() {
@@ -95,101 +97,104 @@ class SubscriptionCreateController extends GetxController {
   }
 
   bool _validation({bool checkProductEmpty = false}) {
-    bool _temp = true;
-    final _products = _step[_currentPage].products
+    bool temp = true;
+    final dataProducts = _step[_currentPage].products
       .where((d) => d.quantity > 0);
-    final double sumCredit = _products
+    final double sumCredit = dataProducts
       .fold(0, (sum, item) => sum + (item.credit*item.quantity));
     if(sumCredit > _step[_currentPage].credit){
       ShowDialog.showErrorToast(
         desc: lController.getLang('Incorrect information')
       );
-      _temp = false;
+      temp = false;
     }else if(checkProductEmpty){
-      final _products = _step.expand((d) => d.products)
+      final dataProducts = _step.expand((d) => d.products)
         .where((d) => d.quantity > 0).toList();
-      if(_products.isEmpty){
+      if(dataProducts.isEmpty){
         ShowDialog.showErrorToast(
           desc: lController.getLang('Please select products')
         );
-        _temp = false;
+        temp = false;
       }
     }
-    return _temp;
+    return temp;
   }
 
   nextPage() {
-      final isLastPage = (_pageController?.page ?? 0) == _step.length - 1;
-  final isNotLastPage = (_pageController?.page ?? 0) < _step.length - 1;
+    final isLastPage = (_pageController?.page ?? 0) == _step.length - 1;
+    final isNotLastPage = (_pageController?.page ?? 0) < _step.length - 1;
+    final dataVal = _validation(checkProductEmpty: isLastPage);
+    if (dataVal) {
+      if (isNotLastPage) {
+        _pageController?.nextPage(duration: const Duration(milliseconds: 250), curve: Curves.easeIn);
+      } else {
+        if (type == 1) {
+          onSubmit();
+        } else if (type == 2) {
+          final updatedProducts = _step
+          .expand((d) => d.products)
+          .where((e) => e.quantity > 0)
+          .toList();
 
-  final _val = _validation(checkProductEmpty: isLastPage);
-
-  if (_val) {
-    if (isNotLastPage) {
-      _pageController?.nextPage(duration: const Duration(milliseconds: 250), curve: Curves.easeIn);
-    } else {
-      
-      if (type == 1) {
-        onSubmit();
-      } else if (type == 2) {
-        final updatedProducts = _step
-        .expand((d) => d.products)
-        .where((e) => e.quantity > 0)
-        .toList();
-
-        ShowDialog.showForceDialog(
-          lController.getLang('Confirm Update'), '',
-          () async {
-            Get.back(); 
-            final result = await submitUpdate(); 
-            if(result == true){
-              Get.back(result: true);
-            }
-          },
-          cancelText: lController.getLang('Cancel'),
-          onCancel: () => Get.back(),
-          content: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: updatedProducts.map((e) {
-                final product = e.product;
-                final imageUrl = product?.image?.path ?? '';
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 6),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      imageUrl.isNotEmpty
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(4),
-                            child: Image.network(
-                              imageUrl,
-                              width: 48,
-                              height: 48,
-                              fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) =>
-                                  const Icon(Icons.broken_image, size: 48),
-                            ),
-                          )
-                        : const Icon(Icons.image_not_supported, size: 48),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          '${product?.name ?? "Unnamed"} (x${e.quantity})',
-                          style: const TextStyle(fontSize: 14),
+          ShowDialog.dialogChoiceButtons(
+            titleText: 'Confirm Update',
+            message: '',
+            confirmText: 'ทุกครั้ง',
+            secondaryText: 'ครั้งเดียว',
+            onConfirm: () async {
+              isOneTimeChange = false;
+              Get.back();
+              final result = await submitUpdate();
+              if (result) Get.back(result: true);
+            },
+            onSecondary: () async {
+              isOneTimeChange = true;
+              Get.back();
+              final result = await submitUpdate();
+              if (result) Get.back(result: true);
+            },
+            content: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: updatedProducts.map((e) {
+                  final product = e.product;
+                  final imageUrl = product?.image?.path ?? '';
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        imageUrl.isNotEmpty
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(4),
+                              child: Image.network(
+                                imageUrl,
+                                width: 48,
+                                height: 48,
+                                fit: BoxFit.cover,
+                                errorBuilder: (_, __, ___) =>
+                                    const Icon(Icons.broken_image, size: 48),
+                              ),
+                            )
+                          : const Icon(Icons.image_not_supported, size: 48),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            '${product?.name ?? "Unnamed"} (x${e.quantity})',
+                            style: const TextStyle(fontSize: 14),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              }).toList(),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
             ),
-          ),
-        ); 
+          ); 
+        }
       }
     }
-  }
   }
   previousPage() {
     if((_pageController?.page ?? 0) == 0){
@@ -247,8 +252,6 @@ class SubscriptionCreateController extends GetxController {
 }
  
 
-  
-
   @override
   void onClose() {
     _pageController?.removeListener(() { });
@@ -259,53 +262,52 @@ class SubscriptionCreateController extends GetxController {
 
   Future<void> onSubmit() async {
     try {
-      List<Map<String, dynamic>> _relatedProducts = _step
-        .where((d) => d.type == 0)
-        .expand((d) => d.products
-          // .where((e) => e.quantity > 0)
-          .map((e) => {
-            'productId': e.product?.id,
-            'unitId': e.unit?.id,
-            'inCart': e.quantity,
-            'addPriceInVAT': e.addPriceInVAT,
-            'credit': e.credit,
-          }
-        ))
-      .toList();
-      List<Map<String, dynamic>> _finalSteps = _step.where((d) => d.type == 1).map((d) {
-        List<Map<String, dynamic>> _finalProducts = [];
-        if(d.products.isNotEmpty){
-          _finalProducts = d.products.where((e) => e.quantity > 0).map((e) {
-            return {
-              'productId': e.product?.id,
-              'unitId': e.unit?.id,
-              'inCart': e.quantity,
-              'addPriceInVAT': e.addPriceInVAT,
-              'credit': e.credit,
-            };
-          }).toList();
-        }
-        return {
-          'name': d.name,
-          'icon': d.icon?.path,
-          'order': d.order,
-          'credit': d.credit,
-          'products': _finalProducts,
-        };
-      }).toList();
-      Map<String, dynamic> _input = {
-        'subscriptionId': data.id,
-        'type': 1,
-        'relatedProducts': _relatedProducts,
-        'selectionSteps': _finalSteps,
-      };
+      // List<Map<String, dynamic>> relatedProducts = _step
+      //   .where((d) => d.type == 0)
+      //   .expand((d) => d.products
+      //     // .where((e) => e.quantity > 0)
+      //     .map((e) => {
+      //       'productId': e.product?.id,
+      //       'unitId': e.unit?.id,
+      //       'inCart': e.quantity,
+      //       'addPriceInVAT': e.addPriceInVAT,
+      //       'credit': e.credit,
+      //     }
+      //   )).toList();
+      // List<Map<String, dynamic>> dataFinalSteps = _step.where((d) => d.type == 1).map((d) {
+      //   List<Map<String, dynamic>> dataFinalProducts = [];
+      //   if(d.products.isNotEmpty){
+      //     dataFinalProducts = d.products.where((e) => e.quantity > 0).map((e) {
+      //       return {
+      //         'productId': e.product?.id,
+      //         'unitId': e.unit?.id,
+      //         'inCart': e.quantity,
+      //         'addPriceInVAT': e.addPriceInVAT,
+      //         'credit': e.credit,
+      //       };
+      //     }).toList();
+      //   }
+      //   return {
+      //     'name': d.name,
+      //     'icon': d.icon?.path,
+      //     'order': d.order,
+      //     'credit': d.credit,
+      //     'products': dataFinalProducts,
+      //   };
+      // }).toList();
+      // Map<String, dynamic> dataInput = {
+      //   'subscriptionId': data.id,
+      //   'type': 1,
+      //   'relatedProducts': relatedProducts,
+      //   'selectionSteps': dataFinalSteps,
+      // };
       if(type ==2){
         return Get.to(() => PartnerProductSubscriptionUpdateCheckoutScreen(
           subscription: subscription!,
           productStep: _step,
         ));
       }else{
-        // final res = await ApiService.processUpdate('', input: _input, needLoading: true);
+        // final res = await ApiService.processUpdate('', input: dataInput, needLoading: true);
         // if(res) return Get.to(() => PartnerProductSubscriptionCheckoutScreen());
       }
     } catch (_) {}
@@ -313,7 +315,7 @@ class SubscriptionCreateController extends GetxController {
 
  Future<bool> submitUpdate() async {
   try {
-    final _relatedProducts = _step
+    final relatedProducts = _step
       .where((d) => d.type == 0)
       .expand((d) => d.products)
       .map((e) => {
@@ -325,7 +327,7 @@ class SubscriptionCreateController extends GetxController {
       })
     .toList();
 
-    final _selectionSteps = _step
+    final dataSelectionSteps = _step
       .where((d) => d.type == 1)
       .map((d) => {
         'name': d.name,
@@ -342,22 +344,29 @@ class SubscriptionCreateController extends GetxController {
       })
     .toList();
 
-    final _input = {
+    final dataInput = {
       '_id': subscription?.id,
-      'selectionSteps': _selectionSteps,
-      if (_relatedProducts.isNotEmpty) 'relatedProducts': _relatedProducts,
+      'selectType': isOneTimeChange ? 1 : 0,
+      'selectionSteps': dataSelectionSteps,
+      if (relatedProducts.isNotEmpty) 'relatedProducts': relatedProducts,
       if ((subscription?.relatedCredit ?? 0) > 0)
         'relatedCredit': subscription?.relatedCredit,
     };
 
+
     final res = await ApiService.processUpdate(
       'subscription',
-      input: _input,
+      input: dataInput,
       needLoading: true,
     );
 
-    if (res == true) {
-
+    if (res == true) { 
+      print('=================================');
+      print('id: ${subscription?.id}');
+      print('selectType : ${isOneTimeChange ? 1 : 0}');
+      print('total: ${subscription?.total}');
+      print('status: ${subscription?.status}');
+      print('=================================');
       return true;
     } else {
       ShowDialog.showForceDialog(

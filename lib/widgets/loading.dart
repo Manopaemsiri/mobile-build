@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Loading extends StatelessWidget {
-  Loading({Key? key}) : super(key: key);
+  Loading({super.key});
   final LanguageController lController = Get.find<LanguageController>();
 
   @override

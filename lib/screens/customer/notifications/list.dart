@@ -9,15 +9,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class NotificationScreen extends StatefulWidget {
-  const NotificationScreen({Key? key}) : super(key: key);
+  const NotificationScreen({super.key});
 
   @override
   State<NotificationScreen> createState() => _NotificationScreenState();
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  final CustomerController _customerController = Get.find<CustomerController>();
-  final FirebaseController _firebaseController = Get.find<FirebaseController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
+  final FirebaseController controllerFirebase = Get.find<FirebaseController>();
   final LanguageController lController = Get.find<LanguageController>();
 
   @override
@@ -27,42 +27,42 @@ class _NotificationScreenState extends State<NotificationScreen> {
         title: Text(lController.getLang("Notification")),
         bottom: const AppBarDivider(),
       ),
-            body: !_customerController.isCustomer() || _firebaseController.streamOrderStatuses == null
+            body: !controllerCustomer.isCustomer() || controllerFirebase.streamOrderStatuses == null
         ? NoDataCoffeeMug()
         : StreamBuilder<QuerySnapshot>(
-          stream: _firebaseController.streamOrderStatuses,
+          stream: controllerFirebase.streamOrderStatuses,
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
               return NoDataCoffeeMug();
             } else {
-              List<CustomerNotiModel> _data = [];
-              List<dynamic> _list = snapshot.data?.docs ?? [];
-              int len = _list.length;
+              List<CustomerNotiModel> dataModel = [];
+              List<dynamic> widgetList = snapshot.data?.docs ?? [];
+              int len = widgetList.length;
               for(var i=0; i<len; i++){
-                var _d = _list[i].data();
+                var temp = widgetList[i].data();
                 CustomerNotiModel model = CustomerNotiModel(
-                  id: _d["_id"],
-                  type: _d["type"] ?? 1,
-                  customer: _d["customer"],
-                  partnerShop: _d["partnerShop"],
-                  order: _d["order"] ?? {},
-                  subscription: _d["subscription"] ?? {},
-                  isReadCustomer: _d["isReadCustomer"],
-                  shippingStatus: _d["shippingStatus"] ?? '',
-                  shippingSubStatus: _d["shippingSubStatus"] ?? '',
-                  updatedAt: _d["updatedAt"] == null
-                    ? DateTime.now(): DateTime.parse(_d["updatedAt"]),
+                  id: temp["_id"],
+                  type: temp["type"] ?? 1,
+                  customer: temp["customer"],
+                  partnerShop: temp["partnerShop"],
+                  order: temp["order"] ?? {},
+                  subscription: temp["subscription"] ?? {},
+                  isReadCustomer: temp["isReadCustomer"],
+                  shippingStatus: temp["shippingStatus"] ?? '',
+                  shippingSubStatus: temp["shippingSubStatus"] ?? '',
+                  updatedAt: temp["updatedAt"] == null
+                    ? DateTime.now(): DateTime.parse(temp["updatedAt"]),
                 );
-                _data.add(model);
+                dataModel.add(model);
               }
 
               return ListView.separated(
                 separatorBuilder: (context, index) {
                   return const Divider(height: 1);
                 },
-                itemCount: _data.length,
+                itemCount: dataModel.length,
                 itemBuilder: (c, index) {
-                  CustomerNotiModel d = _data[index];
+                  CustomerNotiModel d = dataModel[index];
                   return NotificationItem(
                     model: d, lController: lController,
                   );

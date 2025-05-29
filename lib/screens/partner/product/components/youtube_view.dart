@@ -7,10 +7,10 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YoutubeView extends StatefulWidget {
   const YoutubeView({
-    Key? key,
+    super.key,
     required this.youtubeId,
     required this.backTo,
-  }) : super(key: key);
+  });
   final String youtubeId;
   final String backTo;
 
@@ -20,18 +20,18 @@ class YoutubeView extends StatefulWidget {
 
 class _YoutubeViewState extends State<YoutubeView> {
   late Duration? duration2 = Get.find<FrontendController>().youtubeDuration;
-  late YoutubePlayerController _controller;
+  late YoutubePlayerController controllerWidget;
   late TextEditingController _idController;
   late TextEditingController _seekToController;
 
-  late PlayerState _playerState;
-  late YoutubeMetaData _videoMetaData;
+  late PlayerState dataPlayerState;
+  late YoutubeMetaData dataVideoMetaData;
   bool _isPlayerReady = false;
 
   @override
   void initState() {
     super.initState();
-    _controller = YoutubePlayerController(
+    controllerWidget = YoutubePlayerController(
       initialVideoId: widget.youtubeId,
       flags:  YoutubePlayerFlags(
         mute: false,
@@ -46,22 +46,22 @@ class _YoutubeViewState extends State<YoutubeView> {
     )..addListener(listener);
     _idController = TextEditingController();
     _seekToController = TextEditingController();
-    _videoMetaData = const YoutubeMetaData();
-    _playerState = PlayerState.unknown;
+    dataVideoMetaData = const YoutubeMetaData();
+    dataPlayerState = PlayerState.unknown;
   }
 
   void listener() {
-    if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
+    if (_isPlayerReady && mounted && !controllerWidget.value.isFullScreen) {
       setState(() {
-        _playerState = _controller.value.playerState;
-        _videoMetaData = _controller.metadata;
+        dataPlayerState = controllerWidget.value.playerState;
+        dataVideoMetaData = controllerWidget.metadata;
       });
     }
   }
 
   @override
   void deactivate() {
-    _controller.pause();
+    controllerWidget.pause();
     super.deactivate();
   }
 
@@ -86,12 +86,12 @@ class _YoutubeViewState extends State<YoutubeView> {
         ]);
         Get.to(() => YoutubeFullScreen(
           youtubeId: widget.youtubeId,
-          duration: _controller.value.position,
+          duration: controllerWidget.value.position,
           backTo: widget.backTo,
         ));
       },
       player: YoutubePlayer(
-        controller: _controller,
+        controller: controllerWidget,
         showVideoProgressIndicator: true,
         progressIndicatorColor: Colors.blueAccent,
         onReady: () {

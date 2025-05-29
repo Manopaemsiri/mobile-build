@@ -8,11 +8,11 @@ import '../controllers/partner_shop_sort_controller.dart';
 
 class PartnerShopSorting extends StatelessWidget {
   const PartnerShopSorting({
-    Key? key,
+    super.key,
     required this.onSubmit,
     required this.lController,
     this.initFilterSort,
-  }): super(key: key);
+  });
 
   final Map<String, dynamic>? initFilterSort;
   final LanguageController lController;

@@ -4,7 +4,7 @@ import 'package:coffee2u/controller/app_controller.dart';
 import 'package:coffee2u/controller/customer_controller.dart';
 import 'package:coffee2u/controller/language_controller.dart';
 import 'package:coffee2u/models/index.dart';
-import 'package:coffee2u/screens/customer/address/components/address_selection.dart';
+// import 'package:coffee2u/screens/customer/address/components/address_selection.dart';
 import 'package:coffee2u/screens/customer/checkout/read.dart';
 import 'package:coffee2u/screens/customer/frequently_bought_products/components/product_frequently_item.dart';
 import 'package:coffee2u/widgets/index.dart';
@@ -13,8 +13,8 @@ import 'package:get/get.dart';
 
 class FrequentlyBoughtProductsScreen extends StatefulWidget {
   const FrequentlyBoughtProductsScreen({
-    Key? key
-  }): super(key: key);
+    super.key
+  });
 
   @override
   State<FrequentlyBoughtProductsScreen> createState() =>
@@ -23,20 +23,20 @@ class FrequentlyBoughtProductsScreen extends StatefulWidget {
 
 class _FrequentlyBoughtProductsScreenState extends State<FrequentlyBoughtProductsScreen> {
   final LanguageController lController = Get.find<LanguageController>();
-  final AppController _appController = Get.find<AppController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final AppController controllerApp = Get.find<AppController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
   bool isLoading = true;
   PartnerShopModel? _partnerShop;
 
   _initState() async {
-    if(_customerController.isCustomer()){
-      if(_appController.enabledMultiPartnerShops && _customerController.partnerShop != null && _customerController.partnerShop?.type != 9){
-        setState(() => _partnerShop = _customerController.partnerShop);
+    if(controllerCustomer.isCustomer()){
+      if(controllerApp.enabledMultiPartnerShops && controllerCustomer.partnerShop != null && controllerCustomer.partnerShop?.type != 9){
+        setState(() => _partnerShop = controllerCustomer.partnerShop);
       }else{
         var data1 = await ApiService.processRead('partner-shop-center');
         setState(() => _partnerShop = PartnerShopModel.fromJson(data1!['result']));
       }
-      _customerController.updateFrequentlyProducts(shop: _partnerShop);
+      controllerCustomer.updateFrequentlyProducts(shop: _partnerShop);
     }
 
     setState(() {
@@ -53,7 +53,7 @@ class _FrequentlyBoughtProductsScreenState extends State<FrequentlyBoughtProduct
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CustomerController>(builder: (controller) {
-      int _count = controller.countFrequentlyProducts();
+      int dataCount = controller.countFrequentlyProducts();
 
       return Scaffold(
         appBar: AppBar(
@@ -69,7 +69,7 @@ class _FrequentlyBoughtProductsScreenState extends State<FrequentlyBoughtProduct
             : ListView(
               children: [
                
-                // if(_appController.enabledMultiPartnerShops) ...[
+                // if(controllerApp.enabledMultiPartnerShops) ...[
                 //   InkWell(
                 //     onTap: () {
                 //       Get.to(() => PartnerShopsScreen(
@@ -77,7 +77,7 @@ class _FrequentlyBoughtProductsScreenState extends State<FrequentlyBoughtProduct
                 //           setState(() {
                 //             _partnerShop = value;
                 //           });
-                //           _customerController.updateFrequentlyProducts(shop: _partnerShop);
+                //           controllerCustomer.updateFrequentlyProducts(shop: _partnerShop);
                 //           Get.back();
                 //         }
                 //       ));
@@ -94,7 +94,7 @@ class _FrequentlyBoughtProductsScreenState extends State<FrequentlyBoughtProduct
                 //             height: 32,
                 //             decoration: BoxDecoration(
                 //               shape: BoxShape.circle,
-                //               color: kAppColor.withOpacity(0.1),
+                //               color: kAppColor.withValues(alpha: 0.1),
                 //             ),
                 //             child: const Center(
                 //               child: Icon(
@@ -136,24 +136,24 @@ class _FrequentlyBoughtProductsScreenState extends State<FrequentlyBoughtProduct
                         controller.updateFrequentlyProduct(index, qty);
                       }, 
                       lController: lController,
-                      aController: _appController,
+                      aController: controllerApp,
                       trimDigits: true,
-                      showStock: _customerController.isShowStock(),
+                      showStock: controllerCustomer.isShowStock(),
                     );
                   },
                 ),
                 SizedBox(
-                  height: _count < 1? 88: 0,
+                  height: dataCount < 1? 88: 0,
                 ),
               ],
             ),
-        bottomNavigationBar: !controller.isCustomer() || _count < 1
+        bottomNavigationBar: !controller.isCustomer() || dataCount < 1
           ? const SizedBox.shrink()
           : Padding(
             padding: kPadding,
             child: ButtonOrder(
               title: lController.getLang("Order Now"),
-              qty: _count,
+              qty: dataCount,
               total: controller.getFrequentlyTotal(),
               onPressed: _onTapOrder,
               lController: lController,
@@ -165,7 +165,7 @@ class _FrequentlyBoughtProductsScreenState extends State<FrequentlyBoughtProduct
 
   void _onTapOrder() async {
     if(_partnerShop != null && _partnerShop!.isValid()){
-      bool res = await _customerController.checkoutFrequentlyProducts(_partnerShop);
+      bool res = await controllerCustomer.checkoutFrequentlyProducts(_partnerShop);
       if(res){
         Get.to(() => const CheckOutScreen());
       }

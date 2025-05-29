@@ -181,7 +181,7 @@ class SellerShopModel {
 
   Map<String, dynamic> toJson() => {
     "_id": id,
-    "type": type == null? null: type!.toJson(),
+    "type": type?.toJson(),
     "code": code,
     "businessId": businessId,
 
@@ -190,13 +190,13 @@ class SellerShopModel {
     "url": url,
     "youtubeVideoId": youtubeVideoId,
 
-    "logo": logo == null? null: logo!.toJson(),
-    "image": image == null? null: image!.toJson(),
+    "logo": logo?.toJson(),
+    "image": image?.toJson(),
     "gallery": gallery == null? null
       : List<Map<String, dynamic>>.from(gallery!.map((x) => x.toJson())),
 
     "email": email,
-    "address": address == null? null: address!.toJson(),
+    "address": address?.toJson(),
     "telephones": telephones,
     "line": line,
     "facebook": facebook,
@@ -230,8 +230,8 @@ class SellerShopModel {
     if (workingHours == null || workingHours!.isEmpty) {
       return false;
     } else {
-      DateTime _now = DateTime.now();
-      int index = workingHours!.indexWhere((x) => x.dayIndex == _now.weekday % 7 && x.isOpened == 1);
+      DateTime now = DateTime.now();
+      int index = workingHours!.indexWhere((x) => x.dayIndex == now.weekday % 7 && x.isOpened == 1);
       if (index < 0) {
         return false;
       } else {
@@ -247,11 +247,11 @@ class SellerShopModel {
           TimeOfDay startTime = TimeOfDay(hour: int.parse(startH), minute: int.parse(startM));
           TimeOfDay endTime = TimeOfDay(hour: int.parse(endH), minute: int.parse(endM));
 
-          return ((_now.hour > startTime.hour) ||
-                (_now.hour == startTime.hour &&
-                  _now.minute >= startTime.minute)) &&
-            ((_now.hour < endTime.hour) ||
-              (_now.hour == endTime.hour && _now.minute <= endTime.minute));
+          return ((now.hour > startTime.hour) ||
+                (now.hour == startTime.hour &&
+                  now.minute >= startTime.minute)) &&
+            ((now.hour < endTime.hour) ||
+              (now.hour == endTime.hour && now.minute <= endTime.minute));
         }
       }
     }
@@ -261,8 +261,8 @@ class SellerShopModel {
     if (workingHours == null || workingHours!.isEmpty) {
       return '';
     } else {
-      DateTime _now = DateTime.now();
-      int index = workingHours!.indexWhere((x) => x.dayIndex == _now.weekday % 7 && x.isOpened == 1);
+      DateTime now = DateTime.now();
+      int index = workingHours!.indexWhere((x) => x.dayIndex == now.weekday % 7 && x.isOpened == 1);
       if (index < 0) {
         return '';
       } else {

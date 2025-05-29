@@ -21,8 +21,8 @@ class SubscriptionConditionsController extends GetxController {
   PartnerShippingFrontendModel shipping;
   SubscriptionConditionsController({required this.data, required this.shipping});
 
-  late SignatureController _controller;
-  SignatureController get controller => _controller;
+  late SignatureController controllerWidget;
+  SignatureController get controller => controllerWidget;
   final ScrollController _scrollController = ScrollController();
   ScrollController get scrollController => _scrollController;
   
@@ -42,14 +42,14 @@ class SubscriptionConditionsController extends GetxController {
   }
 
   Future<void> _onInit() async {
-    _controller = SignatureController(
+    controllerWidget = SignatureController(
       penStrokeWidth: 1,
       penColor: kBlueColor,
       exportBackgroundColor: Colors.transparent,
       exportPenColor: kBlueColor,
     );
-    _controller.addListener(() {
-      if(_controller.isNotEmpty){
+    controllerWidget.addListener(() {
+      if(controllerWidget.isNotEmpty){
         _ended = true;
       }else{
         _ended = false;
@@ -73,22 +73,22 @@ class SubscriptionConditionsController extends GetxController {
 
   @override
   void onClose() {
-    _controller.removeListener(() { });
-    _controller.dispose();
+    controllerWidget.removeListener(() { });
+    controllerWidget.dispose();
     _scrollController.dispose();
     super.onClose();
   }
 
   redo() =>
-    _controller.redo();
+    controllerWidget.redo();
   undo() =>
-    _controller.undo();
+    controllerWidget.undo();
   clear() =>
-    _controller.clear();
+    controllerWidget.clear();
 
   onSubmit() async {
     if(!ended) return;
-    if(_controller.isEmpty){
+    if(controllerWidget.isEmpty){
       ShowDialog.showErrorToast(
         title: lController.getLang("Error"),
         desc: lController.getLang('text_error_signature_1')
@@ -140,10 +140,10 @@ class SubscriptionConditionsController extends GetxController {
 
   Future<String?> exportSignatureBase64({int width = 400, int quality = 70}) async {
     try {
-      if (_controller.isEmpty) return null;
+      if (controllerWidget.isEmpty) return null;
       int height = (width * 160 / 400).round();
 
-      ui.Image? image = await _controller.toImage();
+      ui.Image? image = await controllerWidget.toImage();
       if (image == null) return null;
 
       ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);

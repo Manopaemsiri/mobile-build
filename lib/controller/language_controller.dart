@@ -46,7 +46,7 @@ class LanguageController extends GetxController {
         "lang": languageCode.toUpperCase()
       }
     };
-    var data1 = await http.post(Uri.parse(apiUrl + "frontend/languages"),
+    var data1 = await http.post(Uri.parse('${apiUrl}frontend/languages'),
     headers: {'Content-Type': 'application/json; charset=UTF-8',}, body: jsonEncode(input));
     Map<String , dynamic> decode = json.decode(data1.body);
     lang =  Map<String, String>.from(decode["data"]["result"]);
@@ -57,7 +57,11 @@ class LanguageController extends GetxController {
 
   Future<void> updateCurrency({String? currency, Map<String, dynamic> input = const {}}) async {
     if(currencies.isEmpty){
-      var data2 = await http.post(Uri.parse(apiUrl + "frontend/currencies"), headers: {'Content-Type': 'application/json; charset=UTF-8'}, body: jsonEncode(input));
+      var data2 = await http.post(
+        Uri.parse('${apiUrl}frontend/currencies'),
+        headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+        body: jsonEncode(input),
+      );
       currencies = [];
       try {
         final decode2 = jsonDecode(data2.body);

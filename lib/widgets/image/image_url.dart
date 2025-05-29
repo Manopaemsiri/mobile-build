@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 
 class ImageUrl extends StatelessWidget {
   const ImageUrl({
-    Key? key,
+    super.key,
     required this.imageUrl,
     this.radius = 0.0,
     this.borderRadius,
     this.fit = BoxFit.cover,
     this.color,
     this.showMugIcon = false,
-  }) : super(key: key);
+  });
 
   final String imageUrl;
   final double radius;

@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 
 class SellerShopsScreen extends StatefulWidget {
   const SellerShopsScreen({
-    Key? key
-  }): super(key: key);
+    super.key
+  });
 
   @override
   State<SellerShopsScreen> createState() => _SellerShopsScreenState();
@@ -27,7 +27,7 @@ class _SellerShopsScreenState extends State<SellerShopsScreen> {
   late double _lat;
   late double _lng;
 
-  Widget _body() {
+  Widget widgetBody() {
     if(isLoading){
       return Padding(
         padding: const EdgeInsets.only(top: 3*kGap),
@@ -53,10 +53,10 @@ class _SellerShopsScreenState extends State<SellerShopsScreen> {
   }
 
   _initState() async {
-    bool _serviceEnabled = await location.serviceEnabled();
-    if(!_serviceEnabled){
-      _serviceEnabled = await location.requestService();
-      if(!_serviceEnabled){
+    bool serviceEnabled = await location.serviceEnabled();
+    if(!serviceEnabled){
+      serviceEnabled = await location.requestService();
+      if(!serviceEnabled){
         return _completeLoading();
       }
     }
@@ -64,20 +64,20 @@ class _SellerShopsScreenState extends State<SellerShopsScreen> {
     //Test 
     return _completeLoading();
 
-    PermissionStatus _permissionGranted = await location.hasPermission();
-    if(_permissionGranted == PermissionStatus.denied){
-      _permissionGranted = await location.requestPermission();
-      if(_permissionGranted != PermissionStatus.granted){
-        return _completeLoading();
-      }
-    }
+    // PermissionStatus _permissionGranted = await location.hasPermission();
+    // if(_permissionGranted == PermissionStatus.denied){
+    //   _permissionGranted = await location.requestPermission();
+    //   if(_permissionGranted != PermissionStatus.granted){
+    //     return _completeLoading();
+    //   }
+    // }
 
+    // LocationData _locationData = await location.getLocation();
+    // return _completeLoading(
+    //   lat: _locationData.latitude,
+    //   lng: _locationData.longitude,
+    // );
 
-    LocationData _locationData = await location.getLocation();
-    return _completeLoading(
-      lat: _locationData.latitude,
-      lng: _locationData.longitude,
-    );
   }
   
   @override
@@ -108,7 +108,7 @@ class _SellerShopsScreenState extends State<SellerShopsScreen> {
                 const Divider(height: 1, thickness: 2),
               ],
             ),
-            _body(),
+            widgetBody(),
           ],
         ),
       ),

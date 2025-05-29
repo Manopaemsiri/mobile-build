@@ -15,10 +15,10 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({
-    Key? key,
+    super.key,
     this.initSearch = '',
     this.backTo,
-  }): super(key: key);
+  });
   final String initSearch;
   final String? backTo;
 
@@ -29,8 +29,8 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final LanguageController lController = Get.find<LanguageController>();
   final AppController aController = Get.find<AppController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
-  List<PartnerProductModel> _data = [];
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
+  List<PartnerProductModel> dataModel = [];
 
   FocusNode fSearch = FocusNode();
   final searchCon = TextEditingController();
@@ -77,7 +77,7 @@ class _SearchScreenState extends State<SearchScreen> {
       page = 0;
       isLoading = false;
       isEnded = false;
-      _data = [];
+      dataModel = [];
     });
     loadData();
   }
@@ -124,7 +124,7 @@ class _SearchScreenState extends State<SearchScreen> {
         await ApiService.processList("partner-products", input: {
           "dataFilter": {
             "keywords": search,
-            "partnerShopId": _customerController.partnerShop?.id,
+            "partnerShopId": controllerCustomer.partnerShop?.id,
           },
           "paginate": {
             "page": page,
@@ -138,11 +138,11 @@ class _SearchScreenState extends State<SearchScreen> {
           for (var i = 0; i < len; i++) {
             PartnerProductModel model =
                 PartnerProductModel.fromJson(value!["result"][i]);
-            _data.add(model);
+            dataModel.add(model);
           }
           setState(() {
-            _data;
-            if (_data.length == paginateModel.total) {
+            dataModel;
+            if (dataModel.length == paginateModel.total) {
               isEnded = true;
               isLoading = false;
             } else if (value != null) {
@@ -150,7 +150,7 @@ class _SearchScreenState extends State<SearchScreen> {
             }
           });
         });
-      } catch (e) {}
+      } catch(_) {}
     }
   }
 
@@ -216,7 +216,7 @@ class _SearchScreenState extends State<SearchScreen> {
               autofocus: true,
               controller: searchCon,
               decoration: InputDecoration(
-                hintText: lController.getLang("Search") + '...',
+                hintText: '${lController.getLang("Search")}...',
                 filled: true,
                 fillColor: Colors.white,
                 contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: kGap),
@@ -251,7 +251,7 @@ class _SearchScreenState extends State<SearchScreen> {
               const Gap(gap: kGap),
               Column(
                 children: [
-                  isEnded && _data.isEmpty
+                  isEnded && dataModel.isEmpty
                   ? Padding(
                     padding: const EdgeInsets.only(top: kGap),
                     child: NoDataCoffeeMug(),
@@ -259,8 +259,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   : CardProductGrid(
                     padding: const EdgeInsets.fromLTRB(kGap, 0, kGap, kHalfGap),
                     key: const ValueKey<String>("search-products"),
-                    data: _data,
-                    customerController: _customerController,
+                    data: dataModel,
+                    customerController: controllerCustomer,
                     lController: lController,
                     aController: aController,
                     onTap: (d) => Get.to(() => ProductScreen(
@@ -268,10 +268,10 @@ class _SearchScreenState extends State<SearchScreen> {
                       eventId: selectedEventId,
                       backTo: widget.backTo,
                     )),
-                    showStock: _customerController.isShowStock(),
+                    showStock: controllerCustomer.isShowStock(),
                     trimDigits: trimDigits,
                   ),
-                  if (isEnded && _data.isNotEmpty) ...[
+                  if (isEnded && dataModel.isNotEmpty) ...[
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.only(top: kHalfGap, bottom: kGap),
@@ -291,7 +291,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       key: const Key('loader-widget'),
                       onVisibilityChanged: onLoadMore,
                       child: ProductGridLoader(
-                        showStock: _customerController.isShowStock(),
+                        showStock: controllerCustomer.isShowStock(),
                         padding: const EdgeInsets.fromLTRB(kGap, 0, kGap, kGap),
                       )
                     ),

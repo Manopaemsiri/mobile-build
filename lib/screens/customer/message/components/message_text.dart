@@ -5,28 +5,28 @@ import 'package:url_launcher/url_launcher.dart';
 
 class MessageText extends StatelessWidget {
   const MessageText({
-    Key? key,
+    super.key,
     required this.model,
-  }) : super(key: key);
+  });
 
   final Map<String, dynamic> model;
 
   @override
   Widget build(BuildContext context) {
-    Color _color = kAppColor;
-    double _width = MediaQuery.of(context).size.width * 0.75;
+    Color widgetColor = kAppColor;
+    double widgetWidth = MediaQuery.of(context).size.width * 0.75;
 
-    bool _isSender = model["fromCustomer"] ?? false;
-    String _message = model["text"] ?? '';
+    bool isSender = model["fromCustomer"] ?? false;
+    String dataMessage = model["text"] ?? '';
 
     return Flexible(
       child: Container(
-        constraints: BoxConstraints(maxWidth: _width),
+        constraints: BoxConstraints(maxWidth: widgetWidth),
         padding: const EdgeInsets.symmetric(
           vertical: 12, horizontal: 14
         ),
         decoration: BoxDecoration(
-          color: _color.withOpacity(_isSender? 1: 0.1),
+          color: widgetColor.withValues(alpha: isSender? 1: 0.1),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
@@ -38,9 +38,9 @@ class MessageText extends StatelessWidget {
                   throw Exception('Could not launch ${link.url}');
                 }
               },
-              text: _message,
+              text: dataMessage,
               style: TextStyle(
-                color: _isSender? kWhiteColor: kDarkColor,
+                color: isSender? kWhiteColor: kDarkColor,
                 fontWeight: FontWeight.w400
               ),
               linkStyle: const TextStyle(

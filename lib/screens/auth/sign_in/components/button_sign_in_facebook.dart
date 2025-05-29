@@ -6,10 +6,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ButtonSignInFacebook extends StatelessWidget {
   const ButtonSignInFacebook({
-    Key? key,
+    super.key,
     this.title = "Signin with Facebook",
     required this.lController
-  }): super(key: key);
+  });
 
   final String title;
   final LanguageController lController;

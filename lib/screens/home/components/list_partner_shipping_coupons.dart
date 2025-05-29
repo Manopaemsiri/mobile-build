@@ -9,14 +9,14 @@ import 'package:coffee2u/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-const double _flex = 2.5;
-final double _screenwidth = DeviceUtils.getDeviceWidth();
-final double _cardWidth = _screenwidth / _flex;
+const double widgetFlex = 2.5;
+final double screenwidth = DeviceUtils.getDeviceWidth();
+final double cardWidth = screenwidth / widgetFlex;
 
 class ListPartnerShippingCoupons extends StatelessWidget {
   ListPartnerShippingCoupons({
-    Key? key
-  }): super(key: key);
+    super.key
+  });
 
   final LanguageController lController = Get.find<LanguageController>();
   
@@ -61,7 +61,7 @@ class ListPartnerShippingCoupons extends StatelessWidget {
                         children: items.map((item) {
 
                           return CardShippingCoupon(
-                            width: _cardWidth,
+                            width: cardWidth,
                             model: item,
                             onPressed: () => onTap(item.id ?? '')
                           );

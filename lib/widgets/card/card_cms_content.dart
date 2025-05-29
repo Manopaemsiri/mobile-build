@@ -8,11 +8,11 @@ import 'package:get/get.dart';
 
 class CardCmsContent extends StatelessWidget {
   const CardCmsContent({
-    Key? key,
+    super.key,
     this.width = 150,
     required this.model,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final double width;
   final CmsContentModel model;
@@ -20,9 +20,9 @@ class CardCmsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _image = model.image?.path ?? "";
-    String _title = model.title;
-    String _body = model.description;
+    String widgetImage = model.image?.path ?? "";
+    String widgetTitle = model.title;
+    String widgetBody = model.description;
 
     const double imageRatio = 178/150;
     final double cardWidth = min((Get.width-kGap)/2.4, 172.5);
@@ -55,7 +55,7 @@ class CardCmsContent extends StatelessWidget {
                 child: AspectRatio(
                   aspectRatio: imageRatio,
                   child: ImageUrl(
-                    imageUrl: _image,
+                    imageUrl: widgetImage,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -66,7 +66,7 @@ class CardCmsContent extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '$_title\n\n',
+                      '$widgetTitle\n\n',
                       maxLines: 2,
                       textAlign: TextAlign.start,
                       style: bodyText1.copyWith(
@@ -78,7 +78,7 @@ class CardCmsContent extends StatelessWidget {
                     ),
                     const Gap(gap: kQuarterGap-1),
                     Text(
-                      '$_body\n\n',
+                      '$widgetBody\n\n',
                       maxLines: 2,
                       textAlign: TextAlign.start,
                       style: bodyText2.copyWith(
@@ -116,7 +116,7 @@ class CardCmsContent extends StatelessWidget {
     //                 topRight: Radius.circular(kRadius),
     //               ),
     //               child: ImageUrl(
-    //                 imageUrl: _image,
+    //                 imageUrl: widgetImage,
     //                 borderRadius: const BorderRadius.only(
     //                   topLeft: Radius.circular(4),
     //                   topRight: Radius.circular(4),
@@ -132,7 +132,7 @@ class CardCmsContent extends StatelessWidget {
     //               children: [
     //                 SizedBox(
     //                   child: Text(
-    //                     _title,
+    //                     widgetTitle,
     //                     maxLines: 2,
     //                     style: bodyText2.copyWith(
     //                       color: kDarkColor,
@@ -146,7 +146,7 @@ class CardCmsContent extends StatelessWidget {
     //                 SizedBox(
     //                   height: 40,
     //                   child: Text(
-    //                     _body,
+    //                     widgetBody,
     //                     maxLines: 2,
     //                     style: caption.copyWith(color: kGrayColor),
     //                     overflow: TextOverflow.ellipsis,

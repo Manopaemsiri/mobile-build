@@ -8,8 +8,8 @@ class CarouselGalleryController extends GetxController {
   final int initIndex;
   CarouselGalleryController(this.images, {this.initIndex = 0});
 
-  late final List<FileModel> _data = images;
-  List<FileModel> get data => _data;
+  late final List<FileModel> dataModel = images;
+  List<FileModel> get data => dataModel;
 
   int _currentIndex = 0;
   int get currentIndex => _currentIndex;

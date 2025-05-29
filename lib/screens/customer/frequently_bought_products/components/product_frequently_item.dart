@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 
 class ProductFrequentlyItem extends StatelessWidget {
   const ProductFrequentlyItem({
-    Key? key,
+    super.key,
     required this.model,
     required this.onChange,
     required this.lController,
@@ -18,7 +18,7 @@ class ProductFrequentlyItem extends StatelessWidget {
     this.qty = 0,
     this.trimDigits = false,
     this.showStock = false
-  }): super(key: key);
+  });
 
   final PartnerProductModel model;
   final Function(int) onChange;
@@ -33,9 +33,9 @@ class ProductFrequentlyItem extends StatelessWidget {
     const double imageWidth = 88;
     const double badgeWidth = imageWidth/2.5;
     
-    String _image = model.image?.path ?? '';
-    String _name = model.name;
-    String _price = model.selectedUnit == null
+    String widgetImage = model.image?.path ?? '';
+    String widgetName = model.name;
+    String widgetPrice = model.selectedUnit == null
       ? model.isSetSaved()
         ? model.displaySetSavedPrice(lController, trimDigits: trimDigits)
         : model.isDiscounted()
@@ -44,16 +44,16 @@ class ProductFrequentlyItem extends StatelessWidget {
       : model.selectedUnit!.isDiscounted()
         ? model.selectedUnit!.displayDiscountPrice(lController, trimDigits: trimDigits) 
         : model.selectedUnit!.displayMemberPrice(lController, trimDigits: trimDigits);
-    String _unit = model.selectedUnit == null 
+    String widgetUnit = model.selectedUnit == null 
       ? '/ ${model.unit}'
       : '/ ${model.selectedUnit!.unit}';
 
-    PartnerProductStatusModel? _status;
+    PartnerProductStatusModel? widgetStatus;
     if(aController.productStatuses.isNotEmpty && model.stock > 0){
       final int index = aController.productStatuses.indexWhere((d) => d.productStatus == model.status && d.type != 1);
-      if(index > -1) _status = aController.productStatuses[index];
+      if(index > -1) widgetStatus = aController.productStatuses[index];
     }
-    _status ??= model.productBadge(lController, showSelectedUnit: model.selectedUnit?.isDiscounted() == true);
+    widgetStatus ??= model.productBadge(lController, showSelectedUnit: model.selectedUnit?.isDiscounted() == true);
 
     bool stockCenter = model.stockCenter > 0 && model.status != 1;
     bool stockShop = model.stock > 0 && model.status != 1;
@@ -76,20 +76,20 @@ class ProductFrequentlyItem extends StatelessWidget {
                     Stack(
                       children: [
                         ImageProduct(
-                          imageUrl: _image,
+                          imageUrl: widgetImage,
                           width: imageWidth,
                           height: imageWidth,
                         ),
                         // if(_tag != null) ...[
                         //   Positioned(top: 0, left: 0, child: _tag),
                         // ],
-                        if(_status != null)...[
-                          if(_status.productStatus == 1)...[
+                        if(widgetStatus != null)...[
+                          if(widgetStatus.productStatus == 1)...[
                             Positioned(
                               top: 0, bottom: 0, left: 0, right: 0,
                               child: Container(
                                 padding: const EdgeInsets.all(kQuarterGap),
-                                color: kWhiteColor.withOpacity(0.45),
+                                color: kWhiteColor.withValues(alpha: 0.45),
                                 child: Center(
                                   child: Text(
                                     'Coming\nSoon',
@@ -105,49 +105,49 @@ class ProductFrequentlyItem extends StatelessWidget {
                               ),
                             ),
                           ]else...[
-                            if(_status.type == 1)...[
+                            if(widgetStatus.type == 1)...[
                               Positioned(
                                 top: 0, left: 0,
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(horizontal: kQuarterGap),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(4),
-                                    color: _status.textBgColor2,
+                                    color: widgetStatus.textBgColor2,
                                   ),
                                   child: Text(
-                                    _status.text,
+                                    widgetStatus.text,
                                     style: caption.copyWith(
-                                      color: _status.textColor2,
+                                      color: widgetStatus.textColor2,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                 ),
                               ),
-                            ]else if(_status.type == 2)...[
+                            ]else if(widgetStatus.type == 2)...[
                               Positioned(
                                 top: 0, left: 0,
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(horizontal: kQuarterGap),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(4),
-                                    color: _status.textBgColor2,
+                                    color: widgetStatus.textBgColor2,
                                   ),
                                   child: Text(
                                     model.isDiscounted()
-                                      ? _status.text.replaceAll('_DISCOUNT_PERCENT_', "${model.selectedUnit == null? model.discountPercent(): model.selectedUnit?.discountPercent()}")
-                                      : _status.text,
+                                      ? widgetStatus.text.replaceAll('_DISCOUNT_PERCENT_', "${model.selectedUnit == null? model.discountPercent(): model.selectedUnit?.discountPercent()}")
+                                      : widgetStatus.text,
                                     style: caption.copyWith(
-                                      color: _status.textColor2,
+                                      color: widgetStatus.textColor2,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                 ),
                               ),
-                            ]else if(_status.type == 3)...[
+                            ]else if(widgetStatus.type == 3)...[
                               Positioned(
                                 top: kHalfGap, left: kHalfGap,
                                 child: ImageProduct(
-                                  imageUrl: _status.icon?.path ?? '',
+                                  imageUrl: widgetStatus.icon?.path ?? '',
                                   width: badgeWidth, 
                                   height: badgeWidth,
                                   decoration: const BoxDecoration(),
@@ -183,7 +183,7 @@ class ProductFrequentlyItem extends StatelessWidget {
                         SizedBox(
                           height: 48,
                           child: Text(
-                            _name,
+                            widgetName,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: subtitle1.copyWith(
@@ -204,7 +204,7 @@ class ProductFrequentlyItem extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           text: TextSpan(
-                            text: _price,
+                            text: widgetPrice,
                             style: headline6.copyWith(
                               fontFamily: 'Kanit',
                               color: kAppColor,
@@ -212,7 +212,7 @@ class ProductFrequentlyItem extends StatelessWidget {
                             ),
                             children: [
                               TextSpan(
-                                text: " $_unit  ",
+                                text: " $widgetUnit  ",
                                 style: caption.copyWith(
                                   fontFamily: 'Kanit',
                                   color: kDarkColor,
@@ -255,7 +255,7 @@ class ProductFrequentlyItem extends StatelessWidget {
                             text: TextSpan(
                               text: lController.getLang("text_shipping"),
                               style: subtitle2.copyWith(
-                                color: stockCenter? kAppColor.withOpacity(0.8): kDarkLightGrayColor.withOpacity(0.6),
+                                color: stockCenter? kAppColor.withValues(alpha: 0.8): kDarkLightGrayColor.withValues(alpha: 0.6),
                                 fontWeight: FontWeight.w500,
                                 fontFamily: "Kanit",
                               ),
@@ -264,7 +264,7 @@ class ProductFrequentlyItem extends StatelessWidget {
                                 TextSpan(
                                   text: lController.getLang("text_click_and_collect"),
                                   style: subtitle2.copyWith(
-                                    color: stockShop? kAppColor.withOpacity(0.8): kDarkLightGrayColor.withOpacity(0.6),
+                                    color: stockShop? kAppColor.withValues(alpha: 0.8): kDarkLightGrayColor.withValues(alpha: 0.6),
                                     fontWeight: FontWeight.w500,
                                     fontFamily: "Kanit",
                                   ),

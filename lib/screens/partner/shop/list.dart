@@ -10,17 +10,17 @@
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
 
-// const double _flex = 2.5;
-// final double _screenwidth = DeviceUtils.getDeviceWidth();
-// final double _cardWidth = _screenwidth / _flex;
+// const double widgetFlex = 2.5;
+// final double screenwidth = DeviceUtils.getDeviceWidth();
+// final double cardWidth = screenwidth / widgetFlex;
 
 
 // class PartnerShopsScreen extends StatefulWidget {
 //   const PartnerShopsScreen({
-//     Key? key,
+//     super.key,
 //     this.type = '',
 //     this.onPressed,
-//   }) : super(key: key);
+//   });
 
 //   final String type;
 //   final Function(PartnerShopModel)? onPressed;
@@ -31,9 +31,9 @@
 
 // class _PartnerShopsScreenState extends State<PartnerShopsScreen> {
 //   final LanguageController lController = Get.find<LanguageController>();
-//   final CustomerController _customerController = Get.find<CustomerController>();
+//   final CustomerController controllerCustomer = Get.find<CustomerController>();
 
-//   List<PartnerShopModel> _data = [];
+//   List<PartnerShopModel> dataModel = [];
 
 //   int page = 0;
 //   bool isLoading = false;
@@ -50,7 +50,7 @@
 //       page = 0;
 //       isLoading = false;
 //       isEnded = false;
-//       _data = [];
+//       dataModel = [];
 //     });
 //     loadData();
 //   }
@@ -66,8 +66,8 @@
 //         ApiService.processList("partner-shops", input: {
 //           "paginate": {"page": page, "pp": 10},
 //           "dataFilter": {
-//             "lat": _customerController.shippingAddress?.lat,
-//             "lng": _customerController.shippingAddress?.lng,
+//             "lat": controllerCustomer.shippingAddress?.lat,
+//             "lng": controllerCustomer.shippingAddress?.lng,
 //           }
 //         }).then((value) {
 //           PaginateModel paginateModel =
@@ -77,12 +77,12 @@
 //           for (var i = 0; i < len; i++) {
 //             PartnerShopModel model =
 //                 PartnerShopModel.fromJson(value!["result"][i]);
-//             _data.add(model);
+//             dataModel.add(model);
 //           }
 
 //           setState(() {
-//             _data;
-//             if (_data.length >= paginateModel.total!) {
+//             dataModel;
+//             if (dataModel.length >= paginateModel.total!) {
 //               isEnded = true;
 //               isLoading = false;
 //             } else if (value != null) {
@@ -90,7 +90,7 @@
 //             }
 //           });
 //         });
-//       } catch (e) {}
+//       } catch(_) {}
 //     }
 //   }
 
@@ -152,20 +152,20 @@
 //               padding: kPadding,
 //               child: Column(
 //                 children: [
-//                   _data.isEmpty
+//                   dataModel.isEmpty
 //                     ? const SizedBox(height: 0)
 //                     : GridView.builder(
 //                       shrinkWrap: true,
-//                       itemCount: _data.length,
+//                       itemCount: dataModel.length,
 //                       physics: const NeverScrollableScrollPhysics(),
 //                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
 //                         crossAxisCount: 2,
 //                         mainAxisExtent: 194,
 //                       ),
 //                       itemBuilder: (BuildContext context, int index) {
-//                         PartnerShopModel item = _data[index];
+//                         PartnerShopModel item = dataModel[index];
 //                         return CardShop(
-//                           width: _cardWidth,
+//                           width: cardWidth,
 //                           model: item,
 //                           onPressed: widget.onPressed != null
 //                             ? () => widget.onPressed!(item)

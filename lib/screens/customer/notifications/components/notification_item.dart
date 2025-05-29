@@ -11,10 +11,10 @@ import 'package:get/get.dart';
 
 class NotificationItem extends StatelessWidget {
   const NotificationItem({
-    Key? key,
+    super.key,
     required this.model,
     required this.lController
-  }): super(key: key);
+  });
 
   final CustomerNotiModel model;
   final LanguageController lController;
@@ -22,12 +22,12 @@ class NotificationItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final FirebaseController _firebaseController = Get.find<FirebaseController>();
+    final FirebaseController controllerFirebase = Get.find<FirebaseController>();
     return Dismissible(
       key: Key(model.id ?? ''),
       direction: DismissDirection.endToStart,
       onDismissed: (_){
-        _firebaseController.deleteOrderStatus(model.id ?? '');
+        controllerFirebase.deleteOrderStatus(model.id ?? '');
       },
       background: Container(
         padding: const EdgeInsets.symmetric(
@@ -48,7 +48,7 @@ class NotificationItem extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          _firebaseController.readOrderStatus(model.id ?? '');
+          controllerFirebase.readOrderStatus(model.id ?? '');
           if(model.isSubscription){
             Get.to(() => CustomerSubscriptionScreen(id: model.id ?? ''));
           }else{

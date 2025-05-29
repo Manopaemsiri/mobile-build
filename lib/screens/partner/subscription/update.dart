@@ -18,10 +18,10 @@ import 'widgets/card_subscription_products.dart';
 
 class PartnerProductSubscriptionUpdateCheckoutScreen extends StatelessWidget {
   PartnerProductSubscriptionUpdateCheckoutScreen({
-    Key? key,
+    super.key,
     required this.subscription,
     this.productStep = const [],
-  }) : super(key: key);
+  });
   final CustomerSubscriptionModel subscription;
   final List<SelectionSteps> productStep;
   final LanguageController lController = Get.find<LanguageController>();
@@ -34,7 +34,7 @@ class PartnerProductSubscriptionUpdateCheckoutScreen extends StatelessWidget {
       builder: (controller) {
         Widget body = Center(child: Loading());
         if(controller.stateStatus == 1){
-          body = _body(controller);
+          body = widgetBody(controller);
         }else if(controller.stateStatus == 2){
           body = NoData();
         }else if(controller.stateStatus == 3){
@@ -66,7 +66,7 @@ class PartnerProductSubscriptionUpdateCheckoutScreen extends StatelessWidget {
     );
   }
 
-  Widget _body(SubscriptionCheckoutUpdateController controller) {
+  Widget widgetBody(SubscriptionCheckoutUpdateController controller) {
 
     return ListView(
       children: [
@@ -205,8 +205,8 @@ class PartnerProductSubscriptionUpdateCheckoutScreen extends StatelessWidget {
     );
   }
 
-  void onTapShippingMethod(SubscriptionCheckoutUpdateController _controller) {
-    if (_controller.data?.shippingAddress == null || _controller.data?.shippingAddress?.isValid() != true) {
+  void onTapShippingMethod(SubscriptionCheckoutUpdateController controllerWidget) {
+    if (controllerWidget.data?.shippingAddress == null || controllerWidget.data?.shippingAddress?.isValid() != true) {
       ShowDialog.showForceDialog(
         lController.getLang("Missing shipping address"),
         lController.getLang("Please choose a shipping address"), 

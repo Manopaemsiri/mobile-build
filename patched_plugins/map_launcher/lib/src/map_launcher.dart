@@ -7,11 +7,11 @@ import 'package:map_launcher/src/models.dart';
 import 'package:map_launcher/src/utils.dart';
 
 class MapLauncher {
-  static const MethodChannel _channel = MethodChannel('map_launcher');
+  static const MethodChannel widgetChannel = MethodChannel('map_launcher');
 
   /// Returns list of installed map apps on the device.
   static Future<List<AvailableMap>> get installedMaps async {
-    final maps = await _channel.invokeMethod('getInstalledMaps');
+    final maps = await widgetChannel.invokeMethod('getInstalledMaps');
     return List<AvailableMap>.from(
       maps.map((map) => AvailableMap.fromJson(map)),
     );
@@ -44,7 +44,7 @@ class MapLauncher {
       'latitude': coords.latitude.toString(),
       'longitude': coords.longitude.toString(),
     };
-    return _channel.invokeMethod('showMarker', args);
+    return widgetChannel.invokeMethod('showMarker', args);
   }
 
   /// Opens map app specified in [mapType]
@@ -89,12 +89,12 @@ class MapLauncher {
               })
           .toList(),
     };
-    return _channel.invokeMethod('showDirections', args);
+    return widgetChannel.invokeMethod('showDirections', args);
   }
 
   /// Returns boolean indicating if map app is installed
   static Future<bool?> isMapAvailable(MapType mapType) async {
-    return _channel.invokeMethod(
+    return widgetChannel.invokeMethod(
       'isMapAvailable',
       {'mapType': Utils.enumToString(mapType)},
     );

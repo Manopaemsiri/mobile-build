@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 
 class ButtonHalf extends StatelessWidget {
   const ButtonHalf({
-    Key? key,
+    super.key,
     required this.title,
     this.color,
     this.icon,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final String title;
   final Color? color;
@@ -22,15 +22,15 @@ class ButtonHalf extends StatelessWidget {
       height: kButtonHalfHeight,
       child: ElevatedButton(
         onPressed: onPressed,
-        child: Text(
-          title,
-          style: subtitle1.copyWith(color: kWhiteColor),
-        ),
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(kButtonRadius),
           ),
+        ),
+        child: Text(
+          title,
+          style: subtitle1.copyWith(color: kWhiteColor),
         ),
       ),
     );

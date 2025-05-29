@@ -45,7 +45,7 @@ class SellerShopTypeModel {
     "name": name,
     "description": description,
     "url": url,
-    "icon": icon == null? null: icon!.toJson(),
+    "icon": icon?.toJson(),
     "order": order,
     "status": status,
   };

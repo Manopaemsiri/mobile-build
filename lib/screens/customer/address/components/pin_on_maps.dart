@@ -14,12 +14,12 @@ import 'dart:ui' as ui;
 
 class PinOnMaps extends StatefulWidget {
   PinOnMaps({
-    Key? key,
+    super.key,
     this.addressModel,
     required this.onSubmit,
     this.latLng,
     this.isEditMode = false,
-  }): super(key: key);
+  });
 
   CustomerShippingAddressModel? addressModel;
   Function(double, double) onSubmit;
@@ -35,7 +35,7 @@ class _PinOnMapsState extends State<PinOnMaps> {
   late GoogleMapController _mapController;
   late LatLng _mapCenter = widget.latLng 
     ?? const LatLng(13.793125766310437, 100.71096012637591);
-  late Set<Marker> _mapMarkers = {};
+  final Set<Marker> _mapMarkers = {};
   late Uint8List? _mapMarkerIcon;
   late String address;
 
@@ -121,7 +121,7 @@ class _PinOnMapsState extends State<PinOnMaps> {
       _mapMarkers.add(Marker(
         position: latLng,
         markerId: MarkerId(latLng.toString()),
-        icon: BitmapDescriptor.fromBytes(_mapMarkerIcon!),
+        icon: BitmapDescriptor.bytes(_mapMarkerIcon!),
       ));
     });
   }

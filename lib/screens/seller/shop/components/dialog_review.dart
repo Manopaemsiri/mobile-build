@@ -11,10 +11,10 @@ import 'package:get/get.dart';
 
 class DialogReview extends StatefulWidget {
   const DialogReview({
-    Key? key,
+    super.key,
     required this.model,
     required this.shopId,
-  }): super(key: key);
+  });
 
   final SellerShopRatingModel model;
   final String shopId;
@@ -109,7 +109,7 @@ class _DialogReviewState extends State<DialogReview> {
     );
   }
 
-  void _onTapAddPhoto() {}
+  // void _onTapAddPhoto() {}
 
   Future<void> _onTapPost() async {
     if (_formKey.currentState!.validate()) {

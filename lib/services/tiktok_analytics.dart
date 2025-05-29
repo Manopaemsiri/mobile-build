@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 
 class TikTokAppEvents {
-  static const _channel = MethodChannel('com.coffee2u.aroma');
+  static const widgetChannel = MethodChannel('com.coffee2u.aroma');
 
   static const eventNameAdImpression = 'AdImpression';
   static const eventNameAdClick = 'AdClick';
@@ -19,7 +19,7 @@ class TikTokAppEvents {
   
   /// Clears the current user data
   Future<void> clearUserData() =>
-    _channel.invokeMethod<void>('clearUserData');
+    widgetChannel.invokeMethod<void>('clearUserData');
 
   Future<void> setUserData({
     String? email,
@@ -46,23 +46,23 @@ class TikTokAppEvents {
       'country': country,
     };
 
-    return _channel.invokeMethod<void>(_setUserDataName, args);
+    return widgetChannel.invokeMethod<void>(_setUserDataName, args);
   }
 
   /// Clears the currently set user id.
   Future<void> clearUserID() =>
-    _channel.invokeMethod<void>('clearUserID');
+    widgetChannel.invokeMethod<void>('clearUserID');
 
   /// Explicitly flush any stored events to the server.
   Future<void> flush() =>
-    _channel.invokeMethod<void>('flush');
+    widgetChannel.invokeMethod<void>('flush');
 
   /// Returns the app ID this logger was configured to log to.
   Future<String?> getApplicationId() =>
-    _channel.invokeMethod<String>('getApplicationId');
+    widgetChannel.invokeMethod<String>('getApplicationId');
 
   Future<String?> getAnonymousId() =>
-    _channel.invokeMethod<String>('getAnonymousId');
+    widgetChannel.invokeMethod<String>('getAnonymousId');
 
   /// Log an app event with the specified [name] and the supplied [parameters] value.
   Future<void> logEvent({
@@ -78,7 +78,7 @@ class TikTokAppEvents {
     if (parameters != null) {
       args['parameters'] = _filterOutNulls(parameters);
     }
-    return _channel.invokeMethod<void>(_logEventName, _filterOutNulls(args));
+    return widgetChannel.invokeMethod<void>(_logEventName, _filterOutNulls(args));
   }
 
   /// Logs an app event that tracks that the application was open via Push Notification.
@@ -91,11 +91,11 @@ class TikTokAppEvents {
       'action': action,
     };
 
-    return _channel.invokeMethod<void>(_logPushNotificationOpenName, args);
+    return widgetChannel.invokeMethod<void>(_logPushNotificationOpenName, args);
   }
 
   Future<void> setTrackingEnabled(bool enabled) => 
-    _channel.invokeMethod<void>(_setTrackingEnabledName, enabled);
+    widgetChannel.invokeMethod<void>(_setTrackingEnabledName, enabled);
 
   static Future<void> setAdvertiserTracking({
     required bool enabled,
@@ -106,7 +106,7 @@ class TikTokAppEvents {
       'collectId': collectId,
     };
 
-    return _channel.invokeMethod<void>(_setAdvertiserTrackingName, args);
+    return widgetChannel.invokeMethod<void>(_setAdvertiserTrackingName, args);
   }
 
   /// Log this event when the user views an ad.

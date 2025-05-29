@@ -4,7 +4,6 @@ import 'package:coffee2u/screens/partner/subscription/widgets/card_product.dart'
 import 'package:coffee2u/utils/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:coffee2u/apis/api_service.dart';
 
 import '../../../controller/app_controller.dart';
 import '../../../controller/customer_controller.dart';
@@ -15,12 +14,12 @@ import 'controllers/subscription_create_controller.dart';
 
 class PartnerProductSubscriptionCreateScreen extends StatelessWidget {
   const PartnerProductSubscriptionCreateScreen({
-    Key? key,
+    super.key,
     required this.data,
     required this.lController,
     this.subscription,
     this.type = 1
-  }) : super(key: key);
+  });
   final PartnerProductSubscriptionModel data;
   final LanguageController lController;
   final CustomerSubscriptionModel? subscription;
@@ -121,8 +120,6 @@ class PartnerProductSubscriptionCreateScreen extends StatelessWidget {
       .where((d) => d.quantity > 0)
       .fold(0, (sum, item) => sum + (item.credit*item.quantity));
 
-    final double remainingCredit = (value.credit - sumCredit);
-    
     return ListView(
       key: ValueKey<String>('${key}_$i'),
       children: [
@@ -153,7 +150,7 @@ class PartnerProductSubscriptionCreateScreen extends StatelessWidget {
                     softWrap: true,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.start,
-                    textScaleFactor: 1,
+                    textScaler: TextScaler.linear(1),
                     text: TextSpan(
                       style: subtitle2.copyWith(
                         fontFamily: 'Kanit',

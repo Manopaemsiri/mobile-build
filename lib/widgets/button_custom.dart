@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class ButtonCustom extends StatelessWidget {
   const ButtonCustom({
-    Key? key,
+    super.key,
     required this.title,
     this.color,
     this.icon,
@@ -14,7 +14,7 @@ class ButtonCustom extends StatelessWidget {
     this.isOutline = false,
     required this.onPressed,
     this.textStyle,
-  }) : super(key: key);
+  });
 
   final String title;
   final Color? color;

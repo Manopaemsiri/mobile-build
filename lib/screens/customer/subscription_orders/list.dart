@@ -13,9 +13,9 @@ import 'widgets/card_subscription_order.dart';
 
 class CustomerSubscriptionOrdersScreen extends StatelessWidget {
   CustomerSubscriptionOrdersScreen({
-    Key? key,
+    super.key,
     required this.subscriptionId
-  }) : super(key: key);
+  });
   final String subscriptionId;
   final LanguageController lController = Get.find<LanguageController>();
 

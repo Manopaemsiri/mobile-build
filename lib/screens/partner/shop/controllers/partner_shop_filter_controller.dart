@@ -100,12 +100,12 @@ class PartnerShopFilterController extends GetxController {
         final length = res?['result'].length ?? 0;
         for (var i = 0; i < length; i++) {
           PartnerProductCategoryModel model = PartnerProductCategoryModel.fromJson(res?['result'][i]);
-          Map<String, dynamic> _a = {
+          Map<String, dynamic> temp = {
             'id': model.id, 
             'name': model.name,
             'order': model.order
           };
-          items.add(_a);
+          items.add(temp);
         }
       }
     } catch (e) {
@@ -124,13 +124,13 @@ class PartnerShopFilterController extends GetxController {
         for (var i = 0; i < length; i++) {
           PartnerProductCategoryGroupModel model =
             PartnerProductCategoryGroupModel.fromJson(res?['result'][i]);
-          Map<String, dynamic> _a = {
+          Map<String, dynamic> temp = {
             'id': model.id, 
             'name': model.name,
             'categories': model.categories.map((e) => e.id).toList(),
             'order': model.order
           };
-          items.add(_a);
+          items.add(temp);
         }
       }
     } catch (e) {
@@ -226,23 +226,13 @@ class PartnerShopFilterController extends GetxController {
   }
 
   List<dynamic> _onAddItem(List<String> list, String item) {
-    List<dynamic> _temp= list;
-    if (_temp.contains(item)) {
-      _temp.remove(item);
+    List<dynamic> temp= list;
+    if (temp.contains(item)) {
+      temp.remove(item);
     }else{
-      _temp.add(item);
+      temp.add(item);
     }
-    return _temp;
-  }
-  List<Map<String, dynamic>> _onAddItem2(List<Map<String, dynamic>> list, Map<String, dynamic> item) {
-    List<Map<String, dynamic>> _temp = List.from(list);
-    bool itemExists = _temp.any((element) => element['id'] == item['id']);
-    if (itemExists) {
-      _temp.removeWhere((element) => element['id'] == item['id']);
-    }else{
-      _temp.add(item);
-    }
-    return _temp;
+    return temp;
   }
 
   void clearFilter() {

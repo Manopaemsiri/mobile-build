@@ -12,11 +12,11 @@ import 'package:get/get.dart';
 
 class SellerShopScreen extends StatefulWidget {
   const SellerShopScreen({
-    Key? key,
+    super.key,
     required this.shopId,
     this.lat,
     this.lng
-  }): super(key: key);
+  });
 
   final String shopId;
   final double? lat;
@@ -67,18 +67,18 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double _appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
+    double appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
     
-    List<FileModel> _gallery = [];
+    List<FileModel> gallery = [];
     if(model?.image != null && model?.image?.path != null){
-      _gallery.add(model?.image as FileModel);
+      gallery.add(model?.image as FileModel);
     }
     if(model?.logo != null && model?.logo?.path != null){
-      _gallery.add(model?.logo as FileModel);
+      gallery.add(model?.logo as FileModel);
     }
     if(model?.gallery != null){
       model?.gallery?.forEach((f){
-        if(f.path != null) _gallery.add(f);
+        if(f.path.isNotEmpty) gallery.add(f);
       });
     }
 
@@ -120,11 +120,11 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
                         return FlexibleSpaceBar(
                           background: Column(
                             children: [
-                              SizedBox(height: _appBarHeight),
+                              SizedBox(height: appBarHeight),
                               Padding(
                                 padding: const EdgeInsets.only(left: kOtGap, right: kOtGap),
                                 child: Carousel(
-                                  images: _gallery,
+                                  images: gallery,
                                   aspectRatio: 16 / 8,
                                   viewportFraction: 1,
                                   margin: kQuarterGap,

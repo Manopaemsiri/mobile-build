@@ -8,13 +8,13 @@ class CustomerSubscriptionsController extends GetxController {
 
   int stateStatus = 0;
 
-  List<CustomerSubscriptionModel> _data = [];
+  List<CustomerSubscriptionModel> dataModel = [];
 
   int _page = 0;
   bool _isLoading = false;
   bool _isEnded = false;
 
-  List<CustomerSubscriptionModel> get data => _data;
+  List<CustomerSubscriptionModel> get data => dataModel;
   bool get isLoading => _isLoading;
   bool get isEnded => _isEnded;
 
@@ -28,7 +28,7 @@ class CustomerSubscriptionsController extends GetxController {
     _page = 0;
     _isLoading = false;
     _isEnded = false;
-    _data = [];
+    dataModel = [];
     update();
     loadData();
   }
@@ -48,10 +48,10 @@ class CustomerSubscriptionsController extends GetxController {
         for(var i = 0; i < len; i++){
           CustomerSubscriptionModel model =
             CustomerSubscriptionModel.fromJson(res!['result'][i]);
-          _data.add(model);
+          dataModel.add(model);
         }
-        _data;
-        if(_data.length == paginateModel.total){
+        dataModel;
+        if(dataModel.length == paginateModel.total){
           _isEnded = true;
           _isLoading = false;
         }else if(res != null){

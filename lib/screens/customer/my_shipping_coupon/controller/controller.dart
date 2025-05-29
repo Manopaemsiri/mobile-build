@@ -1,6 +1,6 @@
 import 'package:coffee2u/apis/api_service.dart';
 import 'package:coffee2u/utils/index.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 import '../../../../models/customer_tier_model.dart';
@@ -10,15 +10,15 @@ class MyShippingCouponController extends GetxController {
   final String _id;
   MyShippingCouponController(this._id);
 
-  PartnerShippingCouponModel? _data;
+  PartnerShippingCouponModel? dataModel;
   List<CustomerTierModel> _customerTiers = [];
   
-  StateStatus _status = StateStatus.Loading;
+  StateStatus widgetStatus = StateStatus.Loading;
   String _errorMsg = "";
 
-  PartnerShippingCouponModel? get data => _data;
+  PartnerShippingCouponModel? get data => dataModel;
   List<CustomerTierModel> get customerTiers => _customerTiers;
-  StateStatus get status => _status;
+  StateStatus get status => widgetStatus;
   String get errorMsg => _errorMsg;
   
   @override
@@ -28,15 +28,15 @@ class MyShippingCouponController extends GetxController {
   }
 
   Future<void> _onInit() async {
-    _status = StateStatus.Loading;
+    widgetStatus = StateStatus.Loading;
     _errorMsg = "";
 
     try {
       Map<String, dynamic> input = { "_id": _id };
       final res = await ApiService.processRead("my-partner-shipping-coupon", input: input );
-      _data = PartnerShippingCouponModel.fromJson(res?["result"]);
+      dataModel = PartnerShippingCouponModel.fromJson(res?["result"]);
 
-      if(_data?.forAllCustomerTiers == 1){
+      if(dataModel?.forAllCustomerTiers == 1){
         var res2 = await ApiService.processList('customer-tiers');
         if(res2!["result"] != null){
           List<CustomerTierModel> temp = [];
@@ -49,11 +49,11 @@ class MyShippingCouponController extends GetxController {
         }
       }
 
-      if(_data != null){
-        _status = StateStatus.Success;
+      if(dataModel != null){
+        widgetStatus = StateStatus.Success;
       }
     } catch (e) {
-      _status = StateStatus.Error;
+      widgetStatus = StateStatus.Error;
       _errorMsg = "Error";
     }
     update();

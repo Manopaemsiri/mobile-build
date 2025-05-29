@@ -23,10 +23,10 @@ import 'group_sign_up/tax_id/tax_id_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({
-    Key? key,
+    super.key,
     this.isFirstState = false,
     this.backTo,
-  }): super(key: key);
+  });
 
   final bool isFirstState;
   final String? backTo;
@@ -195,10 +195,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double _appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
-    double _width = MediaQuery.of(context).size.width;
-    double _logoWidth = _width / 5.5;
-    double _hRatio = 0.27;
+    double appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
+    double widgetWidth = MediaQuery.of(context).size.width;
+    double widgetLogoWidth = widgetWidth / 5.5;
+    double ratioHeight = 0.27;
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -209,7 +209,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Align(
               alignment: Alignment.topCenter,
               child: Container(
-                height: Get.height * _hRatio,
+                height: Get.height * ratioHeight,
                 width: Get.width,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
@@ -224,8 +224,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         children: [
                           Image.asset(
                             'assets/images/logo-app-white.png',
-                            width: _logoWidth,
-                            height: _logoWidth,
+                            width: widgetLogoWidth,
+                            height: widgetLogoWidth,
                           ),
                           const Gap(gap: kHalfGap),
                           // Text(
@@ -248,7 +248,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               right: 0,
               top: 0,
               child: SizedBox(
-                height: _appBarHeight,
+                height: appBarHeight,
                 width: double.infinity,
                 child: AppBar(
                   systemOverlayStyle: const SystemUiOverlayStyle(
@@ -264,7 +264,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                height: Get.height * (1.05 - _hRatio),
+                height: Get.height * (1.05 - ratioHeight),
                 width: Get.width,
                 decoration: const BoxDecoration(
                   color: kWhiteColor,
@@ -292,8 +292,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: _cFirstname,
                         decoration: InputDecoration(
                           border: const OutlineInputBorder(),
-                          labelText: lController.getLang("First Name")
-                            +' *',
+                          labelText: '${lController.getLang("First Name")} *',
                           prefixIcon: const Icon(Icons.person),
                         ),
                         textInputAction: TextInputAction.next,
@@ -306,8 +305,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: _cLastname,
                         decoration: InputDecoration(
                           border: const OutlineInputBorder(),
-                          labelText: lController.getLang("Last Name")
-                            +' *',
+                          labelText: '${lController.getLang("Last Name")} *',
                           prefixIcon: const Icon(Icons.person),
                         ),
                         textInputAction: TextInputAction.next,
@@ -322,8 +320,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         decoration: InputDecoration(
                           counterText: '',
                           border: const OutlineInputBorder(),
-                          labelText: lController.getLang("Telephone Number")
-                            +' *',
+                          labelText: '${lController.getLang("Telephone Number")} *',
                           prefixIcon: const Icon(Icons.phone_rounded),
                         ),
                         keyboardType: TextInputType.phone,
@@ -359,7 +356,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: _cPassword,
                         decoration: InputDecoration(
                           border: const OutlineInputBorder(),
-                          labelText: lController.getLang("Password")+' *',
+                          labelText: '${lController.getLang("Password")} *',
                           prefixIcon: const Icon(Icons.lock),
                           suffixIcon: IconButton(
                             onPressed: () {
@@ -402,8 +399,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: _cConfirmPassword,
                         decoration: InputDecoration(
                           border: const OutlineInputBorder(),
-                          labelText: lController.getLang("Confirm Password")
-                            +' *',
+                          labelText: '${lController.getLang("Confirm Password")} *',
                           prefixIcon: const Icon(Icons.lock),
                           suffixIcon: IconButton(
                             onPressed: () {
@@ -522,11 +518,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               onPressed: () => Get.off(() => SignInScreen(
                                 isFirstState: widget.isFirstState,
                               )),
-                              child: Text(
-                                lController.getLang("Sign In")
-                              ),
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,
+                              ),
+                              child: Text(
+                                lController.getLang("Sign In")
                               ),
                             ),
                           ],
@@ -537,9 +533,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Wrap(
                           runSpacing: kGap,
                           children: customerGroups.map((e) {
-
                             return ButtonCustom(
-                              title: lController.getLang("Register for") + " " + (e.name ?? ''),
+                              title: '${lController.getLang("Register for")} ${e.name ?? ''}',
                               onPressed: () => _tabGroup(e),
                               isOutline: true,
                               textStyle: headline6,
@@ -574,11 +569,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           "text_privacy_1", () => Get.back()
         );
       }else{
-        CustomerController _customerController = Get.find<CustomerController>();
-        String? guestId = _customerController.customerModel?.id;
-        String _telephone = _cTelephone.text.replaceFirst(RegExp(r'0'), '+66').trim();
-        _telephone = _telephone.replaceAll('-', '');
-        _telephone = _telephone.replaceAll(' ', '');
+        CustomerController controllerCustomer = Get.find<CustomerController>();
+        String? guestId = controllerCustomer.customerModel?.id;
+        String widgetTelephone = _cTelephone.text.replaceFirst(RegExp(r'0'), '+66').trim();
+        widgetTelephone = widgetTelephone.replaceAll('-', '');
+        widgetTelephone = widgetTelephone.replaceAll(' ', '');
 
         Map<String, dynamic> input = {
           "guestId": guestId,
@@ -587,7 +582,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           "email": _cEmail.text.trim().toLowerCase(),
           "password": _cPassword.text.trim(),
           "confirmPassword": _cConfirmPassword.text.trim(),
-          "telephone": _telephone,
+          "telephone": widgetTelephone,
         };
         if(cardNumber != "") input["cardNumber"] = cardNumber;
         if(prefix != "") input["prefix"] = prefix;
@@ -607,7 +602,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ShowDialog.showLoadingDialog();
             try {
               await FirebaseAuth.instance.verifyPhoneNumber(
-                phoneNumber: _telephone,
+                phoneNumber: widgetTelephone,
                 verificationCompleted: (_) {},
                 verificationFailed: (e) {
                   Get.back();
@@ -621,7 +616,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       isFirstState: widget.isFirstState,
                       backTo: widget.backTo,
                       verificationID: verificationId,
-                      telephone: _telephone,
+                      telephone: widgetTelephone,
                       isScan: isScan,
                       enabledCustomerSignupOTP: enabledCustomerSignupOTP,
                     ));
@@ -655,10 +650,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
           }else if(enabledCustomerSignupOTP == 2){
             ShowDialog.showLoadingDialog();
             try {
-              String _telephone = _cTelephone.text.replaceFirst(RegExp(r'0'), '+66').trim();
-              _telephone = _telephone.replaceAll('-', '');
-              _telephone = _telephone.replaceAll(' ', '');
-              Map<String, dynamic>? res1 = await ApiService.sendOTP(telephone: _telephone, telephoneCode: '+66');
+              String widgetTelephone = _cTelephone.text.replaceFirst(RegExp(r'0'), '+66').trim();
+              widgetTelephone = widgetTelephone.replaceAll('-', '');
+              widgetTelephone = widgetTelephone.replaceAll(' ', '');
+              Map<String, dynamic>? res1 = await ApiService.sendOTP(telephone: widgetTelephone, telephoneCode: '+66');
               Get.back();
               if(res1 != null){
                 if(res1['requestId']?.isNotEmpty == true && res1['refCode']?.isNotEmpty == true){
@@ -666,7 +661,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     input: input,
                     isFirstState: widget.isFirstState,
                     backTo: widget.backTo,
-                    telephone: _telephone,
+                    telephone: widgetTelephone,
                     isScan: isScan,
                     enabledCustomerSignupOTP: enabledCustomerSignupOTP,
                     response: res1,
@@ -699,12 +694,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 return const SizedBox.shrink();
               }
 
-              final _title = item.title == ''
+              final widgetTitle = item.title == ''
                 ? lController.getLang('Privacy Policy'): item.title;
-              final _content = item.content;
+              final widgetContent = item.content;
               return AlertDialog(
                 title: Text(
-                  _title,
+                  widgetTitle,
                   style: subtitle1.copyWith(fontWeight: FontWeight.w500),
                 ),
                 content: Scrollbar(
@@ -718,7 +713,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     child: ListView(
                       children: [
-                        HtmlContent(content: _content),
+                        HtmlContent(content: widgetContent),
                       ],
                     ),
                   ),
@@ -766,7 +761,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: ListView(
                 children: [
                   tableRow("Social ID Number", cardNumber),
-                  tableRow("Full Name", _cFirstname.text + " " + _cLastname.text),
+                  tableRow("Full Name", '${_cFirstname.text} ${_cLastname.text}'),
                   tableRow("Address", "$address $subdistrict $district $province $zipcode"),
                   tableRow("Date of Birth", birthDate),
                 ],

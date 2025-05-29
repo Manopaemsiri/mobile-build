@@ -14,8 +14,8 @@ import 'package:get/get.dart';
 
 class PointRewardScreen extends StatefulWidget {
   const PointRewardScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<PointRewardScreen> createState() => _PointRewardScreenState();
@@ -117,9 +117,7 @@ class _PointRewardScreenState extends State<PointRewardScreen> {
               const SizedBox(height: kHalfGap),
               const SizedBox(height: kQuarterGap),
               Text(
-                "${lController.getLang("Earn 1 point every")} "
-                  + priceFormat(_tier!.pointEarnRate, lController, digits: 0, trimDigits: true) 
-                  + " ${lController.getLang("spent")}",
+                '${lController.getLang("Earn 1 point every")} ${priceFormat(_tier!.pointEarnRate, lController, digits: 0, trimDigits: true)} ${lController.getLang("spent")}',
                 textAlign: TextAlign.center,
                 style: title.copyWith(
                   fontWeight: FontWeight.w500,

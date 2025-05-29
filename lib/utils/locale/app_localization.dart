@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:coffee2u/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,8 +16,8 @@ class ApplicationLocalizations {
     try {
       return Localizations.of<ApplicationLocalizations>(
           context, ApplicationLocalizations);
-    } catch (e) {
-      print(e);
+    } catch(e) {
+      return null;
     }
   }
 

@@ -69,8 +69,8 @@ class AppController extends GetxController {
     try{
       Map<String, dynamic>? res = await ApiService.processList("partner-product-statuses");
       if(res?["result"].isNotEmpty == true){
-        int _len = res?['result'].length ?? 0;
-        for(int i=0; i<_len; i++){
+        int dataLen = res?['result'].length ?? 0;
+        for(int i=0; i<dataLen; i++){
           productStatuses.add(PartnerProductStatusModel.fromJson(res!['result'][i]));
         }
       }

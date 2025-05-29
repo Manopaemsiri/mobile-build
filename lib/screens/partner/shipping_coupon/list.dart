@@ -10,8 +10,8 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 class PartnerShippingCouponsScreen extends StatefulWidget {
   const PartnerShippingCouponsScreen({
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
   State<PartnerShippingCouponsScreen> createState() => _PartnerShippingCouponsScreenState();
@@ -19,7 +19,7 @@ class PartnerShippingCouponsScreen extends StatefulWidget {
 
 class _PartnerShippingCouponsScreenState extends State<PartnerShippingCouponsScreen> {
   final LanguageController lController = Get.find<LanguageController>();
-  List<PartnerShippingCouponModel> _data = [];
+  List<PartnerShippingCouponModel> dataModel = [];
 
   int page = 0;
   bool isLoading = false;
@@ -36,7 +36,7 @@ class _PartnerShippingCouponsScreenState extends State<PartnerShippingCouponsScr
       page = 0;
       isLoading = false;
       isEnded = false;
-      _data = [];
+      dataModel = [];
     });
     loadData();
   }
@@ -59,12 +59,12 @@ class _PartnerShippingCouponsScreenState extends State<PartnerShippingCouponsScr
           for (var i = 0; i < len; i++) {
             PartnerShippingCouponModel model =
               PartnerShippingCouponModel.fromJson(value!["result"][i]);
-            _data.add(model);
+            dataModel.add(model);
           }
 
           setState(() {
-            _data;
-            if (_data.length >= paginateModel.total!) {
+            dataModel;
+            if (dataModel.length >= paginateModel.total!) {
               isEnded = true;
               isLoading = false;
             } else if (value != null) {
@@ -72,7 +72,7 @@ class _PartnerShippingCouponsScreenState extends State<PartnerShippingCouponsScr
             }
           });
         });
-      } catch (e) {}
+      } catch(_) {}
     }
   }
 
@@ -104,14 +104,14 @@ class _PartnerShippingCouponsScreenState extends State<PartnerShippingCouponsScr
               padding: kPadding,
               child: Column(
                 children: [
-                  _data.isEmpty
+                  dataModel.isEmpty
                     ? const SizedBox(height: 0)
                     : ListView.builder(
                         shrinkWrap: true,
-                        itemCount: _data.length,
+                        itemCount: dataModel.length,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (BuildContext context, int index) {
-                          PartnerShippingCouponModel item = _data[index];
+                          PartnerShippingCouponModel item = dataModel[index];
                           return CardShippingCoupon2(
                             model: item,
                             onPressed: () => Get.to(() => PartnerShippingCouponScreen(id: item.id!)),

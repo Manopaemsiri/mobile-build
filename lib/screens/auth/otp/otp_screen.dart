@@ -13,7 +13,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpScreen extends StatefulWidget {
   OtpScreen({
-    Key? key,
+    super.key,
     required this.input,
     this.isFirstState = false,
     this.backTo,
@@ -24,7 +24,7 @@ class OtpScreen extends StatefulWidget {
 
     required this.enabledCustomerSignupOTP,
     this.response
-  }) : super(key: key);
+  });
 
   final Map<String, dynamic> input;
   final bool isFirstState;
@@ -44,7 +44,7 @@ class _OtpScreenState extends State<OtpScreen> {
   final LanguageController lController = Get.find<LanguageController>();
   final int _otpLength = 6;
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController controllerWidget = TextEditingController();
   var errorController = StreamController<ErrorAnimationType>();
 
   late Timer? _timer;
@@ -71,7 +71,7 @@ class _OtpScreenState extends State<OtpScreen> {
   }
 
   void _onResendOTP() async {
-    _controller.clear();
+    controllerWidget.clear();
     if(widget.enabledCustomerSignupOTP == 1){
       await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: widget.telephone,
@@ -110,10 +110,10 @@ class _OtpScreenState extends State<OtpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double _appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
-    double _width = MediaQuery.of(context).size.width;
-    double _logoWidth = _width / 5.5;
-    double _hRatio = 0.27;
+    double appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
+    double widgetWidth = MediaQuery.of(context).size.width;
+    double widgetLogoWidth = widgetWidth / 5.5;
+    double ratioHeight = 0.27;
     
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -124,7 +124,7 @@ class _OtpScreenState extends State<OtpScreen> {
             Align(
               alignment: Alignment.topCenter,
               child: Container(
-                height: Get.height * _hRatio,
+                height: Get.height * ratioHeight,
                 width: Get.width,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
@@ -139,8 +139,8 @@ class _OtpScreenState extends State<OtpScreen> {
                         children: [
                           Image.asset(
                             'assets/images/logo-app-white.png',
-                            width: _logoWidth,
-                            height: _logoWidth,
+                            width: widgetLogoWidth,
+                            height: widgetLogoWidth,
                           ),
                           // const Gap(gap: kHalfGap),
                           // Text(
@@ -163,7 +163,7 @@ class _OtpScreenState extends State<OtpScreen> {
               right: 0,
               top: 0,
               child: SizedBox(
-                height: _appBarHeight,
+                height: appBarHeight,
                 width: double.infinity,
                 child: AppBar(
                   systemOverlayStyle: const SystemUiOverlayStyle(
@@ -179,7 +179,7 @@ class _OtpScreenState extends State<OtpScreen> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                height: Get.height * (1.05 - _hRatio),
+                height: Get.height * (1.05 - ratioHeight),
                 width: Get.width,
                 padding: const EdgeInsets.all(2 * kGap),
                 decoration: const BoxDecoration(
@@ -223,7 +223,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       ),
                       const Gap(),
                       PinCodeTextField(
-                        controller: _controller,
+                        controller: controllerWidget,
                         appContext: context,
                         length: _otpLength,
                         autoFocus: true,
@@ -244,7 +244,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           fieldHeight: 60,
                           fieldWidth: 50,
                           borderWidth: 2,
-                          inactiveColor: kAppColor.withOpacity(0.4),
+                          inactiveColor: kAppColor.withValues(alpha: 0.4),
                           inactiveFillColor: kWhiteColor,
                           activeColor: kAppColor,
                           selectedColor: kAppColor,
@@ -314,7 +314,7 @@ class _OtpScreenState extends State<OtpScreen> {
   }
 
   void onTap() async {
-    if (_controller.text.length != _otpLength) {
+    if (controllerWidget.text.length != _otpLength) {
       errorController.add(ErrorAnimationType.shake);
       return;
     }
@@ -325,14 +325,14 @@ class _OtpScreenState extends State<OtpScreen> {
       try {
         PhoneAuthCredential credential = PhoneAuthProvider.credential(
           verificationId: widget.verificationID!,
-          smsCode: _controller.text,
+          smsCode: controllerWidget.text,
         );
 
         await FirebaseAuth.instance.signInWithCredential(credential)
           .then((userCredential) async {
             Get.back();
-            User? _user = userCredential.user;
-            final phone = _user?.phoneNumber;
+            User? userModel = userCredential.user;
+            final phone = userModel?.phoneNumber;
 
             if(phone != null){
               await ApiService.authSignup(input: widget.input, isScan: widget.isScan).then((value){
@@ -356,7 +356,7 @@ class _OtpScreenState extends State<OtpScreen> {
       if(widget.response == null) return;
       try {
         Map<String, dynamic> input = widget.response!;
-        input['code'] = _controller.text;
+        input['code'] = controllerWidget.text;
         Map<String, dynamic>? res = await ApiService.verifyOTP(input: input);
         if(res != null){
           if(res['requestId']?.isNotEmpty == true && res['refCode']?.isNotEmpty == true){
@@ -365,7 +365,7 @@ class _OtpScreenState extends State<OtpScreen> {
             });
           }
         }else{
-          if(mounted) setState(() => _controller.clear());
+          if(mounted) setState(() => controllerWidget.clear());
         }
       } catch (_) {}
     }

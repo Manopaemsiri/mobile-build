@@ -64,11 +64,11 @@ class PartnerEventModel {
     "name": name,
     "description": description,
     "url": url,
-    "image": image == null? null: image!.toJson(),
-    "icon": icon == null? null: icon!.toJson(),
+    "image": image?.toJson(),
+    "icon": icon?.toJson(),
     
-    "startAt": startAt == null? null: startAt!.toIso8601String(),
-    "endAt": endAt == null? null: endAt!.toIso8601String(),
+    "startAt": startAt?.toIso8601String(),
+    "endAt": endAt?.toIso8601String(),
     
     "order": order,
     "status": status,

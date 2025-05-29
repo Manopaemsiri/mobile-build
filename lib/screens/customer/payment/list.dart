@@ -16,11 +16,11 @@ import 'package:get/get.dart';
 
 class PaymentMethodsScreen extends StatefulWidget {
   const PaymentMethodsScreen({
-    Key? key,
+    super.key,
     this.customDownPayment,
     this.amountDefault,
     this.missingPaymentDefault
-  }): super(key: key);
+  });
   final double? customDownPayment;
   final double? amountDefault;
   final double? missingPaymentDefault;
@@ -30,7 +30,7 @@ class PaymentMethodsScreen extends StatefulWidget {
 
 class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
   final LanguageController lController = Get.find<LanguageController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
   late Future<Map<String, dynamic>?> _future;
 
   bool availableSaleManager = false;
@@ -43,18 +43,18 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
   @override
   void initState() {
     initCountry();
-    _customerController.setPaymentMethod(null);
+    controllerCustomer.setPaymentMethod(null);
     _future = ApiService.processList(
       'checkout-payment-methods',
       input: {
-        "shippingId": _customerController.shippingMethod!.id,
-        "shippingFrontend": _customerController.shippingMethod,
-        "total": _customerController.checkoutTotal(),
-        "hasDownPayment": _customerController.cart.hasDownPayment,
-        "missingPayment": _customerController.cartMissingPayment(),
-        "diffInstallment": _customerController.cartDiffInstallmentDiscount(),
+        "shippingId": controllerCustomer.shippingMethod!.id,
+        "shippingFrontend": controllerCustomer.shippingMethod,
+        "total": controllerCustomer.checkoutTotal(),
+        "hasDownPayment": controllerCustomer.cart.hasDownPayment,
+        "missingPayment": controllerCustomer.cartMissingPayment(),
+        "diffInstallment": controllerCustomer.cartDiffInstallmentDiscount(),
         "customDownPayment": widget.customDownPayment,
-        "shippingCost": (_customerController.shippingMethod?.price ?? 0) - (_customerController.discountShipping?.actualDiscount ?? 0)
+        "shippingCost": (controllerCustomer.shippingMethod?.price ?? 0) - (controllerCustomer.discountShipping?.actualDiscount ?? 0)
       }
     );
     getSaleManager();
@@ -85,36 +85,36 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
     setState(() => salesManagerId = id);
   }
   
-  void _onTapComfirm(CustomerController _controller) async {
-    bool isSuperUser = _controller.customerModel != null 
-      && (_controller.customerModel!.telephone == '+66973052239' 
-      && _controller.customerModel!.username == 'sseepun');
+  void _onTapComfirm(CustomerController controllerWidget) async {
+    bool isSuperUser = controllerWidget.customerModel != null 
+      && (controllerWidget.customerModel!.telephone == '+66973052239' 
+      && controllerWidget.customerModel!.username == 'sseepun');
     if(
-      _controller.shippingMethod != null && _controller.shippingMethod!.isValid() 
-      && _controller.paymentMethod != null && _controller.paymentMethod!.isValid()
+      controllerWidget.shippingMethod != null && controllerWidget.shippingMethod!.isValid() 
+      && controllerWidget.paymentMethod != null && controllerWidget.paymentMethod!.isValid()
     ){
-      if(_controller.paymentMethod?.type == 4){
+      if(controllerWidget.paymentMethod?.type == 4){
         ShowDialog.showForceDialog(
           lController.getLang("Confirm your order"),
           lController.getLang("text_payment_5"), 
           () async {
             Get.back();
             dynamic res = await ApiService.customerCheckout(
-              shippingFrontend: _controller.shippingMethod?.toJson(),
-              billingAddressId: _controller.billingAddress?.id ?? '',
-              paymentMethodId: _controller.paymentMethod?.id ?? '',
-              shippingCouponFrontend: _controller.discountShipping == null 
-                ? '': _controller.discountShipping?.toJson(),
-              couponFrontend: _controller.discountProduct == null
-                ? '': _controller.discountProduct?.toJson(),
-              cashCouponFrontend: _controller.discountCash == null 
-                ? '': _controller.discountCash?.toJson(),
-              pointBurn: _controller.discountPoint?.points ?? 0,
+              shippingFrontend: controllerWidget.shippingMethod?.toJson(),
+              billingAddressId: controllerWidget.billingAddress?.id ?? '',
+              paymentMethodId: controllerWidget.paymentMethod?.id ?? '',
+              shippingCouponFrontend: controllerWidget.discountShipping == null 
+                ? '': controllerWidget.discountShipping?.toJson(),
+              couponFrontend: controllerWidget.discountProduct == null
+                ? '': controllerWidget.discountProduct?.toJson(),
+              cashCouponFrontend: controllerWidget.discountCash == null 
+                ? '': controllerWidget.discountCash?.toJson(),
+              pointBurn: controllerWidget.discountPoint?.points ?? 0,
               salesManagerId: salesManagerId,
-              hasCustomDownPayment: _controller.paymentMethod?.hasCustomDownPayment() == true? 1: 0,
-              customDownPayment: _controller.paymentMethod?.hasCustomDownPayment() == true? widget.customDownPayment: 0,
-              amountDefault: _controller.paymentMethod?.hasCustomDownPayment() == true? widget.amountDefault: 0,
-              missingPaymentDefault: _controller.paymentMethod?.hasCustomDownPayment() == true? widget.missingPaymentDefault: 0,
+              hasCustomDownPayment: controllerWidget.paymentMethod?.hasCustomDownPayment() == true? 1: 0,
+              customDownPayment: controllerWidget.paymentMethod?.hasCustomDownPayment() == true? widget.customDownPayment: 0,
+              amountDefault: controllerWidget.paymentMethod?.hasCustomDownPayment() == true? widget.amountDefault: 0,
+              missingPaymentDefault: controllerWidget.paymentMethod?.hasCustomDownPayment() == true? widget.missingPaymentDefault: 0,
             );
             if(res['orderId'] != null){
               Get.offAll(() => ThankYouScreen(orderTemp: res));
@@ -124,30 +124,30 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
           confirmText: lController.getLang("Confirm"),
           cancelText: lController.getLang("Cancel"),
         );
-      }else if(_controller.paymentMethod?.type == 5 || _controller.paymentMethod?.type == 6){
+      }else if(controllerWidget.paymentMethod?.type == 5 || controllerWidget.paymentMethod?.type == 6){
         PaymentStripeModel res = await ApiService.customerPaymentStripe(
-          amount: _controller.paymentMethod?.payNow ?? 0,
-          hasDownPayment: _controller.paymentMethod != null 
-            && _controller.paymentMethod!.hasDownPayment()? 1: 0,
-          missingPayment: _controller.paymentMethod != null 
-            && _controller.paymentMethod!.hasDownPayment() 
-              ? (_controller.paymentMethod?.payLater ?? 0): 0,
-          shippingAddressId: _controller.shippingAddress?.id ?? '',
-          shippingFrontend: _controller.shippingMethod?.toJson(),
-          paymentMethodId: _controller.paymentMethod?.id ?? '',
-          billingAddressId: _controller.billingAddress?.id ?? '',
-          shippingCouponFrontend: _controller.discountShipping == null 
-            ? '': _controller.discountShipping?.toJson(),
-          couponFrontend: _controller.discountProduct == null
-            ? '': _controller.discountProduct?.toJson(),
-          cashCouponFrontend: _controller.discountCash == null 
-            ? '': _controller.discountCash?.toJson(),
-          pointBurn: _controller.discountPoint?.points ?? 0,
+          amount: controllerWidget.paymentMethod?.payNow ?? 0,
+          hasDownPayment: controllerWidget.paymentMethod != null 
+            && controllerWidget.paymentMethod!.hasDownPayment()? 1: 0,
+          missingPayment: controllerWidget.paymentMethod != null 
+            && controllerWidget.paymentMethod!.hasDownPayment() 
+              ? (controllerWidget.paymentMethod?.payLater ?? 0): 0,
+          shippingAddressId: controllerWidget.shippingAddress?.id ?? '',
+          shippingFrontend: controllerWidget.shippingMethod?.toJson(),
+          paymentMethodId: controllerWidget.paymentMethod?.id ?? '',
+          billingAddressId: controllerWidget.billingAddress?.id ?? '',
+          shippingCouponFrontend: controllerWidget.discountShipping == null 
+            ? '': controllerWidget.discountShipping?.toJson(),
+          couponFrontend: controllerWidget.discountProduct == null
+            ? '': controllerWidget.discountProduct?.toJson(),
+          cashCouponFrontend: controllerWidget.discountCash == null 
+            ? '': controllerWidget.discountCash?.toJson(),
+          pointBurn: controllerWidget.discountPoint?.points ?? 0,
           salesManagerId: salesManagerId,
-          hasCustomDownPayment: _controller.paymentMethod?.hasCustomDownPayment() == true? 1: 0,
-          customDownPayment: _controller.paymentMethod?.hasCustomDownPayment() == true? widget.customDownPayment: 0,
-          amountDefault: _controller.paymentMethod?.hasCustomDownPayment() == true? widget.amountDefault ?? 0 + ((_customerController.shippingMethod?.price ?? 0) - (_customerController.discountShipping?.actualDiscount ?? 0)) : 0,
-          missingPaymentDefault: _controller.paymentMethod?.hasCustomDownPayment() == true? widget.missingPaymentDefault: 0,
+          hasCustomDownPayment: controllerWidget.paymentMethod?.hasCustomDownPayment() == true? 1: 0,
+          customDownPayment: controllerWidget.paymentMethod?.hasCustomDownPayment() == true? widget.customDownPayment: 0,
+          amountDefault: controllerWidget.paymentMethod?.hasCustomDownPayment() == true? widget.amountDefault ?? 0 + ((controllerCustomer.shippingMethod?.price ?? 0) - (controllerCustomer.discountShipping?.actualDiscount ?? 0)) : 0,
+          missingPaymentDefault: controllerWidget.paymentMethod?.hasCustomDownPayment() == true? widget.missingPaymentDefault: 0,
         );
         if(res.isValid()){
           Stripe.publishableKey = res.publishKey;
@@ -182,29 +182,29 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
         }
       }else{
         Payment2C2PModel res = await ApiService.customerPayment2C2P(
-          amount: isSuperUser? 1: _controller.paymentMethod?.payNow ?? 0,
-          hasDownPayment: _controller.paymentMethod != null 
-            && _controller.paymentMethod!.hasDownPayment()? 1: 0,
-          missingPayment: _controller.paymentMethod != null 
-            && _controller.paymentMethod!.hasDownPayment() 
-              ? (isSuperUser? 1: _controller.paymentMethod?.payLater ?? 0): 0,
-          shippingAddressId: _controller.shippingAddress?.id ?? '',
-          shippingFrontend: _controller.shippingMethod?.toJson(),
-          paymentMethodId: _controller.paymentMethod?.id ?? '',
-          billingAddressId: _controller.billingAddress?.id ?? '',
-          shippingCouponFrontend: _controller.discountShipping == null 
-            ? '': _controller.discountShipping?.toJson(),
-          couponFrontend: _controller.discountProduct == null
-            ? '': _controller.discountProduct?.toJson(),
-          cashCouponFrontend: _controller.discountCash == null 
-            ? '': _controller.discountCash?.toJson(),
-          pointBurn: _controller.discountPoint?.points ?? 0,
+          amount: isSuperUser? 1: controllerWidget.paymentMethod?.payNow ?? 0,
+          hasDownPayment: controllerWidget.paymentMethod != null 
+            && controllerWidget.paymentMethod!.hasDownPayment()? 1: 0,
+          missingPayment: controllerWidget.paymentMethod != null 
+            && controllerWidget.paymentMethod!.hasDownPayment() 
+              ? (isSuperUser? 1: controllerWidget.paymentMethod?.payLater ?? 0): 0,
+          shippingAddressId: controllerWidget.shippingAddress?.id ?? '',
+          shippingFrontend: controllerWidget.shippingMethod?.toJson(),
+          paymentMethodId: controllerWidget.paymentMethod?.id ?? '',
+          billingAddressId: controllerWidget.billingAddress?.id ?? '',
+          shippingCouponFrontend: controllerWidget.discountShipping == null 
+            ? '': controllerWidget.discountShipping?.toJson(),
+          couponFrontend: controllerWidget.discountProduct == null
+            ? '': controllerWidget.discountProduct?.toJson(),
+          cashCouponFrontend: controllerWidget.discountCash == null 
+            ? '': controllerWidget.discountCash?.toJson(),
+          pointBurn: controllerWidget.discountPoint?.points ?? 0,
           salesManagerId: salesManagerId,
 
-          hasCustomDownPayment: _controller.paymentMethod?.hasCustomDownPayment() == true? 1: 0,
-          customDownPayment: _controller.paymentMethod?.hasCustomDownPayment() == true? widget.customDownPayment: 0,
-          amountDefault: _controller.paymentMethod?.hasCustomDownPayment() == true? widget.amountDefault: 0,
-          missingPaymentDefault: _controller.paymentMethod?.hasCustomDownPayment() == true? widget.missingPaymentDefault: 0,
+          hasCustomDownPayment: controllerWidget.paymentMethod?.hasCustomDownPayment() == true? 1: 0,
+          customDownPayment: controllerWidget.paymentMethod?.hasCustomDownPayment() == true? widget.customDownPayment: 0,
+          amountDefault: controllerWidget.paymentMethod?.hasCustomDownPayment() == true? widget.amountDefault: 0,
+          missingPaymentDefault: controllerWidget.paymentMethod?.hasCustomDownPayment() == true? widget.missingPaymentDefault: 0,
         );
         if(res.isValid()){
           await Navigator.of(context).push(
@@ -212,7 +212,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
               PaymentWebviewScreen(
                 model: res,
                 url: res.webPaymentUrl,
-                title: _controller.paymentMethod?.name ?? '',
+                title: controllerWidget.paymentMethod?.name ?? '',
               ),
           )).then((value) async {
             ShowDialog.showLoadingDialog();
@@ -276,17 +276,17 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
             future: _future,
             builder: (context, snapshot){
               if(snapshot.hasData){
-                List<PaymentMethodModel> _data = [];
+                List<PaymentMethodModel> dataModel = [];
 
                 if(snapshot.data!['result'] != null){
                   var len = snapshot.data!['result'].length;
                   for(var i=0; i<len; i++){
                     PaymentMethodModel model = PaymentMethodModel.fromJson(snapshot.data!['result'][i]);
-                    _data.add(model);
+                    dataModel.add(model);
                   }
                 }
 
-                if(_data.isEmpty){
+                if(dataModel.isEmpty){
                   return Padding(
                     padding: EdgeInsets.only(top: Get.height*0.22),
                     child: Center(child: NoDataCoffeeMug()),
@@ -295,7 +295,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                   return GetBuilder<CustomerController>(builder: (controller) {
                     return Column(
                       children: [
-                        ..._data.map((PaymentMethodModel d){
+                        ...dataModel.map((PaymentMethodModel d){
                           return Opacity(
                             opacity: controller.paymentMethod == null 
                               || controller.paymentMethod!.id == d.id? 1: 0.5,
@@ -304,12 +304,12 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                               selected: _selected,
                               onSelect: (PaymentMethodModel? model) {
                                 setState(() => _selected = model);
-                                _customerController.setPaymentMethod(model);
+                                controllerCustomer.setPaymentMethod(model);
                               },
                               lController: lController
                             ),
                           );
-                        }).toList(),
+                        }),
                         
                         if(controller.paymentMethod != null 
                         && controller.paymentMethod!.hasDownPayment()) ...[
@@ -350,7 +350,7 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                                     children: [
                                       TextSpan(
                                         text: priceFormat(
-                                          _customerController.paymentMethod?.payLater ?? 0,
+                                          controllerCustomer.paymentMethod?.payLater ?? 0,
                                           lController
                                         ),
                                         style: headline6.copyWith(

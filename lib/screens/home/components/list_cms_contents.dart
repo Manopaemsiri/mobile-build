@@ -8,14 +8,14 @@ import 'package:coffee2u/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-const double _flex = 2.5;
-final double _screenwidth = DeviceUtils.getDeviceWidth();
-final double _cardWidth = _screenwidth / _flex;
+const double widgetFlex = 2.5;
+final double screenwidth = DeviceUtils.getDeviceWidth();
+final double cardWidth = screenwidth / widgetFlex;
 
 class ListCmsContents extends StatelessWidget {
   const ListCmsContents({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,20 +24,20 @@ class ListCmsContents extends StatelessWidget {
       return FutureBuilder<Map<String, dynamic>?>(
         future: controller.contentCategories,
         builder: (context, snapshot) {
-          List<Widget> _widgets = [];
+          List<Widget> dataWidgets = [];
 
           if (snapshot.hasData) {
             var len = snapshot.data!['result'].length;
             for (var i = 0; i < len; i++) {
               CmsCategoryModel model = CmsCategoryModel.fromJson(
                   snapshot.data!['result'][i]);
-              _widgets.add(_addWidget(model, controller));
+              dataWidgets.add(_addWidget(model, controller));
             }
 
-            if (_widgets.isEmpty) {
+            if (dataWidgets.isEmpty) {
               return const SizedBox.shrink();
             } else {
-              return Column(children: _widgets);
+              return Column(children: dataWidgets);
             }
           } else {
             return const SizedBox.shrink();
@@ -86,7 +86,7 @@ class ListCmsContents extends StatelessWidget {
                       children: items.map((item) {
 
                         return CardCmsContent(
-                          width: _cardWidth,
+                          width: cardWidth,
                           model: item,
                           onPressed: () => Get.to(() => CmsContentScreen(url: item.url))
                         );

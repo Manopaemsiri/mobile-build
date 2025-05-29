@@ -13,7 +13,7 @@ import 'package:get/get.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+  const OnboardingScreen({super.key});
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
@@ -182,12 +182,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
               if(!item.isValid()) return const SizedBox.shrink();
 
-              final _title = item.title == ''
+              final widgetTitle = item.title == ''
                 ? lController.getLang('Privacy Policy'): item.title;
-              final _content = item.content;
+              final widgetContent = item.content;
               return AlertDialog(
                 title: Text(
-                  _title,
+                  widgetTitle,
                   style: subtitle1.copyWith(fontWeight: FontWeight.w500),
                 ),
                 content: Scrollbar(
@@ -202,7 +202,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                     child: ListView(
                       children: [
-                        HtmlContent(content: _content),
+                        HtmlContent(content: widgetContent),
                       ],
                     ),
                   ),

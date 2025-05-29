@@ -20,14 +20,14 @@ import '../product_reviews/list.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({
-    Key? key,
+    super.key,
     this.productId,
     this.youtubeVideo,
     this.eventId,
     this.eventName,
     this.backTo,
     this.subscription = false,
-  }) : super(key: key);
+  });
 
   final String? productId;
   final Widget? youtubeVideo;
@@ -46,7 +46,7 @@ class _ProductScreenState extends State<ProductScreen> {
   late String? eventName = widget.eventName;
   
   final LanguageController lController = Get.find<LanguageController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
   final AppController _aController = Get.find<AppController>();
 
   PartnerShopModel? shopModel;
@@ -59,7 +59,7 @@ class _ProductScreenState extends State<ProductScreen> {
   bool _isReady = false;
   int _quantity = 1;
   int _stock = 0;
-  PartnerProductUnitModel? _unit;
+  PartnerProductUnitModel? widgetUnit;
   List<PartnerProductModel> _relatedProducts = [];
   List<PartnerProductModel> _upSalesProducts = [];
 
@@ -95,9 +95,9 @@ class _ProductScreenState extends State<ProductScreen> {
 
   Future<void> _readPartnerShop() async {
     try {
-      if(_customerController.partnerShop != null
-        && _customerController.partnerShop?.type != 9) {
-        var res2 = await ApiService.processRead('partner-shop', input: { '_id': _customerController.partnerShop?.id });
+      if(controllerCustomer.partnerShop != null
+        && controllerCustomer.partnerShop?.type != 9) {
+        var res2 = await ApiService.processRead('partner-shop', input: { '_id': controllerCustomer.partnerShop?.id });
         shopModel = PartnerShopModel.fromJson(res2!['result']);
       }else {
         final res1 = await ApiService.processRead('partner-shop-center');
@@ -168,13 +168,13 @@ class _ProductScreenState extends State<ProductScreen> {
       input: input,
     );
     if(res1 != null && res1["result"] != null){
-      List<PartnerProductModel> _temp = [];
+      List<PartnerProductModel> temp = [];
       var len = res1['result'].length;
       for (var i = 0; i < len; i++) {
         PartnerProductModel model = PartnerProductModel.fromJson(res1['result'][i]);
-        _temp.add(model);
+        temp.add(model);
       }
-      _relatedProducts = _temp;
+      _relatedProducts = temp;
     }
 
     var res2 = await ApiService.processList(
@@ -188,13 +188,13 @@ class _ProductScreenState extends State<ProductScreen> {
       },
     );
     if(res2 != null && res2["result"] != null){
-      List<PartnerProductModel> _temp = [];
+      List<PartnerProductModel> temp = [];
       var len = res2['result'].length;
       for (var i = 0; i < len; i++) {
         PartnerProductModel model = PartnerProductModel.fromJson(res2['result'][i]);
-        _temp.add(model);
+        temp.add(model);
       }
-      _upSalesProducts = _temp;
+      _upSalesProducts = temp;
     }
     if(mounted) {
       setState(() {
@@ -226,48 +226,48 @@ class _ProductScreenState extends State<ProductScreen> {
     }catch (_){}
   }
 
-  onPressedOrder(PartnerProductModel? _product) async {
-    if (_product != null && _quantity > 0) {
-      bool isClearance = _unit == null 
-        ? _product.isClearance() 
-        : _unit!.isClearance();
+  onPressedOrder(PartnerProductModel? dataProduct) async {
+    if (dataProduct != null && _quantity > 0) {
+      bool isClearance = widgetUnit == null 
+        ? dataProduct.isClearance() 
+        : widgetUnit!.isClearance();
       // Current product is clearance
       if(isClearance){
-        await _customerController.addCart(
-          _product,
+        await controllerCustomer.addCart(
+          dataProduct,
           _quantity,
-          unit: _unit,
+          unit: widgetUnit,
           isClearance: isClearance,
           eventId: eventId,
           eventName: eventName,
         );
         if(widget.backTo != null){
-          _customerController.clearCheckout();
+          controllerCustomer.clearCheckout();
           Get.until((route) => Get.currentRoute == widget.backTo);
         }else{
           Get.back();
           Get.back();
         }
       }else {
-        final bool clearance = AppHelpers.checkProductClearance(_customerController.cart);
+        final bool clearance = AppHelpers.checkProductClearance(controllerCustomer.cart);
         // Cart contains clearance product
-        await _customerController.addCart(
-          _product,
+        await controllerCustomer.addCart(
+          dataProduct,
           _quantity,
-          unit: _unit,
+          unit: widgetUnit,
           isClearance: clearance,
           eventId: eventId,
           eventName: eventName,
         );
         if(widget.backTo != null){
-          _customerController.clearCheckout();
+          controllerCustomer.clearCheckout();
           Get.until((route) => Get.currentRoute == widget.backTo);
         }else{
           Get.back();
           Get.back();
         }
       }
-    }else if (_product == null) {
+    }else if (dataProduct == null) {
       ShowDialog.showForceDialog(
         lController.getLang("Error"),
         lController.getLang("text_product_error1"),
@@ -294,7 +294,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double _appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
+    double appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
 
     if(!_isReady || data == null){
       return Scaffold(
@@ -312,7 +312,7 @@ class _ProductScreenState extends State<ProductScreen> {
               right: 0,
               top: 0,
               child: SizedBox(
-                height: _appBarHeight,
+                height: appBarHeight,
                 width: double.infinity,
                 child: AppBar(
                   systemOverlayStyle: const SystemUiOverlayStyle(
@@ -345,9 +345,9 @@ class _ProductScreenState extends State<ProductScreen> {
         ),
       );
     }
-    String _price = data!.isSetSaved()
+    String widgetPrice = data!.isSetSaved()
     ? data!.displaySetSavedPrice(lController, trimDigits: trimDigits)
-    : !_customerController.isCustomer() 
+    : !controllerCustomer.isCustomer() 
       ? data!.displayPrice(lController, trimDigits: trimDigits)
       : data!.displaySigninPrice(lController, trimDigits: trimDigits);
 
@@ -389,13 +389,13 @@ class _ProductScreenState extends State<ProductScreen> {
                   
                   Padding(
                     padding: const EdgeInsets.fromLTRB(kGap, kHalfGap, kGap, 0),
-                    child: !_customerController.isCustomer()
+                    child: !controllerCustomer.isCustomer()
                       ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           RichText(
                             text: TextSpan(
-                              text: _price,
+                              text: widgetPrice,
                               style: headline5.copyWith(
                                 fontFamily: 'Kanit',
                                 color: kAppColor,
@@ -457,7 +457,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         text: TextSpan(
-                          text: _price,
+                          text: widgetPrice,
                           style: headline5.copyWith(
                             fontFamily: 'Kanit',
                             color: kAppColor,
@@ -726,7 +726,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
                                 return CardProduct(
                                   data: item,
-                                  customerController: _customerController,
+                                  customerController: controllerCustomer,
                                   lController: lController,
                                   aController: _aController,
                                   onTap: () {
@@ -741,7 +741,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                     );
                                   },
                                   trimDigits: trimDigits,
-                                  showStock: _customerController.isShowStock(),
+                                  showStock: controllerCustomer.isShowStock(),
                                 );
                               }).toList(),
                             )
@@ -778,10 +778,10 @@ class _ProductScreenState extends State<ProductScreen> {
 
                                 return CardProduct(
                                   data: item,
-                                  customerController: _customerController,
+                                  customerController: controllerCustomer,
                                   lController: lController,
                                   aController: _aController,
-                                  showStock: _customerController.isShowStock(),
+                                  showStock: controllerCustomer.isShowStock(),
                                   onTap: () {
                                     Navigator.pushReplacement(
                                       context,
@@ -811,7 +811,7 @@ class _ProductScreenState extends State<ProductScreen> {
             right: 0,
             top: 0,
             child: SizedBox(
-              height: _appBarHeight,
+              height: appBarHeight,
               width: double.infinity,
               child: AppBar(
                 systemOverlayStyle: const SystemUiOverlayStyle(
@@ -886,7 +886,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
   Future<void> onTapBuyItem() async {
     ShowDialog.showLoadingDialog();
-    List<PartnerProductUnitModel> _units = [];
+    List<PartnerProductUnitModel> dataUnits = [];
     try {
       final res = await ApiService.processList("partner-product-units", input: {
         "dataFilter": {
@@ -896,7 +896,7 @@ class _ProductScreenState extends State<ProductScreen> {
       });
       final len = res?["result"].length;
       for(var i=0; i<len; i++){
-        _units.add(PartnerProductUnitModel.fromJson(res?["result"][i]));
+        dataUnits.add(PartnerProductUnitModel.fromJson(res?["result"][i]));
       }
     } catch (e) {
       if(kDebugMode) printError(info: '$e');
@@ -913,13 +913,13 @@ class _ProductScreenState extends State<ProductScreen> {
         return AddToCartBottomSheet(
           model: data!,
           shopModel: shopModel!,
-          units: _units,
+          units: dataUnits,
           stock: _stock,
           onChangeQuantity: (int value) async {
             if(mounted) setState(() => _quantity = value);
           },
           onChangeUnit: (PartnerProductUnitModel? model) async {
-            if(mounted) setState(() => _unit = model);
+            if(mounted) setState(() => widgetUnit = model);
           },
           onPressedOrder: () => onPressedOrder(data!),
           trimDigits: trimDigits,

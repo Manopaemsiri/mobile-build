@@ -55,9 +55,9 @@ class PartnerProductSubCategoryModel {
     "name": name,
     "description": description,
     "url": url,
-    "image": image == null ? null : image!.toJson(),
-    "icon": icon == null ? null : icon!.toJson(),
-    "category": category == null ? null : category!.toJson(),
+    "image": image?.toJson(),
+    "icon": icon?.toJson(),
+    "category": category?.toJson(),
     "order": order,
     "status": status,
   };

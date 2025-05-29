@@ -5,9 +5,9 @@ import 'package:html_unescape/html_unescape.dart';
 
 class HtmlContent extends StatefulWidget {
   const HtmlContent({
-    Key? key,
+    super.key,
     required this.content,
-  }) : super(key: key);
+  });
 
   final String content;
 

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class BulletList extends StatelessWidget {
   const BulletList({
-    Key? key,
+    super.key,
     required this.strings,
-  }) : super(key: key);
+  });
 
   final List<String> strings;
 
@@ -19,7 +19,7 @@ class BulletList extends StatelessWidget {
           softWrap: true,
           style: TextStyle(
             fontSize: 16,
-            color: Colors.black.withOpacity(0.6),
+            color: Colors.black.withValues(alpha: 0.6),
             height: 1.55,
           ),
         ),
@@ -48,7 +48,7 @@ class BulletList extends StatelessWidget {
                   softWrap: true,
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.black.withOpacity(0.6),
+                    color: Colors.black.withValues(alpha: 0.6),
                     height: 1.55,
                   ),
                 ),

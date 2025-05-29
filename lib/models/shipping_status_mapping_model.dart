@@ -72,13 +72,11 @@ class ShippingStatusMappingModel {
     "externalStatus": externalStatus,
     "externalSubStatus": externalSubStatus,
     "externalDescription": externalDescription,
-    "shippingStatus": shippingStatus == null
-      ? null: shippingStatus!.toJson(),
-    "shippingSubStatus": shippingSubStatus == null
-      ? null: shippingSubStatus!.toJson(),
+    "shippingStatus": shippingStatus?.toJson(),
+    "shippingSubStatus": shippingSubStatus?.toJson(),
     "status": status,
-    "updatedAt": updatedAt == null? null: updatedAt!.toIso8601String(),
-    "createdAt": createdAt == null? null: createdAt!.toIso8601String(),
+    "updatedAt": updatedAt?.toIso8601String(),
+    "createdAt": createdAt?.toIso8601String(),
   };
   
   bool isValid() {

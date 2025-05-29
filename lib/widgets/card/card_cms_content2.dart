@@ -6,19 +6,19 @@ import 'package:flutter/material.dart';
 
 class CardCmsContent2 extends StatelessWidget {
   const CardCmsContent2({
-    Key? key,
+    super.key,
     required this.model,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final CmsContentModel model;
   final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
-    String _image = model.image?.path ?? "";
-    String _title = model.title;
-    String _body = model.description;
+    String widgetImage = model.image?.path ?? "";
+    String widgetTitle = model.title;
+    String widgetBody = model.description;
 
     return Card(
       elevation: 0.8,
@@ -37,7 +37,7 @@ class CardCmsContent2 extends StatelessWidget {
                 height: 118,
                 width: 118,
                 child: ImageUrl(
-                  imageUrl: _image,
+                  imageUrl: widgetImage,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(4),
                     bottomLeft: Radius.circular(4),
@@ -58,7 +58,7 @@ class CardCmsContent2 extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              _title,
+                              widgetTitle,
                               style: title.copyWith(
                                 fontWeight: FontWeight.w600,
                                 height: 1.35
@@ -71,7 +71,7 @@ class CardCmsContent2 extends StatelessWidget {
                                 top: kQuarterGap
                               ),
                               child: Text(
-                                _body,
+                                widgetBody,
                                 style: bodyText2.copyWith(
                                   color: kGrayColor,
                                   fontWeight: FontWeight.w400

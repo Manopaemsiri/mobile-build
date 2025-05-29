@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 
 class ButtonTextBackground extends StatelessWidget {
   const ButtonTextBackground(
-      {Key? key,
+      {super.key,
       required this.title,
       this.backgroundColor = kGrayLightColor,
       this.textColor = kAppColor,
       required this.onTap,
       this.size = 'normal'})
-      : super(key: key);
+     ;
 
   final String title;
   final Color backgroundColor;

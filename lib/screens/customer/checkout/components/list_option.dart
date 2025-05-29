@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class ListOption extends StatelessWidget {
   const ListOption({
-    Key? key,
+    super.key,
     required this.icon,
     required this.title,
     this.iconImageAsset,
@@ -15,7 +15,7 @@ class ListOption extends StatelessWidget {
     required this.lController,
     this.descriptionColor
 
-  }) : super(key: key);
+  });
 
   final IconData icon;
   final String title;

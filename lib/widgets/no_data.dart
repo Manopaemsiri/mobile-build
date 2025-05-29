@@ -4,12 +4,12 @@ import 'package:get/get.dart';
 
 class NoData extends StatelessWidget {
   NoData({
-    Key? key,
+    super.key,
     this.onPressed,
     this.title,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.spacer = true,
-  }) : super(key: key);
+  });
 
   final VoidCallback? onPressed;
   final String? title;

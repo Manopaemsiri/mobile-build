@@ -38,7 +38,7 @@ class PartnerShopSortontroller extends GetxController {
   }
 
   void onSelectSorting(Map<String, dynamic> item) {
-    if(item?['value'] != null){
+    if(item['value'] != null){
       _sortKey = item;
       update();
     }

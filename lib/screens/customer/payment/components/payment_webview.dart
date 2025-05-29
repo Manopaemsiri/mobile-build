@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
+// import 'dart:convert';
 import 'dart:io';
 import 'package:coffee2u/config/index.dart';
 import 'package:coffee2u/controller/language_controller.dart';
@@ -11,12 +11,12 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentWebviewScreen extends StatefulWidget {
   const PaymentWebviewScreen({
-    Key? key,
+    super.key,
     required this.model,
     required this.url,
     this.title = 'Payment Confirmation',
     this.subscription = false,
-  }): super(key: key);
+  });
 
   final Payment2C2PModel model;
   final String url;
@@ -30,19 +30,19 @@ class PaymentWebviewScreen extends StatefulWidget {
 class _PaymentWebviewScreenState extends State<PaymentWebviewScreen> {
   final LanguageController lController = Get.find<LanguageController>();
   // final Completer<WebViewController> _webviewController = Completer<WebViewController>();
-  late WebViewController _controller;
+  late WebViewController controllerWidget;
 
   @override
   void initState() {
     super.initState();
-    _controller = WebViewController()
+    controllerWidget = WebViewController()
     ..enableZoom(false)
     ..setBackgroundColor(const Color(0xFFFFFFFF))
     ..setJavaScriptMode(JavaScriptMode.unrestricted)
     ..setNavigationDelegate(
       NavigationDelegate(
-        // onWebViewCreated: (WebViewController _controller) =>
-        //   _webviewController.complete(_controller),
+        // onWebViewCreated: (WebViewController controllerWidget) =>
+        //   _webviewController.complete(controllerWidget),
         onPageFinished: (String url) async {
           if(url.contains('checkout-payment-2c2p-validate') || url.contains('payment/success/')){
             if(widget.subscription){
@@ -78,7 +78,7 @@ class _PaymentWebviewScreenState extends State<PaymentWebviewScreen> {
         title: Text(lController.getLang(widget.title)),
       ),
       body: WebViewWidget(
-        controller: _controller,
+        controller: controllerWidget,
         
       ),
     );
@@ -86,8 +86,8 @@ class _PaymentWebviewScreenState extends State<PaymentWebviewScreen> {
 
   Future<void> _downloadFile(String url) async {
     try {
-      final data = url.split(',')[1];
-      final bytes = base64.decode(data);
+      // final data = url.split(',')[1];
+      // final bytes = base64.decode(data);
       // final result = await ImageGallerySaver.saveImage(
       //   bytes,
       //   quality: 80,

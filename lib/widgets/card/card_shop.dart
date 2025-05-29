@@ -8,12 +8,12 @@ import 'package:get/get.dart';
 
 class CardShop extends StatelessWidget {
   const CardShop({
-    Key? key,
+    super.key,
     this.width = 150,
     required this.model,
     this.onPressed,
     this.showDistance = true,
-  }): super(key: key);
+  });
 
   final double width;
   final PartnerShopModel model;
@@ -22,11 +22,11 @@ class CardShop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CustomerController _customerController = Get.find<CustomerController>();
+    final CustomerController controllerCustomer = Get.find<CustomerController>();
 
-    String _image = model.image?.path ?? "";
-    String _name = model.name ?? "";
-    String? _distance = model.distance == null ? "" : "${model.distance} km.";
+    String widgetImage = model.image?.path ?? "";
+    String widgetName = model.name ?? "";
+    String? widgetDistance = model.distance == null ? "" : "${model.distance} km.";
 
     return SizedBox(
       width: width,
@@ -49,7 +49,7 @@ class CardShop extends StatelessWidget {
                     topRight: Radius.circular(kRadius),
                   ),
                   child: ImageUrl(
-                    imageUrl: _image,
+                    imageUrl: widgetImage,
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(4),
                       topRight: Radius.circular(4),
@@ -65,7 +65,7 @@ class CardShop extends StatelessWidget {
                     SizedBox(
                       height: 48,
                       child: Text(
-                        _name,
+                        widgetName,
                         maxLines: 2,
                         style: bodyText2.copyWith(
                           color: kDarkColor,
@@ -79,7 +79,7 @@ class CardShop extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         // model.displayIsOpen(bodyText2),
-                        if (showDistance && _customerController.shippingAddress != null) ...[
+                        if (showDistance && controllerCustomer.shippingAddress != null) ...[
                           Row(
                             children: [
                               const Icon(
@@ -89,7 +89,7 @@ class CardShop extends StatelessWidget {
                               ),
                               const Gap(gap: kQuarterGap),
                               Text(
-                                _distance,
+                                widgetDistance,
                                 style: caption.copyWith(
                                   color: kGrayColor,
                                   fontWeight: FontWeight.w500,

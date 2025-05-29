@@ -8,8 +8,8 @@ class SubscriptionController extends GetxController {
 
   int stateStatus = 0;
 
-  PartnerProductSubscriptionModel? _data;
-  PartnerProductSubscriptionModel? get data => _data;
+  PartnerProductSubscriptionModel? dataModel;
+  PartnerProductSubscriptionModel? get data => dataModel;
 
   String? _signature;
   String? get signature => _signature;
@@ -29,7 +29,7 @@ class SubscriptionController extends GetxController {
 
       if (res?['result']?.isNotEmpty == true) {
         PartnerProductSubscriptionModel model = PartnerProductSubscriptionModel.fromJson(res?['result']);
-        _data = model;
+        dataModel = model;
         stateStatus = model.isValid() ? 1 : 2;
 
         await _fetchSignature(model.id);
@@ -57,7 +57,7 @@ class SubscriptionController extends GetxController {
 
         print('Signature loaded: $_signature');
       }
-    } catch (e) {
+    } catch(e) {
       print('Error loading signature: $e');
     }
   }

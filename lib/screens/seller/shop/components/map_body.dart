@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 
 class MapBody extends StatelessWidget {
   const MapBody({
-    Key? key,
+    super.key,
     required this.lController
-  }) : super(key: key);
+  });
   final LanguageController lController;
 
 

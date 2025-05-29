@@ -70,7 +70,7 @@ class PartnerProductStatusModel {
     "textColor2": textColor2,
     "textBgColor2": textBgColor2,
 
-    "icon": icon == null ? null : icon!.toJson(),
+    "icon": icon?.toJson(),
   };
 
   bool isValid() {

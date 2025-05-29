@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 
 class DetailSection extends StatelessWidget {
   const DetailSection({
-    Key? key,
+    super.key,
     required this.model,
     required this.lController,
     this.onPressFav,
-  }) : super(key: key);
+  });
 
   final SellerShopModel model;
   final VoidCallback? onPressFav;
@@ -20,15 +20,15 @@ class DetailSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _image = "${model.image!.path}";
-    String _name = model.name;
-    String _status = "${model.status}";
-    String _distance = "${model.distance} km.";
-    String _star = "4.5";
-    String _review = "128 ${lController.getLang("Review(s)")}";
-    String _caption = model.description;
-    String _closingTime = model.todayOpenRange();
-    bool _isFavorite = false;
+    String widgetImage = model.image?.path ?? "";
+    String widgetName = model.name;
+    String widgetStatus = "${model.status}";
+    String widgetDistance = "${model.distance} km.";
+    String widgetStar = "4.5";
+    String widgetReview = "128 ${lController.getLang("Review(s)")}";
+    String widgetCaption = model.description;
+    String widgetClosingTime = model.todayOpenRange();
+    bool widgetIsFavorite = false;
 
     return Column(
       children: [
@@ -40,7 +40,7 @@ class DetailSection extends StatelessWidget {
               bottom: Radius.circular(10),
             ),
             child: ImageUrl(
-              imageUrl: _image,
+              imageUrl: widgetImage,
             ),
           ),
         ),
@@ -51,14 +51,14 @@ class DetailSection extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  _name,
+                  widgetName,
                   style: headline5.copyWith(
                     fontWeight: FontWeight.w600
                   ),
                   overflow: TextOverflow.clip,
                 ),
               ),
-              favButton(_isFavorite),
+              favButton(widgetIsFavorite),
             ],
           ),
           subtitle: Column(
@@ -69,13 +69,13 @@ class DetailSection extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   BadgeDefault(
-                    title: _star,
+                    title: widgetStar,
                     iconRight: Icons.star,
                     size: 12,
                   ),
                   const Gap(gap: kHalfGap),
                   Text(
-                    _review,
+                    widgetReview,
                     style: caption.copyWith(color: kGrayColor),
                   ),
                   const Gap(gap: kHalfGap),
@@ -91,26 +91,26 @@ class DetailSection extends StatelessWidget {
                   ),
                   const Gap(gap: kQuarterGap),
                   Text(
-                    _distance,
+                    widgetDistance,
                     style: caption.copyWith(color: kGrayColor),
                   ),
                 ],
               ),
               const Gap(gap: kQuarterGap),
               Text(
-                _caption,
+                widgetCaption,
                 style: bodyText2.copyWith(color: kGrayColor),
               ),
               const Gap(),
               Row(
                 children: [
                   Text(
-                    _status,
+                    widgetStatus,
                     style: bodyText2.copyWith(color: kGreenColor),
                   ),
                   const Gap(gap: kHalfGap),
                   Text(
-                    _closingTime,
+                    widgetClosingTime,
                     style: bodyText2.copyWith(
                       color: kGrayColor,
                       fontWeight: FontWeight.w300

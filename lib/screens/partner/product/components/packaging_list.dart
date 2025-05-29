@@ -6,13 +6,13 @@ import 'package:get/get.dart';
 
 class PackagingList extends StatefulWidget {
   PackagingList({
-    Key? key,
+    super.key,
     required this.model,
     required this.units,
     this.stock = 0,
     this.selectedUnitId = '',
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   final PartnerProductModel model;
   final List<PartnerProductUnitModel> units;
@@ -36,8 +36,8 @@ class _PackagingListState extends State<PackagingList> {
 
   @override
   Widget build(BuildContext context) {
-    PartnerProductModel _model = widget.model;
-    List<PartnerProductUnitModel> _units = widget.units;
+    PartnerProductModel dataModel = widget.model;
+    List<PartnerProductUnitModel> dataUnits = widget.units;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,9 +45,9 @@ class _PackagingListState extends State<PackagingList> {
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
           child: Text(
-            _model.unitVariantName == ''
+            dataModel.unitVariantName == ''
               ? lController.getLang("Choose Size")
-              : _model.unitVariantName,
+              : dataModel.unitVariantName,
             style: title.copyWith(
               color: kDarkColor,
               fontWeight: FontWeight.w500
@@ -65,9 +65,9 @@ class _PackagingListState extends State<PackagingList> {
               widget.onChanged!('');
             },
             title: Text(
-              _model.unit +
-              (_model.unitDescription != ''
-                ? ' (${_model.unitDescription})': ''),
+              dataModel.unit +
+              (dataModel.unitDescription != ''
+                ? ' (${dataModel.unitDescription})': ''),
               style: title.copyWith(
                 fontWeight: FontWeight.w400
               )
@@ -82,14 +82,14 @@ class _PackagingListState extends State<PackagingList> {
             ),
           ),
         ),
-        if (_units.isNotEmpty) ...[
+        if (dataUnits.isNotEmpty) ...[
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             padding: EdgeInsets.zero,
-            itemCount: _units.length,
+            itemCount: dataUnits.length,
             itemBuilder: (c, index) {
-              PartnerProductUnitModel item = _units[index];
+              PartnerProductUnitModel item = dataUnits[index];
               return widget.stock >= item.convertedQuantity
                 ? Container(
                   padding: EdgeInsets.zero,

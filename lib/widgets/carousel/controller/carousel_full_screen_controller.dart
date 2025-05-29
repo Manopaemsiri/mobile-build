@@ -8,8 +8,8 @@ class CarouselFullScreenController extends GetxController {
   final int initIndex;
   CarouselFullScreenController(this.images, this.initIndex);
 
-  late final List<FileModel> _data = images;
-  List<FileModel> get data => _data;
+  late final List<FileModel> dataModel = images;
+  List<FileModel> get data => dataModel;
 
   int _currentIndex = 0;
   int get currentIndex => _currentIndex;

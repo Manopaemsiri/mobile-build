@@ -7,12 +7,12 @@ class CategoryController extends GetxController {
   CategoryController();
 
   // Category
-  ScrollController? _controller;
-  final double _width = kGap*2;
+  ScrollController? controllerWidget;
+  final double widgetWidth = kGap*2;
   double _move = 0.0;
 
-  ScrollController? get controller => _controller;
-  double get width => _width;
+  ScrollController? get controller => controllerWidget;
+  double get width => widgetWidth;
   double get move => _move;
 
   @override
@@ -24,22 +24,22 @@ class CategoryController extends GetxController {
     _onInit();
   }
   _onInit() async {
-    _controller = ScrollController();
+    controllerWidget = ScrollController();
     await Future.delayed(const Duration(milliseconds: 250));
-    if(_controller?.hasListeners == true) _controller?.removeListener((){});
-    _controller?.addListener(_scrollListener);
+    if(controllerWidget?.hasListeners == true) controllerWidget?.removeListener((){});
+    controllerWidget?.addListener(_scrollListener);
     update();
   }
   void _scrollListener() {
-    double currentPixels = _controller?.position.pixels ?? 0;
-    double mainContainer = (_controller?.position.maxScrollExtent ?? 0) / _width;
+    double currentPixels = controllerWidget?.position.pixels ?? 0;
+    double mainContainer = (controllerWidget?.position.maxScrollExtent ?? 0) / widgetWidth;
     _move = (currentPixels / mainContainer);
     update();
   }
   @override
   void onClose() {
-    _controller?.removeListener((){});
-    _controller?.dispose();
+    controllerWidget?.removeListener((){});
+    controllerWidget?.dispose();
     super.onClose();
   }
 }

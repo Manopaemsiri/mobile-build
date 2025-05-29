@@ -17,10 +17,10 @@ import '../../partner/subscription/controllers/subscription_checkout_update_cont
 
 class AddressScreen extends StatefulWidget {
   const AddressScreen({
-    Key? key,
+    super.key,
     this.subscription,
     this.subscriptionId
-  }) : super(key: key);
+  });
   final int? subscription;
   final String? subscriptionId;
 
@@ -30,20 +30,20 @@ class AddressScreen extends StatefulWidget {
 
 class _AddressScreenState extends State<AddressScreen> {
   final LanguageController lController = Get.find<LanguageController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
-  final AppController _appController = Get.find<AppController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
+  final AppController controllerApp = Get.find<AppController>();
   CustomerGroupModel? _customerGroup;
 
   bool loading = true;
-  List<CustomerShippingAddressModel> _data = [];
+  List<CustomerShippingAddressModel> dataModel = [];
 
   Future<void> shippingAddressList({bool updateState = false}) async {
     try {
-      _data = [];
+      dataModel = [];
       final res = await ApiService.processList("shipping-addresses");
       var len = res?["result"].length;
       for (var i = 0; i < len; i++) {
-        _data.add(CustomerShippingAddressModel.fromJson(res!["result"][i]));
+        dataModel.add(CustomerShippingAddressModel.fromJson(res!["result"][i]));
       }
       if(mounted && updateState) setState(() => loading = false);
     } catch (e) {
@@ -51,11 +51,11 @@ class _AddressScreenState extends State<AddressScreen> {
     }
   }
   Future<void> readCustomerGroup() async {
-    if(_customerController.customerModel?.group != null){
+    if(controllerCustomer.customerModel?.group != null){
       try {
         final res = await ApiService.processRead("group");
         if(res?["result"].isNotEmpty) _customerGroup = CustomerGroupModel.fromJson(res!["result"]);
-        _customerGroup = _customerGroup ?? _customerController.customerModel?.group;
+        _customerGroup = _customerGroup ?? controllerCustomer.customerModel?.group;
       } catch (e) {
         _customerGroup = null;
         if(kDebugMode) printError(info: e.toString());
@@ -65,10 +65,10 @@ class _AddressScreenState extends State<AddressScreen> {
 
   void _initState() async {
     await Future.wait([
-      _appController.getSetting(),
+      controllerApp.getSetting(),
       shippingAddressList(),
     ]);
-    if(_appController.enabledCustomerGroup && widget.subscription == null) await readCustomerGroup();
+    if(controllerApp.enabledCustomerGroup && widget.subscription == null) await readCustomerGroup();
     
     if(mounted) setState(() => loading = false);
   }
@@ -96,7 +96,7 @@ class _AddressScreenState extends State<AddressScreen> {
           return ListView(
             padding: const EdgeInsets.fromLTRB(kGap, kGap, kGap, kGap),
             children: [
-              !loading && _data.isEmpty
+              !loading && dataModel.isEmpty
                 ? Card(
                   child: Padding(
                     padding: const EdgeInsets.only(top: kHalfGap, bottom: kQuarterGap),
@@ -106,8 +106,8 @@ class _AddressScreenState extends State<AddressScreen> {
                 : Card(
                   margin: EdgeInsets.zero,
                   child: Column(
-                    children: List.generate(_data.length, (index) {
-                      CustomerShippingAddressModel item = _data[index];
+                    children: List.generate(dataModel.length, (index) {
+                      CustomerShippingAddressModel item = dataModel[index];
                       return SizedBox(
                         child: Column(
                           children: [
@@ -151,11 +151,11 @@ class _AddressScreenState extends State<AddressScreen> {
                                                       "shipping-address-set-selected",
                                                       input: { "_id": item.id }
                                                     );
-                                                    await _customerController.readCart(needLoading: false);
+                                                    await controllerCustomer.readCart(needLoading: false);
                                                     await Future.wait([
                                                       controller.updateShippingAddress(item),
-                                                      _customerController.clearStateToNull(),
-                                                      AppHelpers.updatePartnerShop(_customerController),
+                                                      controllerCustomer.clearStateToNull(),
+                                                      AppHelpers.updatePartnerShop(controllerCustomer),
                                                     ]);
                                                                                                         
                                                     if (widget.subscription != null) {
@@ -175,14 +175,14 @@ class _AddressScreenState extends State<AddressScreen> {
                                                     Get.back();
                                                   }
                                                 },
-                                                activeColor: kAppColor,
+                                                activeTrackColor: kAppColor,
                                               ),
                                             ),
                                           ],
                                         ),
-                                        if((_customerGroup?.enableAddressCorrection() == true && _appController.enabledCustomerGroup) 
+                                        if((_customerGroup?.enableAddressCorrection() == true && controllerApp.enabledCustomerGroup) 
                                           || _customerGroup == null 
-                                          || !_appController.enabledCustomerGroup)...[
+                                          || !controllerApp.enabledCustomerGroup)...[
                                           IconButton(
                                             icon: const Icon(
                                               Icons.border_color_outlined
@@ -197,8 +197,8 @@ class _AddressScreenState extends State<AddressScreen> {
                                                   ),
                                               )).then((value) async {
                                                 if(value != null && value?['refresh'] == true) {
-                                                  await _customerController.clearStateToNull();
-                                                  await AppHelpers.updatePartnerShop(_customerController);
+                                                  await controllerCustomer.clearStateToNull();
+                                                  await AppHelpers.updatePartnerShop(controllerCustomer);
                                                   shippingAddressList(updateState: true);
                                                   if(widget.subscription == 1){
                                                     Get.find<SubscriptionCheckoutController>().updateShippingAddress(controller.shippingAddress);
@@ -223,10 +223,10 @@ class _AddressScreenState extends State<AddressScreen> {
                     }),
                   ),
                 ),
-              !loading && _data.length < 3
+              !loading && dataModel.length < 3
                 ? const SizedBox(height: kGap)
                 : const SizedBox(height: 0),
-              !loading && _data.length < 3 && (_customerGroup == null || !_appController.enabledCustomerGroup)
+              !loading && dataModel.length < 3 && (_customerGroup == null || !controllerApp.enabledCustomerGroup)
                 ? Card(
                   margin: EdgeInsets.zero,
                   child: ListTile( 
@@ -248,7 +248,7 @@ class _AddressScreenState extends State<AddressScreen> {
                         builder: (context) => const AddressAddScreen(),
                       )).then((value) async {
                         if(value != null && value?['refresh'] == true) {
-                          await AppHelpers.updatePartnerShop(_customerController);
+                          await AppHelpers.updatePartnerShop(controllerCustomer);
                           shippingAddressList(updateState: true);
                           if(widget.subscription == 1) {
                             Get.find<SubscriptionCheckoutController>().updateShippingAddress(controller.shippingAddress);

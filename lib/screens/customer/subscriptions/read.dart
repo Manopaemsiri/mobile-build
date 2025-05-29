@@ -18,13 +18,13 @@ import 'package:coffee2u/apis/api_service.dart';
 
 class CustomerSubscriptionScreen extends StatelessWidget {
   CustomerSubscriptionScreen({
-    Key? key,
+    super.key,
     required this.id,
-  }) : super(key: key);
+  });
 
   final String id;
   final lController = Get.find<LanguageController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
   final bool trimDigits = false;
 
   @override
@@ -42,7 +42,7 @@ class CustomerSubscriptionScreen extends StatelessWidget {
             builder: (controller) {
               Widget body = Center(child: Loading());
               if (controller.stateStatus == 1) {
-                body = _body(controller);
+                body = widgetBody(controller);
               } else if (controller.stateStatus == 2) {
                 body = NoData();
               } else if (controller.stateStatus == 3) {
@@ -56,14 +56,14 @@ class CustomerSubscriptionScreen extends StatelessWidget {
     );
   }
 
-  Widget _body(CustomerSubscriptionController controller) {
+  Widget widgetBody(CustomerSubscriptionController controller) {
     final CustomerSubscriptionModel? item = controller.data;
     if (item == null) return const SizedBox.shrink();
     final String orderRef = item.prefixOrderId2C2P;
     final String subscriptionId = item.subscription?.id ?? '';
     final String customerSubscriptionId = item.id ?? '';
 
-    final CustomerShippingAddressModel? shippingAddress = _customerController.shippingAddress;
+    final CustomerShippingAddressModel? shippingAddress = controllerCustomer.shippingAddress;
     final CustomerBillingAddressModel? billingAddress = item.billingAddress;
     final List<PartnerProductModel> relatedProducts = controller.relatedProducts;
     final List<PartnerProductModel> products = controller.products;
@@ -167,7 +167,7 @@ class CustomerSubscriptionScreen extends StatelessWidget {
                               '_id': customerSubscriptionId,
                               'shippingAddressId': updatedAddress.id,
                             });
-                            await _customerController.updateShippingAddress(updatedAddress);
+                            await controllerCustomer.updateShippingAddress(updatedAddress);
                             Get.find<CustomerSubscriptionController>().update();
                           }
                         });

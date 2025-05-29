@@ -12,9 +12,9 @@ import 'package:percent_indicator/percent_indicator.dart';
 
 class SellerShopReviews extends StatefulWidget {
   const SellerShopReviews({
-    Key? key,
+    super.key,
     required this.model,
-  }): super(key: key);
+  });
 
   final SellerShopModel model;
 
@@ -32,16 +32,16 @@ class _SellerShopReviewsState extends State<SellerShopReviews> {
       input: { "_id": widget.model.id }
     );
     if(res!["result"] != null){
-      Map<String, dynamic> _d = res["result"];
+      Map<String, dynamic> data = res["result"];
       setState(() {
         _report = {
-          "count": int.parse(_d["count"].toString()),
-          "averageRating": double.parse(_d["averageRating"].toString()),
-          "totalRating1": int.parse(_d["totalRating1"].toString()),
-          "totalRating2": int.parse(_d["totalRating2"].toString()),
-          "totalRating3": int.parse(_d["totalRating3"].toString()),
-          "totalRating4": int.parse(_d["totalRating4"].toString()),
-          "totalRating5": int.parse(_d["totalRating5"].toString()),
+          "count": int.parse(data["count"].toString()),
+          "averageRating": double.parse(data["averageRating"].toString()),
+          "totalRating1": int.parse(data["totalRating1"].toString()),
+          "totalRating2": int.parse(data["totalRating2"].toString()),
+          "totalRating3": int.parse(data["totalRating3"].toString()),
+          "totalRating4": int.parse(data["totalRating4"].toString()),
+          "totalRating5": int.parse(data["totalRating5"].toString()),
         };
       });
     }

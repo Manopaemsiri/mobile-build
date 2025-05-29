@@ -29,7 +29,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class CheckOutScreen extends StatefulWidget {
-  const CheckOutScreen({Key? key}) : super(key: key);
+  const CheckOutScreen({super.key});
 
   @override
   State<CheckOutScreen> createState() => _CheckOutScreenState();
@@ -39,8 +39,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   final LanguageController lController = Get.find<LanguageController>();
   Map<String, dynamic> _settings = {};
   
-  final AppController _appController = Get.find<AppController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final AppController controllerApp = Get.find<AppController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
   int _points = 0;
   bool isReady = false;
 
@@ -71,20 +71,20 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   Future<void> _autoCoupon() async {
     try {
       Map<String, dynamic>? res = await ApiService.processList('checkout-partner-product-coupons');
-      PartnerProductCouponModel? _temp;
+      PartnerProductCouponModel? temp;
       if(res != null && res["result"] != null){
         for(int i=0; i<res["result"].length; i++){
-          PartnerProductCouponModel _t = PartnerProductCouponModel.fromJson(res["result"][i]);
-          if(_t.availability == 99){
-            if(_temp == null){
-              _temp = _t;
-            }else if(_t.actualDiscount > _temp.actualDiscount){
-              _temp = _t;
+          PartnerProductCouponModel dataT = PartnerProductCouponModel.fromJson(res["result"][i]);
+          if(dataT.availability == 99){
+            if(temp == null){
+              temp = dataT;
+            }else if(dataT.actualDiscount > temp.actualDiscount){
+              temp = dataT;
             }
           }
         }
       }
-    if(_temp != null) _customerController.setDiscountProduct(_temp, needUpdate: true);
+    if(temp != null) controllerCustomer.setDiscountProduct(temp, needUpdate: true);
     } catch (e) {
       if(kDebugMode) printError(info: e.toString());
     }
@@ -92,19 +92,19 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
   _initState() async {
     await Future.wait([
-      _customerController.readCart(needLoading: false),
-      AppHelpers.updatePartnerShop(_customerController),
-      _customerController.updateTier(),
-      _customerController.updateBillingAddress(null),
-      _customerController.setShippingMethod(null),
-      _customerController.setDiscountShipping(null),
-      _customerController.setDiscountProduct(null),
-      _customerController.setDiscountCash(null),
-      _customerController.setDiscountPoint(null),
+      controllerCustomer.readCart(needLoading: false),
+      AppHelpers.updatePartnerShop(controllerCustomer),
+      controllerCustomer.updateTier(),
+      controllerCustomer.updateBillingAddress(null),
+      controllerCustomer.setShippingMethod(null),
+      controllerCustomer.setDiscountShipping(null),
+      controllerCustomer.setDiscountProduct(null),
+      controllerCustomer.setDiscountCash(null),
+      controllerCustomer.setDiscountPoint(null),
       _readSettings(),
       _readTotalPoints(),
       _autoCoupon(),
-      _appController.getSetting(),
+      controllerApp.getSetting(),
       _getCmsContent(),
     ]);
     if(_settings['APP_MODULE_CUSTOMER_GROUP'] == '1') await _readCustomerGroup();
@@ -115,11 +115,11 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         _points;
         isReady = true;
       });
-      final String? _prefCheckoutPopup = await LocalStorage.get('${_customerController.customerModel?.id}$prefCheckoutPopup');
+      final String? dataCheckoutPopup = await LocalStorage.get('${controllerCustomer.customerModel?.id}$prefCheckoutPopup');
       bool isSameDay = false;
-      if(_prefCheckoutPopup != null) isSameDay = DateTime.now().isSameDay(DateTime.parse(_prefCheckoutPopup));
-      if(checkoutCmsContent?.showPopup == true && (_prefCheckoutPopup == null || !isSameDay)){
-        LocalStorage.save('${_customerController.customerModel?.id}$prefCheckoutPopup', DateTime.now().toIso8601String());
+      if(dataCheckoutPopup != null) isSameDay = DateTime.now().isSameDay(DateTime.parse(dataCheckoutPopup));
+      if(checkoutCmsContent?.showPopup == true && (dataCheckoutPopup == null || !isSameDay)){
+        LocalStorage.save('${controllerCustomer.customerModel?.id}$prefCheckoutPopup', DateTime.now().toIso8601String());
         _dialogPopup(context, [ checkoutCmsContent!.relatedPopup! ]);
       }
     }
@@ -188,26 +188,26 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   }
 
   Future<void> _readCustomerGroup() async {
-    if(_customerController.customerModel?.group != null){
+    if(controllerCustomer.customerModel?.group != null){
       try {
-        CustomerGroupModel? _customerGroup;
+        CustomerGroupModel? customerGroup;
         final res = await ApiService.processRead("group");
-        if(res?["result"].isNotEmpty) _customerGroup = CustomerGroupModel.fromJson(res?["result"]);
-        _customerGroup = _customerGroup ?? _customerController.customerModel?.group;
+        if(res?["result"].isNotEmpty) customerGroup = CustomerGroupModel.fromJson(res?["result"]);
+        customerGroup = customerGroup ?? controllerCustomer.customerModel?.group;
 
-        if(_customerGroup?.enableAutoAddress() == true && _customerController.shippingAddress == null) {
+        if(customerGroup?.enableAutoAddress() == true && controllerCustomer.shippingAddress == null) {
           final Map<String, dynamic>? res2 = await ApiService.processRead('shipping-address-get-selected', input: { 'autoBilling': 1 });
           if(res2?['result'].isNotEmpty == true){
             final shipping = CustomerShippingAddressModel.fromJson(res2?['result']);
-            await _customerController.updateShippingAddress(shipping);
+            await controllerCustomer.updateShippingAddress(shipping);
           }
         }
 
-        if(_customerGroup?.enableAutoBillingAddress() == true) {
+        if(customerGroup?.enableAutoBillingAddress() == true) {
           final Map<String, dynamic>? res2 = await ApiService.processRead('billing-address-get-selected', input: { 'autoBilling': 1 });
           if(res2?['result'].isNotEmpty == true){
             final billing = CustomerBillingAddressModel.fromJson(res2?['result']);
-            await _customerController.updateBillingAddress(billing);
+            await controllerCustomer.updateBillingAddress(billing);
           }
         }
       } catch (e) {
@@ -221,8 +221,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       Map<String, dynamic>? res = await ApiService.processRead(
         'cms-checkout-content', 
         input: { 
-          'customerId': _customerController.customerModel?.id,
-          "partnerShopId": _customerController.partnerShop?.id,
+          'customerId': controllerCustomer.customerModel?.id,
+          "partnerShopId": controllerCustomer.partnerShop?.id,
         }
       );
       if(res?['result'].isNotEmpty == true){
@@ -241,8 +241,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
           backgroundColor: kWhiteColor,
           appBar: AppBar(
             title: Text(
-              // _appController.enabledMultiPartnerShops 
-              //   ? _customerController.cart.shop!.name ?? '' 
+              // controllerApp.enabledMultiPartnerShops 
+              //   ? controllerCustomer.cart.shop!.name ?? '' 
               //   : lController.getLang("Checkout"),
               lController.getLang("Checkout"),
             ),
@@ -271,7 +271,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       margin: const EdgeInsets.symmetric(horizontal: kGap, vertical: kGap),
                       decoration: BoxDecoration(
                         color: kAppColor,
-                        // color: kAppColor2.withOpacity(0.1),
+                        // color: kAppColor2.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(kRadius),
                       ),
                       child: Column(
@@ -282,8 +282,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                           if(checkoutCmsContent?.relatedProducts?.isNotEmpty == true)...[
                             CardCmsProducts(
                               lController: lController,
-                              aController: _appController,
-                              customerController: _customerController,
+                              aController: controllerApp,
+                              customerController: controllerCustomer,
                               products: checkoutCmsContent?.relatedProducts ?? []
                             ),
                             const Gap(),
@@ -306,13 +306,13 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                   children: [
 
                     // Product Coupon
-                    if(_settings?['APP_ENABLE_FEATURE_PARTNER_PRODUCT_COUPON'] == '1') ...[
+                    if(_settings['APP_ENABLE_FEATURE_PARTNER_PRODUCT_COUPON'] == '1') ...[
                       ListOption(
                         icon: FontAwesomeIcons.gift,
                         title: lController.getLang("Product Coupon"),
                         description: controller.discountProduct == null
                           ? '': controller.discountProduct!.name,
-                        onTap: _customerController.isCustomer()
+                        onTap: controllerCustomer.isCustomer()
                         ? () {
                           controller.setDiscountProduct(null, needUpdate: true);
                           Get.to(() => const CheckoutPartnerProductCouponsScreen(
@@ -414,7 +414,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         title: lController.getLang("Shipping Coupon"),
                         description: controller.discountShipping == null
                           ? '': controller.discountShipping!.name,
-                        onTap: _customerController.isCustomer()? () {
+                        onTap: controllerCustomer.isCustomer()? () {
                           controller.setDiscountShipping(null, needUpdate: true);
                           Get.to(() => const CheckoutPartnerShippingCouponsScreen());
                         }: null,
@@ -454,7 +454,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         title: lController.getLang("Cash Coupon"),
                         description: controller.discountCash == null
                           ? '': controller.discountCash!.name,
-                        onTap: _customerController.isCustomer()? () {
+                        onTap: controllerCustomer.isCustomer()? () {
                           controller.setDiscountCash(null, needUpdate: true);
                           Get.to(() => const CheckoutPartnerProductCouponsScreen(
                             isCashCoupon: 1,
@@ -516,7 +516,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         title: lController.getLang("Point Discount"),
                         description: controller.discountPoint == null
                           ? '': '${lController.getLang("Use Point")} ${numberFormat(controller.discountPoint?.points ?? 0, digits: 0)} ${lController.getLang("point(s)")}',
-                        onTap: _customerController.isCustomer()? () => _onTapPointsRewards(controller): null,
+                        onTap: controllerCustomer.isCustomer()? () => _onTapPointsRewards(controller): null,
                         trailings: controller.isCustomer()
                           ? [
                             controller.discountPoint == null 
@@ -547,9 +547,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     ],
 
                     // const DividerThick(),
-                    if(_settings?['APP_ENABLE_FEATURE_PARTNER_PRODUCT_COUPON'] == '1' 
-                    && _settings?['APP_ENABLE_FEATURE_PARTNER_COUPON_REWARD'] == '1' 
-                    && _customerController.isCustomer())...[
+                    if(_settings['APP_ENABLE_FEATURE_PARTNER_PRODUCT_COUPON'] == '1' 
+                    && _settings['APP_ENABLE_FEATURE_PARTNER_COUPON_REWARD'] == '1' 
+                    && controllerCustomer.isCustomer())...[
                       if(controller.cart.receivedCoupons.isNotEmpty)...[
                         const Gap(),
                         WillReceivedCoupons(
@@ -666,7 +666,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
             ignoring: true,
             child: Material(
               type: MaterialType.card,
-              color: kWhiteColor.withOpacity(0.5),
+              color: kWhiteColor.withValues(alpha: 0.5),
               child: Loading(),
             ),
           )
@@ -675,21 +675,21 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     );
   }
 
-  void _onTapPointsRewards(CustomerController _controller) {
+  void _onTapPointsRewards(CustomerController controllerWidget) {
     final symbol = lController.usedCurrency?.unit ?? lController.defaultCurrency?.unit ?? 'THB';
 
-    if(_controller.isCustomer()){
-      List<CustomerPointFrontendModel> _choices = [];
-      if(_controller.tier != null){
-        double _burnRate = _controller.tier?.pointBurnRate ?? 0;
-        if(_burnRate > 0){
-          int _steps = (_points / _controller.tier!.pointBurnStep).floor()+1;
-          for(int i=1; i<_steps; i++){
-            double _used = i * _controller.tier!.pointBurnStep;
-            if(_used <= _points){
-              _choices.add(CustomerPointFrontendModel(
-                points: _used,
-                discount: _used * _burnRate,
+    if(controllerWidget.isCustomer()){
+      List<CustomerPointFrontendModel> dataChoices = [];
+      if(controllerWidget.tier != null){
+        double burnRate = controllerWidget.tier?.pointBurnRate ?? 0;
+        if(burnRate > 0){
+          int dataSteps = (_points / controllerWidget.tier!.pointBurnStep).floor()+1;
+          for(int i=1; i<dataSteps; i++){
+            double dataUsed = i * controllerWidget.tier!.pointBurnStep;
+            if(dataUsed <= _points){
+              dataChoices.add(CustomerPointFrontendModel(
+                points: dataUsed,
+                discount: dataUsed * burnRate,
               ));
             }
           }
@@ -741,7 +741,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       ),
                     ),
                     const Divider(height: 0.7, thickness: 0.7),
-                    _choices.isEmpty
+                    dataChoices.isEmpty
                       ? Padding(
                         padding: const EdgeInsets.only(top: 3*kGap),
                         child: NoDataCoffeeMug(
@@ -757,7 +757,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               children: [
                                 InkWell(
                                   onTap: (){
-                                    _controller.setDiscountPoint(null, needUpdate: true);
+                                    controllerWidget.setDiscountPoint(null, needUpdate: true);
                                     Get.back();
                                   },
                                   child: Padding(
@@ -776,11 +776,11 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                     ),
                                   ),
                                 ),
-                                ..._choices.map((CustomerPointFrontendModel _d) {
+                                ...dataChoices.map((CustomerPointFrontendModel tempData) {
 
                                   return InkWell(
                                     onTap: (){
-                                      _controller.setDiscountPoint(_d, needUpdate: true);
+                                      controllerWidget.setDiscountPoint(tempData, needUpdate: true);
                                       Get.back();
                                     },
                                     child: Padding(
@@ -790,13 +790,13 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            '${lController.getLang("Use")} ${numberFormat(_d.points, digits: 0)} ${lController.getLang("Point(s)")}',
+                                            '${lController.getLang("Use")} ${numberFormat(tempData.points, digits: 0)} ${lController.getLang("Point(s)")}',
                                             style: subtitle1.copyWith(
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
                                           Text(
-                                            '${lController.getLang("Discount")} ${priceFormat(_d.discount, lController, showSymbol: false)} $symbol',
+                                            '${lController.getLang("Discount")} ${priceFormat(tempData.discount, lController, showSymbol: false)} $symbol',
                                             style: subtitle1.copyWith(
                                               fontWeight: FontWeight.w500,
                                               color: kAppColor,
@@ -806,7 +806,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                       ),
                                     ),
                                   );
-                                }).toList(),
+                                }),
                               ]
                             ),
                           ],
@@ -823,8 +823,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     }
   }
 
-  void _onTapShippingMethod(CustomerController _controller) {
-    if (_controller.shippingAddress == null || !_controller.shippingAddress!.isValid()) {
+  void _onTapShippingMethod(CustomerController controllerWidget) {
+    if (controllerWidget.shippingAddress == null || !controllerWidget.shippingAddress!.isValid()) {
       ShowDialog.showForceDialog(
         lController.getLang("Missing shipping address"),
         lController.getLang("Please choose a shipping address"), 
@@ -838,12 +838,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     }
   }
   
-  void _onTapOrder(CustomerController _controller) {
-    if(_controller.cart.products.isEmpty){
+  void _onTapOrder(CustomerController controllerWidget) {
+    if(controllerWidget.cart.products.isEmpty){
       Get.back();
       return;
     }
-    if (_controller.shippingAddress == null || !_controller.shippingAddress!.isValid()) {
+    if (controllerWidget.shippingAddress == null || !controllerWidget.shippingAddress!.isValid()) {
       ShowDialog.showForceDialog(
         lController.getLang("Missing shipping address"),
         lController.getLang("Please choose a shipping address"), 
@@ -854,7 +854,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       );
       return;
     }
-    if (_controller.shippingMethod == null || !_controller.shippingMethod!.isValid()) {
+    if (controllerWidget.shippingMethod == null || !controllerWidget.shippingMethod!.isValid()) {
       ShowDialog.showForceDialog(
         lController.getLang("Missing Shipping Method"),
         lController.getLang("Please choose a shipping method"),
@@ -866,14 +866,14 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       return;
     }
 
-    if (_controller.billingAddress == null || !_controller.billingAddress!.isValid()) {
+    if (controllerWidget.billingAddress == null || !controllerWidget.billingAddress!.isValid()) {
       ShowDialog.showForceDialog(
         lController.getLang("Missing Billing Address"),
         lController.getLang("Continue without billing address"),
         (){
           Get.back();
-          // if (_controller.discountProduct?.isValid() == true && _controller.discountProduct?.validAllowCustomDownPayment() == true) {
-          if (_controller.cart.hasDownPayment == 1 && _controller.discountProduct?.isValid() == true && _controller.discountProduct?.validAllowCustomDownPayment() == true) {
+          // if (controllerWidget.discountProduct?.isValid() == true && controllerWidget.discountProduct?.validAllowCustomDownPayment() == true) {
+          if (controllerWidget.cart.hasDownPayment == 1 && controllerWidget.discountProduct?.isValid() == true && controllerWidget.discountProduct?.validAllowCustomDownPayment() == true) {
             Get.to(() => const DownPaymentsScreen());
           } else {
             Get.to(() => const PaymentMethodsScreen());
@@ -889,7 +889,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       return;
     }
 
-    if (_controller.cart.hasDownPayment == 1 && _controller.discountProduct?.isValid() == true && _controller.discountProduct?.validAllowCustomDownPayment() == true) {
+    if (controllerWidget.cart.hasDownPayment == 1 && controllerWidget.discountProduct?.isValid() == true && controllerWidget.discountProduct?.validAllowCustomDownPayment() == true) {
       Get.to(() => const DownPaymentsScreen());
     } else {
       Get.to(() => const PaymentMethodsScreen());

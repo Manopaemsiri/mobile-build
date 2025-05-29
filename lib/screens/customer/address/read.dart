@@ -19,10 +19,10 @@ import 'dart:ui' as ui;
 
 class AddressAddScreen extends StatefulWidget {
   const AddressAddScreen({
-    Key? key,
+    super.key,
     this.addressModel,
     this.isEditMode = false,
-  }) : super(key: key);
+  });
 
   final bool isEditMode;
   final CustomerShippingAddressModel? addressModel;
@@ -33,7 +33,7 @@ class AddressAddScreen extends StatefulWidget {
 
 class _AddressAddScreenState extends State<AddressAddScreen> {
   final LanguageController lController = Get.find<LanguageController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
 
   bool isReady = false;
   bool isReady2 = false;
@@ -69,25 +69,25 @@ class _AddressAddScreenState extends State<AddressAddScreen> {
   GoogleMapController? _mapController;
   bool _mapNeedRender = false;
   late LatLng _mapCenter;
-  Set<Marker> _mapMarkers = {};
+  final Set<Marker> _mapMarkers = {};
   late Uint8List? _mapMarkerIcon;
 
   _initState() async {
-    CustomerModel? _customer = _customerController.customerModel;
+    CustomerModel? customer = controllerCustomer.customerModel;
 
-    CustomerShippingAddressModel _model = widget.addressModel 
+    CustomerShippingAddressModel dataModel = widget.addressModel 
       ?? CustomerShippingAddressModel(
-        shippingFirstname: _customer?.firstname ?? '',
-        shippingLastname: _customer?.lastname ?? '',
-        telephone: _customer?.telephone?.replaceAll('+66', '0') ?? '',
+        shippingFirstname: customer?.firstname ?? '',
+        shippingLastname: customer?.lastname ?? '',
+        telephone: customer?.telephone?.replaceAll('+66', '0') ?? '',
       );
     setState(() {
-      model = _model;
+      model = dataModel;
     });
 
     _fAddress.addListener(_checkUpdateLatLngFromAddress);
     setState(() {
-      _cAddress.text = _model.address;
+      _cAddress.text = dataModel.address;
       _cSubdistrict.text = model.subdistrict?.name ?? '';
       _cDistrict.text = model.district?.name ?? '';
       _cProvince.text = model.province?.name ?? '';
@@ -98,17 +98,17 @@ class _AddressAddScreenState extends State<AddressAddScreen> {
       _cPhone.text = model.telephone;
       
       _mapCenter = LatLng(
-        _model.lat ?? 13.810076929,
-        _model.lng ?? 100.5966026673
+        dataModel.lat ?? 13.810076929,
+        dataModel.lng ?? 100.5966026673
       );
     });
 
-    LatLng _tempCenter = LatLng(
-      _model.lat ?? 13.810076929,
-      _model.lng ?? 100.5966026673
+    LatLng dataCenter = LatLng(
+      dataModel.lat ?? 13.810076929,
+      dataModel.lng ?? 100.5966026673
     );
-    _onAddMarkerButtonPressed(_tempCenter);
-    setState(() => _mapNeedRender = !_model.isValidAddress());
+    _onAddMarkerButtonPressed(dataCenter);
+    setState(() => _mapNeedRender = !dataModel.isValidAddress());
 
     setState(() {
       isReady = true;
@@ -143,7 +143,7 @@ class _AddressAddScreenState extends State<AddressAddScreen> {
       final res = await ApiService.processRead('shipping-address-get-selected');
       if(res?['result'] != null) {
         shippingAddress = CustomerShippingAddressModel.fromJson(res?['result']);
-        await _customerController.updateShippingAddress(shippingAddress);
+        await controllerCustomer.updateShippingAddress(shippingAddress);
       }
     } catch (e) {
       if(kDebugMode) printError(info: '$e');
@@ -174,14 +174,14 @@ class _AddressAddScreenState extends State<AddressAddScreen> {
 
   Future<void> _checkUpdateLatLngFromAddress() async {
     if(_mapNeedRender && model.isValidAddress()){
-      String _addressStr = model.displayAddress(lController, withCountry: true);
-      await locationFromAddress(_addressStr).then((value) {
+      String addressStr = model.displayAddress(lController, withCountry: true);
+      await locationFromAddress(addressStr).then((value) {
         if(mounted && value.isNotEmpty){
-          LatLng _tempCenter = LatLng(
+          LatLng dataCenter = LatLng(
             value.first.latitude,
             value.first.longitude
           );
-          _onAddMarkerButtonPressed(_tempCenter);
+          _onAddMarkerButtonPressed(dataCenter);
           setState(() => _mapNeedRender = false);
         }
       });
@@ -198,7 +198,7 @@ class _AddressAddScreenState extends State<AddressAddScreen> {
       _mapMarkers.add(Marker(
         position: latLng,
         markerId: MarkerId(latLng.toString()),
-        icon: BitmapDescriptor.fromBytes(_mapMarkerIcon!),
+        icon: BitmapDescriptor.bytes(_mapMarkerIcon!),
       ));
       _mapController?.moveCamera(
         CameraUpdate.newCameraPosition(

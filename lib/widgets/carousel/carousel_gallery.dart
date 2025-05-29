@@ -9,13 +9,13 @@ import 'controller/carousel_gallery_controller.dart';
 
 class CarouselGallery extends StatelessWidget {
   const CarouselGallery({
-    Key? key,
+    super.key,
     required this.data,
     this.aspectRatio = 16/9,
     this.isShowIndicator = true,
     this.viewportFraction = 0.8,
     this.padding = const EdgeInsets.symmetric(horizontal: kGap),
-  }) : super(key: key);
+  });
   final List<FileModel> data;
   final double aspectRatio;
   final bool isShowIndicator;

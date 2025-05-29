@@ -10,11 +10,11 @@ import '../controller/card_cms_content_controller.dart';
 
 class CardCmsContents extends StatelessWidget {
   const CardCmsContents({
-    Key? key,
+    super.key,
     required this.lController,
     this.appBarTitle = 'Related Contents',
     this.contents = const [],
-  }) : super(key: key);
+  });
   final LanguageController lController;
   final String appBarTitle;
   final List<CmsContentModel> contents;
@@ -45,18 +45,18 @@ class CardCmsContents extends StatelessWidget {
             const Gap(gap: kHalfGap),
             LayoutBuilder(
               builder: (_, constraints) {
-                double _cardHeight = (kHalfGap*2) + kQuarterGap + ((bodyText2.fontSize!*3)*1.4);
-                double _cardWidth = constraints.maxWidth;
-                double _aspectratio = _cardWidth/_cardHeight;
+                double cardHeight = (kHalfGap*2) + kQuarterGap + ((bodyText2.fontSize!*3)*1.4);
+                double cardWidth = constraints.maxWidth;
+                double aspectratio = cardWidth/cardHeight;
 
                 return CarouselSlider.builder(
                   carouselController: controller.pageController,
                   itemBuilder: (BuildContext context, int index, int realIndex) =>
-                    _body(controller.data[index], (id) => Get.to(() => CmsContentScreen(url: id, backTo: '/CheckOutScreen'))),
+                    widgetBody(controller.data[index], (id) => Get.to(() => CmsContentScreen(url: id, backTo: '/CheckOutScreen'))),
                   itemCount: controller.data.length,
                   options: CarouselOptions(
                     autoPlay: false,
-                    aspectRatio: _aspectratio,
+                    aspectRatio: aspectratio,
                     viewportFraction: 1,
                     enableInfiniteScroll: controller.data.length > 1,
                     onPageChanged: (index, reason) => controller.onPageChanged(index),
@@ -78,7 +78,7 @@ class CardCmsContents extends StatelessWidget {
                       margin: const EdgeInsets.symmetric(horizontal: kQuarterGap/2),
                       decoration: BoxDecoration(
                         // color: controller.currentIndex == entry.key? kAppColor: const Color(0xFFF5CDCB),
-                        color: controller.currentIndex == entry.key? kWhiteColor: kWhiteColor.withOpacity(0.4),
+                        color: controller.currentIndex == entry.key? kWhiteColor: kWhiteColor.withValues(alpha: 0.4),
                         borderRadius: BorderRadius.circular(kCardRadius)
                       ),
                     ),
@@ -93,7 +93,7 @@ class CardCmsContents extends StatelessWidget {
     );
   }
 
-  Widget _body(CmsContentModel item, Function(String)? onTap) {
+  Widget widgetBody(CmsContentModel item, Function(String)? onTap) {
     final url = item.url;
     final imageUrl = item.image?.path ?? '';
     final title = item.title;

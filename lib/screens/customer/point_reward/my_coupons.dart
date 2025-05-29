@@ -8,11 +8,11 @@ import 'package:get/get.dart';
 
 class MyCouponsScreen extends StatefulWidget {
   const MyCouponsScreen({
-    Key? key,
+    super.key,
     this.enabledProductCoupons = false,
     this.enabledShippingCoupons = false,
     this.enabledCashCoupons = false,
-  }): super(key: key);
+  });
   
   final bool enabledProductCoupons;
   final bool enabledShippingCoupons;

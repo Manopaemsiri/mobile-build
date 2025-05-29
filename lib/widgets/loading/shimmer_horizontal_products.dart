@@ -7,11 +7,11 @@ import 'package:shimmer/shimmer.dart';
 
 class ShimmerHorizontalProducts extends StatelessWidget {
   const ShimmerHorizontalProducts({
-    Key? key,
+    super.key,
     this.length = 10,
     this.isCmsCard = false,
     this.showStock = false,
-  }) : super(key: key);
+  });
   final int length;
   final bool isCmsCard;
   final bool showStock;

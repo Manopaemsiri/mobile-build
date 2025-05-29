@@ -9,11 +9,11 @@ import 'package:get/get.dart';
 
 class CardShippingCoupon extends StatelessWidget {
   const CardShippingCoupon({
-    Key? key,
+    super.key,
     this.width = 150,
     required this.model,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final double width;
   final PartnerShippingCouponModel model;
@@ -21,9 +21,9 @@ class CardShippingCoupon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _image = model.image?.path ?? "";
-    String _title = model.name;
-    String _body = model.shortDescription;
+    String widgetImage = model.image?.path ?? "";
+    String widgetTitle = model.name;
+    String widgetBody = model.shortDescription;
 
     const double imageRatio = 178/150;
     final double cardWidth = min((Get.width-kGap)/2.4, 172.5);
@@ -44,7 +44,7 @@ class CardShippingCoupon extends StatelessWidget {
           borderRadius: BorderRadius.circular(kCardRadius),
           // boxShadow: [
           //   BoxShadow(
-          //     color: Colors.black.withOpacity(0.1),
+          //     color: Colors.black.withValues(alpha: 0.1),
           //     spreadRadius: 1,
           //     blurRadius: 10.5,
           //     offset: const Offset(0, 0),
@@ -64,7 +64,7 @@ class CardShippingCoupon extends StatelessWidget {
                 child: AspectRatio(
                   aspectRatio: imageRatio,
                   child: ImageUrl(
-                    imageUrl: _image,
+                    imageUrl: widgetImage,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -75,7 +75,7 @@ class CardShippingCoupon extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '$_title\n\n',
+                      '$widgetTitle\n\n',
                       maxLines: 2,
                       textAlign: TextAlign.start,
                       style: bodyText1.copyWith(
@@ -87,7 +87,7 @@ class CardShippingCoupon extends StatelessWidget {
                     ),
                     const Gap(gap: kQuarterGap),
                     Text(
-                      '$_body\n\n',
+                      '$widgetBody\n\n',
                       maxLines: 2,
                       textAlign: TextAlign.start,
                       style: bodyText2.copyWith(
@@ -127,7 +127,7 @@ class CardShippingCoupon extends StatelessWidget {
     //                 topRight: Radius.circular(kRadius),
     //               ),
     //               child: ImageUrl(
-    //                 imageUrl: _image,
+    //                 imageUrl: widgetImage,
     //                 borderRadius: const BorderRadius.only(
     //                   topLeft: Radius.circular(4),
     //                   topRight: Radius.circular(4),
@@ -143,7 +143,7 @@ class CardShippingCoupon extends StatelessWidget {
     //               children: [
     //                 SizedBox(
     //                   child: Text(
-    //                     _title,
+    //                     widgetTitle,
     //                     maxLines: 2,
     //                     style: bodyText2.copyWith(
     //                       color: kDarkColor,
@@ -157,7 +157,7 @@ class CardShippingCoupon extends StatelessWidget {
     //                 SizedBox(
     //                   height: 40,
     //                   child: Text(
-    //                     _body,
+    //                     widgetBody,
     //                     maxLines: 2,
     //                     style: caption.copyWith(color: kGrayColor),
     //                     overflow: TextOverflow.ellipsis,

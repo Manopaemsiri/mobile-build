@@ -25,16 +25,16 @@ import '../partner/subscription/list.dart';
 import 'controllers/category_controller.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key, this.showPopup = true}) : super(key: key);
+  const HomeScreen({super.key, this.showPopup = true});
   final bool showPopup;
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final AppController _appController = Get.find<AppController>();
+  final AppController controllerApp = Get.find<AppController>();
   final FrontendController _frontendController = Get.find<FrontendController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
   final LanguageController lController = Get.find<LanguageController>();
   late bool showPopup = widget.showPopup;
 
@@ -63,9 +63,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   Future<void> getRefresh() async {
     await Future.wait([
-      _appController.refreshData(),
+      controllerApp.refreshData(),
       _frontendController.refreshHomepage(needUpdate: false),
-      _customerController.readCart(needLoading: false),
+      controllerCustomer.readCart(needLoading: false),
       _popupContent(),
     ]);
   }
@@ -208,20 +208,20 @@ class _HomeScreenState extends State<HomeScreen> {
               const ListCategories(),
 
               GetBuilder<AppController>(
-                builder: (_appController1) {
+                builder: (controllerApp) {
                   return Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      if(_appController1.settings(key: 'APP_MODULE_PARTNER_SUBSCRIPTION') == '1')...[
+                      if(controllerApp.settings(key: 'APP_MODULE_PARTNER_SUBSCRIPTION') == '1')...[
                         const Gap(),
                         FutureBuilder<Map<String, dynamic>?>(
                           future: ApiService.processRead("cms-content", input: { 'url': 'partner-product-subscriptions' }),
                           builder: (buildContext, asyncSnapshot) {
                             if(asyncSnapshot.connectionState == ConnectionState.done) {
                               if(asyncSnapshot.hasData) {
-                                final _subscription = asyncSnapshot.data;
+                                final subscription = asyncSnapshot.data;
                                 CmsContentModel? model;
-                                try { model = CmsContentModel.fromJson(_subscription?["result"]); } catch (_) { }
+                                try { model = CmsContentModel.fromJson(subscription?["result"]); } catch (_) { }
 
                                 return model?.isValid() == true
                                 ? Container(
@@ -257,31 +257,31 @@ class _HomeScreenState extends State<HomeScreen> {
               // New Product
               ListNewProducts(
                 lController: lController,
-                customerController: _customerController,
-                aController: _appController,
-                showStock: _customerController.isShowStock(),
+                customerController: controllerCustomer,
+                aController: controllerApp,
+                showStock: controllerCustomer.isShowStock(),
               ),
               
               // Discount Product
               ListDiscountProducts(
                 lController: lController,
-                customerController: _customerController, 
-                aController: _appController,
-                showStock: _customerController.isShowStock(),
+                customerController: controllerCustomer, 
+                aController: controllerApp,
+                showStock: controllerCustomer.isShowStock(),
               ),
 
               // Featured Product
               ListFeaturedProducts(
                 lController: lController,
-                customerController: _customerController,
-                aController: _appController,
-                showStock: _customerController.isShowStock(),
+                customerController: controllerCustomer,
+                aController: controllerApp,
+                showStock: controllerCustomer.isShowStock(),
               ),
 
               ListPartnerProductCoupons(),
               ListPartnerShippingCoupons(),
               const ListCmsContents(),
-              // if(_appController.enabledMultiCustomerShops) ...[
+              // if(controllerApp.enabledMultiCustomerShops) ...[
               //   const SizedBox(height: kGap + kQuarterGap),
               //   SectionTitle(
               //     titleText: lController.getLang("Coffee Shop Near Me"),
@@ -364,7 +364,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: kHalfGap),
                 decoration: BoxDecoration(
-                  color: kAppColor.withOpacity(0.2),
+                  color: kAppColor.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(kRadius)
                 ),
                 child: Text(

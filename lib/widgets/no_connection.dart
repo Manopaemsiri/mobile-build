@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 
 class NoConnection extends StatelessWidget {
   NoConnection({
-    Key? key, 
+    super.key, 
     required this.onPressed
-  }) : super(key: key);
+  });
 
   final VoidCallback onPressed;
   final LanguageController lController = Get.find<LanguageController>();

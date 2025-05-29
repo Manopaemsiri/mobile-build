@@ -255,8 +255,8 @@ class PartnerShippingCouponModel {
     "limitPerCustomer": limitPerCustomer,
     "limitCustomerFrequency": limitCustomerFrequency,
     
-    "startAt": startAt == null? null: startAt!.toIso8601String(),
-    "endAt": endAt == null? null: endAt!.toIso8601String(),
+    "startAt": startAt?.toIso8601String(),
+    "endAt": endAt?.toIso8601String(),
 
     "status": status,
     "isRedeemPoints": isRedeemPoints,
@@ -283,8 +283,8 @@ class PartnerShippingCouponModel {
     'forProvinces': forProvinces.isEmpty? []
       : forProvinces.map((e) => e.toJson()).toList(),
 
-    "updatedAt": updatedAt == null? null: updatedAt!.toIso8601String(),
-    "createdAt": createdAt == null? null: createdAt!.toIso8601String(),
+    "updatedAt": updatedAt?.toIso8601String(),
+    "createdAt": createdAt?.toIso8601String(),
       
     "isPersonal": isPersonal,
     "availability": availability,

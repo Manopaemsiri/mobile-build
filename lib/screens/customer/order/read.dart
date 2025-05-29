@@ -22,9 +22,9 @@ import '../product_review/create.dart';
 
 class CustomerOrderScreen extends StatefulWidget {
   const CustomerOrderScreen({
-    Key? key,
+    super.key,
     required this.orderId
-  }): super(key: key);
+  });
   
   final String orderId;
 
@@ -35,8 +35,8 @@ class CustomerOrderScreen extends StatefulWidget {
 class _CustomerOrderScreenState extends State<CustomerOrderScreen> {
   late final String orderId = widget.orderId;
   final LanguageController lController = Get.find<LanguageController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
-  final FirebaseController _firebaseController = Get.find<FirebaseController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
+  final FirebaseController controllerFirebase = Get.find<FirebaseController>();
 
   bool isLoading = true;
   bool enabledReturn = false;
@@ -81,7 +81,7 @@ class _CustomerOrderScreenState extends State<CustomerOrderScreen> {
           lController.getLang("Order Detail")
         ),
         actions: [
-          if(_firebaseController.isInit && model != null) ...[
+          if(controllerFirebase.isInit && model != null) ...[
             RawMaterialButton(
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               onPressed: _onTapContact,
@@ -90,20 +90,20 @@ class _CustomerOrderScreenState extends State<CustomerOrderScreen> {
               hoverElevation: 1,
               highlightElevation: 0,
               disabledElevation: 0,
-              fillColor: _customerController.isCustomer() 
+              fillColor: controllerCustomer.isCustomer() 
                 && !model!.isReturned()
                   ? kAppColor: kGrayColor,
               constraints: const BoxConstraints(
                 maxWidth: 30,
                 maxHeight: 30
               ),
+              padding: const EdgeInsets.all(kHalfGap),
+              shape: const CircleBorder(),
               child: SvgPicture.asset(
                 'assets/icons/support.svg',
                 width: kGap,
                 height: kGap,
               ),
-              padding: const EdgeInsets.all(kHalfGap),
-              shape: const CircleBorder(),
             ),
             const Gap()
           ],
@@ -149,7 +149,7 @@ class _CustomerOrderScreenState extends State<CustomerOrderScreen> {
                     Container(
                       padding: const EdgeInsets.symmetric(vertical: kQuarterGap/2, horizontal: kQuarterGap),
                       decoration: BoxDecoration(
-                        color: kYellowColor.withOpacity(0.1),
+                        color: kYellowColor.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(kRadius)
                       ),
                       child: RichText(
@@ -311,7 +311,7 @@ class _CustomerOrderScreenState extends State<CustomerOrderScreen> {
                             child: Container(
                               padding: const EdgeInsets.all(kHalfGap),
                               decoration: BoxDecoration(
-                                color: kDarkLightGrayColor.withOpacity(0.05),
+                                color: kDarkLightGrayColor.withValues(alpha: 0.05),
                                 borderRadius: BorderRadius.circular(kRadius)
                               ),
                               child: Column(
@@ -361,7 +361,7 @@ class _CustomerOrderScreenState extends State<CustomerOrderScreen> {
                             child: Container(
                               padding: const EdgeInsets.all(kHalfGap),
                               decoration: BoxDecoration(
-                                color: kDarkLightGrayColor.withOpacity(0.05),
+                                color: kDarkLightGrayColor.withValues(alpha: 0.05),
                                 borderRadius: BorderRadius.circular(kRadius)
                               ),
                               child: Column(
@@ -499,10 +499,10 @@ class _CustomerOrderScreenState extends State<CustomerOrderScreen> {
   void _onTapCancel() {}
 
   void _onTapContact() async {
-    if(_customerController.isCustomer() && !model!.isReturned()){
+    if(controllerCustomer.isCustomer() && !model!.isReturned()){
       CustomerChatroomModel chatroom = await ApiService.chatroomCreate(model?.id ?? '');
       if(chatroom.isValid()){
-        bool res = await _firebaseController.sendMessage(
+        bool res = await controllerFirebase.sendMessage(
           chatroom, checkRoom: true,
           text: '${lController.getLang("Contact about order")} ${model?.orderId}'
         );
@@ -519,7 +519,7 @@ class _CustomerOrderScreenState extends State<CustomerOrderScreen> {
         lController.getLang("Buy Again"),
         lController.getLang("text_order_again_1"),
         () async {
-          await _customerController.updateCartBuyAgain(
+          await controllerCustomer.updateCartBuyAgain(
             model?.shop?.id ?? '',
             model?.products ?? [],
           );

@@ -9,13 +9,13 @@ class CustomerSubscriptionController extends GetxController {
 
   int stateStatus = 0;
 
-  CustomerSubscriptionModel? _data;
-  CustomerSubscriptionModel? get data => _data;
+  CustomerSubscriptionModel? dataModel;
+  CustomerSubscriptionModel? get data => dataModel;
 
   late List<PartnerProductModel> _relatedProducts = [];
   List<PartnerProductModel> get relatedProducts => _relatedProducts;
-  late final List<PartnerProductModel> _products = [];
-  List<PartnerProductModel> get products => _products;
+  late final List<PartnerProductModel> dataProducts = [];
+  List<PartnerProductModel> get products => dataProducts;
 
   @override
   void onInit() {
@@ -27,7 +27,7 @@ class CustomerSubscriptionController extends GetxController {
     try {
       final res = await ApiService.processRead('subscription', input: { '_id': id });
       if(res?['result']?.isNotEmpty){
-        _data = CustomerSubscriptionModel.fromJson(res?['result']);
+        dataModel = CustomerSubscriptionModel.fromJson(res?['result']);
         await Future.wait([
           _getRelatedProducts(),
           _getproducts(),
@@ -43,7 +43,7 @@ class CustomerSubscriptionController extends GetxController {
   }
 
   Future<void> _getRelatedProducts() async {
-    _relatedProducts = (_data?.relatedProducts ?? [])
+    _relatedProducts = (dataModel?.relatedProducts ?? [])
     .where((d) => d.quantity > 0)
     .map((d) {
       PartnerProductModel k = d.product!;
@@ -55,22 +55,22 @@ class CustomerSubscriptionController extends GetxController {
   }
   
   Future<void> _getproducts() async {
-  List<RelatedProduct> _steps = (_data?.selectionSteps ?? [])
+  List<RelatedProduct> dataSteps = (dataModel?.selectionSteps ?? [])
       .map((d) => d.products)
       .expand((d) => d)
       .where((d) => d.inCart > 0)
       .toList();
 
-  final List<PartnerProductModel> _p = _steps.map((d) {
+  final List<PartnerProductModel> dataProducts = dataSteps.map((d) {
     PartnerProductModel k = d.product!;
     k.inCart = d.inCart;
     k.addPriceInVAT = d.addPriceInVAT > 0 ? d.addPriceInVAT : 0;
     return k;
   }).toList();
 
-  _products
+  dataProducts
     ..clear()
-    ..addAll(_p);
+    ..addAll(dataProducts);
 }
 
   Future<void> getDataAgain() async {
@@ -81,10 +81,10 @@ class CustomerSubscriptionController extends GetxController {
       final res = await ApiService.processRead('subscription', input: { '_id': id });
 
       if (res?['result'] != null) {
-        _data = CustomerSubscriptionModel.fromJson(res?['result']);
+        dataModel = CustomerSubscriptionModel.fromJson(res?['result']);
 
         _relatedProducts.clear(); 
-        _products.clear();
+        dataProducts.clear();
 
         await Future.wait([
           _getRelatedProducts(),

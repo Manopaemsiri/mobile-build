@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 
 class AddToCartBottomSheet extends StatefulWidget {
   AddToCartBottomSheet({
-    Key? key,
+    super.key,
     required this.model,
     required this.shopModel,
     this.units = const [],
@@ -20,7 +20,7 @@ class AddToCartBottomSheet extends StatefulWidget {
     required this.onChangeUnit,
     required this.onPressedOrder,
     this.trimDigits = false,
-  }) : super(key: key);
+  });
 
   final PartnerProductModel model;
   final PartnerShopModel shopModel;
@@ -37,17 +37,17 @@ class AddToCartBottomSheet extends StatefulWidget {
 
 class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
   final LanguageController lController = Get.find<LanguageController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
 
   String _img = '';
-  String _name = '';
-  String _price = '';
-  String _memberPrice = '';
+  String widgetName = '';
+  String widgetPrice = '';
+  String widgetMemberPrice = '';
 
   int _inStock = 0;
   int _quantity = 1;
   late final List<PartnerProductUnitModel> _units = widget.units;
-  PartnerProductUnitModel? _unit;
+  PartnerProductUnitModel? widgetUnit;
   final String _selectedUnitId = '';
 
   late bool trimDigits = widget.trimDigits;
@@ -60,9 +60,9 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
 
   void _initState() {
     _img = widget.model.image?.path ?? 'https://backend.aromacoffee2u.com/assets/img/default/img.jpg';
-    _name = widget.model.name;
-    _price = widget.model.displayPrice(lController, trimDigits: trimDigits);
-    _memberPrice = widget.model.isDiscounted() 
+    widgetName = widget.model.name;
+    widgetPrice = widget.model.displayPrice(lController, trimDigits: trimDigits);
+    widgetMemberPrice = widget.model.isDiscounted() 
       ? widget.model.displayDiscountPrice(lController, trimDigits: trimDigits) 
       : widget.model.displayMemberPrice(lController, trimDigits: trimDigits);
     _inStock = widget.stock;
@@ -74,9 +74,9 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
 
     if(id == ''){
       setState(() {
-        _unit = null;
-        _price = widget.model.displayPrice(lController, trimDigits: trimDigits);
-        _memberPrice = widget.model.isDiscounted() 
+        widgetUnit = null;
+        widgetPrice = widget.model.displayPrice(lController, trimDigits: trimDigits);
+        widgetMemberPrice = widget.model.isDiscounted() 
           ? widget.model.displayDiscountPrice(lController, trimDigits: trimDigits) 
           : widget.model.displayMemberPrice(lController, trimDigits: trimDigits);
         _inStock = widget.stock;
@@ -87,9 +87,9 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
       if(i > -1){
         PartnerProductUnitModel unit = _units[i];
         setState(() {
-          _unit = unit;
-          _price = unit.displayPrice(lController, trimDigits: trimDigits);
-          _memberPrice = unit.isDiscounted() 
+          widgetUnit = unit;
+          widgetPrice = unit.displayPrice(lController, trimDigits: trimDigits);
+          widgetMemberPrice = unit.isDiscounted() 
             ? unit.displayDiscountPrice(lController, trimDigits: trimDigits) 
             : unit.displayMemberPrice(lController, trimDigits: trimDigits);
           _inStock = (widget.stock / unit.convertedQuantity).floor();
@@ -144,7 +144,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                                 width: 88,
                                 height: 88,
                               ),
-                              if(_unit == null) ...[
+                              if(widgetUnit == null) ...[
                                 if(widget.model.isClearance()) ...[
                                   Positioned(
                                     top: 0, left: 0,
@@ -185,7 +185,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                                 ],
                               ]
                               else ...[
-                                if(_unit!.isClearance()) ...[
+                                if(widgetUnit!.isClearance()) ...[
                                   Positioned(
                                     top: 0, left: 0,
                                     child: Container(
@@ -204,7 +204,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                                     ),
                                   ),
                                 ]
-                                else if(_unit!.isDiscounted()) ...[
+                                else if(widgetUnit!.isDiscounted()) ...[
                                   Positioned(
                                     top: 0, left: 0,
                                     child: Container(
@@ -214,7 +214,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                                         color: kAppColor,
                                       ),
                                       child: Text(
-                                        "-${_unit!.discountPercent()} %",
+                                        "-${widgetUnit!.discountPercent()} %",
                                         style: caption.copyWith(
                                           color: kWhiteColor,
                                           fontWeight: FontWeight.w600,
@@ -245,7 +245,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                                         width: Get.width - 184,
                                         height: 48,
                                         child: Text(
-                                          _name,
+                                          widgetName,
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                           style: subtitle1.copyWith(
@@ -268,19 +268,19 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                                 ),
 
                                 const SizedBox(height: 8),
-                                if(_customerController.isCustomer()) ...[
+                                if(controllerCustomer.isCustomer()) ...[
                                   RichText(
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     text: TextSpan(
-                                      text: _memberPrice,
+                                      text: widgetMemberPrice,
                                       style: headline6.copyWith(
                                         fontFamily: 'Kanit',
                                         color: kAppColor,
                                         fontWeight: FontWeight.w600,
                                       ),
                                       children: [
-                                        if(_unit == null && (widget.model.isDiscounted() || widget.model.isSetSaved())) ...[
+                                        if(widgetUnit == null && (widget.model.isDiscounted() || widget.model.isSetSaved())) ...[
                                           const TextSpan(text: "  "),
                                           TextSpan(
                                             text: widget.model.isSetSaved()
@@ -294,10 +294,10 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                                             ),
                                           ),
                                         ]
-                                        else if(_unit != null && _unit!.isDiscounted()) ...[
+                                        else if(widgetUnit != null && widgetUnit!.isDiscounted()) ...[
                                           const TextSpan(text: "  "),
                                           TextSpan(
-                                            text: _unit!.displayMemberPrice(lController, showSymbol: false, trimDigits: trimDigits),
+                                            text: widgetUnit!.displayMemberPrice(lController, showSymbol: false, trimDigits: trimDigits),
                                             style: subtitle1.copyWith(
                                               fontFamily: 'Kanit',
                                               color: kGrayColor,
@@ -318,14 +318,14 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         text: TextSpan(
-                                          text: _price,
+                                          text: widgetPrice,
                                           style: headline6.copyWith(
                                             fontFamily: 'Kanit',
                                             color: kAppColor,
                                             fontWeight: FontWeight.w600,
                                           ),
                                           children: [
-                                            if(_unit == null && widget.model.isSetSaved()) ...[
+                                            if(widgetUnit == null && widget.model.isSetSaved()) ...[
                                               const TextSpan(text: "  "),
                                               TextSpan(
                                                 text: widget.model.displaySetFullSavedPrice(lController, showSymbol: false, trimDigits: trimDigits),
@@ -340,21 +340,21 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                                           ],
                                         ),
                                       ),
-                                      if(_unit == null && widget.model.signinPrice() < widget.model.priceInVAT && !widget.model.isSetSaved()) ...[
+                                      if(widgetUnit == null && widget.model.signinPrice() < widget.model.priceInVAT && !widget.model.isSetSaved()) ...[
                                         InkWell(
                                           onTap: () => Get.to(() => const SignInMenuScreen()),
                                           child: BadgeDefault(
-                                            title: _memberPrice,
+                                            title: widgetMemberPrice,
                                             icon: FontAwesomeIcons.crown,
                                             size: 15,
                                           ),
                                         ),
                                       ]
-                                      else if(_unit != null && _unit!.signinPrice() < _unit!.priceInVAT && !widget.model.isSetSaved()) ...[
+                                      else if(widgetUnit != null && widgetUnit!.signinPrice() < widgetUnit!.priceInVAT && !widget.model.isSetSaved()) ...[
                                         InkWell(
                                           onTap: () => Get.to(() => const SignInMenuScreen()),
                                           child: BadgeDefault(
-                                            title: _memberPrice,
+                                            title: widgetMemberPrice,
                                             icon: FontAwesomeIcons.crown,
                                             size: 15,
                                           ),
@@ -364,7 +364,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                                   ),
                                 ],
                                 
-                                if(_unit == null) ...[
+                                if(widgetUnit == null) ...[
                                   if(widget.model.isValidDownPayment()) ...[
                                     RichText(
                                       maxLines: 1,
@@ -391,7 +391,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                                   ],
                                 ]
                                 else ...[
-                                  if(_unit!.isValidDownPayment()) ...[
+                                  if(widgetUnit!.isValidDownPayment()) ...[
                                     RichText(
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
@@ -404,7 +404,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                                         ),
                                         children: [
                                           TextSpan(
-                                            text: _unit!.displayDownPayment(lController, trimDigits: trimDigits),
+                                            text: widgetUnit!.displayDownPayment(lController, trimDigits: trimDigits),
                                             style: title.copyWith(
                                               fontFamily: 'Kanit',
                                               color: kAppColor,
@@ -514,7 +514,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
             SizedBox(
               width: double.infinity,
               child: Text(
-                '${lController.getLang("In stock")} $_inStock ${_unit == null? widget.model.unit: _unit?.unit}',
+                '${lController.getLang("In stock")} $_inStock ${widgetUnit == null? widget.model.unit: widgetUnit?.unit}',
                 textAlign: TextAlign.right,
                 style: bodyText1.copyWith(
                   color: kGreenColor,

@@ -9,18 +9,18 @@ class CustomerGroupAddressController extends GetxController {
   final CustomerGroupModel group;
   CustomerGroupAddressController(this.group);
 
-  final AppController _appController = Get.find<AppController>();
+  final AppController controllerApp = Get.find<AppController>();
   bool _enabledCustomerGroup = false;
   bool get enabledCustomerGroup => _enabledCustomerGroup;
   
   final LanguageController _lController = Get.find<LanguageController>();
   LanguageController get lController => _lController;
 
-  List<CustomerShippingAddressModel> _addresses = [];
+  final List<CustomerShippingAddressModel> _addresses = [];
   List<CustomerShippingAddressModel> get addresses => _addresses;
   bool get canUpdateShipping => group.canUpdateShipping == 1;
 
-  List<CustomerBillingAddressModel> _billingAddresses = [];
+  final List<CustomerBillingAddressModel> _billingAddresses = [];
   List<CustomerBillingAddressModel> get billingAddresses => _billingAddresses;
   bool get canUpdateBilling => group.canUpdateBilling == 1;
 
@@ -31,18 +31,18 @@ class CustomerGroupAddressController extends GetxController {
     _onInit();
     super.onInit();
   }
-  @override
-  void onClose() {
-    super.onClose();
-  }
+  // @override
+  // void onClose() {
+  //   super.onClose();
+  // }
 
   Future<void> _onInit() async {
     await Future.wait([
       _getShippingAddresses(),
       _getBillingAddresses(),
-      _appController.getSetting(),
+      controllerApp.getSetting(),
     ]);
-    _enabledCustomerGroup = _appController.enabledCustomerGroup;
+    _enabledCustomerGroup = controllerApp.enabledCustomerGroup;
     isReday = true;
     update();
   }

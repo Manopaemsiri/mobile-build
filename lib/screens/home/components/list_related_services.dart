@@ -7,8 +7,8 @@ import 'package:external_app_launcher/external_app_launcher.dart';
 
 class ListRelatedServices extends StatefulWidget {
   const ListRelatedServices({
-    Key? key
-  }): super(key: key);
+    super.key
+  });
 
   @override
   State<ListRelatedServices> createState() => _ListRelatedServicesState();
@@ -51,16 +51,16 @@ class _ListRelatedServicesState extends State<ListRelatedServices> {
   }
 
   List<Widget> _buildItem(List<Map<String, dynamic>> list) {
-    const _margin = EdgeInsets.all(kHalfGap);
-    const _radius = BorderRadius.all(Radius.circular(kRadius));
+    const margin = EdgeInsets.all(kHalfGap);
+    const radius = BorderRadius.all(Radius.circular(kRadius));
 
     return list.map((item) {
       return Stack(
         children: [
           Container(
-            margin: _margin,
+            margin: margin,
             child: ClipRRect(
-              borderRadius: _radius,
+              borderRadius: radius,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Image.asset(
@@ -73,9 +73,9 @@ class _ListRelatedServicesState extends State<ListRelatedServices> {
           if(item["withFilter"]) ...[
             Positioned.fill(
               child: Container(
-                margin: _margin,
+                margin: margin,
                 decoration: const BoxDecoration(
-                  borderRadius: _radius,
+                  borderRadius: radius,
                   color: Colors.black38,
                 ),
               ),
@@ -93,9 +93,9 @@ class _ListRelatedServicesState extends State<ListRelatedServices> {
             child: Material(
               color: Colors.transparent,
               child: Container(
-                margin: _margin,
+                margin: margin,
                 decoration: const BoxDecoration(
-                  borderRadius: _radius,
+                  borderRadius: radius,
                 ),
                 child: InkWell(
                   onTap: item["onTab"],

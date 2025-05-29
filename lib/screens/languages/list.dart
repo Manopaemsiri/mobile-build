@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LanguagesScreen extends StatefulWidget {
-  const LanguagesScreen({Key? key}) : super(key: key);
+  const LanguagesScreen({super.key});
 
   @override
   State<LanguagesScreen> createState() => _LanguagesScreenState();
@@ -111,8 +111,8 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
                     begin: FractionalOffset.topCenter,
                     end: FractionalOffset.bottomCenter,
                     colors: [
-                      Colors.black.withOpacity(0),
-                      Colors.black.withOpacity(0.5),
+                      Colors.black.withValues(alpha: 0),
+                      Colors.black.withValues(alpha: 0.5),
                     ],
                     stops: const [0.7, 1.0],
                   )
@@ -152,7 +152,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
                                           decoration: BoxDecoration(
                                             boxShadow: [
                                               BoxShadow(
-                                                color: Colors.grey.withOpacity(0.3),
+                                                color: Colors.grey.withValues(alpha: 0.3),
                                                 spreadRadius: 3,
                                                 blurRadius: kGap,
                                                 offset: const Offset(0, 0),

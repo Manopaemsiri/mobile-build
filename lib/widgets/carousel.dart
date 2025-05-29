@@ -11,7 +11,7 @@ import 'package:photo_view/photo_view.dart';
 
 class Carousel extends StatefulWidget {
   const Carousel({
-    Key? key,
+    super.key,
     required this.images,
     this.isShowIndicator = true,
     this.aspectRatio = 16 / 9,
@@ -22,7 +22,7 @@ class Carousel extends StatefulWidget {
     this.pageSnapping = true,
     this.disableCenter = false,
     this.padEnds = true,
-  }) : super(key: key);
+  });
 
   final List<FileModel>? images;
   final bool isShowIndicator;
@@ -41,7 +41,7 @@ class Carousel extends StatefulWidget {
 
 class _CarouselState extends State<Carousel> {
   int _current = 0;
-  final CarouselSliderController _controller = CarouselSliderController();
+  final CarouselSliderController controllerWidget = CarouselSliderController();
   
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class _CarouselState extends State<Carousel> {
             borderRadius: widget.radius,
             child: CarouselSlider(
               items: _buildItem(widget.images, widget.margin),
-              carouselController: _controller,
+              carouselController: controllerWidget,
               options: CarouselOptions(
                 aspectRatio: widget.aspectRatio,
                 viewportFraction: widget.viewportFraction,
@@ -84,7 +84,7 @@ class _CarouselState extends State<Carousel> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: widget.images!.asMap().entries.map((entry) {
               return GestureDetector(
-                onTap: () => _controller.animateToPage(entry.key),
+                onTap: () => controllerWidget.animateToPage(entry.key),
                 child: Container(
                   width: 6.4,
                   height: 6.4,
@@ -97,7 +97,7 @@ class _CarouselState extends State<Carousel> {
                
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: kDarkColor.withOpacity(_current == entry.key ? 0.9 : 0.4),
+                    color: kDarkColor.withValues(alpha: _current == entry.key ? 0.9 : 0.4),
                   ),
                 ),
               );

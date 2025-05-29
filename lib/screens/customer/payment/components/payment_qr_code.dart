@@ -21,10 +21,10 @@
 
 // class PaymentQRCodeScreen extends StatefulWidget {
 //   const PaymentQRCodeScreen({
-//     Key? key,
+//     super.key,
 //     required this.model,
 //     required this.response,
-//   }) : super(key: key);
+//   });
 
 //   final Payment2C2PModel model;
 //   final TransactionResultResponse response;
@@ -35,7 +35,7 @@
 
 // class _PaymentQRCodeScreenState extends State<PaymentQRCodeScreen> {
 //   final LanguageController lController = Get.find<LanguageController>();
-//   final CustomerController _customerController = Get.find<CustomerController>();
+//   final CustomerController controllerCustomer = Get.find<CustomerController>();
 //   bool isLoading = true;
 //   late Payment2C2PModel _model;
 //   late TransactionResultResponse _response;
@@ -107,7 +107,7 @@
 //     return Scaffold(
 //       backgroundColor: kWhiteColor,
 //       appBar: AppBar(
-//         title: Text(_customerController.paymentMethod?.name ?? ''),
+//         title: Text(controllerCustomer.paymentMethod?.name ?? ''),
 //       ),
 //       body: isLoading
 //         ? Center(child: Loading())
@@ -171,7 +171,7 @@
 //                     width: 180,
 //                     height: 2.5*kGap,
 //                     isOutline: true,
-//                     onPressed: () => _generateNewQRCode(_customerController),
+//                     onPressed: () => _generateNewQRCode(controllerCustomer),
 //                   ),
 //                 ],
 //               ),
@@ -191,13 +191,13 @@
 //     );
 //   }
 
-//   void _generateNewQRCode(CustomerController _controller) async {
+//   void _generateNewQRCode(CustomerController controllerWidget) async {
 //     ShowDialog.showForceDialog(
 //       lController.getLang("Request a new QR Code"),
 //       lController.getLang("text_qr_1"),
 //       () {
 //         Get.back();
-//         _paymentQRCode(_controller);
+//         _paymentQRCode(controllerWidget);
 //       },
 //       onCancel: () => Get.back(),
 //       confirmText: lController.getLang("Yes"),
@@ -205,22 +205,22 @@
 //     );
 //   }
 
-//   Future<void> _paymentQRCode(CustomerController _controller) async {
+//   Future<void> _paymentQRCode(CustomerController controllerWidget) async {
 //     _timer!.cancel();
 //     Payment2C2PModel model = await ApiService.customerPayment2C2P(
-//       // amount: _controller.checkoutTotal(),
+//       // amount: controllerWidget.checkoutTotal(),
 //       amount: 1,
-//       shippingAddressId: _controller.shippingAddress?.id ?? '',
-//       shippingFrontend: _controller.shippingMethod?.toJson(),
-//       paymentMethodId: _controller.paymentMethod?.id ?? '',
-//       billingAddressId: _controller.billingAddress?.id ?? '',
-//       shippingCouponFrontend: _controller.discountShipping == null
-//         ? '': _controller.discountShipping?.toJson(),
-//       couponFrontend: _controller.discountProduct == null
-//         ? '': _controller.discountProduct?.toJson(),
-//       cashCouponFrontend: _controller.discountCash == null
-//         ? '': _controller.discountCash?.toJson(),
-//       pointBurn: _controller.discountPoint?.points ?? 0,
+//       shippingAddressId: controllerWidget.shippingAddress?.id ?? '',
+//       shippingFrontend: controllerWidget.shippingMethod?.toJson(),
+//       paymentMethodId: controllerWidget.paymentMethod?.id ?? '',
+//       billingAddressId: controllerWidget.billingAddress?.id ?? '',
+//       shippingCouponFrontend: controllerWidget.discountShipping == null
+//         ? '': controllerWidget.discountShipping?.toJson(),
+//       couponFrontend: controllerWidget.discountProduct == null
+//         ? '': controllerWidget.discountProduct?.toJson(),
+//       cashCouponFrontend: controllerWidget.discountCash == null
+//         ? '': controllerWidget.discountCash?.toJson(),
+//       pointBurn: controllerWidget.discountPoint?.points ?? 0,
 //     );
 
 //     ShowDialog.showLoadingDialog();
@@ -229,8 +229,8 @@
 //       PaymentRequest paymentRequest = QRPaymentBuilder(paymentCode: paymentCode)
 //         .setType(QRTypeCode.url)
 //         // .setName('Sarun Seepun')
-//         // .setEmail(_customerController.customerModel?.email ?? '')
-//         // .setMobileNo(_customerController.customerModel?.telephone ?? '')
+//         // .setEmail(controllerCustomer.customerModel?.email ?? '')
+//         // .setMobileNo(controllerCustomer.customerModel?.telephone ?? '')
 //         .build();
 //       var request = TransactionResultRequestBuilder(
 //         paymentToken: model.paymentToken,

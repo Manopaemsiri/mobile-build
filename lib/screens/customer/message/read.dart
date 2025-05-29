@@ -14,9 +14,9 @@ import 'package:image_picker/image_picker.dart';
 
 class MessageScreen extends StatefulWidget {
   const MessageScreen({
-    Key? key,
+    super.key,
     required this.model
-  }): super(key: key);
+  });
 
   final CustomerChatroomModel model;
 
@@ -26,7 +26,7 @@ class MessageScreen extends StatefulWidget {
 
 class _MessageScreenState extends State<MessageScreen> {
   final LanguageController lController = Get.find<LanguageController>();
-  final FirebaseController _firebaseController = Get.find<FirebaseController>();
+  final FirebaseController controllerFirebase = Get.find<FirebaseController>();
 
   final TextEditingController _textController = TextEditingController();
   FocusNode focusNode = FocusNode();
@@ -39,7 +39,7 @@ class _MessageScreenState extends State<MessageScreen> {
   @override
   void initState() {
     super.initState();
-    _firebaseController.readMessage(widget.model);
+    controllerFirebase.readMessage(widget.model);
   }
 
   @override
@@ -62,7 +62,7 @@ class _MessageScreenState extends State<MessageScreen> {
           children: [
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: _firebaseController.subscribeChatroom(
+                stream: controllerFirebase.subscribeChatroom(
                   widget.model.firebaseChatroomId
                 ),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -71,19 +71,19 @@ class _MessageScreenState extends State<MessageScreen> {
                       titleText: 'No messages',
                     );
                   } else {
-                    List<Map<String, dynamic>> _data = [];
-                    List<dynamic> _list = snapshot.data?.docs ?? [];
-                    int len = _list.length;
+                    List<Map<String, dynamic>> dataModel = [];
+                    List<dynamic> widgetList = snapshot.data?.docs ?? [];
+                    int len = widgetList.length;
                     for(var i=0; i<len; i++){
-                      var _d = _list[i].data();
-                      _data.add({
-                        "text": _d["text"] ?? '',
-                        "images": _d["images"] ?? [],
-                        "sender": _d["sender"] ?? {},
-                        "fromCustomer": _d["fromCustomer"] == null
-                          ? false: _d["fromCustomer"].toString() == 'true',
-                        "createdAt": _d["createdAt"] == null
-                          ? DateTime.now(): DateTime.parse(_d["createdAt"])
+                      var tempData = widgetList[i].data();
+                      dataModel.add({
+                        "text": tempData["text"] ?? '',
+                        "images": tempData["images"] ?? [],
+                        "sender": tempData["sender"] ?? {},
+                        "fromCustomer": tempData["fromCustomer"] == null
+                          ? false: tempData["fromCustomer"].toString() == 'true',
+                        "createdAt": tempData["createdAt"] == null
+                          ? DateTime.now(): DateTime.parse(tempData["createdAt"])
                       });
                     }
 
@@ -95,30 +95,30 @@ class _MessageScreenState extends State<MessageScreen> {
                         reverse: true,
                         controller: _scrollController,
                         padding: EdgeInsets.zero,
-                        itemCount: _data.length,
+                        itemCount: dataModel.length,
                         physics: const BouncingScrollPhysics(),
                         itemBuilder: (context, index) {
-                          Map<String, dynamic> d = _data[index];
-                          bool _showAvatar = true;
-                          bool _showPaddingTop = false;
+                          Map<String, dynamic> d = dataModel[index];
+                          bool showAvatar = true;
+                          bool showPaddingTop = false;
                           if(index > 0){
-                            Map<String, dynamic> n = _data[index-1];
+                            Map<String, dynamic> n = dataModel[index-1];
                             if((d["fromCustomer"] == true && n['fromCustomer'] == false) 
                             || d["fromCustomer"] == true 
                             || (d["fromCustomer"] == false && n['fromCustomer'] == false)){
-                              _showAvatar = false;
+                              showAvatar = false;
                             }
                             if(d["fromCustomer"] != n['fromCustomer']){
-                              _showPaddingTop = true;
+                              showPaddingTop = true;
                               
                             }
                           }
 
                           return MessageChat(
                             model: d,
-                            showAvatar: _showAvatar,
+                            showAvatar: showAvatar,
                             partnerShop: widget.model.partnerShop,
-                            showPaddingTop: _showPaddingTop,
+                            showPaddingTop: showPaddingTop,
                           );
                         },
                       ),
@@ -172,7 +172,7 @@ class _MessageScreenState extends State<MessageScreen> {
                       child: Container(
                         padding: const EdgeInsets.only(left: kGap),
                         decoration: BoxDecoration(
-                          color: kAppColor.withOpacity(0.1),
+                          color: kAppColor.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Row(
@@ -182,7 +182,7 @@ class _MessageScreenState extends State<MessageScreen> {
                                 controller: _textController,
                                 focusNode: focusNode,
                                 decoration: InputDecoration(
-                                  hintText: lController.getLang("Type message")+'...',
+                                  hintText: '${lController.getLang("Type message")}...',
                                   border: InputBorder.none,
                                 ),
                                 enabled: !isSending,
@@ -231,7 +231,7 @@ class _MessageScreenState extends State<MessageScreen> {
       setState((){
         isSending = true;
       });
-      await _firebaseController.sendMessage(
+      await controllerFirebase.sendMessage(
         widget.model,
         text: _textController.text
       );
@@ -248,7 +248,7 @@ class _MessageScreenState extends State<MessageScreen> {
       setState(() => isSending = true);
       final  images = await uploadImages([temp]);
       if(images != null){
-        await _firebaseController.sendMessage(
+        await controllerFirebase.sendMessage(
           widget.model,
           images: images
         );
@@ -259,11 +259,11 @@ class _MessageScreenState extends State<MessageScreen> {
 
   Future<void> onPickImage() async {
     final temp = await imagePicker.pickMultiImage();
-    if(temp != null && !isSending && mounted){
+    if(temp.isNotEmpty && !isSending && mounted){
       setState(() => isSending = true);
       final images = await uploadImages(temp);
       if(images != null){
-        await _firebaseController.sendMessage(
+        await controllerFirebase.sendMessage(
           widget.model,
           images: images
         );

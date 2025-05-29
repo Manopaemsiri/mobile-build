@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 
 class FacebookAppEvents {
-  static const _channel = MethodChannel("com.coffee2u.aroma");
+  static const widgetChannel = MethodChannel("com.coffee2u.aroma");
 
   // See: https://github.com/facebook/facebook-android-sdk/blob/master/facebook-core/src/main/java/com/facebook/appevents/AppEventsConstants.java
   static const eventNameCompletedRegistration =
@@ -34,7 +34,7 @@ class FacebookAppEvents {
   static const paramNameContentId = "fb_content_id";
 
   Future<void> clearUserData() 
-    => _channel.invokeMethod<void>('clearUserData');
+    => widgetChannel.invokeMethod<void>('clearUserData');
 
   Future<void> setUserData({
     String? email,
@@ -61,20 +61,20 @@ class FacebookAppEvents {
       'country': country,
     };
 
-    return _channel.invokeMethod<void>('setUserData', args);
+    return widgetChannel.invokeMethod<void>('setUserData', args);
   }
 
   Future<void> clearUserID() 
-    => _channel.invokeMethod<void>('clearUserID');
+    => widgetChannel.invokeMethod<void>('clearUserID');
 
   Future<void> flush() 
-    => _channel.invokeMethod<void>('flush');
+    => widgetChannel.invokeMethod<void>('flush');
 
   Future<String?> getApplicationId() 
-    => _channel.invokeMethod<String>('getApplicationId');
+    => widgetChannel.invokeMethod<String>('getApplicationId');
 
   Future<String?> getAnonymousId() {
-    return _channel.invokeMethod<String>('getAnonymousId');
+    return widgetChannel.invokeMethod<String>('getAnonymousId');
   }
 
   /// Log an app event with the specified [name] and the supplied [parameters] value.
@@ -92,7 +92,7 @@ class FacebookAppEvents {
       args['parameters'] = _filterOutNulls(parameters);
     }
 
-    return _channel.invokeMethod<void>('logEvent', _filterOutNulls(args));
+    return widgetChannel.invokeMethod<void>('logEvent', _filterOutNulls(args));
   }
 
   static Future<void> logPushNotificationOpen({
@@ -104,11 +104,11 @@ class FacebookAppEvents {
       'action': action,
     };
 
-    return _channel.invokeMethod<void>('logPushNotificationOpen', args);
+    return widgetChannel.invokeMethod<void>('logPushNotificationOpen', args);
   }
 
   Future<void> setUserID(String id) 
-    => _channel.invokeMethod<void>('setUserID', id);
+    => widgetChannel.invokeMethod<void>('setUserID', id);
 
   Future<void> logCompletedRegistration({String? registrationMethod}) 
     => logEvent(
@@ -182,7 +182,7 @@ class FacebookAppEvents {
   }
 
   Future<void> setAutoLogAppEventsEnabled(bool enabled) =>
-    _channel.invokeMethod<void>('setAutoLogAppEventsEnabled', enabled);
+    widgetChannel.invokeMethod<void>('setAutoLogAppEventsEnabled', enabled);
 
   Future<void> setDataProcessingOptions(
     List<String> options, {
@@ -195,7 +195,7 @@ class FacebookAppEvents {
       'state': state,
     };
 
-    return _channel.invokeMethod<void>('setDataProcessingOptions', args);
+    return widgetChannel.invokeMethod<void>('setDataProcessingOptions', args);
   }
 
   Future<void> logPurchase({
@@ -208,7 +208,7 @@ class FacebookAppEvents {
       'currency': currency,
       'parameters': parameters,
     };
-    return _channel.invokeMethod<void>('logPurchase', _filterOutNulls(args));
+    return widgetChannel.invokeMethod<void>('logPurchase', _filterOutNulls(args));
   }
 
   Future<void> logInitiatedCheckout({
@@ -245,7 +245,7 @@ class FacebookAppEvents {
     };
       // case "setAutoLogAppEventsEnabled":
       // case "setAdvertiserTracking":
-    return _channel.invokeMethod<void>('setAdvertiserTracking', args);
+    return widgetChannel.invokeMethod<void>('setAdvertiserTracking', args);
   }
 
   Future<void> logSubscribe({

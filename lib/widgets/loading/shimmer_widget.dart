@@ -4,11 +4,11 @@ import 'package:shimmer/shimmer.dart';
 
 class ShimmerWidget extends StatelessWidget {
   const ShimmerWidget({
-    Key? key,
+    super.key,
     this.width,
     this.height,
     this.borderRadius,
-  }) : super(key: key);
+  });
   final double? width;
   final double? height;
   final BorderRadiusGeometry? borderRadius;

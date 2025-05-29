@@ -174,8 +174,8 @@ class PartnerProductUnitModel {
 
     "discountPrice": discountPrice,
     "discountPriceInVAT": discountPriceInVAT,
-    "discountStartAt": discountStartAt == null? null: discountStartAt!.toIso8601String(),
-    "discountEndAt": discountEndAt == null? null: discountEndAt!.toIso8601String(),
+    "discountStartAt": discountStartAt?.toIso8601String(),
+    "discountEndAt": discountEndAt?.toIso8601String(),
   
     "acceptDownPayment": acceptDownPayment,
     "downPayment": downPayment,

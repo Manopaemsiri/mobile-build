@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 class BadgeCircle extends StatelessWidget {
   const BadgeCircle({
-    Key? key,
+    super.key,
     required this.title,
     this.color,
     this.size = 16,
-  }) : super(key: key);
+  });
 
   final String title;
   final Color? color;
@@ -15,11 +15,11 @@ class BadgeCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color _color = Theme.of(context).primaryColor;
+    Color widgetColor = Theme.of(context).primaryColor;
     return Container(
       padding: EdgeInsets.all(size / 2),
       decoration: BoxDecoration(
-        color: color ?? _color,
+        color: color ?? widgetColor,
         shape: BoxShape.circle,
         border: Border.all(width: 1, color: kWhiteColor),
       ),

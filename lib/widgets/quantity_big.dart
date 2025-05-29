@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 
 class QuantityBig extends StatefulWidget {
   const QuantityBig({
-    Key? key,
+    super.key,
     this.size = 42,
     required this.onChange,
     this.qty = 1,
     this.minimum = 1,
     this.available = true
-  }) : super(key: key);
+  });
   final double size;
   final Function(int, bool) onChange;
   final int qty;
@@ -21,29 +21,29 @@ class QuantityBig extends StatefulWidget {
 }
 
 class _QuantityBigState extends State<QuantityBig> {
-  int _qty = 1;
+  int widgetQty = 1;
 
   void _add() {
-    bool _limit = false;
+    bool widgetLimit = false;
     if(widget.available){
-      setState(() => _qty++);
-      _limit = false;
+      setState(() => widgetQty++);
+      widgetLimit = false;
     }else {
-      _limit = true;
+      widgetLimit = true;
     }
-    widget.onChange(_qty, _limit);
+    widget.onChange(widgetQty, widgetLimit);
   }
 
   void _minus() {
-    if (_qty > widget.minimum) {
-      setState(() => _qty--);
-      widget.onChange(_qty, false);
+    if (widgetQty > widget.minimum) {
+      setState(() => widgetQty--);
+      widget.onChange(widgetQty, false);
     }
   }
 
   @override
   void initState() {
-    setState(() => _qty = widget.qty);
+    setState(() => widgetQty = widget.qty);
     super.initState();
   }
 
@@ -69,7 +69,7 @@ class _QuantityBigState extends State<QuantityBig> {
                   child: Text(
                     '-',
                     style: headline6.copyWith(
-                      color: _qty > widget.minimum
+                      color: widgetQty > widget.minimum
                         ? kDarkColor: kLightColor
                     ),
                     textAlign: TextAlign.center,
@@ -78,7 +78,7 @@ class _QuantityBigState extends State<QuantityBig> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 2, 0, 2),
                   child: Text(
-                    "$_qty",
+                    "$widgetQty",
                     style: headline6,
                     textAlign: TextAlign.center,
                   ),

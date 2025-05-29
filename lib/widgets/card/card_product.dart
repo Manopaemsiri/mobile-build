@@ -13,7 +13,7 @@ import 'package:get/get.dart';
 
 class CardProduct extends StatelessWidget {
   const CardProduct({
-    Key? key,
+    super.key,
     required this.data,
     required this.onTap,
     required this.customerController,
@@ -23,7 +23,7 @@ class CardProduct extends StatelessWidget {
     this.bgColor = kWhiteColor,
     this.trimDigits = true,
     this.enabledBoxShadow = false,
-  }) : super(key: key);
+  });
   final PartnerProductModel data;
   final Function() onTap;
   final CustomerController customerController;
@@ -38,11 +38,6 @@ class CardProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     final imageUrl = data.image?.path ?? '';
     final String name = data.name;
-
-    final String price = data.displayPrice(lController, trimDigits: trimDigits);
-    final String memberPrice = data.isDiscounted() 
-      ? data.displayDiscountPrice(lController, trimDigits: trimDigits): data.displayMemberPrice(lController, trimDigits: trimDigits);
-    final String unit = "/ ${data.unit}";
 
     bool showStock = customerController.isShowStock();
 
@@ -62,23 +57,23 @@ class CardProduct extends StatelessWidget {
       + (kQuarterGap*2)
       + starHeight;
 
-    PartnerProductStatusModel? _status;
+    PartnerProductStatusModel? widgetStatus;
     if(aController.productStatuses.isNotEmpty && data.stock > 0){
       final int index = aController.productStatuses.indexWhere((d) => d.productStatus == data.status && d.type != 1);
-      if(index > -1) _status = aController.productStatuses[index];
+      if(index > -1) widgetStatus = aController.productStatuses[index];
     }
-    _status ??= data.productBadge(lController);
+    widgetStatus ??= data.productBadge(lController);
     final double badgeWidth = cardWidth/4;
 
-    String _price = data.isSetSaved()
+    String widgetPrice = data.isSetSaved()
       ? data.displaySetSavedPrice(lController, trimDigits: trimDigits)
       : data.displayPrice(lController, trimDigits: trimDigits);
-    String _memberPrice = data.isSetSaved()
+    String widgetMemberPrice = data.isSetSaved()
       ? data.displaySetSavedPrice(lController, trimDigits: trimDigits)
       : data.isDiscounted() 
       ? data.displayDiscountPrice(lController, trimDigits: trimDigits)
       : data.displayMemberPrice(lController, trimDigits: trimDigits);
-    String _unit = "/ ${data.unit}";
+    String widgetUnit = "/ ${data.unit}";
 
     return InkWell(
       borderRadius: BorderRadius.circular(kCardRadius),
@@ -91,7 +86,7 @@ class CardProduct extends StatelessWidget {
           borderRadius: BorderRadius.circular(kCardRadius),
           boxShadow: enabledBoxShadow? [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               spreadRadius: 1,
               blurRadius: 10.5,
               offset: const Offset(0, 0),
@@ -126,13 +121,13 @@ class CardProduct extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if(_status != null)...[
-                    if(_status.productStatus == 1)...[
+                  if(widgetStatus != null)...[
+                    if(widgetStatus.productStatus == 1)...[
                       Positioned(
                         top: 0, bottom: 0, left: 0, right: 0,
                         child: Container(
                           padding: const EdgeInsets.all(kQuarterGap),
-                          color: kWhiteColor.withOpacity(0.45),
+                          color: kWhiteColor.withValues(alpha: 0.45),
                           child: Center(
                             child: Text(
                               'Coming\nSoon',
@@ -148,49 +143,49 @@ class CardProduct extends StatelessWidget {
                         ),
                       ),
                     ]else...[
-                      if(_status.type == 1)...[
+                      if(widgetStatus.type == 1)...[
                         Positioned(
                           top: kHalfGap, left: kHalfGap,
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: kQuarterGap),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(4),
-                              color: _status.textBgColor2,
+                              color: widgetStatus.textBgColor2,
                             ),
                             child: Text(
-                              _status.text,
+                              widgetStatus.text,
                               style: caption.copyWith(
-                                color: _status.textColor2,
+                                color: widgetStatus.textColor2,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
                         ),
-                      ]else if(_status.type == 2)...[
+                      ]else if(widgetStatus.type == 2)...[
                         Positioned(
                           top: kHalfGap, left: kHalfGap,
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: kQuarterGap),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(4),
-                              color: _status.textBgColor2,
+                              color: widgetStatus.textBgColor2,
                             ),
                             child: Text(
                               data.isDiscounted()
-                                ? _status.text.replaceAll('_DISCOUNT_PERCENT_', "${data.discountPercent()}")
-                                : _status.text,
+                                ? widgetStatus.text.replaceAll('_DISCOUNT_PERCENT_', "${data.discountPercent()}")
+                                : widgetStatus.text,
                               style: caption.copyWith(
-                                color: _status.textColor2,
+                                color: widgetStatus.textColor2,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
                         ),
-                      ]else if(_status.type == 3)...[
+                      ]else if(widgetStatus.type == 3)...[
                         Positioned(
                           top: kHalfGap, left: kHalfGap,
                           child: ImageProduct(
-                            imageUrl: _status.icon?.path ?? '',
+                            imageUrl: widgetStatus.icon?.path ?? '',
                             width: badgeWidth, 
                             height: badgeWidth,
                             decoration: const BoxDecoration(),
@@ -234,9 +229,9 @@ class CardProduct extends StatelessWidget {
                         softWrap: true,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.start,
-                        textScaleFactor: 1,
+                        textScaler: TextScaler.linear(1),
                         text: TextSpan(
-                          text: _memberPrice,
+                          text: widgetMemberPrice,
                           style: title.copyWith(
                             fontFamily: 'Kanit',
                             color: kAppColor,
@@ -245,7 +240,7 @@ class CardProduct extends StatelessWidget {
                           ),
                           children: [
                             TextSpan(
-                              text: " $_unit  ",
+                              text: " $widgetUnit  ",
                               style: caption.copyWith(
                                 fontFamily: 'Kanit',
                                 color: kDarkColor,
@@ -263,7 +258,7 @@ class CardProduct extends StatelessWidget {
                           maxLines: 1,
                           textAlign: TextAlign.start,
                           style: bodyText2.copyWith(
-                            color: kDarkColor.withOpacity(0.3),
+                            color: kDarkColor.withValues(alpha: 0.3),
                             fontWeight: FontWeight.w400,
                             height: 1.4,
                             decoration: TextDecoration.lineThrough
@@ -276,7 +271,7 @@ class CardProduct extends StatelessWidget {
                           maxLines: 1,
                           textAlign: TextAlign.start,
                           style: bodyText2.copyWith(
-                            color: kDarkColor.withOpacity(0.3),
+                            color: kDarkColor.withValues(alpha: 0.3),
                             fontWeight: FontWeight.w400,
                             height: 1.4,
                             decoration: TextDecoration.lineThrough
@@ -290,9 +285,9 @@ class CardProduct extends StatelessWidget {
                         softWrap: true,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.start,
-                        textScaleFactor: 1,
+                        textScaler: TextScaler.linear(1),
                         text: TextSpan(
-                          text: _price,
+                          text: widgetPrice,
                           style: title.copyWith(
                             fontFamily: 'Kanit',
                             color: kAppColor,
@@ -301,7 +296,7 @@ class CardProduct extends StatelessWidget {
                           ),
                           children: [
                             TextSpan(
-                              text: " $_unit",
+                              text: " $widgetUnit",
                               style: caption.copyWith(
                                 fontFamily: 'Kanit',
                                 color: kDarkColor,
@@ -317,7 +312,7 @@ class CardProduct extends StatelessWidget {
                           maxLines: 1,
                           textAlign: TextAlign.start,
                           style: bodyText2.copyWith(
-                            color: kDarkColor.withOpacity(0.3),
+                            color: kDarkColor.withValues(alpha: 0.3),
                             fontWeight: FontWeight.w400,
                             height: 1.4,
                             decoration: TextDecoration.lineThrough
@@ -338,7 +333,7 @@ class CardProduct extends StatelessWidget {
                               softWrap: true,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.start,
-                              textScaleFactor: 1,
+                              textScaler: TextScaler.linear(1),
                               text: TextSpan(
                                 children: [
                                   WidgetSpan(
@@ -351,7 +346,7 @@ class CardProduct extends StatelessWidget {
                                   ),
                                   const WidgetSpan( child: Gap(gap: kHalfGap) ),
                                   TextSpan(
-                                    text: _memberPrice,
+                                    text: widgetMemberPrice,
                                     style: bodyText2.copyWith(
                                       fontFamily: 'Kanit',
                                       color: kWhiteColor,
@@ -374,7 +369,7 @@ class CardProduct extends StatelessWidget {
                         text: TextSpan(
                           text: lController.getLang("text_shipping"),
                           style: subtitle2.copyWith(
-                            color: stockCenter? kAppColor.withOpacity(0.8): kDarkLightGrayColor.withOpacity(0.6),
+                            color: stockCenter? kAppColor.withValues(alpha: 0.8): kDarkLightGrayColor.withValues(alpha: 0.6),
                             fontWeight: FontWeight.w500,
                             fontFamily: "Kanit",
                           ),
@@ -383,7 +378,7 @@ class CardProduct extends StatelessWidget {
                             TextSpan(
                               text: lController.getLang("text_click_and_collect"),
                               style: subtitle2.copyWith(
-                                color: stockShop? kAppColor.withOpacity(0.8): kDarkLightGrayColor.withOpacity(0.6),
+                                color: stockShop? kAppColor.withValues(alpha: 0.8): kDarkLightGrayColor.withValues(alpha: 0.6),
                                 fontWeight: FontWeight.w500,
                                 fontFamily: "Kanit",
                               ),

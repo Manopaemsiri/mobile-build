@@ -11,8 +11,8 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 class PointRewardsScreen extends StatefulWidget {
   const PointRewardsScreen({
-    Key? key,
-  }): super(key: key);
+    super.key,
+  });
 
   @override
   State<PointRewardsScreen> createState() => _PointRewardsScreenState();
@@ -20,7 +20,7 @@ class PointRewardsScreen extends StatefulWidget {
 
 class _PointRewardsScreenState extends State<PointRewardsScreen> {
   final LanguageController lController = Get.find<LanguageController>();
-  List<CustomerPointModel> _data = [];
+  List<CustomerPointModel> dataModel = [];
 
   int page = 0;
   bool isLoading = false;
@@ -37,7 +37,7 @@ class _PointRewardsScreenState extends State<PointRewardsScreen> {
       page = 0;
       isLoading = false;
       isEnded = false;
-      _data = [];
+      dataModel = [];
     });
     loadData();
   }
@@ -57,12 +57,12 @@ class _PointRewardsScreenState extends State<PointRewardsScreen> {
           var len = value?["result"].length;
           for (var i = 0; i < len; i++) {
             CustomerPointModel model = CustomerPointModel.fromJson(value!["result"][i]);
-            _data.add(model);
+            dataModel.add(model);
           }
 
           setState(() {
-            _data;
-            if (_data.length >= paginateModel.total!) {
+            dataModel;
+            if (dataModel.length >= paginateModel.total!) {
               isEnded = true;
               isLoading = false;
             } else if (value != null) {
@@ -70,7 +70,7 @@ class _PointRewardsScreenState extends State<PointRewardsScreen> {
             }
           });
         });
-      } catch (e) {}
+      } catch(_) {}
     }
   }
 
@@ -116,14 +116,14 @@ class _PointRewardsScreenState extends State<PointRewardsScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  _data.isEmpty
+                  dataModel.isEmpty
                     ? const SizedBox(height: 0)
                     : ListView.builder(
                       shrinkWrap: true,
-                      itemCount: _data.length,
+                      itemCount: dataModel.length,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
-                        CustomerPointModel item = _data[index];
+                        CustomerPointModel item = dataModel[index];
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

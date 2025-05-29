@@ -19,9 +19,9 @@ import '../../partner/subscription/controllers/subscription_checkout_update_cont
 
 class ShippingMethodsScreen extends StatefulWidget {
   const ShippingMethodsScreen({
-    Key? key,
+    super.key,
     this.subscription,
-  }): super(key: key);
+  });
   final int? subscription;
 
   @override
@@ -30,9 +30,9 @@ class ShippingMethodsScreen extends StatefulWidget {
 
 class _ShippingMethodsScreenState extends State<ShippingMethodsScreen> {
   final LanguageController lController = Get.find<LanguageController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
 
-  List<Map<String, dynamic>> _data = [];
+  List<Map<String, dynamic>> dataModel = [];
 
   bool isReady = false;
   bool isClearance = false;
@@ -55,14 +55,14 @@ class _ShippingMethodsScreenState extends State<ShippingMethodsScreen> {
           : '', input: { 'dataFilter': { 'showClickAndCollect': 1, }});
         int len = res?['result'].length ?? 0;
         for (var i = 0; i < len; i++) {
-          _data.add({'shipping': PartnerShippingFrontendModel.fromJson(res?['result'][i]) });
+          dataModel.add({'shipping': PartnerShippingFrontendModel.fromJson(res?['result'][i]) });
         }
         print(">>> Hello Data: $res");
 
-        isClearance = _customerController.cart.products.indexWhere((e) => e.status == 3) > -1? true: false;
+        isClearance = controllerCustomer.cart.products.indexWhere((e) => e.status == 3) > -1? true: false;
         if(mounted){
           setState(() {
-            _data;
+            dataModel;
             isClearance;
             isReady = true;
           });
@@ -71,7 +71,7 @@ class _ShippingMethodsScreenState extends State<ShippingMethodsScreen> {
         if(kDebugMode) print('$e');
         if(mounted){
           setState(() {
-            _data = [];
+            dataModel = [];
             isClearance;
             isReady = true;
           });
@@ -82,13 +82,13 @@ class _ShippingMethodsScreenState extends State<ShippingMethodsScreen> {
         final res = await ApiService.processList('checkout-shipping-methods', input: { 'dataFilter': { 'showClickAndCollect': 1 }});
         int len = res?['result'].length ?? 0;
         for (var i = 0; i < len; i++) {
-          _data.add({'shipping': PartnerShippingFrontendModel.fromJson(res?['result'][i]) });
+          dataModel.add({'shipping': PartnerShippingFrontendModel.fromJson(res?['result'][i]) });
         }
-        if(_customerController.isCustomer()) checkCoupons();
-        isClearance = _customerController.cart.products.indexWhere((e) => e.status == 3) > -1? true: false;
+        if(controllerCustomer.isCustomer()) checkCoupons();
+        isClearance = controllerCustomer.cart.products.indexWhere((e) => e.status == 3) > -1? true: false;
         if(mounted){
           setState(() {
-            _data;
+            dataModel;
             isClearance;
             isReady = true;
           });
@@ -97,7 +97,7 @@ class _ShippingMethodsScreenState extends State<ShippingMethodsScreen> {
         if(kDebugMode) print('$e');
         if(mounted){
           setState(() {
-            _data = [];
+            dataModel = [];
             isClearance;
             isReady = true;
           });
@@ -107,7 +107,7 @@ class _ShippingMethodsScreenState extends State<ShippingMethodsScreen> {
   }
 
   Future<void> checkCoupons() async {
-    final List<Map<String, dynamic>> shippings = _data.where((d) {
+    final List<Map<String, dynamic>> shippings = dataModel.where((d) {
       final temp = d['shipping'] as PartnerShippingFrontendModel;
       return temp.type != 2 && temp.price > 0 && !temp.hasShortages();
     }).toList();
@@ -117,9 +117,9 @@ class _ShippingMethodsScreenState extends State<ShippingMethodsScreen> {
         final length = res?['result'].length ?? 0;
         for (var i = 0; i < length; i++) {
           final k = (res?['result'][i] as Map).keys.first;
-          final index = _data.indexWhere((d) => (d['shipping'] as PartnerShippingFrontendModel).id == k);
+          final index = dataModel.indexWhere((d) => (d['shipping'] as PartnerShippingFrontendModel).id == k);
           if(index > -1) {
-            _data[index]["coupon"] = PartnerShippingCouponModel.fromJson((res?['result'][i] as Map).values.first);
+            dataModel[index]["coupon"] = PartnerShippingCouponModel.fromJson((res?['result'][i] as Map).values.first);
           }
         }
       } catch (e) {
@@ -128,7 +128,7 @@ class _ShippingMethodsScreenState extends State<ShippingMethodsScreen> {
     }
     if(mounted){
       setState(() {
-        _data;
+        dataModel;
         isReady = true;
       });
     }
@@ -145,20 +145,20 @@ class _ShippingMethodsScreenState extends State<ShippingMethodsScreen> {
       ),
       body: !isReady
       ? Loading()
-      : _data.isEmpty
+      : dataModel.isEmpty
         ? NoDataCoffeeMug()
         : ListView(
           shrinkWrap: true,
           padding: EdgeInsets.zero,
           children: [
             ListView.builder(
-              itemCount: _data.length,
+              itemCount: dataModel.length,
               shrinkWrap: true,
               padding: EdgeInsets.zero,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (c, index) {
-                PartnerShippingFrontendModel d = _data[index]['shipping'] as PartnerShippingFrontendModel;
-                PartnerShippingCouponModel? coupon = _data[index]['coupon'] as PartnerShippingCouponModel?;
+                PartnerShippingFrontendModel d = dataModel[index]['shipping'] as PartnerShippingFrontendModel;
+                PartnerShippingCouponModel? coupon = dataModel[index]['coupon'] as PartnerShippingCouponModel?;
 
                 return ShippingItem(
                   model: d,
@@ -191,7 +191,7 @@ class _ShippingMethodsScreenState extends State<ShippingMethodsScreen> {
       onClick = true;
       ShowDialog.showLoadingDialog();
       // Click and Collect
-      _customerController.setDiscountShipping(null, needUpdate: true);
+      controllerCustomer.setDiscountShipping(null, needUpdate: true);
       if(value.type == 2) {
         Get.back();
         onClick = false;
@@ -200,9 +200,9 @@ class _ShippingMethodsScreenState extends State<ShippingMethodsScreen> {
         return;
       }
       if(subscription == null){
-        _customerController.setShippingMethod(value);
-        await AppHelpers.updatePartnerShop(_customerController);
-        if(coupon != null) _customerController.setDiscountShipping(coupon);
+        controllerCustomer.setShippingMethod(value);
+        await AppHelpers.updatePartnerShop(controllerCustomer);
+        if(coupon != null) controllerCustomer.setDiscountShipping(coupon);
         Get.back();
         Get.back();
         return;

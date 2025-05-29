@@ -53,10 +53,10 @@ class CmsCategoryModel {
     "title": title,
     "description": description,
     "url": url,
-    "image": image == null? null: image!.toJson(),
+    "image": image?.toJson(),
     "order": order,
     "status": status,
-    "updatedAt": updatedAt == null? null: updatedAt!.toIso8601String(),
-    "createdAt": createdAt == null? null: createdAt!.toIso8601String(),
+    "updatedAt": updatedAt?.toIso8601String(),
+    "createdAt": createdAt?.toIso8601String(),
   };
 }

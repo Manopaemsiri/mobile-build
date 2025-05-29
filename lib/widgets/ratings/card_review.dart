@@ -9,12 +9,12 @@ import '../../utils/index.dart';
 
 class CardReview extends StatelessWidget {
   const CardReview({
-    Key? key,
+    super.key,
     required this.data,
     this.maxLines,
     this.padding = const EdgeInsets.symmetric(vertical: kGap),
     required this.lController,
-  }) : super(key: key);
+  });
 
   final PartnerProductRatingModel data;
   final int? maxLines;
@@ -130,7 +130,7 @@ class CardReview extends StatelessWidget {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: kHalfGap, vertical: kQuarterGap),
                             decoration: BoxDecoration(
-                              color: kDarkLightColor.withOpacity(0.5),
+                              color: kDarkLightColor.withValues(alpha: 0.5),
                               borderRadius: BorderRadius.circular(kHalfGap - kRadius)
                             ),
                             child: Row(

@@ -8,12 +8,12 @@ import 'package:flutter/material.dart';
 
 class MessageChat extends StatelessWidget {
   const MessageChat({
-    Key? key,
+    super.key,
     required this.model,
     required this.partnerShop,
     this.showAvatar = true,
     this.showPaddingTop = false
-  }) : super(key: key);
+  });
 
   final Map<String, dynamic> model;
   final Map<String, dynamic> partnerShop;
@@ -22,9 +22,9 @@ class MessageChat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool _isSender = model["fromCustomer"] ?? false;
-    String _date = dateFormat(model["createdAt"] ?? DateTime.now(), format: 'dd/MM');
-    String _time = dateFormat(model["createdAt"] ?? DateTime.now(), format: 'kk:mm');
+    bool isSender = model["fromCustomer"] ?? false;
+    String dataDate = dateFormat(model["createdAt"] ?? DateTime.now(), format: 'dd/MM');
+    String dataTime = dateFormat(model["createdAt"] ?? DateTime.now(), format: 'kk:mm');
 
     return Padding(
       padding: EdgeInsets.only(
@@ -36,23 +36,23 @@ class MessageChat extends StatelessWidget {
         children: [
           if(model["images"].isEmpty)...[
             Row(
-              mainAxisAlignment: _isSender
+              mainAxisAlignment: isSender
                 ? MainAxisAlignment.end: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                if(_isSender) ...[
+                if(isSender) ...[
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        _date,
+                        dataDate,
                         style: caption.copyWith(
                           color: kGrayColor,
                           height: 1.2
                         )
                       ),
                       Text(
-                        _time,
+                        dataTime,
                         style: caption.copyWith(
                           color: kGrayColor,
                           height: 1.2
@@ -62,7 +62,7 @@ class MessageChat extends StatelessWidget {
                   ),
                   const Gap(gap: kQuarterGap),
                 ],
-                if(!_isSender) ...[
+                if(!isSender) ...[
                   Opacity(
                     opacity: showAvatar? 1: 0,
                     child: SizedBox(
@@ -78,20 +78,20 @@ class MessageChat extends StatelessWidget {
                 ],
                 MessageText(model: model),
 
-                if(!_isSender) ...[
+                if(!isSender) ...[
                   const Gap(gap: kQuarterGap),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        _date,
+                        dataDate,
                         style: caption.copyWith(
                           color: kGrayColor,
                           height: 1.2
                         )
                       ),
                       Text(
-                        _time,
+                        dataTime,
                         style: caption.copyWith(
                           color: kGrayColor,
                           height: 1.2
@@ -105,23 +105,23 @@ class MessageChat extends StatelessWidget {
           ]else...[
             Row(
               mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: _isSender
+              mainAxisAlignment: isSender
                 ? MainAxisAlignment.end: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                if(_isSender) ...[
+                if(isSender) ...[
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        _date,
+                        dataDate,
                         style: caption.copyWith(
                           color: kGrayColor,
                           height: 1.2
                         )
                       ),
                       Text(
-                        _time,
+                        dataTime,
                         style: caption.copyWith(
                           color: kGrayColor,
                           height: 1.2
@@ -131,7 +131,7 @@ class MessageChat extends StatelessWidget {
                   ),
                   const Gap(gap: kQuarterGap),
                 ],
-                if(!_isSender) ...[
+                if(!isSender) ...[
                   Opacity(
                     opacity: showAvatar? 1: 0,
                     child: SizedBox(
@@ -146,20 +146,20 @@ class MessageChat extends StatelessWidget {
                   const Gap(gap: kHalfGap),
                 ],
                 MessageImage(model: model),
-                if(!_isSender) ...[
+                if(!isSender) ...[
                   const Gap(gap: kQuarterGap),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        _date,
+                        dataDate,
                         style: caption.copyWith(
                           color: kGrayColor,
                           height: 1.2
                         )
                       ),
                       Text(
-                        _time,
+                        dataTime,
                         style: caption.copyWith(
                           color: kGrayColor,
                           height: 1.2

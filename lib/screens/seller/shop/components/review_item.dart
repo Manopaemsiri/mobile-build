@@ -11,18 +11,18 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ReviewItem extends StatelessWidget {
   const ReviewItem({
-    Key? key,
+    super.key,
     required this.model,
-  }) : super(key: key);
+  });
 
   final SellerShopRatingModel model;
 
   @override
   Widget build(BuildContext context) {
-    String _avatar = model.customer?.avatar?.path ?? defaultAvatar;
-    String _name = model.customer == null
+    String widgetAvatar = model.customer?.avatar?.path ?? defaultAvatar;
+    String widgetName = model.customer == null
       ? 'Anonymous Customer': model.customer!.displayName();
-    String _rank = model.customer == null
+    String widgetRank = model.customer == null
       ? 'Welcome Tier'
       : model.customer?.tier?.name ?? 'Welcome Tier';
 
@@ -30,11 +30,11 @@ class ReviewItem extends StatelessWidget {
       children: [
         ListTile(
           leading: ImageProfileCircle(
-            imageUrl: _avatar,
+            imageUrl: widgetAvatar,
             size: 48,
           ),
           title: Text(
-            _name,
+            widgetName,
             style: subtitle1.copyWith(
               color: kAppColor,
               fontFamily: "CenturyGothic",
@@ -53,7 +53,7 @@ class ReviewItem extends StatelessWidget {
                 ),
                 const Gap(gap: kHalfGap),
                 Text(
-                  _rank,
+                  widgetRank,
                   style: subtitle2.copyWith(
                     color: kDarkLightColor,
                     fontWeight: FontWeight.w600

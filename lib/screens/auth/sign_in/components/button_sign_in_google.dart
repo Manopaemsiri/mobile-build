@@ -6,10 +6,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ButtonSignInGoogle extends StatelessWidget {
   const ButtonSignInGoogle({
-    Key? key,
+    super.key,
     this.title = "Signin with Google",
     required this.lController
-  }): super(key: key);
+  });
 
   final String title;
   final LanguageController lController;

@@ -767,9 +767,9 @@ class PartnerProductModel {
         productStatus: status,
         text: "Coming\nSoon",
         textColor: kDarkColor.toString(),
-        textBgColor: kWhiteColor.withOpacity(0.45).toString(),
+        textBgColor: kWhiteColor.withValues(alpha: 0.45).toString(),
         textColor2: kDarkColor,
-        textBgColor2: kWhiteColor.withOpacity(0.45)
+        textBgColor2: kWhiteColor.withValues(alpha: 0.45)
       );
     }
     return null;

@@ -10,13 +10,13 @@ import 'package:get/get.dart';
 
 class CmsProducts extends StatelessWidget {
   const CmsProducts({
-    Key? key,
+    super.key,
     required this.lController,
     required this.appController,
     required this.customerController,
     this.appBarTitle,
     this.products = const [],
-  }) : super(key: key);
+  });
   final LanguageController lController;
   final AppController appController;
   final CustomerController customerController;

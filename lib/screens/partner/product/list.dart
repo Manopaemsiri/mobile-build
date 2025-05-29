@@ -4,7 +4,7 @@ import 'package:coffee2u/controller/customer_controller.dart';
 import 'package:coffee2u/controller/language_controller.dart';
 import 'package:coffee2u/models/index.dart';
 import 'package:coffee2u/screens/customer/shopping_cart/read.dart';
-import 'package:coffee2u/screens/partner/shop/components/product_item.dart';
+// import 'package:coffee2u/screens/partner/shop/components/product_item.dart';
 import 'package:coffee2u/widgets/index.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +15,10 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 class PartnerProductsScreen extends StatefulWidget {
   const PartnerProductsScreen({
-    Key? key,
+    super.key,
     this.appTitle,
     this.dataFilter,
-  }): super(key: key);
+  });
   
   final String? appTitle;
   final Map<String, dynamic>? dataFilter;
@@ -30,8 +30,8 @@ class PartnerProductsScreen extends StatefulWidget {
 class _PartnerProductsScreenState extends State<PartnerProductsScreen> {
   final LanguageController lController = Get.find<LanguageController>();
   final AppController aController = Get.find<AppController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
-  List<PartnerProductModel> _data = [];
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
+  List<PartnerProductModel> dataModel = [];
 
   PartnerShopModel? _partnerShop;
 
@@ -47,8 +47,8 @@ class _PartnerProductsScreenState extends State<PartnerProductsScreen> {
 
   Future<void> _initState() async {
     try {
-      if(_customerController.partnerShop != null && _customerController.partnerShop?.type != 9){
-        final res = await ApiService.processRead("partner-shop", input: { "_id": _customerController.partnerShop?.id });
+      if(controllerCustomer.partnerShop != null && controllerCustomer.partnerShop?.type != 9){
+        final res = await ApiService.processRead("partner-shop", input: { "_id": controllerCustomer.partnerShop?.id });
         _partnerShop = PartnerShopModel.fromJson(res?["result"]);
       }else {
         final res = await ApiService.processRead("partner-shop-center");
@@ -66,7 +66,7 @@ class _PartnerProductsScreenState extends State<PartnerProductsScreen> {
         page = 0;
         isLoading = false;
         isEnded = false;
-        _data = [];
+        dataModel = [];
       });
       loadData();
     }
@@ -78,12 +78,12 @@ class _PartnerProductsScreenState extends State<PartnerProductsScreen> {
         page += 1;
         if(mounted) setState(() => isLoading = true);
         
-        Map<String, dynamic> _dataFilterInput = widget.dataFilter ?? {};
-        _dataFilterInput = Map.from(_dataFilterInput);
-        _dataFilterInput["partnerShopId"] = _partnerShop?.id;
+        Map<String, dynamic> dataFilterInput = widget.dataFilter ?? {};
+        dataFilterInput = Map.from(dataFilterInput);
+        dataFilterInput["partnerShopId"] = _partnerShop?.id;
         
         final res = await ApiService.processList("partner-products", input: {
-          "dataFilter": _dataFilterInput,
+          "dataFilter": dataFilterInput,
           "paginate": {
             "page": page,
             "pp": 26,
@@ -96,12 +96,12 @@ class _PartnerProductsScreenState extends State<PartnerProductsScreen> {
         for (var i = 0; i < len; i++) {
           PartnerProductModel model =
               PartnerProductModel.fromJson(res!["result"][i]);
-          _data.add(model);
+          dataModel.add(model);
         }
         if(mounted){
           setState(() {
-            _data;
-            if (_data.length == paginateModel.total) {
+            dataModel;
+            if (dataModel.length == paginateModel.total) {
               isEnded = true;
               isLoading = false;
             } else if (res != null) {
@@ -140,7 +140,7 @@ class _PartnerProductsScreenState extends State<PartnerProductsScreen> {
           const Gap(gap: kGap),
           Column(
             children: [
-              isEnded && _data.isEmpty
+              isEnded && dataModel.isEmpty
               ? Padding(
                 padding: const EdgeInsets.only(top: kGap),
                 child: NoDataCoffeeMug(),
@@ -148,15 +148,15 @@ class _PartnerProductsScreenState extends State<PartnerProductsScreen> {
               : CardProductGrid(
                 key: const ValueKey<String>("partner-products"),
                 padding: const EdgeInsets.fromLTRB(kGap, 0, kGap, kHalfGap),
-                data: _data,
-                customerController: _customerController,
+                data: dataModel,
+                customerController: controllerCustomer,
                 lController: lController,
                 aController: aController,
                 onTap: (d) => onTap(d.id!),
-                showStock: _customerController.isShowStock(),
+                showStock: controllerCustomer.isShowStock(),
                 trimDigits: true,
               ),
-              if (isEnded && _data.isNotEmpty) ...[
+              if (isEnded && dataModel.isNotEmpty) ...[
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.only(top: kHalfGap, bottom: kGap),
@@ -176,7 +176,7 @@ class _PartnerProductsScreenState extends State<PartnerProductsScreen> {
                   key: const Key('loader-widget'),
                   onVisibilityChanged: onLoadMore,
                   child: ProductGridLoader(
-                    showStock: _customerController.isShowStock(),
+                    showStock: controllerCustomer.isShowStock(),
                     padding: const EdgeInsets.fromLTRB(kGap, 0, kGap, kGap),
                   )
                 ),

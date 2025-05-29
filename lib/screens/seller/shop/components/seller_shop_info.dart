@@ -12,9 +12,9 @@ import 'dart:ui' as ui;
 
 class SellerShopInfo extends StatefulWidget {
   const SellerShopInfo({
-    Key? key,
+    super.key,
     required this.model,
-  }): super(key: key);
+  });
 
   final SellerShopModel model;
 
@@ -25,23 +25,23 @@ class SellerShopInfo extends StatefulWidget {
 class _SellerShopInfoState extends State<SellerShopInfo> {
   final LanguageController lController = Get.find<LanguageController>();
   LatLng? _mapCenter;
-  Set<Marker> _mapMarkers = {};
+  final Set<Marker> _mapMarkers = {};
 
   _initState() async {
     if(widget.model.address != null 
     && widget.model.address?.lat != null 
     && widget.model.address?.lng != null){
-      Uint8List _mapMarkerIcon = await getBytesFromAsset(defaultPin, 100);
-      LatLng _tempCenter = LatLng(
+      Uint8List dataMarkerIcon = await getBytesFromAsset(defaultPin, 100);
+      LatLng dataCenter = LatLng(
         widget.model.address?.lat ?? 0,
         widget.model.address?.lng ?? 0
       );
       setState(() {
-        _mapCenter = _tempCenter;
+        _mapCenter = dataCenter;
         _mapMarkers.add(Marker(
-          position: _tempCenter,
-          markerId: MarkerId(_tempCenter.toString()),
-          icon: BitmapDescriptor.fromBytes(_mapMarkerIcon),
+          position: dataCenter,
+          markerId: MarkerId(dataCenter.toString()),
+          icon: BitmapDescriptor.bytes(dataMarkerIcon),
         ));
       });
     }
@@ -65,8 +65,8 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
 
   @override
   Widget build(BuildContext context) {
-    SellerShopModel _model = widget.model;
-    CustomerShippingAddressModel? address = _model.address;
+    SellerShopModel widgetModel = widget.model;
+    CustomerShippingAddressModel? address = widgetModel.address;
 
     return SafeArea(
       top: false,
@@ -86,7 +86,7 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        _model.name,
+                        widgetModel.name,
                         style: headline6.copyWith(
                           color: kDarkColor,
                           fontWeight: FontWeight.w500,
@@ -139,7 +139,7 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                         ),
                       ),
 
-                      if(_model.priceRange != 0) ...[
+                      if(widgetModel.priceRange != 0) ...[
                         const SizedBox(height: kQuarterGap),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,7 +153,7 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                             ),
                             const SizedBox(width: kQuarterGap),
                             Text(
-                              _model.displayPriceRange(lController),
+                              widgetModel.displayPriceRange(lController),
                               style: subtitle1.copyWith(
                                 color: kDarkLightColor,
                                 fontWeight: FontWeight.w300,
@@ -162,7 +162,7 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                           ],
                         ),
                       ],
-                      if(_model.type != null) ...[
+                      if(widgetModel.type != null) ...[
                         const SizedBox(height: kQuarterGap),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,7 +176,7 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                             ),
                             const SizedBox(width: kQuarterGap),
                             Text(
-                              _model.type!.name,
+                              widgetModel.type!.name,
                               style: subtitle1.copyWith(
                                 color: kDarkLightColor,
                                 fontWeight: FontWeight.w300,
@@ -185,10 +185,10 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                           ],
                         ),
                       ],
-                      if(_model.description != '') ...[
+                      if(widgetModel.description != '') ...[
                         const SizedBox(height: kQuarterGap),
                         Text(
-                          _model.description,
+                          widgetModel.description,
                           style: subtitle1.copyWith(
                             color: kDarkLightColor,
                             fontWeight: FontWeight.w300,
@@ -198,35 +198,35 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                       
                       const SizedBox(height: kOtGap),
                       _checkboxFeature(
-                        _model.capacity != ''
-                          ? '${lController.getLang("Shop capacity")} ${_model.capacity}'
+                        widgetModel.capacity != ''
+                          ? '${lController.getLang("Shop capacity")} ${widgetModel.capacity}'
                           : '${lController.getLang("Shop capacity")} -',
-                        _model.capacity != ''
+                        widgetModel.capacity != ''
                       ),
                       const SizedBox(height: 2),
                       _checkboxFeature(
                         lController.getLang("Has parking space"),
-                        _model.hasParkingSpace == 1
+                        widgetModel.hasParkingSpace == 1
                       ),
                       const SizedBox(height: 2),
                       _checkboxFeature(
                         lController.getLang("Has Wifi"),
-                        _model.hasWifi == 1
+                        widgetModel.hasWifi == 1
                       ),
                       const SizedBox(height: 2),
                       _checkboxFeature(
                         lController.getLang("Accept Credit Cards"),
-                        _model.acceptCreditCards == 1
+                        widgetModel.acceptCreditCards == 1
                       ),
                       const SizedBox(height: 2),
                       _checkboxFeature(
                         lController.getLang("Has Delivery"),
-                        _model.hasDelivery == 1
+                        widgetModel.hasDelivery == 1
                       ),
                       const SizedBox(height: 2),
                       _checkboxFeature(
                         lController.getLang("Aroma Shop Member"),
-                        _model.isAromaShopMember == 1
+                        widgetModel.isAromaShopMember == 1
                       ),
                       
                     ],
@@ -234,8 +234,8 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                 ),
                 const Divider(height: 0.7, thickness: 0.7),
 
-                if(_model.telephones.isNotEmpty || _model.line != '' || _model.facebook != '' 
-                || _model.instagram != '' || _model.website != '') ...[
+                if(widgetModel.telephones.isNotEmpty || widgetModel.line != '' || widgetModel.facebook != '' 
+                || widgetModel.instagram != '' || widgetModel.website != '') ...[
                   Padding(
                     padding: kPadding,
                     child: Column(
@@ -250,7 +250,7 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                         ),
                         const SizedBox(height: kQuarterGap),
 
-                        if(_model.telephones.isNotEmpty) ...[
+                        if(widgetModel.telephones.isNotEmpty) ...[
                           const SizedBox(height: 2),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -264,7 +264,7 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                               ),
                               const SizedBox(width: kQuarterGap),
                               Text(
-                                _model.telephones.join(', '),
+                                widgetModel.telephones.join(', '),
                                 style: subtitle1.copyWith(
                                   color: kDarkLightColor,
                                   fontWeight: FontWeight.w300,
@@ -273,7 +273,7 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                             ],
                           ),
                         ],
-                        if(_model.facebook != '') ...[
+                        if(widgetModel.facebook != '') ...[
                           const SizedBox(height: 2),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -287,7 +287,7 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                               ),
                               const SizedBox(width: kQuarterGap),
                               Text(
-                                _model.facebook,
+                                widgetModel.facebook,
                                 style: subtitle1.copyWith(
                                   color: kDarkLightColor,
                                   fontWeight: FontWeight.w300,
@@ -296,7 +296,7 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                             ],
                           ),
                         ],
-                        if(_model.instagram != '') ...[
+                        if(widgetModel.instagram != '') ...[
                           const SizedBox(height: 2),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -310,7 +310,7 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                               ),
                               const SizedBox(width: kQuarterGap),
                               Text(
-                                _model.instagram,
+                                widgetModel.instagram,
                                 style: subtitle1.copyWith(
                                   color: kDarkLightColor,
                                   fontWeight: FontWeight.w300,
@@ -319,7 +319,7 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                             ],
                           ),
                         ],
-                        if(_model.line != '') ...[
+                        if(widgetModel.line != '') ...[
                           const SizedBox(height: 2),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -333,7 +333,7 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                               ),
                               const SizedBox(width: kQuarterGap),
                               Text(
-                                _model.line,
+                                widgetModel.line,
                                 style: subtitle1.copyWith(
                                   color: kDarkLightColor,
                                   fontWeight: FontWeight.w300,
@@ -342,7 +342,7 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                             ],
                           ),
                         ],
-                        if(_model.website != '') ...[
+                        if(widgetModel.website != '') ...[
                           const SizedBox(height: 2),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -356,7 +356,7 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                               ),
                               const SizedBox(width: kQuarterGap),
                               Text(
-                                _model.website,
+                                widgetModel.website,
                                 style: subtitle1.copyWith(
                                   color: kDarkLightColor,
                                   fontWeight: FontWeight.w300,
@@ -384,7 +384,7 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                         ),
                       ),
                       const SizedBox(height: kQuarterGap),
-                      ..._model.workingHours!.map((WorkingHourModel _d){
+                      ...widgetModel.workingHours!.map((WorkingHourModel dataModel){
                         return Padding(
                           padding: const EdgeInsets.only(top: 2),
                           child: Row(
@@ -393,7 +393,7 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                               SizedBox(
                                 width: 104,
                                 child: Text(
-                                  _d.displayDay(lController),
+                                  dataModel.displayDay(lController),
                                   style: subtitle1.copyWith(
                                     color: kDarkLightColor,
                                     fontWeight: FontWeight.w400,
@@ -403,16 +403,16 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                               SizedBox(
                                 width: 60,
                                 child: Text(
-                                  _d.isOpened == 1? lController.getLang('OPEN'): lController.getLang('CLOSED'),
+                                  dataModel.isOpened == 1? lController.getLang('OPEN'): lController.getLang('CLOSED'),
                                   style: subtitle2.copyWith(
-                                    color: _d.isOpened == 1? kGreenColor: kRedColor,
+                                    color: dataModel.isOpened == 1? kGreenColor: kRedColor,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ),
-                              _d.isOpened == 1
+                              dataModel.isOpened == 1
                                 ? Text(
-                                  '${_d.startTime} - ${_d.endTime}',
+                                  '${dataModel.startTime} - ${dataModel.endTime}',
                                   style: subtitle2.copyWith(
                                     color: kDarkLightColor,
                                     fontWeight: FontWeight.w300,
@@ -422,17 +422,17 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
                             ],
                           ),
                         );
-                      }).toList(),
+                      }),
                     ],
                   ),
                 ),
                 const Divider(height: 0.7, thickness: 0.7),
               
-                if(_model.youtubeVideoId != '') ...[
+                if(widgetModel.youtubeVideoId != '') ...[
                   Padding(
                     padding: kPadding,
                     child: YoutubeView(
-                      youtubeId: _model.youtubeVideoId,
+                      youtubeId: widgetModel.youtubeVideoId,
                       backTo: Get.currentRoute,
                     ),
                   ),
@@ -516,14 +516,14 @@ class _SellerShopInfoState extends State<SellerShopInfo> {
     );
   }
 
-  _onTabMap(double _lat, double _lng) async {
-    bool? _isMapAvailable = await ml.MapLauncher.isMapAvailable(
+  _onTabMap(double dataLat, double dataLng) async {
+    bool? isMapAvailable = await ml.MapLauncher.isMapAvailable(
       ml.MapType.google
     );
-    if(_isMapAvailable != null && _isMapAvailable){
+    if(isMapAvailable != null && isMapAvailable){
       await ml.MapLauncher.showMarker(
         mapType: ml.MapType.google,
-        coords: ml.Coords(_lat, _lng),
+        coords: ml.Coords(dataLat, dataLng),
         title: widget.model.name,
         description: widget.model.description,
       );

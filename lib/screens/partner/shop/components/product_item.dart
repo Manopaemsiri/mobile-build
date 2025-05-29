@@ -11,7 +11,7 @@
 
 // class ProductItem extends StatelessWidget {
 //   const ProductItem({
-//     Key? key,
+//     super.key,
 //     required this.data,
 //     required this.onTap,
 //     required this.onTapAdd,
@@ -19,7 +19,7 @@
 //     required this.aController,
 //     this.trimDigits= false,
 //     required this.showStock,
-//   }): super(key: key);
+//   });
 
 //   final PartnerProductModel data;
 //   final VoidCallback onTap;
@@ -35,24 +35,24 @@
 //     const double imageWidth = 88;
 //     const double badgeWidth = imageWidth/2.5;
 
-//     String _image = data.image?.path ?? '';
-//     String _name = data.name;
-//     String _price = data.isSetSaved()
+//     String widgetImage = data.image?.path ?? '';
+//     String widgetName = data.name;
+//     String widgetPrice = data.isSetSaved()
 //       ? data.displaySetSavedPrice(lController, trimDigits: trimDigits)
 //       : data.displayPrice(lController, trimDigits: trimDigits);
-//     String _memberPrice = data.isSetSaved()
+//     String widgetMemberPrice = data.isSetSaved()
 //       ? data.displaySetSavedPrice(lController, trimDigits: trimDigits)
 //       : data.isDiscounted() 
 //         ? data.displayDiscountPrice(lController, trimDigits: trimDigits)
 //         : data.displayMemberPrice(lController, trimDigits: trimDigits);
-//     String _unit = "/ ${data.unit}";
+//     String widgetUnit = "/ ${data.unit}";
 
-//     PartnerProductStatusModel? _status;
+//     PartnerProductStatusModel? widgetStatus;
 //     if(aController.productStatuses.isNotEmpty && data.stock > 0){
 //       final int index = aController.productStatuses.indexWhere((d) => d.productStatus == data.status && d.type != 1);
-//       if(index > -1) _status = aController.productStatuses[index];
+//       if(index > -1) widgetStatus = aController.productStatuses[index];
 //     }
-//     _status ??= data.productBadge(lController);
+//     widgetStatus ??= data.productBadge(lController);
 
 //     bool stockCenter = data.stockCenter > 0 && data.status != 1;
 //     bool stockShop = data.stock > 0 && data.status != 1;
@@ -71,21 +71,21 @@
 //                     Stack(
 //                       children: [
 //                         ImageProduct(
-//                           imageUrl: _image,
+//                           imageUrl: widgetImage,
 //                           width: imageWidth,
 //                           height: imageWidth,
 //                         ),
 //                         // if(_tag != null) ...[
 //                         //   Positioned(top: 0, left: 0, child: _tag),
 //                         // ],
-//                         if(_status != null)...[
-//                           if(_status.productStatus == 1)...[
+//                         if(widgetStatus != null)...[
+//                           if(widgetStatus.productStatus == 1)...[
 //                             Positioned(
 //                               top: 0, bottom: 0, left: 0, right: 0,
 //                               child: Container(
 //                                 width: imageWidth, height: imageWidth,
 //                                 padding: const EdgeInsets.all(kQuarterGap),
-//                                 color: kWhiteColor.withOpacity(0.45),
+//                                 color: kWhiteColor.withValues(alpha: 0.45),
 //                                 child: Center(
 //                                   child: Text(
 //                                     'Coming\nSoon',
@@ -101,49 +101,49 @@
 //                               ),
 //                             ),
 //                           ]else...[
-//                             if(_status.type == 1)...[
+//                             if(widgetStatus.type == 1)...[
 //                               Positioned(
 //                                 top: 0, left: 0,
 //                                 child: Container(
 //                                   padding: const EdgeInsets.symmetric(horizontal: kQuarterGap),
 //                                   decoration: BoxDecoration(
 //                                     borderRadius: BorderRadius.circular(4),
-//                                     color: _status.textBgColor2,
+//                                     color: widgetStatus.textBgColor2,
 //                                   ),
 //                                   child: Text(
-//                                     _status.text,
+//                                     widgetStatus.text,
 //                                     style: caption.copyWith(
-//                                       color: _status.textColor2,
+//                                       color: widgetStatus.textColor2,
 //                                       fontWeight: FontWeight.w600,
 //                                     ),
 //                                   ),
 //                                 ),
 //                               ),
-//                             ]else if(_status.type == 2)...[
+//                             ]else if(widgetStatus.type == 2)...[
 //                               Positioned(
 //                                 top: 0, left: 0,
 //                                 child: Container(
 //                                   padding: const EdgeInsets.symmetric(horizontal: kQuarterGap),
 //                                   decoration: BoxDecoration(
 //                                     borderRadius: BorderRadius.circular(4),
-//                                     color: _status.textBgColor2,
+//                                     color: widgetStatus.textBgColor2,
 //                                   ),
 //                                   child: Text(
 //                                     data.isDiscounted()
-//                                       ? _status.text.replaceAll('_DISCOUNT_PERCENT_', "${data.discountPercent()}")
-//                                       : _status.text,
+//                                       ? widgetStatus.text.replaceAll('_DISCOUNT_PERCENT_', "${data.discountPercent()}")
+//                                       : widgetStatus.text,
 //                                     style: caption.copyWith(
-//                                       color: _status.textColor2,
+//                                       color: widgetStatus.textColor2,
 //                                       fontWeight: FontWeight.w600,
 //                                     ),
 //                                   ),
 //                                 ),
 //                               ),
-//                             ]else if(_status.type == 3)...[
+//                             ]else if(widgetStatus.type == 3)...[
 //                               Positioned(
 //                                 top: 0, left: 0,
 //                                 child: ImageProduct(
-//                                   imageUrl: _status.icon?.path ?? '',
+//                                   imageUrl: widgetStatus.icon?.path ?? '',
 //                                   width: badgeWidth, 
 //                                   height: badgeWidth,
 //                                   decoration: const BoxDecoration(),
@@ -166,7 +166,7 @@
 //                           SizedBox(
 //                             height: 48,
 //                             child: Text(
-//                               _name,
+//                               widgetName,
 //                               maxLines: 2,
 //                               overflow: TextOverflow.ellipsis,
 //                               style: subtitle1.copyWith(
@@ -181,7 +181,7 @@
 //                               maxLines: 1,
 //                               overflow: TextOverflow.ellipsis,
 //                               text: TextSpan(
-//                                 text: _memberPrice,
+//                                 text: widgetMemberPrice,
 //                                 style: headline6.copyWith(
 //                                   fontFamily: 'Kanit',
 //                                   color: kAppColor,
@@ -189,7 +189,7 @@
 //                                 ),
 //                                 children: [
 //                                   TextSpan(
-//                                     text: " $_unit  ",
+//                                     text: " $widgetUnit  ",
 //                                     style: caption.copyWith(
 //                                       fontFamily: 'Kanit',
 //                                       color: kDarkColor,
@@ -218,7 +218,7 @@
 //                               maxLines: 1,
 //                               overflow: TextOverflow.ellipsis,
 //                               text: TextSpan(
-//                                 text: _price,
+//                                 text: widgetPrice,
 //                                 style: headline6.copyWith(
 //                                   fontFamily: 'Kanit',
 //                                   color: kAppColor,
@@ -226,7 +226,7 @@
 //                                 ),
 //                                 children: [
 //                                   TextSpan(
-//                                     text: " $_unit",
+//                                     text: " $widgetUnit",
 //                                     style: caption.copyWith(
 //                                       fontFamily: 'Kanit',
 //                                       color: kDarkColor,
@@ -263,7 +263,7 @@
 //                                   InkWell(
 //                                     onTap: () => Get.to(() => const SignInMenuScreen()),
 //                                     child: BadgeDefault(
-//                                       title: _memberPrice,
+//                                       title: widgetMemberPrice,
 //                                       icon: FontAwesomeIcons.crown,
 //                                       size: 15,
 //                                     ),
@@ -283,7 +283,7 @@
 //                               text: TextSpan(
 //                                 text: lController.getLang("text_shipping"),
 //                                 style: subtitle2.copyWith(
-//                                   color: stockCenter? kAppColor.withOpacity(0.8): kDarkLightGrayColor.withOpacity(0.6),
+//                                   color: stockCenter? kAppColor.withValues(alpha: 0.8): kDarkLightGrayColor.withValues(alpha: 0.6),
 //                                   fontWeight: FontWeight.w500,
 //                                   fontFamily: "Kanit",
 //                                 ),
@@ -292,7 +292,7 @@
 //                                   TextSpan(
 //                                     text: lController.getLang("text_click_and_collect"),
 //                                     style: subtitle2.copyWith(
-//                                       color: stockShop? kAppColor.withOpacity(0.8): kDarkLightGrayColor.withOpacity(0.6),
+//                                       color: stockShop? kAppColor.withValues(alpha: 0.8): kDarkLightGrayColor.withValues(alpha: 0.6),
 //                                       fontWeight: FontWeight.w500,
 //                                       fontFamily: "Kanit",
 //                                     ),

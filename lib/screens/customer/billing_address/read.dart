@@ -25,10 +25,10 @@ import 'package:get/get.dart';
 
 class BillingAddressScreen extends StatefulWidget {
   const BillingAddressScreen({
-    Key? key,
+    super.key,
     this.addressModel,
     this.isEditMode = false,
-  }): super(key: key);
+  });
 
   final bool isEditMode;
   final CustomerBillingAddressModel? addressModel;
@@ -39,7 +39,7 @@ class BillingAddressScreen extends StatefulWidget {
 
 class _BillingAddressScreenState extends State<BillingAddressScreen> {
   final LanguageController lController = Get.find<LanguageController>();
-  final CustomerController _customerController = Get.find<CustomerController>();
+  final CustomerController controllerCustomer = Get.find<CustomerController>();
   late CustomerShippingAddressModel? shippingAddress;
 
   bool isLoading = true;
@@ -87,18 +87,18 @@ class _BillingAddressScreenState extends State<BillingAddressScreen> {
   SubdistrictModel? subdistrictModel;
   
   _initState() async {
-    CustomerModel? _customer = _customerController.customerModel;
-    CustomerShippingAddressModel? _shippingAddress = _customerController.shippingAddress;
+    CustomerModel? customer = controllerCustomer.customerModel;
+    CustomerShippingAddressModel? shAddress = controllerCustomer.shippingAddress;
 
-    CustomerBillingAddressModel _model = widget.addressModel 
+    CustomerBillingAddressModel dataModel = widget.addressModel 
       ?? CustomerBillingAddressModel(
-        billingName: _customer?.displayName() ?? '',
-        telephone: _customer?.telephone?.replaceAll('+66', '0') ?? '',
+        billingName: customer?.displayName() ?? '',
+        telephone: customer?.telephone?.replaceAll('+66', '0') ?? '',
         sameAsShipping: 1
       );
     setState(() {
-      model = _model;
-      shippingAddress = _shippingAddress;
+      model = dataModel;
+      shippingAddress = shAddress;
     });
 
     setState(() {
@@ -118,14 +118,14 @@ class _BillingAddressScreenState extends State<BillingAddressScreen> {
       _sameAsShipping = model.sameAsShipping;
     });
     if(!widget.isEditMode && model.sameAsShipping == 1){
-      if(_shippingAddress != null && _shippingAddress.isValidAddress()){
+      if(shAddress != null && shAddress.isValidAddress()){
         setState(() {
-          _cAddress.text = _shippingAddress.address;
-          _cSubdistrict.text = _shippingAddress.subdistrict?.name ?? '';
-          _cDistrict.text = _shippingAddress.district?.name ?? '';
-          _cProvince.text = _shippingAddress.province?.name ?? '';
-          _cCountry.text = _shippingAddress.country?.name ?? '';
-          _cZipcode.text = _shippingAddress.zipcode;
+          _cAddress.text = shAddress.address;
+          _cSubdistrict.text = shAddress.subdistrict?.name ?? '';
+          _cDistrict.text = shAddress.district?.name ?? '';
+          _cProvince.text = shAddress.province?.name ?? '';
+          _cCountry.text = shAddress.country?.name ?? '';
+          _cZipcode.text = shAddress.zipcode;
 
           model.country = shippingAddress?.country;
           model.province = shippingAddress?.province;
@@ -133,7 +133,7 @@ class _BillingAddressScreenState extends State<BillingAddressScreen> {
           model.subdistrict = shippingAddress?.subdistrict;
           model.zipcode = shippingAddress?.zipcode ?? '';
 
-          _cSameAddress.text = _shippingAddress.displayAddress(lController, sep: '\n');
+          _cSameAddress.text = shAddress.displayAddress(lController, sep: '\n');
         });
       }
     }
@@ -150,8 +150,8 @@ class _BillingAddressScreenState extends State<BillingAddressScreen> {
     super.initState();
   }
 
-  void _setData(bool _same) {
-    if(_same && !widget.isEditMode && shippingAddress != null && shippingAddress!.isValidAddress()){
+  void _setData(bool isSame) {
+    if(isSame && !widget.isEditMode && shippingAddress != null && shippingAddress!.isValidAddress()){
       setState(() {
         _cAddress.text = shippingAddress?.address ?? '';
         _cCountry.text = shippingAddress?.country?.name ?? '';
@@ -517,7 +517,7 @@ class _BillingAddressScreenState extends State<BillingAddressScreen> {
         shippingAddress = CustomerBillingAddressModel.fromJson(value?['result']);
       }
     });
-    await _customerController.updateBillingAddress(shippingAddress);
+    await controllerCustomer.updateBillingAddress(shippingAddress);
   }
 
   void _onTapSave() async {
@@ -546,7 +546,7 @@ class _BillingAddressScreenState extends State<BillingAddressScreen> {
         }
       }
       if (widget.isEditMode) {
-        // temp.id = _customerController.billingAddress?.id;
+        // temp.id = controllerCustomer.billingAddress?.id;
         temp.id = model.id;
         var res = await ApiService.processUpdate('billing-address',
             input: {"address": temp}, needLoading: true);

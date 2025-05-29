@@ -10,12 +10,12 @@ import '../controller/received_coupons_controller.dart';
 
 class ReceivedCoupons extends StatelessWidget {
   const ReceivedCoupons({
-    Key? key,
+    super.key,
     required this.data,
     required this.onTap,
     required this.lController,
     this.isCOD = false,
-  }) : super(key: key);
+  });
   final List<PartnerProductCouponLogModel> data;
   final Function(String) onTap;
   final LanguageController lController;
@@ -32,18 +32,18 @@ class ReceivedCoupons extends StatelessWidget {
           children: [
             LayoutBuilder(
               builder: (buildContext, constraints) {
-                double _cardHeight = (kHalfGap*2) + kQuarterGap + (bodyText2.fontSize!*2*1.4);
-                double _cardWidth = constraints.maxWidth;
-                double _aspectratio = _cardWidth/_cardHeight;
+                double cardHeight = (kHalfGap*2) + kQuarterGap + (bodyText2.fontSize!*2*1.4);
+                double cardWidth = constraints.maxWidth;
+                double aspectratio = cardWidth/cardHeight;
 
                 return CarouselSlider.builder(
                   carouselController: controller.pageController,
                   itemBuilder: (BuildContext context, int index, int realIndex) =>
-                    _body(controller.data[index], onTap),
+                    widgetBody(controller.data[index], onTap),
                   itemCount: controller.data.length,
                   options: CarouselOptions(
                     autoPlay: false,
-                    aspectRatio: _aspectratio,
+                    aspectRatio: aspectratio,
                     viewportFraction: 1,
                     enableInfiniteScroll: controller.data.length > 1,
                     onPageChanged: (index, reason) => controller.onPageChanged(index),
@@ -92,7 +92,7 @@ class ReceivedCoupons extends StatelessWidget {
     );
   }
 
-  Widget _body(PartnerProductCouponLogModel item, Function(String)? onTapValue) {
+  Widget widgetBody(PartnerProductCouponLogModel item, Function(String)? onTapValue) {
     final coupon = item.coupon;
     if(coupon == null) return const SizedBox.shrink();
 
@@ -108,7 +108,7 @@ class ReceivedCoupons extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         // margin: const EdgeInsets.symmetric(horizontal: kGap),
         decoration: BoxDecoration(
-          color: kAppColor.withOpacity(0.1),
+          color: kAppColor.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(kRadius)
         ),
         child: IntrinsicHeight(
@@ -147,7 +147,7 @@ class ReceivedCoupons extends StatelessWidget {
                           '$name\n\n',
                           maxLines: 1,
                           style: bodyText2.copyWith(
-                            color: kAppColor.withOpacity(0.7),
+                            color: kAppColor.withValues(alpha: 0.7),
                             fontWeight: FontWeight.w400
                           ),
                         ),

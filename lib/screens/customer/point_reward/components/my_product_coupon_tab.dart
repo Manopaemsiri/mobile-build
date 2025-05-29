@@ -13,9 +13,9 @@ import '../../my_product_coupon/my_product_coupon_screen.dart';
 
 class MyProductCouponTab extends StatefulWidget {
   const MyProductCouponTab({
-    Key? key,
+    super.key,
     this.isCashCoupon = false,
-  }): super(key: key);
+  });
 
   final bool isCashCoupon;
 
@@ -25,7 +25,7 @@ class MyProductCouponTab extends StatefulWidget {
 
 class _MyProductCouponTabState extends State<MyProductCouponTab> {
   final LanguageController _lController = Get.find<LanguageController>();
-  List<PartnerProductCouponLogModel> _data = [];
+  List<PartnerProductCouponLogModel> dataModel = [];
 
   int page = 0;
   bool isLoading = false;
@@ -43,7 +43,7 @@ class _MyProductCouponTabState extends State<MyProductCouponTab> {
         page = 0;
         isLoading = false;
         isEnded = false;
-        _data = [];
+        dataModel = [];
       });
     }
     loadData();
@@ -70,13 +70,13 @@ class _MyProductCouponTabState extends State<MyProductCouponTab> {
         for (var i = 0; i < len; i++) {
           PartnerProductCouponLogModel model = 
             PartnerProductCouponLogModel.fromJson(res!["result"][i]);
-          _data.add(model);
+          dataModel.add(model);
         }
 
         if(mounted){
           setState(() {
-            _data;
-            if (_data.length >= paginateModel.total!) {
+            dataModel;
+            if (dataModel.length >= paginateModel.total!) {
               isEnded = true;
               isLoading = false;
             } else if (res != null) {
@@ -88,7 +88,7 @@ class _MyProductCouponTabState extends State<MyProductCouponTab> {
         if(kDebugMode) print('$e');
         if(mounted){
           setState(() {
-            _data = [];
+            dataModel = [];
             isEnded = true;
             isLoading = false;
           });
@@ -117,7 +117,7 @@ class _MyProductCouponTabState extends State<MyProductCouponTab> {
       color: kAppColor,
       child: SingleChildScrollView(
         padding: kPadding,
-        child: isEnded && _data.isEmpty
+        child: isEnded && dataModel.isEmpty
           ? SizedBox(
             height: MediaQuery.of(context).size.height * 0.6,
             child: Center(
@@ -128,15 +128,15 @@ class _MyProductCouponTabState extends State<MyProductCouponTab> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _data.isEmpty
+              dataModel.isEmpty
               ? const SizedBox(height: 0)
               : ListView.builder(
                 shrinkWrap: true,
-                itemCount: _data.length,
+                itemCount: dataModel.length,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
-                  PartnerProductCouponLogModel item = _data[index];
-                  PartnerProductCouponModel coupon = _data[index].coupon!;
+                  PartnerProductCouponLogModel item = dataModel[index];
+                  PartnerProductCouponModel coupon = dataModel[index].coupon!;
                   
                   return CardProductCoupon2(
                     model: coupon,

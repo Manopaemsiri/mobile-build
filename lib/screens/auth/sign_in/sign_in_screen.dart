@@ -12,9 +12,9 @@ import 'package:get/get.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({
-    Key? key,
+    super.key,
     this.isFirstState = false,
-  }) : super(key: key);
+  });
   final bool isFirstState;
 
   @override
@@ -47,12 +47,12 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double _appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
-    double _width = MediaQuery.of(context).size.width;
-    double _logoWidth = MediaQuery.of(context).size.shortestSide < 600
-      ? _width / 5.5
+    double appBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
+    double widgetWidth = MediaQuery.of(context).size.width;
+    double widgetLogoWidth = MediaQuery.of(context).size.shortestSide < 600
+      ? widgetWidth / 5.5
       : MediaQuery.of(context).size.width/8;
-    double _hRatio = 0.27;
+    double ratioHeight = 0.27;
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -63,7 +63,7 @@ class _SignInScreenState extends State<SignInScreen> {
             Align(
               alignment: Alignment.topCenter,
               child: Container(
-                height: Get.height * _hRatio,
+                height: Get.height * ratioHeight,
                 width: Get.width,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
@@ -78,8 +78,8 @@ class _SignInScreenState extends State<SignInScreen> {
                         children: [
                           Image.asset(
                             'assets/images/logo-app-white.png',
-                            width: _logoWidth,
-                            height: _logoWidth,
+                            width: widgetLogoWidth,
+                            height: widgetLogoWidth,
                           ),
                           // const Gap(gap: kHalfGap),
                           // Text(
@@ -102,7 +102,7 @@ class _SignInScreenState extends State<SignInScreen> {
               right: 0,
               top: 0,
               child: SizedBox(
-                height: _appBarHeight,
+                height: appBarHeight,
                 width: double.infinity,
                 child: AppBar(
                   systemOverlayStyle: const SystemUiOverlayStyle(
@@ -118,7 +118,7 @@ class _SignInScreenState extends State<SignInScreen> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                height: Get.height * (1.05 - _hRatio),
+                height: Get.height * (1.05 - ratioHeight),
                 width: Get.width,
                 decoration: const BoxDecoration(
                   color: kWhiteColor,
@@ -215,11 +215,11 @@ class _SignInScreenState extends State<SignInScreen> {
                             height: 20,
                             child: TextButton(
                               onPressed: () => Get.to(() => const ForgotPasswordScreen()),
-                              child: Text(
-                                lController.getLang("Forgot Password")
-                              ),
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,
+                              ),
+                              child: Text(
+                                lController.getLang("Forgot Password")
                               ),
                             ),
                           ),
@@ -239,8 +239,8 @@ class _SignInScreenState extends State<SignInScreen> {
   Future<void> _onPressSignIn() async {
     if (_formKey.currentState!.validate()) {
       FocusManager.instance.primaryFocus?.unfocus();
-      CustomerController _customerController = Get.find<CustomerController>();
-      final guestId = _customerController.customerModel?.id;
+      CustomerController controllerCustomer = Get.find<CustomerController>();
+      final guestId = controllerCustomer.customerModel?.id;
       await ApiService.authSignin(input: {
         "guestId": guestId,
         "username": _cEmail.text,

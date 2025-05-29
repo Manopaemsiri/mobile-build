@@ -78,9 +78,9 @@
 
 // class PaymentCreditCardScreen extends StatefulWidget {
 //   const PaymentCreditCardScreen({
-//     Key? key,
+//     super.key,
 //     required this.model,
-//   }): super(key: key);
+//   });
 
 //   final Payment2C2PModel model;
 
@@ -90,7 +90,7 @@
 
 // class _PaymentCreditCardScreenState extends State<PaymentCreditCardScreen> {
 //   final LanguageController lController = Get.find<LanguageController>();
-//   final CustomerController _customerController = Get.find<CustomerController>();
+//   final CustomerController controllerCustomer = Get.find<CustomerController>();
 //   Widget? _cardIcon;
 
 //   // Form Key
@@ -109,8 +109,8 @@
 //   final FocusNode _fExpired = FocusNode();
 
 //   bool _isValid() {
-//     return _customerController.paymentMethod != null 
-//       && _customerController.paymentMethod!.isValid() 
+//     return controllerCustomer.paymentMethod != null 
+//       && controllerCustomer.paymentMethod!.isValid() 
 //       && _cNumber.text != '' && _cName.text != '' && _cCvv.text != '' 
 //       && _cExpired.text != '' && _cExpired.text.length == 5;
 //   }
@@ -199,7 +199,7 @@
 //     return Scaffold(
 //       backgroundColor: kWhiteColor,
 //       appBar: AppBar(
-//         title: Text(_customerController.paymentMethod?.name ?? ''),
+//         title: Text(controllerCustomer.paymentMethod?.name ?? ''),
 //       ),
 //       body: !widget.model.isValid() 
 //         ? Center(child: NoDataCoffeeMug())
@@ -336,7 +336,7 @@
 //           .setSecurityCode(_cCvv.text)
 //           .setExpiryMonth(int.parse(_expired[0]))
 //           .setExpiryYear(int.parse(_expired[1]) + 2000)
-//           .setEmail(_customerController.customerModel?.email ?? '')
+//           .setEmail(controllerCustomer.customerModel?.email ?? '')
 //           .build();
 //         var request = TransactionResultRequestBuilder(
 //           paymentToken: widget.model.paymentToken,

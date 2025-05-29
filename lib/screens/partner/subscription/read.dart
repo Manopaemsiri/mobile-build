@@ -17,11 +17,11 @@ import 'widgets/card_package_product.dart';
 
 class PartnerProductSubscriptionScreen extends StatelessWidget {
   const PartnerProductSubscriptionScreen({
-    Key? key,
+    super.key,
     required this.id,
     this.subscribeButton = true,
     required this.lController,
-  }) : super(key: key);
+  });
   final String id;
   final bool subscribeButton;
   final LanguageController lController;
@@ -35,7 +35,7 @@ class PartnerProductSubscriptionScreen extends StatelessWidget {
 
         Widget body = Center(child: Loading());
         if(controller.stateStatus == 1){
-          body = _body(controller.data);
+          body = widgetBody(controller.data);
         }else if(controller.stateStatus == 2){
           body = NoData();
         }else if(controller.stateStatus == 3){
@@ -62,14 +62,14 @@ class PartnerProductSubscriptionScreen extends StatelessWidget {
     );
   }
 
-  Widget _body(PartnerProductSubscriptionModel? data) {
+  Widget widgetBody(PartnerProductSubscriptionModel? data) {
     if(!data?.isValid()) return const SizedBox.shrink();
     final String name = data?.name ?? '';
     final String description = data?.description ?? '';
     final String content = data?.content ?? '';
-    List<FileModel> _gallery = [];
-    if(data?.image?.isValid() == true) _gallery.insert(0, data!.image!);
-    if(data?.gallery?.isNotEmpty == true) _gallery.addAll(data!.gallery!);
+    List<FileModel> widgetGallery = [];
+    if(data?.image?.isValid() == true) widgetGallery.insert(0, data!.image!);
+    if(data?.gallery?.isNotEmpty == true) widgetGallery.addAll(data!.gallery!);
 
     final String priceInVAT = priceFormat(data!.priceInVAT, lController, trimDigits: true);
     final String discountPriceInVAT = priceFormat(data.discountPriceInVAT, lController, trimDigits: true);
@@ -80,14 +80,14 @@ class PartnerProductSubscriptionScreen extends StatelessWidget {
       .replaceFirst('_VALUE_', '${data.recurringCount}')
       .replaceFirst('_VALUE2_', data.displayRecurringTypeName(lController));
 
-    List<PartnerProductModel> _packageProducts = data.packageProducts;
+    List<PartnerProductModel> dataProducts = data.packageProducts;
 
     return ListView(
       children: [
-        if(_gallery.isNotEmpty)...[
+        if(widgetGallery.isNotEmpty)...[
           const Gap(),
           CarouselGallery(
-            data: _gallery,
+            data: widgetGallery,
             viewportFraction: 1,
           ),
           const Gap(gap: kHalfGap),
@@ -137,7 +137,7 @@ class PartnerProductSubscriptionScreen extends StatelessWidget {
                           TextSpan(
                             text: discountPrice,
                             style: subtitle2.copyWith(
-                              color: kDarkColor.withOpacity(0.4),
+                              color: kDarkColor.withValues(alpha: 0.4),
                               fontFamily: 'Kanit',
                               decoration: TextDecoration.lineThrough,
                               fontWeight: FontWeight.w400,
@@ -183,7 +183,7 @@ class PartnerProductSubscriptionScreen extends StatelessWidget {
         ],
         
 
-        if(_packageProducts.isNotEmpty) ...[
+        if(dataProducts.isNotEmpty) ...[
           const Gap(gap: kHalfGap),
           SectionTitle(
             titleText: lController.getLang('Related Products'),
@@ -191,7 +191,7 @@ class PartnerProductSubscriptionScreen extends StatelessWidget {
           CardPackageProduct(
             key: const ValueKey<String>('package-products'),
             padding: const EdgeInsets.fromLTRB(kGap, 0, kGap, 0),
-            data: _packageProducts,
+            data: dataProducts,
             customerController: Get.find<CustomerController>(),
             lController: lController,
             aController: Get.find<AppController>(),

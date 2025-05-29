@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 
 class CardPackageProduct extends StatelessWidget {
   const CardPackageProduct({
-    Key? key,
+    super.key,
     required this.data,
     required this.onTap,
     required this.customerController,
@@ -21,7 +21,7 @@ class CardPackageProduct extends StatelessWidget {
     this.enabledBoxShadow = false,
     this.padding = const EdgeInsets.fromLTRB(kGap, kGap, kGap, 0),
     this.showFavorited = false,
-  }) : super(key: key);
+  });
   final List<PartnerProductModel> data;
   final Function(PartnerProductModel) onTap;
   final CustomerController customerController;
@@ -80,7 +80,7 @@ class CardPackageProduct extends StatelessWidget {
                   borderRadius: BorderRadius.circular(kCardRadius),
                   boxShadow: enabledBoxShadow? [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withValues(alpha: 0.1),
                       spreadRadius: 1,
                       blurRadius: 10.5,
                       offset: const Offset(0, 0),

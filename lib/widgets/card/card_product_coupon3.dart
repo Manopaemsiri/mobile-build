@@ -11,10 +11,10 @@ import 'package:get/get.dart';
 
 class CardProductCoupon3 extends StatelessWidget {
   CardProductCoupon3({
-    Key? key,
+    super.key,
     required this.model,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final PartnerProductCouponModel model;
   final VoidCallback onPressed;
@@ -22,9 +22,9 @@ class CardProductCoupon3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _image = model.image?.path ?? "";
-    String _title = model.name;
-    String _body = model.shortDescription;
+    String widgetImage = model.image?.path ?? "";
+    String widgetTitle = model.name;
+    String widgetBody = model.shortDescription;
 
     return IgnorePointer(
       ignoring: model.availability != 99,
@@ -47,7 +47,7 @@ class CardProductCoupon3 extends StatelessWidget {
                       height: 118,
                       width: 118,
                       child: ImageUrl(
-                        imageUrl: _image,
+                        imageUrl: widgetImage,
                         borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(4),
                           bottomLeft: Radius.circular(4),
@@ -58,7 +58,7 @@ class CardProductCoupon3 extends StatelessWidget {
                       Positioned(
                         top: 0, bottom: 0, left: 0, right: 0,
                         child: Container(
-                          color: kWhiteColor.withOpacity(0.45),
+                          color: kWhiteColor.withValues(alpha: 0.45),
                         ),
                       ),
                     ],
@@ -97,7 +97,7 @@ class CardProductCoupon3 extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                _title,
+                                widgetTitle,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: subtitle1.copyWith(
@@ -109,7 +109,7 @@ class CardProductCoupon3 extends StatelessWidget {
                               SizedBox(
                                 height: 36,
                                 child: Text(
-                                _body,
+                                widgetBody,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: bodyText2.copyWith(

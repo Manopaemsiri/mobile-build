@@ -14,7 +14,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:photo_view/photo_view.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -22,7 +22,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final LanguageController lController = Get.find<LanguageController>();
-  final AppController _appController = Get.find<AppController>();
+  final AppController controllerApp = Get.find<AppController>();
   late final CustomerController customerController = Get.find<CustomerController>();
   
   // Form Key
@@ -50,7 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
   }
   Future<void> _initState() async {
-    await _appController.getSetting();
+    await controllerApp.getSetting();
     path = customerController.customerModel?.avatar?.path ?? '';
     _cFirstname.text = customerController.customerModel?.firstname ?? '';
     _cLastname.text = customerController.customerModel?.lastname ?? '';
@@ -157,10 +157,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         right: 0,
                         child: GestureDetector(
                           onTap: () async {
-                            final _file = await picker.pickImage(source: ImageSource.gallery);
-                            if(_file != null){
+                            final dataFile = await picker.pickImage(source: ImageSource.gallery);
+                            if(dataFile != null){
                               setState((){
-                                imageFile = _file;
+                                imageFile = dataFile;
                                 isPicked = true;
                               });
                             }
@@ -251,7 +251,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     enabled: false,
                   ),
 
-                  if(_appController.enabledCustomerGroup && _cCustomerType.text.isNotEmpty)...[
+                  if(controllerApp.enabledCustomerGroup && _cCustomerType.text.isNotEmpty)...[
                     const SizedBox(height: kGap),
                     LabelText(
                       text: lController.getLang("Customer Type"),
@@ -304,35 +304,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void _onSubmit(CustomerController _controller) async {
-    FileModel? _avatar;
+  void _onSubmit(CustomerController controllerWidget) async {
+    FileModel? widgetAvatar;
     if(isPicked){
-      FileModel _file = await ApiService.uploadFile(
+      FileModel dataFile = await ApiService.uploadFile(
         imageFile,
         needLoading: true,
         folder: 'avatars',
         resize: 250,
       );
-      if(_file.isValid()) _avatar = _file;
+      if(dataFile.isValid()) widgetAvatar = dataFile;
     }
 
-    Map<String, dynamic> _input = {
+    Map<String, dynamic> dataInput = {
       "firstname": _cFirstname.text,
       "lastname": _cLastname.text,
       "email": _cEmail.text,
     };
-    if(_avatar != null) _input["avatar"] = _avatar;
+    if(widgetAvatar != null) dataInput["avatar"] = widgetAvatar;
     bool res = await ApiService.processUpdate(
       'account',
-      input: _input,
+      input: dataInput,
       needLoading: true,
     );
     if(res){
-      _controller.updateCustomerAccount(
+      controllerWidget.updateCustomerAccount(
         firstname: _cFirstname.text,
         lastname: _cLastname.text,
         email: _cEmail.text,
-        avatar: _avatar,
+        avatar: widgetAvatar,
       );
       ShowDialog.showSuccessToast(
         title: lController.getLang("Successed"),
