@@ -27,7 +27,11 @@ class MessageImage extends StatelessWidget {
       padding: const EdgeInsets.all(kQuarterGap),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(kRadius)),
+<<<<<<< HEAD
         color: kAppColor.withValues(alpha: isSender? 1: 0.1)
+=======
+        color: kAppColor.withValues(alpha: _isSender? 1: 0.1)
+>>>>>>> d7457fe2f05f4942554f281d2315b779b1a64fa6
       ),
       child: GridView.builder(
         shrinkWrap: true,
@@ -105,7 +109,11 @@ class MessageImage extends StatelessWidget {
               height: imageHeight + kQuarterGap,
               width: imageHeight + kQuarterGap,
               decoration: BoxDecoration(
+<<<<<<< HEAD
                 color: kAppColor.withValues(alpha: isSender? 1: 0.1),
+=======
+                color: kAppColor.withValues(alpha: _isSender? 1: 0.1),
+>>>>>>> d7457fe2f05f4942554f281d2315b779b1a64fa6
                 borderRadius: const BorderRadius.all(Radius.circular(kRadius)),
               ),
               padding: const EdgeInsets.all(kQuarterGap),

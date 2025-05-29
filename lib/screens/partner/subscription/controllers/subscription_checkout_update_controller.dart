@@ -14,7 +14,7 @@ class SubscriptionCheckoutUpdateController extends GetxController {
   SubscriptionCheckoutUpdateController({
     required this.subscription, 
     required this.productStep 
-  }): super();
+  });
 
   int stateStatus = 0;
 

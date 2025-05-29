@@ -17,7 +17,10 @@ class MyShippingCouponScreen extends StatelessWidget {
     super.key,
     required this.id
   });
+<<<<<<< HEAD
   
+=======
+>>>>>>> d7457fe2f05f4942554f281d2315b779b1a64fa6
   final String id;
   LanguageController lController = Get.find<LanguageController>();
 

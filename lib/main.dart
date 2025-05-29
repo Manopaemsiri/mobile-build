@@ -122,7 +122,6 @@ class _MyAppState extends State<MyApp> {
       ],
       initialBinding: ControllerConfig(),
       builder: (context, child) {
-
         final scale = MediaQuery.textScalerOf(context).scale(1);
         return ScrollConfiguration(
           behavior: MyBehavior(),
