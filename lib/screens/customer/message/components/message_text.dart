@@ -26,11 +26,7 @@ class MessageText extends StatelessWidget {
           vertical: 12, horizontal: 14
         ),
         decoration: BoxDecoration(
-<<<<<<< HEAD
           color: widgetColor.withValues(alpha: isSender? 1: 0.1),
-=======
-          color: _color.withValues(alpha: _isSender? 1: 0.1),
->>>>>>> d7457fe2f05f4942554f281d2315b779b1a64fa6
           borderRadius: BorderRadius.circular(8),
         ),
         child: Column(

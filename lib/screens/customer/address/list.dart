@@ -148,7 +148,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                                   if(item.id != controller.shippingAddress?.id || widget.subscription == 2){
                                                     ShowDialog.showLoadingDialog();
                                                     await ApiService.processUpdate(
-                                                      "shipping-address-set-selected",
+                                                      "subscription-cart",
                                                       input: { "_id": item.id }
                                                     );
                                                     await controllerCustomer.readCart(needLoading: false);
@@ -160,7 +160,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                                                                                         
                                                     if (widget.subscription != null) {
                                                       await ApiService.processUpdate(
-                                                        'customer-subscription',
+                                                        'subscription-cart',
                                                         input: {
                                                          '_id': widget.subscriptionId,
                                                          'shippingAddressId': item.id,

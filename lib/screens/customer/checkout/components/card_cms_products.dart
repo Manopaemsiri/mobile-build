@@ -59,7 +59,6 @@ class CardCmsProducts extends StatelessWidget {
               // final index = entry.key;
               final product = entry.value;
 
-<<<<<<< HEAD
               // if(index == dataProducts.length - 1 && products.length > 10 && false){
               //   return IntrinsicHeight(
               //     child: Row(
@@ -124,72 +123,6 @@ class CardCmsProducts extends StatelessWidget {
               //     ),
               //   );
               // }
-=======
-              if(index == _products.length - 1 && products.length > 10 && false){
-                return IntrinsicHeight(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      CardProduct(
-                        data: product,
-                        customerController: customerController,
-                        lController: lController,
-                        aController: aController,
-                        onTap: () => _onTap(product.id ?? ''),
-                        showStock: showStock
-                      ),
-                      const Gap(gap: kHalfGap),
-                      InkWell(
-                        borderRadius: BorderRadius.circular(kCardRadius),
-                        onTap: _onTapProductSeeMore,
-                        child: Container(
-                          height: double.infinity,
-                          clipBehavior: Clip.hardEdge,
-                          decoration: BoxDecoration(
-                            color: kWhiteColor,
-                            borderRadius: BorderRadius.circular(kCardRadius),
-                          ),
-                          padding: kPadding,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                padding: kPadding,
-                                clipBehavior: Clip.hardEdge,
-                                decoration: BoxDecoration(
-                                  color: kWhiteColor,
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: kDarkColor.withValues(alpha: 0.2),
-                                      offset: Offset.zero,
-                                      blurRadius: 7,
-                                      spreadRadius: 0.5,
-                                      blurStyle: BlurStyle.normal,
-                                    )
-                                  ]
-                                ),
-                                child: const Icon(
-                                  Icons.arrow_forward_ios_rounded
-                                ),
-                              ),
-                              const Gap(gap: kHalfGap),
-                              Text(
-                                lController.getLang('See More'),
-                                style: subtitle1.copyWith(
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              }
->>>>>>> d7457fe2f05f4942554f281d2315b779b1a64fa6
 
               return CardProductSmall(
                 data: product,

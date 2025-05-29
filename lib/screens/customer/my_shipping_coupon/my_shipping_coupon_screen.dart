@@ -14,13 +14,9 @@ import '../../../utils/formater.dart';
 
 class MyShippingCouponScreen extends StatelessWidget {
   MyShippingCouponScreen({
-    super.key,
+    Key? key,
     required this.id
-  });
-<<<<<<< HEAD
-  
-=======
->>>>>>> d7457fe2f05f4942554f281d2315b779b1a64fa6
+  }) : super(key: key);
   final String id;
   LanguageController lController = Get.find<LanguageController>();
 
@@ -33,7 +29,7 @@ class MyShippingCouponScreen extends StatelessWidget {
         
         return Scaffold(
           appBar: _buildAppBar(controller),
-          body: widgetBody(controller),
+          body: _body(controller),
         );
       },
     );
@@ -50,7 +46,7 @@ class MyShippingCouponScreen extends StatelessWidget {
     );
   }
   
-  widgetBody(MyShippingCouponController controller) {
+  _body(MyShippingCouponController controller) {
     if(controller.status == StateStatus.Success) {
       if(controller.data == null){
         return NoDataCoffeeMug();
@@ -66,15 +62,15 @@ class MyShippingCouponScreen extends StatelessWidget {
     final PartnerShippingCouponModel data = controller.data!;
     final List<CustomerTierModel> customerTiers = controller.customerTiers;
 
-    String dataDate = lController.getLang("text_valid_until").replaceFirst("_VALUE_", dateFormat(data.endAt ?? DateTime.now()));
-    String widgetContent = data.description == ''
+    String _date = lController.getLang("text_valid_until").replaceFirst("_VALUE_", dateFormat(data.endAt ?? DateTime.now()));
+    String _content = data.description == ''
       ? data.shortDescription: data.description;
 
-    List<CustomerTierModel> forCustomerTiers = data.forCustomerTiers;
+    List<CustomerTierModel> _forCustomerTiers = data.forCustomerTiers;
 
-    const double widgetFlex = 2.5;
-    final double screenwidth = DeviceUtils.getDeviceWidth();
-    final double cardWidth = screenwidth / widgetFlex;
+    const double _flex = 2.5;
+    final double _screenwidth = DeviceUtils.getDeviceWidth();
+    final double _cardWidth = _screenwidth / _flex;
 
     return SingleChildScrollView(
       child: Column(
@@ -109,7 +105,7 @@ class MyShippingCouponScreen extends StatelessWidget {
                 
                 const Gap(gap: kOtGap),
                 Text(
-                  dataDate,
+                  _date,
                   style: subtitle1.copyWith(
                     color: kDarkColor,
                     fontWeight: FontWeight.w500
@@ -123,10 +119,10 @@ class MyShippingCouponScreen extends StatelessWidget {
                   ),
                 ),
                 
-                if(widgetContent != '') ...[
+                if(_content != '') ...[
                   const Gap(gap: kOtGap),
                   Text(
-                    widgetContent,
+                    _content,
                     style: subtitle1.copyWith(
                       color: kDarkColor
                     ),
@@ -157,7 +153,7 @@ class MyShippingCouponScreen extends StatelessWidget {
                     return const SizedBox.shrink();
                   } else {
                     return CardGeneral(
-                      width: cardWidth,
+                      width: _cardWidth,
                       titleText: d.displayName,
                       image: d.icon?.path ?? "",
                       boxFit: BoxFit.contain,
@@ -169,7 +165,7 @@ class MyShippingCouponScreen extends StatelessWidget {
             ),
             const Gap(gap: kGap),
           ],
-          if(data.forAllCustomerTiers == 0 && forCustomerTiers.isNotEmpty) ...[
+          if(data.forAllCustomerTiers == 0 && _forCustomerTiers.isNotEmpty) ...[
             const Gap(gap: kHalfGap),
             SectionTitle(
               titleText: lController.getLang("Promotional Customer Tiers"),
@@ -183,13 +179,13 @@ class MyShippingCouponScreen extends StatelessWidget {
                 spacing: 0,
                 alignment: WrapAlignment.start,
                 runAlignment: WrapAlignment.start,
-                children: forCustomerTiers.map((d) {
+                children: _forCustomerTiers.map((d) {
 
                   if (d.status == 0) {
                     return const SizedBox.shrink();
                   } else {
                     return CardGeneral(
-                      width: cardWidth,
+                      width: _cardWidth,
                       titleText: d.name,
                       image: d.icon?.path ?? "",
                     );
@@ -219,7 +215,7 @@ class MyShippingCouponScreen extends StatelessWidget {
                     return const SizedBox.shrink();
                   } else {
                     return CardGeneral(
-                      width: cardWidth,
+                      width: _cardWidth,
                       titleText: d.name,
                       image: d.icon?.path ?? "",
                     );

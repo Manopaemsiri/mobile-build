@@ -1,6 +1,6 @@
 import 'package:coffee2u/apis/api_service.dart';
 import 'package:coffee2u/models/index.dart';
-// import 'package:coffee2u/screens/partner/subscription/checkout.dart';
+import 'package:coffee2u/screens/partner/subscription/checkout.dart';
 import 'package:coffee2u/utils/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -80,19 +80,29 @@ class SubscriptionCreateController extends GetxController {
         }
       }
     }
+    
+    if (data.hasRelatedProducts == 1 && data.relatedProducts.isNotEmpty && type == 1) {
+  final relatedStep = SelectionSteps(
+    name: lController.getLang('Select Initial Subscription Products'),
+    credit: data.relatedCredit,
+    products: data.relatedProducts.map((p) {
+      subscription?.relatedProducts.firstWhereOrNull(
+        (k) => k.product?.id == p.product?.id,
+      );
 
-      if(data.hasRelatedProducts == 1 && data.relatedProducts.isNotEmpty && type == 1){
-        _step.insert(
-          0,
-          SelectionSteps(
-            name: lController.getLang('Select Initial Subscription Products'),
-            credit: data.relatedCredit,
-            products: data.relatedProducts,
-            type: 0
-          )
-        );
-      }
+      int q = 0; 
+
+      return p.copyWith(quantity: q);
+    }).toList(),
+    type: 0,
+  );
+
+  _step.insert(0, relatedStep);
+}
+
     }catch (_){}
+
+    
     update();
   }
 
@@ -262,53 +272,62 @@ class SubscriptionCreateController extends GetxController {
 
   Future<void> onSubmit() async {
     try {
-      // List<Map<String, dynamic>> relatedProducts = _step
-      //   .where((d) => d.type == 0)
-      //   .expand((d) => d.products
-      //     // .where((e) => e.quantity > 0)
-      //     .map((e) => {
-      //       'productId': e.product?.id,
-      //       'unitId': e.unit?.id,
-      //       'inCart': e.quantity,
-      //       'addPriceInVAT': e.addPriceInVAT,
-      //       'credit': e.credit,
-      //     }
-      //   )).toList();
-      // List<Map<String, dynamic>> dataFinalSteps = _step.where((d) => d.type == 1).map((d) {
-      //   List<Map<String, dynamic>> dataFinalProducts = [];
-      //   if(d.products.isNotEmpty){
-      //     dataFinalProducts = d.products.where((e) => e.quantity > 0).map((e) {
-      //       return {
-      //         'productId': e.product?.id,
-      //         'unitId': e.unit?.id,
-      //         'inCart': e.quantity,
-      //         'addPriceInVAT': e.addPriceInVAT,
-      //         'credit': e.credit,
-      //       };
-      //     }).toList();
-      //   }
-      //   return {
-      //     'name': d.name,
-      //     'icon': d.icon?.path,
-      //     'order': d.order,
-      //     'credit': d.credit,
-      //     'products': dataFinalProducts,
-      //   };
-      // }).toList();
-      // Map<String, dynamic> dataInput = {
-      //   'subscriptionId': data.id,
-      //   'type': 1,
-      //   'relatedProducts': relatedProducts,
-      //   'selectionSteps': dataFinalSteps,
-      // };
-      if(type ==2){
-        return Get.to(() => PartnerProductSubscriptionUpdateCheckoutScreen(
-          subscription: subscription!,
-          productStep: _step,
-        ));
-      }else{
-        // final res = await ApiService.processUpdate('', input: dataInput, needLoading: true);
-        // if(res) return Get.to(() => PartnerProductSubscriptionCheckoutScreen());
+      List<Map<String, dynamic>> relatedProducts = _step
+        .where((d) => d.type == 0)
+        .expand((d) => d.products
+          .map((e) => {
+            'productId': e.product?.id,
+            'unitId': e.unit?.id,
+            'inCart': e.quantity,
+            'addPriceInVAT': e.addPriceInVAT,
+            'credit': e.credit,
+          }
+        )).toList();
+      List<Map<String, dynamic>> dataFinalSteps = _step.where((d) => d.type == 1).map((d) {
+        List<Map<String, dynamic>> dataFinalProducts = [];
+        if(d.products.isNotEmpty){
+          dataFinalProducts = d.products.where((e) => e.quantity > 0).map((e) {
+            return {
+              'productId': e.product?.id,
+              'unitId': e.unit?.id,
+              'inCart': e.quantity,
+              'addPriceInVAT': e.addPriceInVAT,
+              'credit': e.credit,
+            };
+          }).toList();
+        }
+        return {
+          'name': d.name,
+          'icon': d.icon?.path,
+          'order': d.order,
+          'credit': d.credit,
+          'products': dataFinalProducts,
+        };
+      }).toList();
+      Map<String, dynamic> dataInput = {
+        'subscriptionId': data.id,
+        'type': 1,
+        'relatedProducts': relatedProducts,
+        'selectionSteps': dataFinalSteps,
+      };
+  
+      final res = await ApiService.processUpdate(
+        'subscription-cart', 
+        input: dataInput, needLoading: false
+      );
+
+      _step.expand((s) => s.products)
+        .where((p) => p.quantity > 0)
+        .map((p) => '- ${p.product?.name ?? 'Unnamed'} (x${p.quantity})')
+        .join('\n');
+
+      if (res == true) {
+        return Get.to(() => PartnerProductSubscriptionCheckoutScreen());
+      } else {
+        ShowDialog.showErrorToast(
+          title: lController.getLang("Error"),
+          desc: lController.getLang("Could not proceed. Please try again."),
+        );
       }
     } catch (_) {}
   }
@@ -353,7 +372,6 @@ class SubscriptionCreateController extends GetxController {
         'relatedCredit': subscription?.relatedCredit,
     };
 
-
     final res = await ApiService.processUpdate(
       'subscription',
       input: dataInput,
@@ -361,12 +379,6 @@ class SubscriptionCreateController extends GetxController {
     );
 
     if (res == true) { 
-      print('=================================');
-      print('id: ${subscription?.id}');
-      print('selectType : ${isOneTimeChange ? 1 : 0}');
-      print('total: ${subscription?.total}');
-      print('status: ${subscription?.status}');
-      print('=================================');
       return true;
     } else {
       ShowDialog.showForceDialog(

@@ -9,6 +9,8 @@ import '../../../customer/billing_address/list.dart';
 import '../../../customer/shipping/list.dart';
 import '../../subscription_conditions/read.dart';
 
+import 'dart:convert';
+
 class SubscriptionCheckoutController extends GetxController {
   SubscriptionCheckoutController();
 
@@ -85,8 +87,10 @@ class SubscriptionCheckoutController extends GetxController {
 
   updateShippingAddress(CustomerShippingAddressModel? value) async {
     if(value != null){
-      final res = await ApiService.processUpdate('subscription-cart', input: { 'type': 2, 'shippingAddressId': value.id });
-      if(res) dataModel = dataModel?.copyWith( shippingAddress: value );
+      final res = await ApiService.processUpdate('subscription-cart', input: { 'type': 2, 'shippingAddressId': value.id, });
+      if (res) {
+      dataModel = dataModel?.copyWith(shippingAddress: value);
+    }
     }else { dataModel = dataModel?.copyWith( shippingAddress: value ); }
     update();
   }

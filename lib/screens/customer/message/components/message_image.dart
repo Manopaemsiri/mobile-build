@@ -8,14 +8,14 @@ import 'package:get/get.dart';
 
 class MessageImage extends StatelessWidget {
   const MessageImage({
-    super.key,
+    Key? key,
     required this.model
-  });
+  }) : super(key: key);
   final Map<String, dynamic> model;
 
   @override
   Widget build(BuildContext context) {
-    bool isSender = model["fromCustomer"] ?? false;
+    bool _isSender = model["fromCustomer"] ?? false;
     var images = model["images"];
     double imageHeight = images.length > 1? (Get.width*0.8 - kGap*2 - 24)/2: Get.width*0.8 - kGap*2 - 24;
     int row = ((images.length>4? 4: images.length)/2).round();
@@ -27,11 +27,7 @@ class MessageImage extends StatelessWidget {
       padding: const EdgeInsets.all(kQuarterGap),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(kRadius)),
-<<<<<<< HEAD
-        color: kAppColor.withValues(alpha: isSender? 1: 0.1)
-=======
-        color: kAppColor.withValues(alpha: _isSender? 1: 0.1)
->>>>>>> d7457fe2f05f4942554f281d2315b779b1a64fa6
+        color: kAppColor.withOpacity(_isSender? 1: 0.1)
       ),
       child: GridView.builder(
         shrinkWrap: true,
@@ -109,11 +105,7 @@ class MessageImage extends StatelessWidget {
               height: imageHeight + kQuarterGap,
               width: imageHeight + kQuarterGap,
               decoration: BoxDecoration(
-<<<<<<< HEAD
-                color: kAppColor.withValues(alpha: isSender? 1: 0.1),
-=======
-                color: kAppColor.withValues(alpha: _isSender? 1: 0.1),
->>>>>>> d7457fe2f05f4942554f281d2315b779b1a64fa6
+                color: kAppColor.withOpacity(_isSender? 1: 0.1),
                 borderRadius: const BorderRadius.all(Radius.circular(kRadius)),
               ),
               padding: const EdgeInsets.all(kQuarterGap),
