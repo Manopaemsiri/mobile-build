@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 
 class ProductFrequentlyItem extends StatelessWidget {
   const ProductFrequentlyItem({
-    Key? key,
+    super.key,
     required this.model,
     required this.onChange,
     required this.lController,
@@ -18,7 +18,7 @@ class ProductFrequentlyItem extends StatelessWidget {
     this.qty = 0,
     this.trimDigits = false,
     this.showStock = false
-  }): super(key: key);
+  });
 
   final PartnerProductModel model;
   final Function(int) onChange;
@@ -89,7 +89,7 @@ class ProductFrequentlyItem extends StatelessWidget {
                               top: 0, bottom: 0, left: 0, right: 0,
                               child: Container(
                                 padding: const EdgeInsets.all(kQuarterGap),
-                                color: kWhiteColor.withOpacity(0.45),
+                                color: kWhiteColor.withValues(alpha: 0.45),
                                 child: Center(
                                   child: Text(
                                     'Coming\nSoon',
@@ -255,7 +255,7 @@ class ProductFrequentlyItem extends StatelessWidget {
                             text: TextSpan(
                               text: lController.getLang("text_shipping"),
                               style: subtitle2.copyWith(
-                                color: stockCenter? kAppColor.withOpacity(0.8): kDarkLightGrayColor.withOpacity(0.6),
+                                color: stockCenter? kAppColor.withValues(alpha: 0.8): kDarkLightGrayColor.withValues(alpha: 0.6),
                                 fontWeight: FontWeight.w500,
                                 fontFamily: "Kanit",
                               ),
@@ -264,7 +264,7 @@ class ProductFrequentlyItem extends StatelessWidget {
                                 TextSpan(
                                   text: lController.getLang("text_click_and_collect"),
                                   style: subtitle2.copyWith(
-                                    color: stockShop? kAppColor.withOpacity(0.8): kDarkLightGrayColor.withOpacity(0.6),
+                                    color: stockShop? kAppColor.withValues(alpha: 0.8): kDarkLightGrayColor.withValues(alpha: 0.6),
                                     fontWeight: FontWeight.w500,
                                     fontFamily: "Kanit",
                                   ),

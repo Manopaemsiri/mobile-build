@@ -10,8 +10,8 @@ import 'package:get/get.dart';
 
 class RedeemShippingCouponTab extends StatefulWidget {
   const RedeemShippingCouponTab({
-    Key? key,
-  }): super(key: key);
+    super.key,
+  });
 
   @override
   State<RedeemShippingCouponTab> createState() => _RedeemShippingCouponTabState();

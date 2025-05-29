@@ -78,9 +78,9 @@
 
 // class PaymentCreditCardScreen extends StatefulWidget {
 //   const PaymentCreditCardScreen({
-//     Key? key,
+//     super.key,
 //     required this.model,
-//   }): super(key: key);
+//   });
 
 //   final Payment2C2PModel model;
 

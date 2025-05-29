@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 
 class StarRating extends StatelessWidget {
   const StarRating({
-    Key? key,
+    super.key,
     this.data,
     this.onChanged,
     this.selectedRating,
     this.score,
     this.size,
-  }) : super(key: key);
+  });
   final List<Map<String, dynamic>>? data;
   final Function(Map<String, dynamic> value)? onChanged;
   final Map<String, dynamic>? selectedRating;

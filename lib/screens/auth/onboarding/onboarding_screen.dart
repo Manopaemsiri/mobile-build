@@ -13,7 +13,7 @@ import 'package:get/get.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+  const OnboardingScreen({super.key});
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();

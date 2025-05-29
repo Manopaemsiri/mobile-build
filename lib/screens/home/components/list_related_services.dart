@@ -7,8 +7,8 @@ import 'package:external_app_launcher/external_app_launcher.dart';
 
 class ListRelatedServices extends StatefulWidget {
   const ListRelatedServices({
-    Key? key
-  }): super(key: key);
+    super.key
+  });
 
   @override
   State<ListRelatedServices> createState() => _ListRelatedServicesState();

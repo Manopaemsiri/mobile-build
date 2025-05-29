@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 
 class CardCmsContent2 extends StatelessWidget {
   const CardCmsContent2({
-    Key? key,
+    super.key,
     required this.model,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final CmsContentModel model;
   final VoidCallback onPressed;

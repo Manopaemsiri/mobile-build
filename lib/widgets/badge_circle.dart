@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 class BadgeCircle extends StatelessWidget {
   const BadgeCircle({
-    Key? key,
+    super.key,
     required this.title,
     this.color,
     this.size = 16,
-  }) : super(key: key);
+  });
 
   final String title;
   final Color? color;

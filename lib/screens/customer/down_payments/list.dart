@@ -10,7 +10,7 @@ import 'package:coffee2u/widgets/index.dart';
 import 'package:get/get.dart';
 
 class DownPaymentsScreen extends StatefulWidget {
-  const DownPaymentsScreen({Key? key}) : super(key: key);
+  const DownPaymentsScreen({super.key});
 
   @override
   State<DownPaymentsScreen> createState() => _DownPaymentsScreenState();
@@ -118,7 +118,7 @@ class _DownPaymentsScreenState extends State<DownPaymentsScreen> {
             child: Container(
               padding: kPadding,
               decoration: BoxDecoration(
-                color: selectedPercent == defaultPercent? kAppColor.withOpacity(0.05): kWhiteColor,
+                color: selectedPercent == defaultPercent? kAppColor.withValues(alpha: 0.05): kWhiteColor,
                 borderRadius: const BorderRadius.all(Radius.circular(kRadius)),
                 border: Border.all(width: 1, color: selectedPercent == defaultPercent? kAppColor: kLightColor)
               ),
@@ -243,7 +243,7 @@ class _DownPaymentsScreenState extends State<DownPaymentsScreen> {
       child: Container(
         padding: kPadding,
         decoration: BoxDecoration(
-          color: selectedPercent == percent? kAppColor.withOpacity(0.05): kWhiteColor,
+          color: selectedPercent == percent? kAppColor.withValues(alpha: 0.05): kWhiteColor,
           borderRadius: const BorderRadius.all(Radius.circular(kRadius)),
           border: Border.all(width: 1, color: selectedPercent == percent? kAppColor: kLightColor)
         ),

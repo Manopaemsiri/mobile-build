@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class ButtonOrder extends StatelessWidget {
   const ButtonOrder({
-    Key? key,
+    super.key,
     this.title = "Order Now",
     this.color,
     this.width,
@@ -17,7 +17,7 @@ class ButtonOrder extends StatelessWidget {
     required this.onPressed,
     required this.lController,
     this.trimDigits = false
-  }) : super(key: key);
+  });
 
   final String title;
   final Color? color;

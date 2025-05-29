@@ -8,12 +8,12 @@ import 'package:get/get.dart';
 
 class CardShop extends StatelessWidget {
   const CardShop({
-    Key? key,
+    super.key,
     this.width = 150,
     required this.model,
     this.onPressed,
     this.showDistance = true,
-  }): super(key: key);
+  });
 
   final double width;
   final PartnerShopModel model;

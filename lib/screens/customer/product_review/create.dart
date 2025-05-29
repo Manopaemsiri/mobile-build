@@ -14,9 +14,9 @@ import 'widgets/product_item.dart';
 
 class ProductReviewScreen extends StatelessWidget {
   ProductReviewScreen({
-    Key? key,
+    super.key,
     required this.customerOrder,
-  }) : super(key: key);
+  });
 
   final CustomerOrderModel customerOrder;
   final LanguageController lController = Get.find<LanguageController>();

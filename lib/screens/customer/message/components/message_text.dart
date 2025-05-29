@@ -5,9 +5,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 class MessageText extends StatelessWidget {
   const MessageText({
-    Key? key,
+    super.key,
     required this.model,
-  }) : super(key: key);
+  });
 
   final Map<String, dynamic> model;
 
@@ -26,7 +26,7 @@ class MessageText extends StatelessWidget {
           vertical: 12, horizontal: 14
         ),
         decoration: BoxDecoration(
-          color: _color.withOpacity(_isSender? 1: 0.1),
+          color: _color.withValues(alpha: _isSender? 1: 0.1),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Column(

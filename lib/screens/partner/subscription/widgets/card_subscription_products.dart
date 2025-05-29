@@ -8,13 +8,13 @@ import '../../../../widgets/index.dart';
 
 class CardSubscriptionProducts extends StatelessWidget {
   const CardSubscriptionProducts({
-    Key? key,
+    super.key,
     required this.data,
     required this.products,
     required this.lController,
     this.trimDigits = false,
     this.shipping,
-  }) : super(key: key);
+  });
   final CustomerSubscriptionCartModel data;
   final bool trimDigits;
   final List<PartnerProductModel> products;

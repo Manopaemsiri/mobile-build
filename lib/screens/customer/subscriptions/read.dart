@@ -18,9 +18,9 @@ import 'package:coffee2u/apis/api_service.dart';
 
 class CustomerSubscriptionScreen extends StatelessWidget {
   CustomerSubscriptionScreen({
-    Key? key,
+    super.key,
     required this.id,
-  }) : super(key: key);
+  });
 
   final String id;
   final lController = Get.find<LanguageController>();

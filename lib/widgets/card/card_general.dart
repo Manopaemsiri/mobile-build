@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 
 class CardGeneral extends StatelessWidget {
   const CardGeneral({
-    Key? key,
+    super.key,
     this.width = 150,
     required this.titleText,
     this.onPressed,
     this.image = '',
     this.maxLines = 1,
     this.boxFit = BoxFit.cover,
-  }) : super(key: key);
+  });
 
   final double width;
   final String titleText;

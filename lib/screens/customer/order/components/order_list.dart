@@ -13,10 +13,10 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 class OrderList extends StatefulWidget {
   const OrderList({
-    Key? key,
+    super.key,
     required this.order,
     this.trimDigits = false
-  }): super(key: key);
+  });
   final int order;
   final bool trimDigits;
 

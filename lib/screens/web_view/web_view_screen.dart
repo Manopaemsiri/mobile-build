@@ -7,10 +7,10 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewScreen extends StatefulWidget {
   const WebViewScreen({
-    Key? key, 
+    super.key, 
     this.url,
     this.title = "External Content",
-  }) : super(key: key);
+  });
   final String? url;
   final String title;
 

@@ -179,7 +179,7 @@ class Utils {
     return Container(
       width: 88, height: 88,
       padding: const EdgeInsets.all(kQuarterGap),
-      color: kWhiteColor.withOpacity(0.45),
+      color: kWhiteColor.withValues(alpha: 0.45),
       child: Center(
         child: Text(
           'Coming\nSoon',

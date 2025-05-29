@@ -9,10 +9,10 @@ import 'package:get/get.dart';
 
 class CardShippingCoupon3 extends StatelessWidget {
   CardShippingCoupon3({
-    Key? key,
+    super.key,
     required this.model,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final PartnerShippingCouponModel model;
   final VoidCallback onPressed;
@@ -76,7 +76,7 @@ class CardShippingCoupon3 extends StatelessWidget {
                       Positioned(
                         top: 0, bottom: 0, left: 0, right: 0,
                         child: Container(
-                          color: kWhiteColor.withOpacity(0.5),
+                          color: kWhiteColor.withValues(alpha: 0.5),
                         ),
                       ),
                     ],

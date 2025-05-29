@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 
 class CardProductCategory extends StatelessWidget {
   const CardProductCategory({
-    Key? key,
+    super.key,
     this.width = 150,
     required this.model,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final double width;
   final PartnerProductCategoryModel model;

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class FilterLoading extends StatelessWidget {
-  const FilterLoading({Key? key}) : super(key: key);
+  const FilterLoading({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 
 class CardShippingCoupon2 extends StatelessWidget {
   const CardShippingCoupon2({
-    Key? key,
+    super.key,
     required this.model,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final PartnerShippingCouponModel model;
   final VoidCallback onPressed;

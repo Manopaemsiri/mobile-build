@@ -15,10 +15,10 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 class PartnerProductsScreen extends StatefulWidget {
   const PartnerProductsScreen({
-    Key? key,
+    super.key,
     this.appTitle,
     this.dataFilter,
-  }): super(key: key);
+  });
   
   final String? appTitle;
   final Map<String, dynamic>? dataFilter;

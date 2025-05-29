@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 
 class DetailSection extends StatelessWidget {
   const DetailSection({
-    Key? key,
+    super.key,
     required this.model,
     required this.lController,
     this.onPressFav,
-  }) : super(key: key);
+  });
 
   final SellerShopModel model;
   final VoidCallback? onPressFav;

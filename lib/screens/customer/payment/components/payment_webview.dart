@@ -11,12 +11,12 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentWebviewScreen extends StatefulWidget {
   const PaymentWebviewScreen({
-    Key? key,
+    super.key,
     required this.model,
     required this.url,
     this.title = 'Payment Confirmation',
     this.subscription = false,
-  }): super(key: key);
+  });
 
   final Payment2C2PModel model;
   final String url;

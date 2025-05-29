@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 
 class ImageRating extends StatelessWidget {
   const ImageRating({
-    Key? key,
+    super.key,
     required this.imagePath,
     this.onDeleteImage,
     required this.imageWidth,
     this.imageFile = true,
-  }) : super(key: key);
+  });
   
   final String imagePath;
   final Function()? onDeleteImage;

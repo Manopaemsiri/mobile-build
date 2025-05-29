@@ -7,9 +7,9 @@ import '../index.dart';
 
 class ShimmerPartnerSubscriptionGrid extends StatelessWidget {
   const ShimmerPartnerSubscriptionGrid({
-    Key? key,
+    super.key,
     this.itemCount = 7,
-  }) : super(key: key);
+  });
   final int itemCount;
 
   @override

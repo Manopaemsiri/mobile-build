@@ -23,10 +23,10 @@ import 'group_sign_up/tax_id/tax_id_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({
-    Key? key,
+    super.key,
     this.isFirstState = false,
     this.backTo,
-  }): super(key: key);
+  });
 
   final bool isFirstState;
   final String? backTo;

@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 
 class OrderShippingHistory extends StatelessWidget {
   const OrderShippingHistory({
-    Key? key,
+    super.key,
     required this.model,
     required this.lController,
-  }) : super(key: key);
+  });
 
   final CustomerOrderModel? model;
   final LanguageController lController;

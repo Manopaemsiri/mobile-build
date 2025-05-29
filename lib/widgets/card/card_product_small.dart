@@ -13,7 +13,7 @@ import 'package:get/get.dart';
 
 class CardProductSmall extends StatelessWidget {
   const CardProductSmall({
-    Key? key,
+    super.key,
     required this.data,
     required this.onTap,
     required this.customerController,
@@ -23,7 +23,7 @@ class CardProductSmall extends StatelessWidget {
     this.bgColor = kWhiteColor,
     this.trimDigits = true,
     this.enabledBoxShadow = false,
-  }) : super(key: key);
+  });
   final PartnerProductModel data;
   final Function() onTap;
   final CustomerController customerController;
@@ -93,7 +93,7 @@ class CardProductSmall extends StatelessWidget {
           borderRadius: BorderRadius.circular(kCardRadius),
           boxShadow: enabledBoxShadow? [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               spreadRadius: 1,
               blurRadius: 10.5,
               offset: const Offset(0, 0),
@@ -134,7 +134,7 @@ class CardProductSmall extends StatelessWidget {
                         top: 0, bottom: 0, left: 0, right: 0,
                         child: Container(
                           padding: const EdgeInsets.all(kQuarterGap),
-                          color: kWhiteColor.withOpacity(0.45),
+                          color: kWhiteColor.withValues(alpha: 0.45),
                           child: Center(
                             child: Text(
                               'Coming\nSoon',
@@ -235,7 +235,7 @@ class CardProductSmall extends StatelessWidget {
                         softWrap: true,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.start,
-                        textScaleFactor: 1,
+                        textScaler: TextScaler.linear(1),
                         text: TextSpan(
                           text: _memberPrice,
                           style: bodyText2.copyWith(
@@ -264,7 +264,7 @@ class CardProductSmall extends StatelessWidget {
                           maxLines: 1,
                           textAlign: TextAlign.start,
                           style: caption.copyWith(
-                            color: kDarkColor.withOpacity(0.3),
+                            color: kDarkColor.withValues(alpha: 0.3),
                             fontWeight: FontWeight.w400,
                             height: 1.4,
                             decoration: TextDecoration.lineThrough
@@ -277,7 +277,7 @@ class CardProductSmall extends StatelessWidget {
                           maxLines: 1,
                           textAlign: TextAlign.start,
                           style: caption.copyWith(
-                            color: kDarkColor.withOpacity(0.3),
+                            color: kDarkColor.withValues(alpha: 0.3),
                             fontWeight: FontWeight.w400,
                             height: 1.4,
                             decoration: TextDecoration.lineThrough
@@ -291,7 +291,7 @@ class CardProductSmall extends StatelessWidget {
                         softWrap: true,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.start,
-                        textScaleFactor: 1,
+                        textScaler: TextScaler.linear(1),
                         text: TextSpan(
                           text: _price,
                           style: bodyText2.copyWith(
@@ -318,7 +318,7 @@ class CardProductSmall extends StatelessWidget {
                           maxLines: 1,
                           textAlign: TextAlign.start,
                           style: caption.copyWith(
-                            color: kDarkColor.withOpacity(0.3),
+                            color: kDarkColor.withValues(alpha: 0.3),
                             fontWeight: FontWeight.w400,
                             height: 1.4,
                             decoration: TextDecoration.lineThrough
@@ -339,7 +339,7 @@ class CardProductSmall extends StatelessWidget {
                               softWrap: true,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.start,
-                              textScaleFactor: 1,
+                              textScaler: TextScaler.linear(1),
                               text: TextSpan(
                                 children: [
                                   WidgetSpan(
@@ -375,7 +375,7 @@ class CardProductSmall extends StatelessWidget {
                         text: TextSpan(
                           text: lController.getLang("text_shipping"),
                           style: caption.copyWith(
-                            color: stockCenter? kAppColor.withOpacity(0.8): kDarkLightGrayColor.withOpacity(0.6),
+                            color: stockCenter? kAppColor.withValues(alpha: 0.8): kDarkLightGrayColor.withValues(alpha: 0.6),
                             fontWeight: FontWeight.w500,
                             fontFamily: "Kanit",
                           ),
@@ -384,7 +384,7 @@ class CardProductSmall extends StatelessWidget {
                             TextSpan(
                               text: lController.getLang("text_click_and_collect"),
                               style: caption.copyWith(
-                                color: stockShop? kAppColor.withOpacity(0.8): kDarkLightGrayColor.withOpacity(0.6),
+                                color: stockShop? kAppColor.withValues(alpha: 0.8): kDarkLightGrayColor.withValues(alpha: 0.6),
                                 fontWeight: FontWeight.w500,
                                 fontFamily: "Kanit",
                               ),

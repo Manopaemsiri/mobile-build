@@ -20,14 +20,14 @@ import '../product_reviews/list.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({
-    Key? key,
+    super.key,
     this.productId,
     this.youtubeVideo,
     this.eventId,
     this.eventName,
     this.backTo,
     this.subscription = false,
-  }) : super(key: key);
+  });
 
   final String? productId;
   final Widget? youtubeVideo;

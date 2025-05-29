@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 
 class ButtonHalf extends StatelessWidget {
   const ButtonHalf({
-    Key? key,
+    super.key,
     required this.title,
     this.color,
     this.icon,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final String title;
   final Color? color;

@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 
 class CardProductCoupon2 extends StatelessWidget {
   const CardProductCoupon2({
-    Key? key,
+    super.key,
     required this.model,
     required this.onPressed,
     this.expireDate,
-  }) : super(key: key);
+  });
 
   final PartnerProductCouponModel model;
   final VoidCallback onPressed;
@@ -101,7 +101,7 @@ class CardProductCoupon2 extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(kRadius, kRadius, kRadius, kRadius) + const EdgeInsets.symmetric(horizontal: kQuarterGap),
                   decoration: BoxDecoration(
-                    color: kAppColor.withOpacity(0.1),
+                    color: kAppColor.withValues(alpha: 0.1),
                     borderRadius: const BorderRadius.only(topLeft: Radius.circular(kRadius)),
                   ),
                   child: Text(

@@ -13,9 +13,9 @@ import '../../../controller/language_controller.dart';
 
 class OrderReviewScreen extends StatelessWidget {
   OrderReviewScreen({
-    Key? key,
+    super.key,
     required this.customerOrder,
-  }) : super(key: key);
+  });
   final CustomerOrderModel customerOrder;
   final LanguageController lController = Get.find<LanguageController>();
 

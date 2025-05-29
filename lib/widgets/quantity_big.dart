@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 
 class QuantityBig extends StatefulWidget {
   const QuantityBig({
-    Key? key,
+    super.key,
     this.size = 42,
     required this.onChange,
     this.qty = 1,
     this.minimum = 1,
     this.available = true
-  }) : super(key: key);
+  });
   final double size;
   final Function(int, bool) onChange;
   final int qty;

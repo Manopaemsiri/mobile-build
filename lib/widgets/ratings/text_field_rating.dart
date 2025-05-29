@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 class TextFieldRating extends StatelessWidget {
   const TextFieldRating({
-    Key? key,
+    super.key,
     required this.controller,
     required this.focusNode,
-  }) : super(key: key);
+  });
   
   final TextEditingController? controller;
   final FocusNode? focusNode;

@@ -16,11 +16,11 @@ import 'package:get/get.dart';
 
 class PaymentMethodsScreen extends StatefulWidget {
   const PaymentMethodsScreen({
-    Key? key,
+    super.key,
     this.customDownPayment,
     this.amountDefault,
     this.missingPaymentDefault
-  }): super(key: key);
+  });
   final double? customDownPayment;
   final double? amountDefault;
   final double? missingPaymentDefault;

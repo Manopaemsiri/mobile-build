@@ -20,12 +20,12 @@ final double _cardWidth = _screenwidth / _flex;
 
 class CmsContentScreen extends StatefulWidget {
   const CmsContentScreen({
-    Key? key,
+    super.key,
     this.url,
     this.showCart = true,
     this.showTag = false,
     this.backTo,
-  }): super(key: key);
+  });
   final String? url;
   final bool showCart;
   final bool showTag;

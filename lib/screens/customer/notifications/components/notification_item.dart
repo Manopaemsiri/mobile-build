@@ -11,10 +11,10 @@ import 'package:get/get.dart';
 
 class NotificationItem extends StatelessWidget {
   const NotificationItem({
-    Key? key,
+    super.key,
     required this.model,
     required this.lController
-  }): super(key: key);
+  });
 
   final CustomerNotiModel model;
   final LanguageController lController;

@@ -9,9 +9,9 @@ import 'package:get/get.dart';
 
 class MessageImages extends StatefulWidget {
   const MessageImages({
-    Key? key,
+    super.key,
     required this.model
-  }) : super(key: key);
+  });
   final Map<String, dynamic> model;
 
   @override

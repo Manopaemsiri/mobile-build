@@ -10,12 +10,12 @@ import '../controller/received_coupons_controller.dart';
 
 class ReceivedCoupons extends StatelessWidget {
   const ReceivedCoupons({
-    Key? key,
+    super.key,
     required this.data,
     required this.onTap,
     required this.lController,
     this.isCOD = false,
-  }) : super(key: key);
+  });
   final List<PartnerProductCouponLogModel> data;
   final Function(String) onTap;
   final LanguageController lController;
@@ -108,7 +108,7 @@ class ReceivedCoupons extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         // margin: const EdgeInsets.symmetric(horizontal: kGap),
         decoration: BoxDecoration(
-          color: kAppColor.withOpacity(0.1),
+          color: kAppColor.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(kRadius)
         ),
         child: IntrinsicHeight(
@@ -147,7 +147,7 @@ class ReceivedCoupons extends StatelessWidget {
                           '$name\n\n',
                           maxLines: 1,
                           style: bodyText2.copyWith(
-                            color: kAppColor.withOpacity(0.7),
+                            color: kAppColor.withValues(alpha: 0.7),
                             fontWeight: FontWeight.w400
                           ),
                         ),

@@ -11,12 +11,12 @@ import 'package:get/get.dart';
 
 class ProvincePicker<Classer> extends StatefulWidget {
   const ProvincePicker({
-    Key? key,
+    super.key,
     required this.model,
     required this.onChanged,
     this.showTitle = false,
     required this.isReady,
-  }): super(key: key);
+  });
 
   final Classer model;
   final Function({CountryModel? country, ProvinceModel? province, DistrictModel? district, SubdistrictModel? subdistrict, String? zipcode}) onChanged;

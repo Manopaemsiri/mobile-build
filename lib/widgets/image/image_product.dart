@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ImageProduct extends StatelessWidget {
   const ImageProduct({
-    Key? key,
+    super.key,
     required this.imageUrl,
     this.selected = false,
     this.width = 56,
@@ -17,7 +17,7 @@ class ImageProduct extends StatelessWidget {
     this.padding2,
     this.decoration,
     this.imgRadius,
-  }) : super(key: key);
+  });
 
   final String imageUrl;
   final bool selected;
@@ -40,7 +40,7 @@ class ImageProduct extends StatelessWidget {
       height: height,
       padding: padding,
       decoration: decoration ?? BoxDecoration(
-        color: selected? _color.withOpacity(0.125): kGrayLightColor,
+        color: selected? _color.withValues(alpha: 0.125): kGrayLightColor,
         borderRadius: BorderRadius.circular(4),
       ),
       child: Padding(

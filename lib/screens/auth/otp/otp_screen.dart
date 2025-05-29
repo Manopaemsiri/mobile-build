@@ -13,7 +13,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpScreen extends StatefulWidget {
   OtpScreen({
-    Key? key,
+    super.key,
     required this.input,
     this.isFirstState = false,
     this.backTo,
@@ -24,7 +24,7 @@ class OtpScreen extends StatefulWidget {
 
     required this.enabledCustomerSignupOTP,
     this.response
-  }) : super(key: key);
+  });
 
   final Map<String, dynamic> input;
   final bool isFirstState;
@@ -244,7 +244,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           fieldHeight: 60,
                           fieldWidth: 50,
                           borderWidth: 2,
-                          inactiveColor: kAppColor.withOpacity(0.4),
+                          inactiveColor: kAppColor.withValues(alpha: 0.4),
                           inactiveFillColor: kWhiteColor,
                           activeColor: kAppColor,
                           selectedColor: kAppColor,

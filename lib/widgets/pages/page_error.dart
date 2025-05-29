@@ -6,9 +6,9 @@ import 'package:get/get.dart';
 
 class PageError extends StatelessWidget {
   PageError({
-    Key? key,
+    super.key,
     this.onPressed,
-  }) : super(key: key);
+  });
 
   final VoidCallback? onPressed;
   final LanguageController lController = Get.find<LanguageController>();

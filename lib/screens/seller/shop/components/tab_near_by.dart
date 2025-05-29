@@ -11,10 +11,10 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 class TabNearBy extends StatefulWidget {
   const TabNearBy({
-    Key? key,
+    super.key,
     this.lat,
     this.lng,
-  }): super(key: key);
+  });
 
   final double? lat;
   final double? lng;

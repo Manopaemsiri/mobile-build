@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 
 class QuantityBigFix extends StatefulWidget {
   const QuantityBigFix({
-    Key? key,
+    super.key,
     this.size = 42,
     required this.onChange,
     this.qty = 1,
     this.minimum = 1,
     this.maximum = 9999999,
-  }) : super(key: key);
+  });
 
   final double size;
   final Function(int) onChange;

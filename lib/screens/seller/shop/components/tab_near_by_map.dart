@@ -15,10 +15,10 @@ import 'dart:ui' as ui;
 
 class TabNearByMap extends StatefulWidget {
   const TabNearByMap({
-    Key? key,
+    super.key,
     this.lat,
     this.lng,
-  }): super(key: key);
+  });
 
   final double? lat;
   final double? lng;

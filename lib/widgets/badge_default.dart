@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 
 class BadgeDefault extends StatelessWidget {
   const BadgeDefault({
-    Key? key,
+    super.key,
     required this.title,
     this.icon,
     this.iconRight,
     this.color,
     this.size = 12,
     this.textColor,
-  }) : super(key: key);
+  });
 
   final String title;
   final IconData? icon;

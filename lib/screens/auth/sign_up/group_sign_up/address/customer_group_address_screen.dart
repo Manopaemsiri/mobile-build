@@ -13,9 +13,9 @@ import 'controller/customer_group_address_controller.dart';
 
 class CustomerGroupAddressScreen extends StatelessWidget {
   const CustomerGroupAddressScreen({
-    Key? key,
+    super.key,
     required this.group
-  }) : super(key: key);
+  });
   final CustomerGroupModel group;
   
   @override
@@ -383,7 +383,7 @@ class CustomerGroupAddressScreen extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(kRadius),
         border: Border.all(
-          color: kDarkLightGrayColor.withOpacity(0.5),
+          color: kDarkLightGrayColor.withValues(alpha: 0.5),
           width: 0.4
         )
       ),

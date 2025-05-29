@@ -11,7 +11,7 @@
 
 // class ProductItem extends StatelessWidget {
 //   const ProductItem({
-//     Key? key,
+//     super.key,
 //     required this.data,
 //     required this.onTap,
 //     required this.onTapAdd,
@@ -19,7 +19,7 @@
 //     required this.aController,
 //     this.trimDigits= false,
 //     required this.showStock,
-//   }): super(key: key);
+//   });
 
 //   final PartnerProductModel data;
 //   final VoidCallback onTap;
@@ -85,7 +85,7 @@
 //                               child: Container(
 //                                 width: imageWidth, height: imageWidth,
 //                                 padding: const EdgeInsets.all(kQuarterGap),
-//                                 color: kWhiteColor.withOpacity(0.45),
+//                                 color: kWhiteColor.withValues(alpha: 0.45),
 //                                 child: Center(
 //                                   child: Text(
 //                                     'Coming\nSoon',
@@ -283,7 +283,7 @@
 //                               text: TextSpan(
 //                                 text: lController.getLang("text_shipping"),
 //                                 style: subtitle2.copyWith(
-//                                   color: stockCenter? kAppColor.withOpacity(0.8): kDarkLightGrayColor.withOpacity(0.6),
+//                                   color: stockCenter? kAppColor.withValues(alpha: 0.8): kDarkLightGrayColor.withValues(alpha: 0.6),
 //                                   fontWeight: FontWeight.w500,
 //                                   fontFamily: "Kanit",
 //                                 ),
@@ -292,7 +292,7 @@
 //                                   TextSpan(
 //                                     text: lController.getLang("text_click_and_collect"),
 //                                     style: subtitle2.copyWith(
-//                                       color: stockShop? kAppColor.withOpacity(0.8): kDarkLightGrayColor.withOpacity(0.6),
+//                                       color: stockShop? kAppColor.withValues(alpha: 0.8): kDarkLightGrayColor.withValues(alpha: 0.6),
 //                                       fontWeight: FontWeight.w500,
 //                                       fontFamily: "Kanit",
 //                                     ),

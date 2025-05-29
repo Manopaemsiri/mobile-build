@@ -11,7 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class ForgotScreen extends StatefulWidget {
-  const ForgotScreen({ Key? key ,required this.resetToken }) : super(key: key);
+  const ForgotScreen({ super.key ,required this.resetToken });
   final String resetToken;
   @override
   State<ForgotScreen> createState() => _ForgotScreenState();

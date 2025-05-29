@@ -18,10 +18,10 @@ import 'widgets/card_subscription_products.dart';
 
 class PartnerProductSubscriptionUpdateCheckoutScreen extends StatelessWidget {
   PartnerProductSubscriptionUpdateCheckoutScreen({
-    Key? key,
+    super.key,
     required this.subscription,
     this.productStep = const [],
-  }) : super(key: key);
+  });
   final CustomerSubscriptionModel subscription;
   final List<SelectionSteps> productStep;
   final LanguageController lController = Get.find<LanguageController>();

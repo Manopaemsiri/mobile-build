@@ -12,14 +12,14 @@ import 'package:get/get.dart';
 
 class ListFeaturedProducts extends StatelessWidget {
   const ListFeaturedProducts({
-    Key? key,
+    super.key,
     required this.lController,
     required this.customerController,
     required this.aController,
     this.showStock = false,
     this.eventId,
     this.eventName,
-  }) : super(key: key);
+  });
   final LanguageController lController;
   final CustomerController customerController;
   final AppController aController;

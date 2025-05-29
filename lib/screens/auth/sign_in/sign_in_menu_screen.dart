@@ -12,9 +12,9 @@ import 'package:get/get.dart';
 
 class SignInMenuScreen extends StatefulWidget {
   const SignInMenuScreen({
-    Key? key,
+    super.key,
     this.isFirstState = false,
-  }): super(key: key);
+  });
   
   final bool isFirstState;
 

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 class BadgeOnline extends StatelessWidget {
   const BadgeOnline({
-    Key? key,
+    super.key,
     required this.isOnline,
     this.size = kGap,
-  }) : super(key: key);
+  });
 
   final bool isOnline;
   final double size;

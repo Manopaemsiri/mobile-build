@@ -17,10 +17,10 @@ import '../../partner/subscription/controllers/subscription_checkout_update_cont
 
 class AddressScreen extends StatefulWidget {
   const AddressScreen({
-    Key? key,
+    super.key,
     this.subscription,
     this.subscriptionId
-  }) : super(key: key);
+  });
   final int? subscription;
   final String? subscriptionId;
 

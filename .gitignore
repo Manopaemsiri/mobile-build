@@ -53,3 +53,7 @@ app.*.map.json
 *.env
 *.env_DEV
 *.env_DEV_UAT
+
+firebase_options.dev.dart
+firebase_options.uat.dart
+firebase_options.prd.dart

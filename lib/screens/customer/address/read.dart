@@ -19,10 +19,10 @@ import 'dart:ui' as ui;
 
 class AddressAddScreen extends StatefulWidget {
   const AddressAddScreen({
-    Key? key,
+    super.key,
     this.addressModel,
     this.isEditMode = false,
-  }) : super(key: key);
+  });
 
   final bool isEditMode;
   final CustomerShippingAddressModel? addressModel;

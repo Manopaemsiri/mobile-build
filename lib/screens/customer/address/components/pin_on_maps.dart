@@ -14,12 +14,12 @@ import 'dart:ui' as ui;
 
 class PinOnMaps extends StatefulWidget {
   PinOnMaps({
-    Key? key,
+    super.key,
     this.addressModel,
     required this.onSubmit,
     this.latLng,
     this.isEditMode = false,
-  }): super(key: key);
+  });
 
   CustomerShippingAddressModel? addressModel;
   Function(double, double) onSubmit;

@@ -10,8 +10,8 @@ import 'package:steps_indicator/steps_indicator.dart';
 
 class PointRewardDetailScreen extends StatefulWidget {
   const PointRewardDetailScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<PointRewardDetailScreen> createState() => _PointRewardDetailScreenState();

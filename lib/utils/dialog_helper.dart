@@ -232,7 +232,7 @@ class ShowDialog {
         ),
       ),
       barrierDismissible: false,
-      barrierColor: kWhiteColor.withOpacity(0.5)
+      barrierColor: kWhiteColor.withValues(alpha: 0.5)
     );
   }
 }

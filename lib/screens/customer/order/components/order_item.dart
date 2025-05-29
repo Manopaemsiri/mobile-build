@@ -8,12 +8,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class OrderItem extends StatelessWidget {
   const OrderItem({
-    Key? key,
+    super.key,
     required this.model,
     required this.onTap,
     required this.lController,
     this.trimDigits = false,
-  }) : super(key: key);
+  });
 
   final CustomerOrderModel model;
   final VoidCallback onTap;
@@ -71,7 +71,7 @@ class OrderItem extends StatelessWidget {
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(vertical: kQuarterGap/2, horizontal: kQuarterGap),
                                     decoration: BoxDecoration(
-                                      color: kYellowColor.withOpacity(0.1),
+                                      color: kYellowColor.withValues(alpha: 0.1),
                                       borderRadius: BorderRadius.circular(kRadius)
                                     ),
                                     child: RichText(

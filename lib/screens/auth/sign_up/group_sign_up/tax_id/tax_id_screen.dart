@@ -11,9 +11,9 @@ import 'controller/tax_id_controller.dart';
 
 class TaxIdScreen extends StatelessWidget {
   TaxIdScreen({
-    Key? key,
+    super.key,
     required this.group
-  }) : super(key: key);
+  });
   final CustomerGroupModel group;
   final _formKey = GlobalKey<FormState>();
 

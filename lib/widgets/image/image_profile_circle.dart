@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 
 class ImageProfileCircle extends StatelessWidget {
   const ImageProfileCircle({
-    Key? key,
+    super.key,
     required this.imageUrl,
     this.size = 56,
     this.fit = BoxFit.cover,
     this.isFile = false,
     this.defaultImage = defaultAvatar,
     this.defaultBGColor = kLightColor,
-  }) : super(key: key);
+  });
   final String imageUrl;
   final double size;
   final BoxFit fit;

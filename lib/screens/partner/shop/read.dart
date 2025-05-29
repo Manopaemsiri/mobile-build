@@ -19,9 +19,9 @@
 
 // class PartnerShopScreen extends StatefulWidget {
 //   const PartnerShopScreen({
-//     Key? key,
+//     super.key,
 //     this.shopId,
-//   }) : super(key: key);
+//   });
 //   final String? shopId;
 
 //   @override

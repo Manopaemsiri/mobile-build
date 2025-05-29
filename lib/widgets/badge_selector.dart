@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 
 class BadgeSelector extends StatelessWidget {
   const BadgeSelector({
-    Key? key,
+    super.key,
     this.selected = false,
     required this.title,
     this.color,
     this.size = 12,
-  }) : super(key: key);
+  });
 
   final bool selected;
   final String title;
@@ -25,7 +25,7 @@ class BadgeSelector extends StatelessWidget {
       curve: Curves.easeIn,
       padding: EdgeInsets.fromLTRB(size/3, size/3.5, size/3, size/3.5),
       decoration: BoxDecoration(
-        // color: selected ? _color.withOpacity(0.125): kGrayLightColor,
+        // color: selected ? _color.withValues(alpha: 0.125): kGrayLightColor,
         color: selected ? const Color(0xFFFBD8DD): kGrayLightColor,
         borderRadius: BorderRadius.circular(kRadius),
       ),

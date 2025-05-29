@@ -17,7 +17,7 @@ final double _cardWidth = _screenwidth / _flex;
 
 class ListPartnerProducts extends StatelessWidget {
   const ListPartnerProducts({
-    Key? key,
+    super.key,
     required this.lController,
     required this.customerController,
     required this.aController,
@@ -25,7 +25,7 @@ class ListPartnerProducts extends StatelessWidget {
     this.showStock = false,
     this.eventId,
     this.eventName,
-  }): super(key: key);
+  });
   final LanguageController lController;
   final CustomerController customerController;
   final AppController aController;

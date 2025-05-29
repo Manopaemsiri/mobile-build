@@ -25,10 +25,10 @@ import 'package:get/get.dart';
 
 class BillingAddressScreen extends StatefulWidget {
   const BillingAddressScreen({
-    Key? key,
+    super.key,
     this.addressModel,
     this.isEditMode = false,
-  }): super(key: key);
+  });
 
   final bool isEditMode;
   final CustomerBillingAddressModel? addressModel;

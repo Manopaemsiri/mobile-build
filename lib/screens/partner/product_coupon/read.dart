@@ -16,11 +16,11 @@ final double _cardWidth = _screenwidth / _flex;
 
 class PartnerProductCouponScreen extends StatefulWidget {
   const PartnerProductCouponScreen({
-    Key? key,
+    super.key,
     required this.id,
     this.canRedeem = false,
     this.queryParams,
-  }): super(key: key);
+  });
 
   final String id;
   final bool canRedeem;

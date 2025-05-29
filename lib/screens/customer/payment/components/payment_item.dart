@@ -8,12 +8,12 @@ import 'package:flutter/material.dart';
 
 class PaymentItem extends StatelessWidget {
   const PaymentItem({
-    Key? key,
+    super.key,
     required this.model,
     required this.selected,
     required this.onSelect,
     required this.lController,
-  }) : super(key: key);
+  });
 
   final PaymentMethodModel model;
   final PaymentMethodModel? selected;

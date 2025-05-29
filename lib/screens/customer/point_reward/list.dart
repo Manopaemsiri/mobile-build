@@ -11,8 +11,8 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 class PointRewardsScreen extends StatefulWidget {
   const PointRewardsScreen({
-    Key? key,
-  }): super(key: key);
+    super.key,
+  });
 
   @override
   State<PointRewardsScreen> createState() => _PointRewardsScreenState();

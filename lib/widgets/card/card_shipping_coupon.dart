@@ -9,11 +9,11 @@ import 'package:get/get.dart';
 
 class CardShippingCoupon extends StatelessWidget {
   const CardShippingCoupon({
-    Key? key,
+    super.key,
     this.width = 150,
     required this.model,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final double width;
   final PartnerShippingCouponModel model;
@@ -44,7 +44,7 @@ class CardShippingCoupon extends StatelessWidget {
           borderRadius: BorderRadius.circular(kCardRadius),
           // boxShadow: [
           //   BoxShadow(
-          //     color: Colors.black.withOpacity(0.1),
+          //     color: Colors.black.withValues(alpha: 0.1),
           //     spreadRadius: 1,
           //     blurRadius: 10.5,
           //     offset: const Offset(0, 0),

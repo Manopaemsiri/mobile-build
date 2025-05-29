@@ -24,7 +24,7 @@ class SubscriptionCreateController extends GetxController {
     required this.lController,
     this.subscription,
     this.type = 1,
-  }): super(){
+  }){
     if(type == 2) assert(subscription != null);
   }
 

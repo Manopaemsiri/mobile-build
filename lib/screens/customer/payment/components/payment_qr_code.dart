@@ -21,10 +21,10 @@
 
 // class PaymentQRCodeScreen extends StatefulWidget {
 //   const PaymentQRCodeScreen({
-//     Key? key,
+//     super.key,
 //     required this.model,
 //     required this.response,
-//   }) : super(key: key);
+//   });
 
 //   final Payment2C2PModel model;
 //   final TransactionResultResponse response;

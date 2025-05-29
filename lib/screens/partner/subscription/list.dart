@@ -52,9 +52,9 @@ class SubscriptionSearchController extends GetxController {
 
 class PartnerProductSubscriptionsScreen extends StatelessWidget {
   const PartnerProductSubscriptionsScreen({
-    Key? key,
+    super.key,
     required this.lController,
-  }) : super(key: key);
+  });
 
   final LanguageController lController;
 

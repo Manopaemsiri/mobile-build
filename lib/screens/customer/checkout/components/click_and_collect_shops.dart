@@ -17,9 +17,9 @@ import '../../../partner/subscription/controllers/subscription_checkout_update_c
 
 class ClickAndCollectShops extends StatefulWidget {
   const ClickAndCollectShops({
-    Key? key,
+    super.key,
     this.subscription
-  }) : super(key: key);
+  });
   final int? subscription;
 
   @override

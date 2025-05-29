@@ -8,11 +8,11 @@ import '../../../../config/index.dart';
 
 class CardCustomerSubscriptionProduct extends StatelessWidget {
   const CardCustomerSubscriptionProduct({
-    Key? key,
+    super.key,
     required this.data,
     required this.lController,
     this.trimDigits = false
-  }) : super(key: key);
+  });
   final PartnerProductModel data;
   final LanguageController lController;
   final bool trimDigits;

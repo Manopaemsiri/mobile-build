@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 
 class ShippingItem extends StatelessWidget {
   const ShippingItem({
-    Key? key,
+    super.key,
     required this.model,
     required this.onSelect,
     required this.lController,
@@ -16,7 +16,7 @@ class ShippingItem extends StatelessWidget {
     this.shopShopDetail = false,
     this.showImage = false,
     this.size = 38,
-  }) : super(key: key);
+  });
   final PartnerShippingFrontendModel model;
   final Function(PartnerShippingFrontendModel, PartnerShippingCouponModel?) onSelect;
   final LanguageController lController;

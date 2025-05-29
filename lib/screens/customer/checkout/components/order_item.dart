@@ -9,11 +9,11 @@ import 'package:get/get.dart';
 
 class CheckoutOrderItem extends StatelessWidget {
   const CheckoutOrderItem({
-    Key? key,
+    super.key,
     required this.model,
     required this.lController,
     required this.settings
-  }) : super(key: key);
+  });
 
   final CustomerCartModel model;
   final LanguageController lController;
@@ -191,7 +191,7 @@ class CheckoutOrderItem extends StatelessWidget {
           && freeProducts.isNotEmpty)...[
             Container(
               decoration: BoxDecoration(
-                color: kYellowColor.withOpacity(0.05)
+                color: kYellowColor.withValues(alpha: 0.05)
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -211,11 +211,11 @@ class CheckoutOrderItem extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(vertical: kQuarterGap, horizontal: kQuarterGap),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(kRadius),
-                                    color: kAppColor.withOpacity(0.1)
+                                    color: kAppColor.withValues(alpha: 0.1)
                                   ),
                                   child: Icon(
                                     Icons.redeem_rounded,
-                                    color: kAppColor.withOpacity(0.8)
+                                    color: kAppColor.withValues(alpha: 0.8)
                                   ),
                                 )
                               ),

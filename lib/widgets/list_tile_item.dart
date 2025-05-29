@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 
 class ListTileItem extends StatelessWidget {
   const ListTileItem({
-    Key? key,
+    super.key,
     required this.txtTitle,
     required this.lController,
     required this.onTap,
     this.leadingIcon,
     this.leadingColor,
-  }) : super(key: key);
+  });
 
   final String txtTitle;
   final LanguageController lController;

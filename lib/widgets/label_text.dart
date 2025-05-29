@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 class LabelText extends StatelessWidget {
   const LabelText({
-    Key? key,
+    super.key,
     required this.text,
     this.isRequired = false,
-  }) : super(key: key);
+  });
 
   final String text;
   final bool isRequired;

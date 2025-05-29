@@ -12,11 +12,11 @@ import 'package:get/get.dart';
 
 class SellerShopScreen extends StatefulWidget {
   const SellerShopScreen({
-    Key? key,
+    super.key,
     required this.shopId,
     this.lat,
     this.lng
-  }): super(key: key);
+  });
 
   final String shopId;
   final double? lat;

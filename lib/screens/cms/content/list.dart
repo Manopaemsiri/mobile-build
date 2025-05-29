@@ -10,9 +10,9 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 class CmsContentsScreen extends StatefulWidget {
   const CmsContentsScreen({
-    Key? key, 
+    super.key, 
     this.category
-  }) : super(key: key);
+  });
   final CmsCategoryModel? category;
 
   @override

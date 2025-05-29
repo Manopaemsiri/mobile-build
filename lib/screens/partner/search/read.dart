@@ -15,10 +15,10 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({
-    Key? key,
+    super.key,
     this.initSearch = '',
     this.backTo,
-  }): super(key: key);
+  });
   final String initSearch;
   final String? backTo;
 

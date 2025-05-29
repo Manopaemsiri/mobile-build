@@ -11,9 +11,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 class UpdateVersionScreen extends StatefulWidget {
   const UpdateVersionScreen({
-    Key? key,
+    super.key,
     required this.res
-  }) : super(key: key);
+  });
   final Map<String, dynamic> res;
 
   @override

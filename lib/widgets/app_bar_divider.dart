@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 class AppBarDivider extends StatelessWidget implements PreferredSizeWidget {
   const AppBarDivider({
-    Key? key,
+    super.key,
     this.preferredSize = const Size.fromHeight(kQuarterGap),
-  }) : super(key: key);
+  });
 
   @override
   final Size preferredSize;

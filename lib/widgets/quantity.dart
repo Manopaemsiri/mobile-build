@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 class Quantity extends StatefulWidget {
   const Quantity({
-    Key? key,
+    super.key,
     required this.onChange,
     this.qty = 1,
-  }) : super(key: key);
+  });
 
   final Function(int) onChange;
   final int qty;

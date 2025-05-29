@@ -10,10 +10,10 @@ import 'package:get/get.dart';
 
 class AddressSelection extends StatelessWidget {
   const AddressSelection({
-    Key? key,
+    super.key,
     this.padding,
     required this.lController
-  }): super(key: key);
+  });
 
   final EdgeInsetsGeometry? padding;
   final LanguageController lController;
@@ -37,7 +37,7 @@ class AddressSelection extends StatelessWidget {
                 height: 32,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: kBlueColor.withOpacity(0.2),
+                  color: kBlueColor.withValues(alpha: 0.2),
                 ),
                 child: const Center(
                   child: Icon(

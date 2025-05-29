@@ -7,9 +7,9 @@ const double appBarHeight = 220;
 
 class AppBarSignIn extends StatelessWidget implements PreferredSizeWidget {
   const AppBarSignIn({
-    Key? key,
+    super.key,
     this.preferredSize = const Size.fromHeight(appBarHeight),
-  }) : super(key: key);
+  });
 
   @override
   final Size preferredSize;

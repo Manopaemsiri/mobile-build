@@ -11,8 +11,8 @@ import '../../my_shipping_coupon/my_shipping_coupon_screen.dart';
 
 class MyShippingCouponTab extends StatefulWidget {
   const MyShippingCouponTab({
-    Key? key,
-  }): super(key: key);
+    super.key,
+  });
 
   @override
   State<MyShippingCouponTab> createState() => _MyShippingCouponTabState();

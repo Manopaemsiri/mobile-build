@@ -10,9 +10,9 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 class ReviewBody extends StatefulWidget {
   const ReviewBody({
-    Key? key,
+    super.key,
     required this.model,
-  }): super(key: key);
+  });
 
   final SellerShopModel model;
 

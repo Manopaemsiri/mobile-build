@@ -8,11 +8,11 @@ import 'package:get/get.dart';
 
 class CardCmsContent extends StatelessWidget {
   const CardCmsContent({
-    Key? key,
+    super.key,
     this.width = 150,
     required this.model,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final double width;
   final CmsContentModel model;

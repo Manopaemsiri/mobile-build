@@ -14,9 +14,9 @@ import '../../../utils/formater.dart';
 
 class MyShippingCouponScreen extends StatelessWidget {
   MyShippingCouponScreen({
-    Key? key,
+    super.key,
     required this.id
-  }) : super(key: key);
+  });
   final String id;
   LanguageController lController = Get.find<LanguageController>();
 

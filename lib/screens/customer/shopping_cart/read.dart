@@ -16,8 +16,8 @@ import 'package:get/get.dart';
 
 class ShoppingCartScreen extends StatefulWidget {
   const ShoppingCartScreen({
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
   State<ShoppingCartScreen> createState() => _ShoppingCartScreenState();
@@ -182,7 +182,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                                                 top: 0, bottom: 0, left: 0, right: 0,
                                                 child: Container(
                                                   padding: const EdgeInsets.all(kQuarterGap),
-                                                  color: kWhiteColor.withOpacity(0.45),
+                                                  color: kWhiteColor.withValues(alpha: 0.45),
                                                   child: Center(
                                                     child: Text(
                                                       'Coming\nSoon',
@@ -456,7 +456,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                           // if(expiredEvent)...[
                           //   Positioned.fill(
                           //     child: Container(
-                          //       color: kDarkLightGrayColor.withOpacity(0.3),
+                          //       color: kDarkLightGrayColor.withValues(alpha: 0.3),
                           //     )
                           //   )
                           // ]
@@ -472,7 +472,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                 && freeProducts.isNotEmpty)...[
                   Container(
                     decoration: BoxDecoration(
-                      color: kYellowColor.withOpacity(0.05)
+                      color: kYellowColor.withValues(alpha: 0.05)
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -492,11 +492,11 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                                         padding: const EdgeInsets.symmetric(vertical: kQuarterGap, horizontal: kQuarterGap),
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(kRadius),
-                                          color: kAppColor.withOpacity(0.1)
+                                          color: kAppColor.withValues(alpha: 0.1)
                                         ),
                                         child: Icon(
                                           Icons.redeem_rounded,
-                                          color: kAppColor.withOpacity(0.8)
+                                          color: kAppColor.withValues(alpha: 0.8)
                                         ),
                                       )
                                     ),

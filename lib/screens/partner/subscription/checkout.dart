@@ -16,8 +16,8 @@ import 'widgets/card_subscription_products.dart';
 
 class PartnerProductSubscriptionCheckoutScreen extends StatelessWidget {
   PartnerProductSubscriptionCheckoutScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   final LanguageController lController = Get.find<LanguageController>();
 
   @override

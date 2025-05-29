@@ -5,12 +5,12 @@ import 'package:get/get.dart';
 
 class SectionTitle extends StatelessWidget {
   SectionTitle({
-    Key? key,
+    super.key,
     this.titleText,
     this.isReadMore = false,
     this.padding = kPaddingTitle,
     this.onTap,
-  }) : super(key: key);
+  });
 
   final String? titleText;
   final bool isReadMore;

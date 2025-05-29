@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 
 class ShippingCouponItem extends StatelessWidget {
   const ShippingCouponItem({
-    Key? key,
+    super.key,
     required this.data,
     required this.lController
-  }) : super(key: key);
+  });
   final PartnerShippingCouponModel data;
   final LanguageController lController;
 
@@ -24,7 +24,7 @@ class ShippingCouponItem extends StatelessWidget {
       width: double.infinity,
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-        color: kAppColor.withOpacity(0.1),
+        color: kAppColor.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(kRadius)
       ),
       child: IntrinsicHeight(

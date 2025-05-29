@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 
 class AddToCartBottomSheet extends StatefulWidget {
   AddToCartBottomSheet({
-    Key? key,
+    super.key,
     required this.model,
     required this.shopModel,
     this.units = const [],
@@ -20,7 +20,7 @@ class AddToCartBottomSheet extends StatefulWidget {
     required this.onChangeUnit,
     required this.onPressedOrder,
     this.trimDigits = false,
-  }) : super(key: key);
+  });
 
   final PartnerProductModel model;
   final PartnerShopModel shopModel;

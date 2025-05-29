@@ -7,10 +7,10 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class SellerShopItem extends StatelessWidget {
   const SellerShopItem({
-    Key? key,
+    super.key,
     required this.model,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final SellerShopModel model;
   final VoidCallback onTap;

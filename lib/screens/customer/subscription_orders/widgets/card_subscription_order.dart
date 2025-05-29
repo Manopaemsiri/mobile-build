@@ -10,13 +10,13 @@ import '../../../../utils/formater.dart';
 
 class CardSubscriptionOrder extends StatelessWidget {
   const CardSubscriptionOrder({
-    Key? key,
+    super.key,
     required this.data,
     required this.index,
     required this.dataLength,
     required this.onTap,
     required this.lController,
-  }) : super(key: key);
+  });
   final CustomerSubscriptionPlanModel data;
   final int index;
   final int dataLength;

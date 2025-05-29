@@ -10,11 +10,11 @@ import '../controller/card_cms_content_controller.dart';
 
 class CardCmsContents extends StatelessWidget {
   const CardCmsContents({
-    Key? key,
+    super.key,
     required this.lController,
     this.appBarTitle = 'Related Contents',
     this.contents = const [],
-  }) : super(key: key);
+  });
   final LanguageController lController;
   final String appBarTitle;
   final List<CmsContentModel> contents;
@@ -78,7 +78,7 @@ class CardCmsContents extends StatelessWidget {
                       margin: const EdgeInsets.symmetric(horizontal: kQuarterGap/2),
                       decoration: BoxDecoration(
                         // color: controller.currentIndex == entry.key? kAppColor: const Color(0xFFF5CDCB),
-                        color: controller.currentIndex == entry.key? kWhiteColor: kWhiteColor.withOpacity(0.4),
+                        color: controller.currentIndex == entry.key? kWhiteColor: kWhiteColor.withValues(alpha: 0.4),
                         borderRadius: BorderRadius.circular(kCardRadius)
                       ),
                     ),

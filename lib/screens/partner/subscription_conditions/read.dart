@@ -13,10 +13,10 @@ import 'controller/subscriptopn_conditions_controller.dart';
 
 class SubscriptionConditionsScreen extends StatelessWidget {
   SubscriptionConditionsScreen({
-    Key? key,
+    super.key,
     required this.data,
     required this.shipping,
-  }) : super(key: key);
+  });
   final CustomerSubscriptionCartModel data;
   final PartnerShippingFrontendModel shipping;
   final LanguageController lController = Get.find<LanguageController>();
@@ -117,7 +117,7 @@ class SubscriptionConditionsScreen extends StatelessWidget {
               color: kWhiteColor,
               border: Border.all(
                 width: 0.5,
-                color: kDarkColor.withOpacity(0.2)
+                color: kDarkColor.withValues(alpha: 0.2)
               )
             ),
             child: AspectRatio(
@@ -141,7 +141,7 @@ class SubscriptionConditionsScreen extends StatelessWidget {
                   'assets/icons/undo.svg',
                   width: 24,
                   height: 24,
-                  color: kDarkColor.withOpacity(0.5),
+                  color: kDarkColor.withValues(alpha: 0.5),
                 ),
                 controller.undo
               ),
@@ -151,7 +151,7 @@ class SubscriptionConditionsScreen extends StatelessWidget {
                   'assets/icons/redo.svg',
                   width: 24,
                   height: 24,
-                  color: kDarkColor.withOpacity(0.5),
+                  color: kDarkColor.withValues(alpha: 0.5),
                 ),
                 controller.redo
               ),
@@ -159,7 +159,7 @@ class SubscriptionConditionsScreen extends StatelessWidget {
               _button(
                 Icon(
                   Icons.delete_rounded,
-                  color: kDarkColor.withOpacity(0.5),
+                  color: kDarkColor.withValues(alpha: 0.5),
                 ),
                 controller.clear
               ),
@@ -181,7 +181,7 @@ class SubscriptionConditionsScreen extends StatelessWidget {
           color: kWhiteColor,
           border: Border.all(
             width: 0.5,
-            color: kGrayColor.withOpacity(0.2)
+            color: kGrayColor.withValues(alpha: 0.2)
           ),
           borderRadius: BorderRadius.circular(kRadius),
         ),

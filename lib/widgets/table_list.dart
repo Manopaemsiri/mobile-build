@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 class TableList extends StatelessWidget {
   const TableList({
-    Key? key,
+    super.key,
     required this.list
-  }) : super(key: key);
+  });
 
   final List<Map<String, dynamic>> list;
 

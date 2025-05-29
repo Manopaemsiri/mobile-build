@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 
 class SellerShopsScreen extends StatefulWidget {
   const SellerShopsScreen({
-    Key? key
-  }): super(key: key);
+    super.key
+  });
 
   @override
   State<SellerShopsScreen> createState() => _SellerShopsScreenState();
