@@ -14,7 +14,7 @@ class CustomerSubscriptionController extends GetxController {
 
   late List<PartnerProductModel> _relatedProducts = [];
   List<PartnerProductModel> get relatedProducts => _relatedProducts;
-  late final List<PartnerProductModel> dataProducts = [];
+  List<PartnerProductModel> dataProducts = [];
   List<PartnerProductModel> get products => dataProducts;
 
   @override
@@ -61,16 +61,13 @@ class CustomerSubscriptionController extends GetxController {
       .where((d) => d.inCart > 0)
       .toList();
 
-  final List<PartnerProductModel> dataProducts = dataSteps.map((d) {
+  dataProducts.clear();
+  dataProducts.addAll(dataSteps.map((d) {
     PartnerProductModel k = d.product!;
     k.inCart = d.inCart;
     k.addPriceInVAT = d.addPriceInVAT > 0 ? d.addPriceInVAT : 0;
     return k;
-  }).toList();
-
-  dataProducts
-    ..clear()
-    ..addAll(dataProducts);
+  }).toList());
 }
 
   Future<void> getDataAgain() async {

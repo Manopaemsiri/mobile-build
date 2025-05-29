@@ -68,6 +68,8 @@ class CustomerSubscriptionScreen extends StatelessWidget {
     final List<PartnerProductModel> relatedProducts = controller.relatedProducts;
     final List<PartnerProductModel> products = controller.products;
 
+    debugPrint("📦 Products: ${products.map((e) => e.toJson()).toList()}");
+
     return ListView(
       children: [
         const Gap(),
@@ -298,7 +300,7 @@ class CustomerSubscriptionScreen extends StatelessWidget {
                 separatorBuilder: (_, index) => const Divider(),
                 itemCount: products.length,
               )
-            ]else ...[
+              ]else ...[
               const Gap(gap: kHalfGap),
               Align(
                 alignment: Alignment.center,
@@ -309,7 +311,7 @@ class CustomerSubscriptionScreen extends StatelessWidget {
                   ),
                 ),
               ),
-            ]
+            ]          
           ]
         ),
       ],
