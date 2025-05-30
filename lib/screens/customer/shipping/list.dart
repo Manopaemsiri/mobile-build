@@ -50,14 +50,13 @@ class _ShippingMethodsScreenState extends State<ShippingMethodsScreen> {
   Future<void> _initState() async {
     if(subscription != null){
       try {
-        final res = await ApiService.processList(subscription == 2 
+        final res = await ApiService.processList(subscription == 1 
           ? 'subscription-shipping-methods' 
           : '', input: { 'dataFilter': { 'showClickAndCollect': 1, }});
         int len = res?['result'].length ?? 0;
         for (var i = 0; i < len; i++) {
           dataModel.add({'shipping': PartnerShippingFrontendModel.fromJson(res?['result'][i]) });
         }
-        print(">>> Hello Data: $res");
 
         isClearance = controllerCustomer.cart.products.indexWhere((e) => e.status == 3) > -1? true: false;
         if(mounted){
