@@ -156,20 +156,20 @@ class ShowDialog {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              IconButton(
-                onPressed: () => Get.back(),
-                icon: const Icon(Icons.chevron_left),
-                iconSize: 24,
-                splashRadius: 20,
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-              ),
               Expanded(
                 child: Text(
                   lController.getLang(titleText),
                   style: title.copyWith(fontWeight: FontWeight.w500),
                   textAlign: TextAlign.center,
                 ),
+              ),
+              IconButton(
+                onPressed: () => Get.back(),
+                icon: const Icon(Icons.close),
+                iconSize: 21,
+                splashRadius: 20,
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
               ),
             ],
           ),

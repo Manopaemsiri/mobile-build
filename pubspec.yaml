@@ -3,7 +3,7 @@ description: Coffee2U by Aroma
 
 publish_to: 'none'
 
-version: 9.0.3+6
+version: 9.0.4+1
 
 environment:
   sdk: ^3.7.2
