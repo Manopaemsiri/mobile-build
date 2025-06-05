@@ -17,6 +17,8 @@ class SubscriptionSearchController extends GetxController {
   String searchQuery = '';
   List<PartnerProductSubscriptionModel> filteredData = [];
 
+
+
   Timer? _debounce;
 
   void toggleSearch(List<PartnerProductSubscriptionModel> allData) {
@@ -80,6 +82,9 @@ class PartnerProductSubscriptionsScreen extends StatelessWidget {
       body: GetBuilder<SubscriptionsController>(
         init: SubscriptionsController(),
         builder: (controller){
+          if (controller.isLoading) {
+            return Loading(); 
+          }
           return Column(
             children: [
               GetBuilder<SubscriptionSearchController>(

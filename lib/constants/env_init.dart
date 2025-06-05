@@ -6,8 +6,8 @@ class EnvInit{
 
   static init() async {
     // await dotenv.load(fileName: '.env_DEV');
-    await dotenv.load(fileName: '.env_DEV_UAT');
-    // await dotenv.load(fileName: '.env');
+    // await dotenv.load(fileName: '.env_DEV_UAT');
+    await dotenv.load(fileName: '.env');
 
     appName = dotenv.get('APP_NAME', fallback: 'Coffee2U');
     appVersion = dotenv.get('APP_VERSION', fallback: '');

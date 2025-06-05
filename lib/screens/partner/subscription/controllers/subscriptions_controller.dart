@@ -11,6 +11,7 @@ class SubscriptionsController extends GetxController {
   List<PartnerProductSubscriptionModel> dataModel = [];
 
   int _page = 0;
+  
   bool _isLoading = false;
   bool _isEnded = false;
 
