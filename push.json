@@ -1,0 +1,15 @@
+{
+  "Simulator Target": "device",
+  "aps": {
+    "alert": {
+      "title": "ทดสอบ Push Notification",
+      "body": "ข้อความนี้มาจาก push.json"
+    },
+    "badge": 3,
+    "sound": "default"
+  },
+  "customData": {
+    "userId": 12345,
+    "screen": "DetailView"
+  }
+}
