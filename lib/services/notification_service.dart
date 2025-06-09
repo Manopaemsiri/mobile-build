@@ -24,6 +24,21 @@ class NotificationService {
       sound: true,
     );
 
+    switch (settings.authorizationStatus) {
+      case AuthorizationStatus.authorized:
+        print('🎉 ได้รับอนุญาตแจ้งเตือนเต็มรูปแบบ');
+        break;
+      case AuthorizationStatus.provisional:
+        print('🔔 ได้รับอนุญาตชั่วคราว (provisional)');
+        break;
+      case AuthorizationStatus.denied:
+        print('🚫 ผู้ใช้ปฏิเสธการแจ้งเตือน');
+        break;
+      case AuthorizationStatus.notDetermined:
+        print('❓ ยังไม่ได้ร้องขอสิทธิ์แจ้งเตือน');
+        break;
+    }
+
     log('User permission ${settings.authorizationStatus}');
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       log('User granted permission ${settings.authorizationStatus}');
@@ -39,9 +54,20 @@ class NotificationService {
       }
     }
 
+    NotificationSettings currentSettings =
+    await FirebaseMessaging.instance.getNotificationSettings();
+
+    if (currentSettings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('🎉 ตอนนี้ได้สิทธิ์แจ้งเตือนแล้ว');
+    }
+
     _messaging.onTokenRefresh.listen(onFcmTokenRefresh);
 
+    FirebaseMessaging.instance.getToken().then((t) => print('🎉 Token: $t'));
+
     FirebaseMessaging.onMessage.listen(onMessaging);
+    
+
     FirebaseMessaging.onMessageOpenedApp.listen(onMessaging);
 
     final message = await _messaging.getInitialMessage();
@@ -63,6 +89,9 @@ class NotificationService {
   }
 
   static Future<void> onMessagingBackground(RemoteMessage message) async {
+    print('🛠 onMessagingBackground invoked! data=${message.data}, '
+      'title=${message.notification?.title}, '
+      'body=${message.notification?.body}');
     await Firebase.initializeApp();
     await onMessaging(message);
 
@@ -89,6 +118,7 @@ class NotificationService {
       throw Exception(e);
     }
   }
+
 
   static Future<void> onFcmTokenRefresh(String? token) async {
     ApiService.processUpdate('fcm-token', input: {"fcmToken": token ?? ''});
