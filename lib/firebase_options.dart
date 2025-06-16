@@ -49,6 +49,9 @@ class DefaultFirebaseOptions {
     }
   }
 
+  /* ==================================================== 
+                            UAT
+     ==================================================== */
   // static const FirebaseOptions android = FirebaseOptions(
   //   apiKey: 'AIzaSyDr6VPnZnkQAJmXBp2FqrOCjPyzzCIcXTo',
   //   appId: '1:51335720777:ios:0f8a29124ddade65593498',
@@ -68,8 +71,12 @@ class DefaultFirebaseOptions {
   //   iosBundleId: 'com.coffee2u.aroma',
   // );
 
+
+  /* ==================================================== 
+                      PRODUCTION
+     ==================================================== */
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDqt0zSwLAvcJe0Gde5iFQmBhZ6k8qDzwQ',
+    apiKey: 'AIzaSyA2KokZvAfNfXz1EHZNIYa4HHMz_4njt5c',
     appId: '1:100945625585:android:e5b2b18a4d5292685fc450',
     messagingSenderId: '100945625585',
     projectId: 'coffee2u-cfac1',
@@ -77,7 +84,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyA9yx1IZAbBl6LHNE1MXatVNYAcFz9JvzI',
+    apiKey: 'AIzaSyA2KokZvAfNfXz1EHZNIYa4HHMz_4njt5c',
     appId: '1:100945625585:ios:2a5ffa8764c54fde5fc450',
     messagingSenderId: '100945625585',
     projectId: 'coffee2u-cfac1',
@@ -86,5 +93,4 @@ class DefaultFirebaseOptions {
     iosClientId: '100945625585-th7hakqsrr990b6vubqkctrf971o0p9t.apps.googleusercontent.com',
     iosBundleId: 'com.coffee2u.aroma',
   );
-  
 }

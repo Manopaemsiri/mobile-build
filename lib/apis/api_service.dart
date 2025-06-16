@@ -14,6 +14,7 @@ import 'package:coffee2u/screens/auth/sign_in/sign_in_menu_screen.dart';
 import 'package:coffee2u/utils/index.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:coffee2u/services/notification_service.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -107,9 +108,9 @@ class ApiService {
             final resPartnerShop = await processRead('partner-shop', input: { '_id': dataShopId });
             PartnerShopModel? partnerShop = resPartnerShop?['result'].isNotEmpty == true? PartnerShopModel.fromJson(resPartnerShop?['result']): null;
 
-            //String fcmToken = await NotificationService.getFcmToken();
-            //res1.data?.user?.fcmToken = fcmToken;
-            //await processUpdate('fcm-token', input: { "fcmToken": fcmToken });
+            String fcmToken = await NotificationService.getFcmToken();
+            res1.data?.user?.fcmToken = fcmToken;
+            await processUpdate('fcm-token', input: { "fcmToken": fcmToken });
             await controllerCustomer.updateCustomer(res1.data?.user, value: partnerShop);
             await controllerCustomer.updateFavoriteProducts();
           }
@@ -439,11 +440,11 @@ class ApiService {
           final Map<String, dynamic> resPartnerShop = resWait1[2];
           PartnerShopModel? partnerShop = resPartnerShop['result'].isNotEmpty == true? PartnerShopModel.fromJson(resPartnerShop['result']): null;
 
-         // String fcmToken = await NotificationService.getFcmToken();
-          //res1.data?.user?.fcmToken = fcmToken;
+          String fcmToken = await NotificationService.getFcmToken();
+          res1.data?.user?.fcmToken = fcmToken;
           
           await Future.wait([
-            //processUpdate('fcm-token', input: { "fcmToken": fcmToken }),
+            processUpdate('fcm-token', input: { "fcmToken": fcmToken }),
             controllerCustomer.updateCustomer(res1.data?.user, value: partnerShop),
           ]);
           await controllerCustomer.updateFavoriteProducts();

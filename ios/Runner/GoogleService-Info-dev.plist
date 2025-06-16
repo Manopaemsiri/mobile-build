@@ -9,7 +9,7 @@
 	<key>ANDROID_CLIENT_ID</key>
 	<string>100945625585-1suisehdtornh0s3oki09vq2pkgrqvga.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyA9yx1IZAbBl6LHNE1MXatVNYAcFz9JvzI</string>
+	<string>AIzaSyDr6VPnZnkQAJmXBp2FqrOCjPyzzCIcXTo</string>
 	<key>GCM_SENDER_ID</key>
 	<string>100945625585</string>
 	<key>PLIST_VERSION</key>
@@ -17,19 +17,19 @@
 	<key>BUNDLE_ID</key>
 	<string>com.coffee2u.aroma</string>
 	<key>PROJECT_ID</key>
-	<string>coffee2u-cfac1</string>
+	<string>coffee2u-dev</string>
 	<key>STORAGE_BUCKET</key>
-	<string>coffee2u-cfac1.firebasestorage.app</string>
+	<string>coffee2u-dev.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:100945625585:ios:2a5ffa8764c54fde5fc450</string>
 </dict>

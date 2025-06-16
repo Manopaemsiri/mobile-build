@@ -23,6 +23,8 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
+
+
 	<array>
 		<dict>
 			<key>CFBundleTypeRole</key>
@@ -111,6 +113,8 @@
 	<string>App requires access to your photos. Save images.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>App requires access to your camera or photos. Uploaded files or images will be used to verify employees' information</string>
+	<key>NSUserNotificationUsageDescription</key>
+	<string>We use this to send you important notifications.</string>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>Your data will be used to measure advertising efficiency.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

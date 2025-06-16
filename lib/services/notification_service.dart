@@ -75,7 +75,11 @@ class NotificationService {
   }
 
   static onMessaging(RemoteMessage? message) async {
+    print('hello 01');
     if (message != null) {
+
+       print('hello 02');
+       
       // NotiModel model = NotiModel(
       //   title: message.notification?.title,
       //   body: message.notification?.body,
@@ -89,9 +93,6 @@ class NotificationService {
   }
 
   static Future<void> onMessagingBackground(RemoteMessage message) async {
-    print('🛠 onMessagingBackground invoked! data=${message.data}, '
-      'title=${message.notification?.title}, '
-      'body=${message.notification?.body}');
     await Firebase.initializeApp();
     await onMessaging(message);
 

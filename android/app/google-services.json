@@ -1,0 +1,114 @@
+{
+  "project_info": {
+    "project_number": "100945625585",
+    "project_id": "coffee2u-cfac1",
+    "storage_bucket": "coffee2u-cfac1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:100945625585:android:dfd0d23d4a5d22fa5fc450",
+        "android_client_info": {
+          "package_name": "com.aroma.coffee2u"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "100945625585-0205dlhhnkdluv1c5veb8651pneuj2dp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqt0zSwLAvcJe0Gde5iFQmBhZ6k8qDzwQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "100945625585-0205dlhhnkdluv1c5veb8651pneuj2dp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "100945625585-fnlvencoeclfsgfh51q5o65tijee09nl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.aroma.coffee2u"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:100945625585:android:e5b2b18a4d5292685fc450",
+        "android_client_info": {
+          "package_name": "com.coffee2u.aroma"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "100945625585-1suisehdtornh0s3oki09vq2pkgrqvga.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.coffee2u.aroma",
+            "certificate_hash": "217638b8394b79790a4fec47cb50d89bd91fb39a"
+          }
+        },
+        {
+          "client_id": "100945625585-36jbd2m9nrk8rg06iohj9bt3iefjpu88.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.coffee2u.aroma",
+            "certificate_hash": "9116528b60ba64137aa57a5d39914ee828260024"
+          }
+        },
+        {
+          "client_id": "100945625585-3rt0631n4kah42nc5jfc7ot24ftp6cu9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.coffee2u.aroma",
+            "certificate_hash": "f96199d608b223f2328da2fefcc8febdda501ce7"
+          }
+        },
+        {
+          "client_id": "100945625585-85e75nq1rmunppr7dsq1q1g1hbps8rch.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.coffee2u.aroma",
+            "certificate_hash": "3941a151709dc7268fdf31ad2361c37d2877c476"
+          }
+        },
+        {
+          "client_id": "100945625585-0205dlhhnkdluv1c5veb8651pneuj2dp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqt0zSwLAvcJe0Gde5iFQmBhZ6k8qDzwQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "100945625585-0205dlhhnkdluv1c5veb8651pneuj2dp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "100945625585-fnlvencoeclfsgfh51q5o65tijee09nl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.aroma.coffee2u"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
